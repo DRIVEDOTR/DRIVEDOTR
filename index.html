@@ -212,7 +212,7 @@
     background:#fff;
     box-shadow:inset 0 0 0 1px rgba(11,37,69,.16);
   }
-  .nav-label{flex:1; min-width:0;}
+  .nav-label{flex:1; min-width:0; color:var(--pill,var(--text)); font-weight:700;}
   .nav-count{
     font-size:12px;
     color:var(--text-muted);
@@ -237,7 +237,7 @@
     border-radius:20px;
     margin-bottom:10px;
   }
-  .panel-title{font-size:24px;}
+  .panel-title{font-size:24px; font-weight:700;}
   .panel-desc{
     color:var(--text-muted);
     margin-top:6px;
@@ -793,6 +793,13 @@ const CATEGORIES = [
     description: "Circuit du médicament, gestion des erreurs et des ruptures, et repères pharmacologiques (listes, surveillance, prescription)."
   },
   {
+    id: "suivis-biologiques",
+    label: "Suivis biologiques",
+    icon: "seringue",
+    color: "red",
+    description: "Fiches de recommandation pour cibler les bilans biologiques utiles par pathologie chronique ou traitement à surveiller, sans biologie inutile."
+  },
+  {
     id: "medicaments-ecrasables",
     label: "Médicaments écrasables",
     icon: "ecrasables",
@@ -828,6 +835,8 @@ const CATEGORY_ICONS = {
   administratif: '<path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/><path d="M16 5h1.5A1.5 1.5 0 0 1 19 6.5v13A1.5 1.5 0 0 1 17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-13A1.5 1.5 0 0 1 6.5 5H8"/><path d="M9 11h6"/><path d="M9 15h4"/>',
   /* Fauteuil roulant : matériel médical et dispositifs */
   materiel: '<circle cx="11" cy="17" r="4"/><path d="M11 13V7"/><circle cx="11" cy="4.5" r="1.5"/><path d="M11 8h4"/><path d="M15 17h3l2-5"/>',
+  /* Seringue remplie (piston + corps rempli + aiguille + goutte) : suivis biologiques */
+  seringue: '<g transform="rotate(-28 11.5 12)"><line x1="2" y1="10" x2="2" y2="14"/><line x1="2" y1="12" x2="6" y2="12"/><rect x="6" y="10" width="9" height="4"/><line x1="8.5" y1="10.6" x2="8.5" y2="11.6"/><line x1="11.5" y1="10.6" x2="11.5" y2="11.6"/><line x1="15" y1="12" x2="21" y2="12"/><line x1="21" y1="12" x2="21.8" y2="12.8"/></g><path d="M19 14.4 20.6 17.4A2.3 2.3 0 1 1 17.4 17.4Z" fill="currentColor" stroke="none"/>',
   /* Maillon de chaîne : liens et ressources externes */
   ressources: '<path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1-1"/>'
 };
@@ -1269,6 +1278,62 @@ const DOCUMENTS = {
     filename: "Vomissements_Metopimazine_Vogalene.pdf",
     path: "protocoles/ide/Vomissements_Metopimazine_Vogalene.pdf"
   },
+  "suivi-ime-enfant-ado": {
+    title: "IME - Suivi biologique Enfant & Adolescent",
+    category: "suivis-biologiques",
+    meta: "Repères d'âge — pas de bilan sanguin annuel automatique chez l'enfant/adolescent asymptomatique",
+    filename: "IME_Suivi_biologique_Enfant_Ado.pdf",
+    path: "suivis-biologiques/IME_Suivi_biologique_Enfant_Ado.pdf"
+  },
+  "suivi-surveillance-medicamenteuse": {
+    title: "Surveillances médicamenteuses à ne pas rater",
+    category: "suivis-biologiques",
+    meta: "Lithium • Clozapine • AOD/AVK — fréquences explicites et exigences fortes",
+    filename: "Surveillances_medicamenteuses.pdf",
+    path: "suivis-biologiques/Surveillances_medicamenteuses.pdf"
+  },
+  "suivi-antiepileptiques": {
+    title: "Modules biologiques - Antiépileptiques",
+    category: "suivis-biologiques",
+    meta: "Antipsychotiques inclus — surveillance ciblée, sans dosages thérapeutiques automatiques",
+    filename: "Modules_biologiques_Antiepileptiques.pdf",
+    path: "suivis-biologiques/Modules_biologiques_Antiepileptiques.pdf"
+  },
+  "suivi-hepatopathie-cirrhose": {
+    title: "Suivi d'une Hépatopathie chronique / Cirrhose",
+    category: "suivis-biologiques",
+    meta: "ESMS — biologie utile, surveillance du CHC et pièges à éviter",
+    filename: "Suivi_Hepatopathie_Cirrhose.pdf",
+    path: "suivis-biologiques/Suivi_Hepatopathie_Cirrhose.pdf"
+  },
+  "suivi-mrc-irc": {
+    title: "Suivi biologique d'une MRC / IRC",
+    category: "suivis-biologiques",
+    meta: "ESMS — fréquence guidée par DFG + albuminurie, pas seulement par le stade",
+    filename: "Suivi_MRC_IRC.pdf",
+    path: "suivis-biologiques/Suivi_MRC_IRC.pdf"
+  },
+  "suivi-hta": {
+    title: "Bilan de suivi d'un patient hypertendu",
+    category: "suivis-biologiques",
+    meta: "ESMS — suivi biologique, traitements et situations intercurrentes",
+    filename: "Bilan_suivi_HTA.pdf",
+    path: "suivis-biologiques/Bilan_suivi_HTA.pdf"
+  },
+  "suivi-diabete": {
+    title: "Bilan de suivi du diabète",
+    category: "suivis-biologiques",
+    meta: "ESMS — fréquences utiles et prescription biologique minimale",
+    filename: "Bilan_suivi_Diabete.pdf",
+    path: "suivis-biologiques/Bilan_suivi_Diabete.pdf"
+  },
+  "suivi-bilan-annuel-esms": {
+    title: "Bilan annuel de synthèse - ESMS",
+    category: "suivis-biologiques",
+    meta: "EHPAD • FAM • MAS • adulte — socle raisonné, sans biologie inutile",
+    filename: "Bilan_annuel_synthese_ESMS.pdf",
+    path: "suivis-biologiques/Bilan_annuel_synthese_ESMS.pdf"
+  },
   "liste-1-vs-2": {
     title: "Liste I vs Liste II",
     category: "medicaments-securite",
@@ -1407,6 +1472,8 @@ const RESOURCES = [
     items: [
       { name: "Antibioclic", url: "https://antibioclic.com", desc: "Aide au choix de l'antibiothérapie en soins primaires, par pathologie." },
       { name: "Dermatoclic", url: "https://www.dermatoclic.com/", desc: "Outil indépendant d'aide thérapeutique en dermatologie pour les généralistes : arbres décisionnels pour les pathologies cutanées les plus fréquentes." },
+      { name: "Ophtalmoclic", url: "https://www.ophtalmoclic.fr/", desc: "Aide diagnostique et thérapeutique en ophtalmologie pour les médecins non-ophtalmologues, sur le même principe qu'Antibioclic." },
+      { name: "Le Switch — antipsychotiques", url: "http://cmpsy-switch.com/", desc: "Collège Méditerranéen de Psychiatrie : sécuriser un changement d'antipsychotique, avec équivalences de doses et schéma d'instauration jour par jour." },
       { name: "Antibio'Est — Guides", url: "https://guides.antibioest.org/#/", desc: "Référentiel régional (Grand Est) d'antibiothérapie en établissement de soins, complémentaire d'Antibioclic." },
       { name: "ADERIM — Aide à la demande d'imagerie", url: "https://aderim.radiologie.fr/", desc: "Société Française de Radiologie & Collège de la Médecine Générale : guide le choix de l'examen d'imagerie le plus adapté et limite les irradiations inutiles." }
     ]
@@ -1419,7 +1486,8 @@ const RESOURCES = [
       { name: "Base de données publique des médicaments", url: "https://base-donnees-publique.medicaments.gouv.fr", desc: "Notices, RCP et informations officielles ANSM sur chaque médicament commercialisé en France." },
       { name: "VIDAL", url: "https://www.vidal.fr", desc: "Dictionnaire des médicaments, posologies et interactions." },
       { name: "Thériaque", url: "https://www.theriaque.org", desc: "Base de données du médicament du CNHIM, utile pour l'administration par sonde et les interactions." },
-      { name: "Neuroleptiques classiques — posologies", url: "https://www.omedit-paysdelaloire.fr/documentation/neuroleptiques-classiques-posologies/", desc: "Guide des posologies adultes des neuroleptiques classiques en psychiatrie (OMéDIT Pays de la Loire)." }
+      { name: "Neuroleptiques classiques — posologies", url: "https://www.omedit-paysdelaloire.fr/documentation/neuroleptiques-classiques-posologies/", desc: "Guide des posologies adultes des neuroleptiques classiques en psychiatrie (OMéDIT Pays de la Loire)." },
+      { name: "CRAT — Grossesse & allaitement", url: "https://lecrat.fr", desc: "Centre de référence sur les agents tératogènes : risques des médicaments, vaccins et radiations pendant la grossesse et l'allaitement, molécule par molécule." }
     ]
   },
   {
@@ -1460,6 +1528,17 @@ const RESOURCES = [
       { name: "Mobiqual", url: "https://www.mobiqual.org", desc: "Outils pédagogiques pour la qualité des pratiques en gériatrie et soins palliatifs." },
       { name: "OMEDIT Normandie — Médicaments écrasables", url: "https://www.omedit-normandie.fr/boite-a-outils/bon-usage/liste-des-medicaments-ecrasables/liste-des-medicaments-ecrasables,3184,3511.html", desc: "Source officielle, mise à jour en continu par l'OMéDIT et la SFPC. Une copie de cette liste est consultable directement sur ce site dans la rubrique « Médicaments écrasables » ; revenir ici pour vérifier une mise à jour plus récente en cas de doute." },
       { name: "OMEDIT Pays de la Loire — Circuit du médicament en secteur handicap", url: "https://www.omedit-paysdelaloire.fr/qualite-securite-et-vigilances/securisation-du-circuit-des-produits-de-sante/handicap/", desc: "Outils de sécurisation du circuit du médicament en secteur handicap (autodiagnostic Handicimed, e-learning, fiches de bonnes pratiques)." }
+    ]
+  },
+  {
+    group: "Spécialités & coordination des soins",
+    icon: "🤝",
+    color: "sky",
+    items: [
+      { name: "Omnidoc", url: "https://omnidoc.fr", desc: "Plateforme nationale de téléexpertise : demander l'avis tracé et rémunéré d'un spécialiste sur un patient, sans déplacement — très utilisée en EHPAD." },
+      { name: "FFAMCO-EHPAD", url: "http://www.ffamco-ehpad.org/", desc: "Fédération française des associations de médecins coordonnateurs en EHPAD : référentiels professionnels et doctrines actualisées dédiés au métier de coordonnateur." },
+      { name: "SOFMER", url: "https://www.sofmer.com", desc: "Société Française de Médecine Physique et de Réadaptation : recommandations et référentiels de rééducation par pathologie." },
+      { name: "FNO — Orthophonistes", url: "https://www.fno.fr", desc: "Fédération Nationale des Orthophonistes : actualités professionnelles et ressources de référence pour la pratique orthophonique." }
     ]
   }
 ];
@@ -1506,6 +1585,9 @@ function renderSidebar(){
     const isActive = !state.query && !state.activeDoc && state.activeId === cat.id;
     btn.className = "nav-btn" + (isActive ? " active" : "");
     btn.setAttribute("data-cat", cat.id);
+    const cc = colorVars(cat.color);
+    btn.style.setProperty("--pill", cc.pill);
+    btn.style.setProperty("--pillbg", cc.pillbg);
     const count = cat.id === "medicaments-ecrasables" ? MEDICAMENTS_ECRASABLES.length : protocolsFor(cat.id).length;
     btn.innerHTML = `
       ${categoryIconHTML(cat.icon, cat.color, "sm")}
@@ -1526,6 +1608,8 @@ function renderSidebar(){
   const resBtn = document.createElement("button");
   const resActive = !state.query && !state.activeDoc && state.activeId === "ressources";
   resBtn.className = "nav-btn" + (resActive ? " active" : "");
+  resBtn.style.setProperty("--pill", "var(--blue)");
+  resBtn.style.setProperty("--pillbg", "var(--sky-bg)");
   resBtn.innerHTML = `
     ${categoryIconHTML("ressources", "blue", "sm")}
     <span class="nav-label">Ressources utiles</span>
@@ -1632,7 +1716,7 @@ function renderCategoryPanel(cat){
   contentEl.innerHTML = `
     <div class="panel-head">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
-      <h2 class="panel-title">${cat.label}</h2>
+      <h2 class="panel-title" style="color:${c.pill}">${cat.label}</h2>
       <p class="panel-desc">${cat.description}</p>
     </div>
     ${body}
@@ -1865,7 +1949,7 @@ function renderMedocsPanel(cat){
   contentEl.innerHTML = `
     <div class="panel-head">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
-      <h2 class="panel-title">${cat.label}</h2>
+      <h2 class="panel-title" style="color:${c.pill}">${cat.label}</h2>
       <p class="panel-desc">${cat.description} Liste de ${MEDICAMENTS_ECRASABLES.length} médicaments. Ne remplace pas le RCP ni le jugement clinique ; en l'absence d'information, demandez conseil au pharmacien.</p>
     </div>
     <div class="medoc-search-wrap">
@@ -1910,7 +1994,7 @@ function renderResourcesPanel(){
   contentEl.innerHTML = `
     <div class="panel-head">
       <span class="panel-eyebrow" style="--pill:var(--blue);--pillbg:var(--sky-bg)">${categoryIconHTML("ressources","blue","xs")}Ressources utiles</span>
-      <h2 class="panel-title">Ressources utiles</h2>
+      <h2 class="panel-title" style="color:var(--blue)">Ressources utiles</h2>
       <p class="panel-desc">Sites de référence pour la pratique quotidienne — non hébergés sur ce Drive, mis à jour par leurs éditeurs respectifs.</p>
     </div>
 
