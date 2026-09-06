@@ -212,7 +212,7 @@
     background:#fff;
     box-shadow:inset 0 0 0 1px rgba(11,37,69,.16);
   }
-  .nav-label{flex:1; min-width:0; color:var(--pill,var(--text)); font-weight:700;}
+  .nav-label{flex:1; min-width:0; color:var(--pill,var(--text)); font-weight:700; text-shadow:0 0 1px rgba(255,255,255,.9), 0 0 10px rgba(255,255,255,.75);}
   .nav-count{
     font-size:12px;
     color:var(--text-muted);
@@ -237,7 +237,7 @@
     border-radius:20px;
     margin-bottom:10px;
   }
-  .panel-title{font-size:24px; font-weight:700;}
+  .panel-title{font-size:24px; font-weight:700; text-shadow:0 0 2px rgba(255,255,255,.85), 0 0 14px rgba(255,255,255,.7);}
   .panel-desc{
     color:var(--text-muted);
     margin-top:6px;
@@ -294,6 +294,116 @@
     padding-top:2px;
   }
   .card-open:hover{text-decoration:underline;}
+
+  /* ---------- Cartes "outil interactif" (Neuroleptiques, Benzodiazépines) ---------- */
+  .card-featured{
+    background:linear-gradient(165deg, var(--pillbg,var(--sky-bg)) 0%, rgba(255,255,255,.9) 60%);
+    border:1px solid var(--pill,var(--blue));
+    border-radius:var(--radius);
+    padding:16px 18px;
+    box-shadow:0 2px 10px rgba(11,37,69,.10);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    animation:cardIn .25s ease both;
+    grid-column:1 / -1;
+  }
+  .card-badge{
+    align-self:flex-start;
+    font-size:11.5px;
+    font-weight:700;
+    color:#fff;
+    background:var(--pill,var(--blue));
+    padding:3px 10px;
+    border-radius:20px;
+    letter-spacing:.02em;
+  }
+  .card-featured .card-title{font-size:16.5px;}
+  .card-dual-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .card-dual-actions button{
+    font-family:inherit;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:13.5px;
+    font-weight:700;
+    color:#fff;
+    background:var(--pill,var(--blue));
+    border:none;
+    padding:9px 16px;
+    border-radius:9px;
+    cursor:pointer;
+  }
+  .card-dual-actions button:hover{opacity:.92;}
+  .card-dual-actions .card-dual-secondary{
+    color:var(--pill,var(--blue));
+    background:#fff;
+    box-shadow:inset 0 0 0 1.5px var(--pill,var(--blue));
+  }
+
+  /* ---------- Moteur d'aide à la prescription (benzodiazépines) ---------- */
+  .benzo-sliders{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-top:18px;
+    padding:16px 18px;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  .benzo-slider-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:6px;
+  }
+  .benzo-slider-head label{font-size:13.5px; font-weight:600; color:var(--text);}
+  .benzo-slider-value{
+    font-size:15px;
+    font-weight:700;
+    color:var(--pill,var(--blue));
+    min-width:18px;
+    text-align:right;
+  }
+  .benzo-slider-row input[type="range"]{
+    width:100%;
+    accent-color:var(--pill,var(--blue));
+    height:6px;
+    cursor:pointer;
+  }
+  .benzo-result-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .benzo-result-card{
+    background:var(--pillbg,var(--sky-bg));
+    border:1px solid var(--pill,var(--border));
+    border-radius:var(--radius);
+    padding:12px 14px;
+    text-align:center;
+  }
+  .benzo-result-best{
+    box-shadow:0 2px 10px rgba(11,37,69,.12);
+    transform:scale(1.03);
+  }
+  .benzo-result-rank{
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    color:var(--pill,var(--blue));
+    margin-bottom:6px;
+  }
+  .benzo-result-name{font-size:15px; font-weight:700; color:var(--text);}
+  .benzo-result-brand{font-size:12.5px; font-weight:700; color:var(--text-muted); margin-top:2px;}
 
   .empty-state, .error-state{
     border:1px dashed var(--border);
@@ -718,6 +828,82 @@
     padding:8px 12px;
     margin-bottom:16px;
   }
+
+  /* ---------- Neuroleptiques classiques (rubrique interactive) ---------- */
+  .neurolep-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:12px;
+    margin-top:16px;
+  }
+  .neurolep-bubble{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    text-align:center;
+    padding:18px 10px;
+    border-radius:16px;
+    border:none;
+    cursor:pointer;
+    background:var(--pillbg,var(--sky-bg));
+    box-shadow:0 1px 2px rgba(11,37,69,.08);
+    transition:transform .12s ease;
+  }
+  .neurolep-bubble:hover{transform:translateY(-2px);}
+  .neurolep-dci{font-weight:700; font-size:14.5px; color:var(--pill,var(--blue));}
+  .neurolep-brand{font-size:12px; font-weight:700; color:var(--text-muted);}
+  .neurolep-brand-title{font-size:15px; font-weight:500; color:var(--text-muted); text-shadow:none;}
+  .neurolep-form-card{
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-left:4px solid var(--pill,var(--border));
+    border-radius:var(--radius);
+    padding:14px 16px;
+    box-shadow:var(--shadow);
+    margin-top:14px;
+  }
+  .neurolep-indication{
+    display:inline-block;
+    font-size:12px;
+    font-weight:700;
+    color:var(--pill,var(--blue));
+    background:var(--pillbg,var(--sky-bg));
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+  .neurolep-row{
+    font-size:13.5px;
+    margin-bottom:6px;
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .neurolep-label{font-weight:600; color:var(--text-muted); flex:none;}
+  .neurolep-stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    gap:10px;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid var(--border);
+  }
+  .neurolep-stat{display:flex; flex-direction:column; gap:2px;}
+  .neurolep-stat-label{font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--text-muted);}
+  .neurolep-stat-value{font-size:15px; font-weight:700; color:var(--text);}
+  .neurolep-populations{
+    background:var(--amber-bg);
+    border-left:4px solid var(--amber);
+    border-radius:var(--radius);
+    padding:12px 16px;
+    margin-top:18px;
+    font-size:13.5px;
+  }
+  .neurolep-populations strong{display:block; color:var(--amber); margin-bottom:6px;}
+  .neurolep-populations ul{margin:0; padding-left:18px;}
+  .neurolep-populations li{margin-bottom:4px;}
 
   /* Marge de respiration en bas de page (le pied de page a été retiré). */
   .layout{padding-bottom:48px;}
@@ -1348,6 +1534,14 @@ const DOCUMENTS = {
     filename: "Clozapine_surveillance_2026.pdf",
     path: "medicaments-securite/Clozapine_surveillance_2026.pdf"
   },
+  "neuroleptiques-classiques": {
+    title: "Neuroleptiques classiques — Guide des posologies",
+    category: "medicaments-securite",
+    meta: "OMéDIT Pays de la Loire — 14 molécules : galénique, posologies usuelles et maximales, populations particulières",
+    interactive: true,
+    filename: "Neuroleptiques_classiques_posologies_OMEDIT.pdf",
+    path: "medicaments-securite/Neuroleptiques_classiques_posologies_OMEDIT.pdf"
+  },
   "medicaments-sensibles": {
     title: "Médicaments « sensibles » — règles pratiques de prescription",
     category: "medicaments-securite",
@@ -1373,6 +1567,7 @@ const DOCUMENTS = {
     title: "Les benzodiazépines et leurs étoiles",
     category: "medicaments-securite",
     meta: "RESPADD — Pr. Marc Ansseau, Service de psychiatrie, Université de Liège · avril 2022",
+    interactive: true,
     filename: "Benzodiazepines_equivalences_RESPADD.pdf",
     path: "medicaments-securite/Benzodiazepines_equivalences_RESPADD.pdf"
   },
@@ -1421,8 +1616,169 @@ const PROTOCOLS = Object.keys(DOCUMENTS).map(id => ({
   title: DOCUMENTS[id].title,
   category: DOCUMENTS[id].category,
   subcategory: DOCUMENTS[id].subcategory || null,
-  theme: DOCUMENTS[id].theme || null
+  theme: DOCUMENTS[id].theme || null,
+  interactive: DOCUMENTS[id].interactive || false
 }));
+
+/* =====================================================================
+   NEUROLEPTIQUES CLASSIQUES — 14 molécules (OMéDIT Pays de la Loire,
+   RCP en vigueur en décembre 2024). Alimente la rubrique interactive
+   "Neuroleptiques classiques" dans Médicaments & sécurité.
+   ===================================================================== */
+const NEUROLEPTIQUES_DATA = [
+  {
+    id: "chlorpromazine", dci: "Chlorpromazine", brands: "Largactil®", color: "teal",
+    forms: [
+      { form: "Cp : 25-100 mg ; solution buvable : 1 mg/goutte (1 ml = 40 gouttes)", voie: "Voie orale", indication: null, usuelle: "25-300 mg/j", max: "600 mg/j", prises: "2-3 prises/j" },
+      { form: "Ampoule IM : 25 mg/5 ml", voie: "Injection IM/IV", indication: null, usuelle: "25-50 mg/j", max: "150 mg/j", prises: "1-3 prises/j" }
+    ],
+    populations: ["Sujets âgés : dose initiale réduite de moitié"]
+  },
+  {
+    id: "cyamemazine", dci: "Cyamémazine", brands: "Tercian®", color: "blue",
+    forms: [
+      { form: "Cp : 25-100 mg ; solution buvable : 1 mg/goutte (1 ml = 40 gouttes)", voie: "Voie orale", indication: "États psychotiques aigus ou chroniques", usuelle: "50-300 mg/j", max: "600 mg/j", prises: "2-3 prises/j" },
+      { form: "Cp : 25-100 mg ; solution buvable : 1 mg/goutte (1 ml = 40 gouttes)", voie: "Voie orale", indication: "Anxiété (traitement limité à 4 semaines)", usuelle: "25-100 mg/j", max: "—", prises: "2-3 prises/j" },
+      { form: "Solution injectable : 50 mg/5 ml", voie: "Injection IM", indication: null, usuelle: "25-200 mg/j", max: "200 mg/j", prises: "1-4 prises/j" }
+    ],
+    populations: ["Voie orale — sujets âgés : maximum 100 mg/jour", "Voie injectable : non recommandée chez le sujet âgé"]
+  },
+  {
+    id: "droperidol", dci: "Dropéridol", brands: "Droleptan®", color: "purple",
+    forms: [
+      { form: "Solution injectable : 5 mg/2 ml", voie: "Injection IM", indication: null, usuelle: "5 mg", max: "—", prises: "Après 15 à 30 min, puis toutes les 4 à 6 heures" }
+    ],
+    populations: ["Sujets âgés, antécédents d'effets indésirables des neuroleptiques, mauvais état général : doses diminuées de moitié"]
+  },
+  {
+    id: "flupentixol", dci: "Flupentixol", brands: "Fluanxol®", color: "amber",
+    forms: [
+      { form: "Solution buvable : 40 mg/ml (1 mg/goutte)", voie: "Voie orale", indication: "Antipsychotique, effet stimulant", usuelle: "20-80 mg/j", max: "400 mg/j", prises: "1-2 prises/j" },
+      { form: "Solution buvable : 40 mg/ml (1 mg/goutte)", voie: "Voie orale", indication: "Antidélirant et antihallucinatoire, effet sédatif", usuelle: "80-200 mg/j", max: "400 mg/j", prises: "1-2 prises/j" }
+    ],
+    populations: ["Sujets âgés, patients épileptiques : posologie réduite de moitié ou au quart"]
+  },
+  {
+    id: "haloperidol", dci: "Halopéridol", brands: "Haldol®", color: "red",
+    forms: [
+      { form: "Cp : 1-5 mg ; solution buvable : 2 mg/ml (1 ml = 20 gouttes, 0,1 mg/goutte)", voie: "Voie orale", indication: null, usuelle: "0,5-10 mg/j", max: "20 mg/j", prises: "1-2 prises/j" },
+      { form: "Solution injectable : 5 mg/ml", voie: "Injection IM", indication: null, usuelle: "1-15 mg", max: "20 mg/j", prises: "Renouvelable toutes les heures" }
+    ],
+    populations: ["Sujets âgés : la moitié de la plus faible dose utilisée chez l'adulte, maximum 5 mg/jour", "Patients déments : 0,5 mg/jour dans le traitement de l'agressivité persistante et des symptômes psychotiques"]
+  },
+  {
+    id: "levomepromazine", dci: "Lévomépromazine", brands: "Nozinan®", color: "navy",
+    forms: [
+      { form: "Cp : 25-100 mg ; solution buvable : 40 mg/ml (1 mg/goutte)", voie: "Voie orale", indication: null, usuelle: "25-200 mg/j", max: "400 mg/j", prises: "1-3 prises/j" },
+      { form: "Solution injectable : 25 mg/ml", voie: "Injection IM", indication: null, usuelle: "25-200 mg/j", max: "200 mg/j", prises: "2-4 prises/j" }
+    ],
+    populations: ["Pas d'information spécifique dans le RCP"]
+  },
+  {
+    id: "loxapine", dci: "Loxapine", brands: "Loxapac®", color: "sky",
+    forms: [
+      { form: "Cp : 25-50-100 mg (non sécables) ; solution buvable : 25 mg/ml", voie: "Voie orale", indication: null, usuelle: "75-200 mg/j", max: "600 mg/j", prises: "1 prise le soir ou fractionnée dans la journée" },
+      { form: "Solution injectable : 50 mg/2 ml", voie: "Injection IM", indication: null, usuelle: "50-300 mg/j", max: "300 mg/j", prises: "2-3 prises/j" }
+    ],
+    populations: ["Sujets âgés : dose diminuée de moitié"]
+  },
+  {
+    id: "penfluridol", dci: "Penfluridol", brands: "Acemap®", color: "slate",
+    forms: [
+      { form: "Cp : 20 mg", voie: "Voie orale", indication: null, usuelle: "20-60 mg/semaine", max: "60 mg/semaine", prises: "1 prise/semaine" }
+    ],
+    populations: ["Sujets âgés : posologie initiale maximale d'1 comprimé/semaine"]
+  },
+  {
+    id: "pimozide", dci: "Pimozide", brands: "Orap®", color: "teal",
+    forms: [
+      { form: "Cp : 1-4 mg (non sécables)", voie: "Voie orale", indication: null, usuelle: "6-10 mg/j", max: "16 mg/j", prises: "1 prise/j" }
+    ],
+    populations: ["Pas d'information spécifique dans le RCP"]
+  },
+  {
+    id: "pipamperone", dci: "Pipampérone", brands: "Dipiperon®", color: "blue",
+    forms: [
+      { form: "Cp : 40 mg ; solution buvable : 40 mg/ml (2 mg/goutte)", voie: "Voie orale", indication: null, usuelle: "40-120 mg/j (ou 10-60 gouttes)", max: "120 mg/j", prises: "1-2 prises/j" }
+    ],
+    populations: ["Sujets âgés : la forme buvable est la seule adaptée — dose initiale 5 gouttes/jour, maximum 40 gouttes/jour"]
+  },
+  {
+    id: "propericiazine", dci: "Propériciazine", brands: "Neuleptil®", color: "purple",
+    forms: [
+      { form: "Gélule : 10 mg ; solution buvable 1 % (0,25 mg/goutte) ou 4 % (1 mg/goutte)", voie: "Voie orale", indication: null, usuelle: "30-100 mg/j", max: "200 mg/j", prises: "2-3 prises/j" }
+    ],
+    populations: ["Pas d'information spécifique dans le RCP"]
+  },
+  {
+    id: "sulpiride", dci: "Sulpiride", brands: "Dogmatil®", color: "amber",
+    forms: [
+      { form: "Cp : 200 mg ; gélule : 50 mg ; solution buvable : 5 mg/ml", voie: "Voie orale", indication: "États psychotiques aigus ou chroniques", usuelle: "200-1000 mg/j", max: "1600 mg/j (schizophrénie paranoïde)", prises: "2-3 prises/j" },
+      { form: "Cp : 200 mg ; gélule : 50 mg ; solution buvable : 5 mg/ml", voie: "Voie orale", indication: "Anxiété (traitement limité à 4 semaines)", usuelle: "50-150 mg/j", max: "1600 mg/j (schizophrénie paranoïde)", prises: "2-3 prises/j" }
+    ],
+    populations: ["Pas d'information spécifique dans le RCP"]
+  },
+  {
+    id: "tiapride", dci: "Tiapride", brands: "Tiapridal®", color: "red",
+    forms: [
+      { form: "Cp : 100 mg ; solution buvable : 5 mg/goutte", voie: "Voie orale", indication: null, usuelle: "200-800 mg/j", max: "800 mg/j — 4 semaines de traitement maximum dans les états d'agitation et d'agressivité", prises: "1 prise/j" },
+      { form: "Solution injectable : 100 mg/2 ml", voie: "Injection IM/IV", indication: null, usuelle: "200-300 mg", max: "1200 mg/j — 4 semaines de traitement maximum dans les états d'agitation et d'agressivité", prises: "Toutes les 4 à 6 heures" }
+    ],
+    populations: ["Sujet âgé (voie orale) : dose usuelle 200 mg/jour, maximum 300 mg/jour", "Insuffisants rénaux : ClCr 11-20 ml/min → 1/2 dose ; ClCr à 10 ml/min → 1/4 dose", "Sujet âgé (voie injectable) : 200 à 300 mg/jour en 2-3 injections espacées de 6 heures, maximum 100 mg/injection"]
+  },
+  {
+    id: "zuclopenthixol", dci: "Zuclopenthixol", brands: "Clopixol®", color: "navy",
+    forms: [
+      { form: "Cp : 10-25 mg (non sécables) ; solution buvable : 20 mg/ml (1 mg/goutte)", voie: "Voie orale", indication: "Agitation/agressivité au cours des états psychotiques", usuelle: "50-100 mg/j", max: "200 mg/j", prises: "1 prise/j" },
+      { form: "Cp : 10-25 mg (non sécables) ; solution buvable : 20 mg/ml (1 mg/goutte)", voie: "Voie orale", indication: "États psychotiques chroniques", usuelle: "20-50 mg/j", max: "200 mg/j", prises: "1 prise/j" }
+    ],
+    populations: ["Pas d'information spécifique dans le RCP"]
+  }
+];
+
+/* =====================================================================
+   BENZODIAZÉPINES — profils sur 5 axes (0 = effet nul, 5 = effet très
+   puissant), mesurés à partir du poster RESPADD (Pr. Marc Ansseau,
+   Service de psychiatrie, Université de Liège, avril 2022) déjà hébergé
+   sur ce site. Ordre des valeurs dans "v" : [anxiété somatique, anxiété
+   psychique, action anti-épileptique, action myo-relaxante, action
+   hypno-sédative]. Alimente le moteur d'aide à la prescription.
+   ===================================================================== */
+const BENZO_AXES = [
+  { key: "somatique", label: "Anxiété somatique (angoisse)" },
+  { key: "psychique", label: "Anxiété psychique" },
+  { key: "epileptique", label: "Action anti-épileptique" },
+  { key: "myorelaxante", label: "Action myo-relaxante" },
+  { key: "hypnosedative", label: "Action hypno-sédative" }
+];
+
+const BENZO_PROFILES = [
+  { id: "alprazolam", dci: "Alprazolam", dose: "0,5 mg", brand: "Xanax®", v: [5,3,2,1,2] },
+  { id: "bromazepam", dci: "Bromazepam", dose: "12 mg", brand: "Lexomil®", v: [4,5,3,3,3] },
+  { id: "brotizolam", dci: "Brotizolam", dose: "0,25 mg", brand: null, v: [1,1,1,1,3] },
+  { id: "clobazam", dci: "Clobazam", dose: "20 mg", brand: "Likozam®, Urbanyl®", v: [2,3,3,1,1] },
+  { id: "clonazepam", dci: "Clonazepam", dose: "2 mg", brand: "Rivotril®", v: [2,2,5,2,4] },
+  { id: "clorazepate", dci: "Clorazepate", dose: "15 mg", brand: "Tranxène®", v: [5,3,3,2,2] },
+  { id: "clotiazepam", dci: "Clotiazepam", dose: "10 mg", brand: "Veratran®", v: [3,3,2,1,2] },
+  { id: "cloxazolam", dci: "Cloxazolam", dose: "2 mg", brand: null, v: [4,4,2,2,2] },
+  { id: "diazepam", dci: "Diazepam", dose: "10 mg", brand: "Valium®", v: [4,5,4,5,3] },
+  { id: "flunitrazepam", dci: "Flunitrazepam", dose: "4 mg", brand: "Rohypnol®", v: [2,3,3,2,5] },
+  { id: "flurazepam", dci: "Flurazepam", dose: "3 mg", brand: null, v: [2,2,2,2,3] },
+  { id: "ketazolam", dci: "Ketazolam", dose: "45 mg", brand: null, v: [2,3,2,3,3] },
+  { id: "loflazepate", dci: "Loflazepate", dose: "2 mg", brand: "Victan®", v: [2,3,2,3,3] },
+  { id: "loprazolam", dci: "Loprazolam", dose: "2 mg", brand: "Havlane®", v: [3,2,2,2,4] },
+  { id: "lorazepam", dci: "Lorazepam", dose: "2,5 mg", brand: "Temesta®", v: [5,5,2,2,3] },
+  { id: "lormetazepam", dci: "Lormetazepam", dose: "2 mg", brand: "Noctamid®", v: [5,3,2,2,4] },
+  { id: "nitrazepam", dci: "Nitrazepam", dose: "5 mg", brand: "Mogadon®", v: [2,3,3,2,4] },
+  { id: "nordazepam", dci: "Nordazepam", dose: "10 mg", brand: "Nordaz®", v: [2,2,3,3,3] },
+  { id: "oxazepam", dci: "Oxazepam", dose: null, brand: "Seresta®", v: [3,4,2,2,3] },
+  { id: "prazepam", dci: "Prazepam", dose: null, brand: "Lysanxia®", v: [4,5,2,1,2] },
+  { id: "temazepam10", dci: "Temazepam", dose: "10 mg", brand: "Normison®", v: [2,2,1,1,1] },
+  { id: "temazepam20", dci: "Temazepam", dose: "20 mg", brand: "Normison®", v: [3,2,1,2,3] },
+  { id: "triazolam", dci: "Triazolam", dose: null, brand: "Halcion®", v: [1,1,1,1,4] },
+  { id: "zolpidem", dci: "Zolpidem", dose: "10 mg", brand: "Stilnox®", v: [1,1,1,1,3] },
+  { id: "zopiclone", dci: "Zopiclone", dose: "7,5 mg", brand: "Imovane®", v: [1,2,1,1,3] }
+];
 
 /* Ressources en ligne : liste statique, indépendante des documents ci-dessus. */
 /* =====================================================================
@@ -1525,7 +1881,7 @@ const RESOURCES = [
     color: "purple",
     items: [
       { name: "SFGG — Société Française de Gériatrie et Gérontologie", url: "https://sfgg.org", desc: "Recommandations et outils spécifiques à la prise en charge des personnes âgées." },
-      { name: "Mobiqual", url: "https://www.mobiqual.org", desc: "Outils pédagogiques pour la qualité des pratiques en gériatrie et soins palliatifs." },
+      { name: "Doloplus / Algoplus — Échelles de douleur", url: "https://www.doloplus.fr/", desc: "Échelles de référence pour évaluer la douleur chez la personne âgée ou en situation de handicap non communicante — outil validé, utilisable au lit du patient." },
       { name: "OMEDIT Normandie — Médicaments écrasables", url: "https://www.omedit-normandie.fr/boite-a-outils/bon-usage/liste-des-medicaments-ecrasables/liste-des-medicaments-ecrasables,3184,3511.html", desc: "Source officielle, mise à jour en continu par l'OMéDIT et la SFPC. Une copie de cette liste est consultable directement sur ce site dans la rubrique « Médicaments écrasables » ; revenir ici pour vérifier une mise à jour plus récente en cas de doute." },
       { name: "OMEDIT Pays de la Loire — Circuit du médicament en secteur handicap", url: "https://www.omedit-paysdelaloire.fr/qualite-securite-et-vigilances/securisation-du-circuit-des-produits-de-sante/handicap/", desc: "Outils de sécurisation du circuit du médicament en secteur handicap (autodiagnostic Handicimed, e-learning, fiches de bonnes pratiques)." }
     ]
@@ -1535,7 +1891,6 @@ const RESOURCES = [
     icon: "🤝",
     color: "sky",
     items: [
-      { name: "Omnidoc", url: "https://omnidoc.fr", desc: "Plateforme nationale de téléexpertise : demander l'avis tracé et rémunéré d'un spécialiste sur un patient, sans déplacement — très utilisée en EHPAD." },
       { name: "FFAMCO-EHPAD", url: "http://www.ffamco-ehpad.org/", desc: "Fédération française des associations de médecins coordonnateurs en EHPAD : référentiels professionnels et doctrines actualisées dédiés au métier de coordonnateur." },
       { name: "SOFMER", url: "https://www.sofmer.com", desc: "Société Française de Médecine Physique et de Réadaptation : recommandations et référentiels de rééducation par pathologie." },
       { name: "FNO — Orthophonistes", url: "https://www.fno.fr", desc: "Fédération Nationale des Orthophonistes : actualités professionnelles et ressources de référence pour la pratique orthophonique." }
@@ -1550,7 +1905,10 @@ const state = {
   activeId: CATEGORIES[0].id,
   query: "",
   activeDoc: null,
-  medocQuery: ""
+  medocQuery: "",
+  neurolepMolecule: null,
+  explorerMode: false,
+  benzoSliders: [0, 0, 0, 0, 0]
 };
 
 const sidebarEl = document.getElementById("sidebar");
@@ -1566,16 +1924,43 @@ function protocolsFor(catId){
 
 function openDoc(id){
   state.activeDoc = id;
+  state.explorerMode = false;
+  state.neurolepMolecule = null;
   window.scrollTo({ top: 0, behavior: "smooth" });
   render();
 }
 
 function closeDoc(){
   state.activeDoc = null;
+  state.explorerMode = false;
+  state.neurolepMolecule = null;
   render();
 }
 window.openDoc = openDoc;
 window.closeDoc = closeDoc;
+
+/* Ouvre la version "outil interactif" d'un document (au lieu du PDF brut) —
+   utilisé par les cartes à double action (Neuroleptiques, Benzodiazépines). */
+function openExplorer(id){
+  state.activeDoc = id;
+  state.explorerMode = true;
+  state.neurolepMolecule = null;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  render();
+}
+window.openExplorer = openExplorer;
+
+function openNeurolepMolecule(id){
+  state.neurolepMolecule = id;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  render();
+}
+function closeNeurolepMolecule(){
+  state.neurolepMolecule = null;
+  render();
+}
+window.openNeurolepMolecule = openNeurolepMolecule;
+window.closeNeurolepMolecule = closeNeurolepMolecule;
 
 function renderSidebar(){
   sidebarEl.innerHTML = "";
@@ -1608,10 +1993,10 @@ function renderSidebar(){
   const resBtn = document.createElement("button");
   const resActive = !state.query && !state.activeDoc && state.activeId === "ressources";
   resBtn.className = "nav-btn" + (resActive ? " active" : "");
-  resBtn.style.setProperty("--pill", "var(--blue)");
-  resBtn.style.setProperty("--pillbg", "var(--sky-bg)");
+  resBtn.style.setProperty("--pill", "var(--slate)");
+  resBtn.style.setProperty("--pillbg", "var(--slate-bg)");
   resBtn.innerHTML = `
-    ${categoryIconHTML("ressources", "blue", "sm")}
+    ${categoryIconHTML("ressources", "slate", "sm")}
     <span class="nav-label">Ressources utiles</span>
   `;
   resBtn.addEventListener("click", () => {
@@ -1640,6 +2025,28 @@ function colorVars(color){
 
 function cardHTML(protocolItem, cat){
   const c = colorVars(cat.color);
+
+  if(protocolItem.interactive){
+    const doc = DOCUMENTS[protocolItem.id];
+    return `
+      <div class="card card-featured" style="--pill:${c.pill};--pillbg:${c.pillbg}">
+        <span class="card-badge">🔎 Outil interactif</span>
+        <div class="card-title">${protocolItem.title}</div>
+        <div class="card-dual-actions">
+          <button type="button" onclick="openExplorer('${protocolItem.id}')">
+            Explorer
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </button>
+          ${doc.path ? `
+            <button type="button" class="card-dual-secondary" onclick="openDoc('${protocolItem.id}')">
+              Ouvrir le PDF
+            </button>
+          ` : ""}
+        </div>
+      </div>
+    `;
+  }
+
   return `
     <button class="card" style="text-align:left;cursor:pointer" onclick="openDoc('${protocolItem.id}')">
       <span class="card-tag" style="--pill:${c.pill};--pillbg:${c.pillbg}">${cat.label}</span>
@@ -1665,7 +2072,10 @@ function renderCategoryPanel(cat){
       </div>
     `;
   }else{
-    const direct = items.filter(it => !it.subcategory);
+    const direct = items
+      .filter(it => !it.subcategory)
+      .slice()
+      .sort((a, b) => (b.interactive ? 1 : 0) - (a.interactive ? 1 : 0));
     const subIds = [...new Set(items.filter(it => it.subcategory).map(it => it.subcategory))];
 
     const directHTML = direct.length ? `<div class="grid">${direct.map(it => cardHTML(it, cat)).join("")}</div>` : "";
@@ -1970,6 +2380,137 @@ function renderMedocsPanel(cat){
   renderMedocResults();
 }
 
+function renderNeurolepPanel(){
+  const cat = CATEGORIES.find(c => c.id === "medicaments-securite");
+  const c = colorVars(cat.color);
+
+  if(state.neurolepMolecule){
+    const m = NEUROLEPTIQUES_DATA.find(x => x.id === state.neurolepMolecule);
+    const mc = colorVars(m.color);
+    contentEl.innerHTML = `
+      <button class="back-link" onclick="closeNeurolepMolecule()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+        Retour — les 14 molécules
+      </button>
+      <div class="doc-page">
+        <span class="panel-eyebrow" style="--pill:${mc.pill};--pillbg:${mc.pillbg}">Neuroleptiques classiques</span>
+        <h2 class="panel-title" style="color:${mc.pill}">${m.dci} <span class="neurolep-brand-title">${m.brands}</span></h2>
+        ${m.forms.map(f => `
+          <div class="neurolep-form-card" style="--pill:${mc.pill};--pillbg:${mc.pillbg}">
+            ${f.indication ? `<div class="neurolep-indication">${f.indication}</div>` : ""}
+            <div class="neurolep-row"><span class="neurolep-label">Galénique</span><span>${f.form}</span></div>
+            <div class="neurolep-row"><span class="neurolep-label">Voie</span><span>${f.voie}</span></div>
+            <div class="neurolep-stats">
+              <div class="neurolep-stat"><span class="neurolep-stat-label">Posologie usuelle</span><span class="neurolep-stat-value">${f.usuelle}</span></div>
+              <div class="neurolep-stat"><span class="neurolep-stat-label">Posologie maximale</span><span class="neurolep-stat-value">${f.max}</span></div>
+              <div class="neurolep-stat"><span class="neurolep-stat-label">Prises / jour</span><span class="neurolep-stat-value">${f.prises}</span></div>
+            </div>
+          </div>
+        `).join("")}
+        <div class="neurolep-populations">
+          <strong>⚠ Populations particulières</strong>
+          <ul>${m.populations.map(p => `<li>${p}</li>`).join("")}</ul>
+        </div>
+        <p class="doc-meta">Source : OMéDIT Pays de la Loire — Résumés des Caractéristiques du Produit (RCP) en vigueur en décembre 2024. Ne remplace pas le RCP ni le jugement clinique.</p>
+      </div>
+    `;
+    return;
+  }
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <h2 class="panel-title" style="color:${c.pill}">Neuroleptiques classiques — Guide des posologies</h2>
+      <p class="doc-meta">OMéDIT Pays de la Loire — 14 molécules. Clique sur une molécule pour voir galénique, posologies et populations particulières.</p>
+      <div class="neurolep-grid">
+        ${NEUROLEPTIQUES_DATA.map(m => {
+          const mc = colorVars(m.color);
+          return `
+            <button class="neurolep-bubble" style="--pill:${mc.pill};--pillbg:${mc.pillbg}" onclick="openNeurolepMolecule('${m.id}')">
+              <span class="neurolep-dci">${m.dci}</span>
+              <span class="neurolep-brand">${m.brands}</span>
+            </button>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderBenzoExplorerPanel(){
+  const cat = CATEGORIES.find(c => c.id === "medicaments-securite");
+  const c = colorVars(cat.color);
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}Benzodiazépines</span>
+      <h2 class="panel-title" style="color:${c.pill}">Trouver la molécule adaptée</h2>
+      <p class="doc-meta">Règle les 5 curseurs selon le profil recherché (0 = effet nul, 5 = effet très puissant) : les molécules les plus proches s'affichent instantanément.</p>
+      <div class="benzo-sliders">
+        ${BENZO_AXES.map((ax, i) => `
+          <div class="benzo-slider-row">
+            <div class="benzo-slider-head">
+              <label for="benzoSlider${i}">${ax.label}</label>
+              <span class="benzo-slider-value" id="benzoVal${i}">${state.benzoSliders[i]}</span>
+            </div>
+            <input type="range" min="0" max="5" step="1" value="${state.benzoSliders[i]}" id="benzoSlider${i}" style="--pill:${c.pill}" />
+          </div>
+        `).join("")}
+      </div>
+      <div id="benzoResults"></div>
+      <p class="doc-meta">Profils issus du poster RESPADD (Pr. Marc Ansseau, Université de Liège) déjà disponible en PDF ci-dessus — outil indicatif, ne remplace pas le jugement clinique ni le RCP.</p>
+    </div>
+  `;
+
+  BENZO_AXES.forEach((ax, i) => {
+    const el = document.getElementById(`benzoSlider${i}`);
+    el.addEventListener("input", e => {
+      state.benzoSliders[i] = Number(e.target.value);
+      document.getElementById(`benzoVal${i}`).textContent = e.target.value;
+      renderBenzoResults();
+    });
+  });
+  renderBenzoResults();
+}
+
+function renderBenzoResults(){
+  const resultsEl = document.getElementById("benzoResults");
+  if(!resultsEl) return;
+
+  const target = state.benzoSliders;
+  const scored = BENZO_PROFILES.map(m => {
+    const dist = Math.sqrt(m.v.reduce((s, val, i) => s + (val - target[i]) ** 2, 0));
+    return { ...m, dist };
+  }).sort((a, b) => a.dist - b.dist);
+
+  const top = scored.slice(0, 5);
+  const colorsCycle = ["teal", "blue", "purple", "amber", "sky"];
+
+  resultsEl.innerHTML = `
+    <p class="medoc-count">Molécules les plus proches du profil recherché</p>
+    <div class="benzo-result-list">
+      ${top.map((m, i) => {
+        const rc = colorVars(i === 0 ? "red" : colorsCycle[i % colorsCycle.length]);
+        return `
+          <div class="benzo-result-card ${i === 0 ? "benzo-result-best" : ""}" style="--pill:${rc.pill};--pillbg:${rc.pillbg}">
+            <div class="benzo-result-rank">${i === 0 ? "★ Meilleure correspondance" : `#${i + 1}`}</div>
+            <div class="benzo-result-name">${m.dci}${m.dose ? " " + m.dose : ""}</div>
+            ${m.brand ? `<div class="benzo-result-brand">${m.brand}</div>` : ""}
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
 function renderResourcesPanel(){
   const groupsHTML = RESOURCES.map(g => {
     const c = colorVars(g.color);
@@ -1993,8 +2534,8 @@ function renderResourcesPanel(){
 
   contentEl.innerHTML = `
     <div class="panel-head">
-      <span class="panel-eyebrow" style="--pill:var(--blue);--pillbg:var(--sky-bg)">${categoryIconHTML("ressources","blue","xs")}Ressources utiles</span>
-      <h2 class="panel-title" style="color:var(--blue)">Ressources utiles</h2>
+      <span class="panel-eyebrow" style="--pill:var(--slate);--pillbg:var(--slate-bg)">${categoryIconHTML("ressources","slate","xs")}Ressources utiles</span>
+      <h2 class="panel-title" style="color:var(--slate)">Ressources utiles</h2>
       <p class="panel-desc">Sites de référence pour la pratique quotidienne — non hébergés sur ce Drive, mis à jour par leurs éditeurs respectifs.</p>
     </div>
 
@@ -2004,6 +2545,14 @@ function renderResourcesPanel(){
       <div class="partner-links">
         <a href="https://pro.cardioparc.fr" target="_blank" rel="noopener">Espace professionnel — pro.cardioparc.fr</a>
         <a href="https://cardioparc.fr" target="_blank" rel="noopener">cardioparc.fr</a>
+      </div>
+    </div>
+
+    <div class="partner-card">
+      <h3>Omnidoc — Téléexpertise toutes spécialités</h3>
+      <p>Plateforme nationale de référence pour demander l'avis tracé d'un spécialiste sur un patient, sans déplacement — acte reconnu et rémunéré par l'Assurance Maladie. Très largement utilisée en EHPAD et structures médico-sociales.</p>
+      <div class="partner-links">
+        <a href="https://omnidoc.fr" target="_blank" rel="noopener">omnidoc.fr</a>
       </div>
     </div>
 
@@ -2032,7 +2581,11 @@ function renderSearchPanel(){
 
 function render(){
   renderSidebar();
-  if(state.activeDoc){
+  if(state.activeDoc === "neuroleptiques-classiques" && state.explorerMode){
+    renderNeurolepPanel();
+  }else if(state.activeDoc === "benzodiazepines" && state.explorerMode){
+    renderBenzoExplorerPanel();
+  }else if(state.activeDoc){
     renderEmbedPage(state.activeDoc);
   }else if(state.query){
     renderSearchPanel();
