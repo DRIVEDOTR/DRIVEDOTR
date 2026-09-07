@@ -405,6 +405,243 @@
   .benzo-result-name{font-size:15px; font-weight:700; color:var(--text);}
   .benzo-result-brand{font-size:12.5px; font-weight:700; color:var(--text-muted); margin-top:2px;}
 
+  /* ---------- Ordonnance de biologie (module "Suivis biologiques") ---------- */
+  .bio-bubble{cursor:pointer; border:2px solid transparent; padding:16px 10px;}
+  .bio-bubble-active{border-color:var(--pill,var(--blue)); background:#fff;}
+  .bio-check{
+    font-size:11px;
+    font-weight:700;
+    color:var(--text-muted);
+    margin-top:2px;
+  }
+  .bio-bubble-active .bio-check{color:var(--pill,var(--blue));}
+  .bio-grade-wrap{
+    margin-top:16px;
+    padding:14px 16px;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  .bio-grade-options{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;}
+  .bio-grade-btn{
+    font-family:inherit;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+    background:var(--slate-bg);
+    border:2px solid transparent;
+    padding:7px 14px;
+    border-radius:20px;
+    cursor:pointer;
+  }
+  .bio-grade-active{
+    border-color:var(--purple);
+    background:var(--purple-bg);
+    color:var(--purple);
+  }
+  .bio-result-box{
+    margin-top:18px;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:16px 18px;
+  }
+  .bio-result-head{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .bio-result-head strong{font-size:15px;}
+  .bio-result-actions{display:flex; gap:8px; flex-wrap:wrap;}
+  .bio-copy-btn, .bio-reset-btn{
+    font-family:inherit;
+    font-size:13px;
+    font-weight:700;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    border:none;
+  }
+  .bio-copy-btn{color:#fff; background:var(--teal);}
+  .bio-copy-btn:hover{opacity:.92;}
+  .bio-reset-btn{color:var(--text-muted); background:var(--slate-bg);}
+  .bio-result-list{
+    margin:0 0 12px;
+    padding-left:20px;
+    font-size:13.5px;
+    line-height:1.7;
+    columns:2;
+    column-gap:24px;
+  }
+  .bio-textarea{
+    width:100%;
+    font-family:inherit;
+    font-size:13px;
+    color:var(--text-muted);
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:10px 12px;
+    resize:vertical;
+  }
+  .bio-result-preview{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:14px 16px;
+  }
+  .bio-result-heading{
+    font-weight:700;
+    text-decoration:underline;
+    font-size:14px;
+    margin:0 0 10px;
+    color:var(--text);
+  }
+  .bio-result-preview .bio-result-list{
+    margin:0;
+    padding-left:20px;
+    font-size:13.5px;
+    line-height:1.7;
+  }
+  .bio-freq-heading{
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px dashed var(--border);
+    font-size:13px;
+  }
+  .bio-freq-list{
+    margin:0;
+    padding-left:20px;
+    font-size:12.5px;
+    line-height:1.6;
+    color:var(--text-muted);
+  }
+  .bio-freq-list strong{color:var(--text);}
+
+  .bio-layout{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:20px;
+    align-items:start;
+    margin-top:16px;
+  }
+  .bio-layout-right{position:sticky; top:16px;}
+  @media (max-width:900px){
+    .bio-layout{grid-template-columns:1fr;}
+    .bio-layout-right{position:static;}
+  }
+
+  .bio-options-wrap{
+    padding:16px 18px;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  .bio-options-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:8px;
+    margin-top:10px;
+  }
+  .bio-option-pair-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:8px;
+  }
+  .bio-option-pair-row .bio-option-row{flex:1 1 220px;}
+  .bio-option-group{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px dashed var(--border);
+  }
+  .bio-option-group-indication{
+    font-size:11.5px;
+    color:var(--text-muted);
+    margin:0 0 8px;
+  }
+  .bio-option-group-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .bio-option-group-row .bio-option-row{flex:1 1 160px;}
+  .bio-option-row-compact{padding:8px 10px;}
+  .bio-option-row{
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+    padding:9px 10px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:13px;
+  }
+  .bio-option-row:hover{background:var(--slate-bg);}
+  .bio-option-checked{background:var(--teal-bg);}
+  .bio-option-row input[type="checkbox"]{margin-top:3px; accent-color:var(--teal); flex:none;}
+  .bio-option-label{display:block; font-weight:600; color:var(--text);}
+  .bio-option-indication{display:block; font-size:11.5px; color:var(--text-muted); margin-top:1px;}
+  .bio-custom-add{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+  }
+  .bio-custom-add input{
+    flex:1;
+    font-family:inherit;
+    font-size:13.5px;
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:9px 11px;
+    background:var(--bg);
+  }
+  .bio-custom-add button{
+    font-family:inherit;
+    font-size:13px;
+    font-weight:700;
+    color:#fff;
+    background:var(--teal);
+    border:none;
+    padding:9px 16px;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  .bio-custom-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:10px;
+  }
+  .bio-custom-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--text);
+    background:var(--slate-bg);
+    padding:5px 6px 5px 12px;
+    border-radius:20px;
+  }
+  .bio-custom-pill button{
+    font-family:inherit;
+    font-size:14px;
+    line-height:1;
+    color:var(--text-muted);
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:2px 6px;
+  }
+  .bio-custom-pill button:hover{color:var(--red);}
+
   .empty-state, .error-state{
     border:1px dashed var(--border);
     border-radius:var(--radius);
@@ -1513,6 +1750,12 @@ const DOCUMENTS = {
     filename: "Bilan_suivi_Diabete.pdf",
     path: "suivis-biologiques/Bilan_suivi_Diabete.pdf"
   },
+  "ordonnance-biologie": {
+    title: "Créer une ordonnance de biologie",
+    category: "suivis-biologiques",
+    meta: "Sélectionne les situations cliniques du patient : la liste des examens à prescrire se construit automatiquement, sans doublon, prête à copier dans le logiciel de prescription",
+    interactive: true
+  },
   "suivi-bilan-annuel-esms": {
     title: "Bilan annuel de synthèse - ESMS",
     category: "suivis-biologiques",
@@ -1780,6 +2023,89 @@ const BENZO_PROFILES = [
   { id: "zopiclone", dci: "Zopiclone", dose: "7,5 mg", brand: "Imovane®", v: [1,2,1,1,3] }
 ];
 
+/* =====================================================================
+   ORDONNANCE DE BIOLOGIE — module "Suivis biologiques". Chaque situation
+   clinique (bulle) ajoute un jeu d'examens à la liste, sans doublon
+   (dédoublonnage par identifiant canonique). La situation "mrc" est
+   paramétrée par le stade KDIGO, qui conditionne l'ajout de la NFS et
+   des bicarbonates. BIO_OPTIONS reprend les examens présentés comme
+   "à ajouter seulement si indication" dans les 7 fiches Suivis biologiques
+   (analysées une à une) ; ils s'ajoutent au même pot commun, avec le même
+   dédoublonnage que les bulles.
+   ===================================================================== */
+const BIO_TESTS = {
+  "nfs-plaquettes": "NFS-plaquettes",
+  "tp-inr": "TP / INR",
+  "ionogramme": "Ionogramme sanguin : Na, K, Cl",
+  "creat-dfg": "Créatinine + DFG (CKD-EPI)",
+  "bicarbonates": "Bicarbonates",
+  "rac": "RAC urinaire (rapport albuminurie/créatininurie)",
+  "albuminemie": "Albuminémie",
+  "crp": "CRP",
+  "bilirubine": "Bilirubine totale",
+  "asat-alat": "ASAT / ALAT",
+  "ggt": "GGT",
+  "pal": "PAL (phosphatases alcalines)",
+  "glycemie": "Glycémie à jeun",
+  "hba1c": "HbA1c",
+  "eal": "EAL (bilan lipidique)",
+  "tsh": "TSH",
+  "ferritine-cst": "Ferritine + CST",
+  "vitamine-b12": "Vitamine B12",
+  "folates": "Folates (vitamine B9)",
+  "calcemie": "Calcémie",
+  "phosphoremie": "Phosphorémie",
+  "pth": "PTH",
+  "afp": "AFP (alpha-fœtoprotéine)",
+  "lithiemie": "Lithiémie",
+  "nfs-pnn": "NFS (surveillance PNN — clozapine)",
+  "depakinemie": "Dépakinémie",
+  "carbamazepinemie": "Carbamazépinémie",
+  "phenobarbitalemie": "Phénobarbitalémie"
+};
+
+const BIO_SITUATIONS = [
+  { id: "bilan-annuel", label: "Bilan annuel ESMS", color: "navy", tests: ["nfs-plaquettes", "ionogramme", "creat-dfg"], frequency: "1 fois par an, à individualiser selon l'âge, la fragilité et les pathologies (pas de fréquence légalement obligatoire)." },
+  { id: "diabete", label: "Diabète", color: "teal", tests: ["hba1c", "creat-dfg", "rac", "eal", "asat-alat"], frequency: "HbA1c tous les 3 à 6 mois selon l'équilibre glycémique ; dépistage des complications (rénal, CV, hépatique) au moins 1 fois par an." },
+  { id: "hta", label: "Hypertendu (HTA)", color: "blue", tests: ["ionogramme", "creat-dfg", "rac"], frequency: "Tous les 1 à 2 ans si HTA contrôlée (plus souvent si sujet âgé, diabète, MRC, protéinurie ou HTA mal contrôlée)." },
+  { id: "mrc", label: "MRC / IRC", color: "purple", tests: ["creat-dfg", "rac", "ionogramme"], gradeDependent: true },
+  { id: "hepatopathie", label: "Hépatopathie / Cirrhose", color: "amber", tests: ["nfs-plaquettes", "tp-inr", "albuminemie", "bilirubine", "ionogramme", "creat-dfg", "asat-alat", "ggt", "pal"], frequency: "Cirrhose compensée stable : tous les 6 à 12 mois. Si décompensation, ascite ou atteinte rénale : rapprocher à 1-3 mois. (Échographie de surveillance CHC tous les 6 mois, en complément — hors biologie.)" },
+  { id: "lithium", label: "Lithium", color: "red", tests: ["lithiemie", "creat-dfg", "calcemie", "tsh"], frequency: "Lithiémie : hebdomadaire le 1er mois, mensuelle le 1er trimestre, puis tous les 2 mois une fois stabilisé." },
+  { id: "clozapine", label: "Clozapine", color: "sky", tests: ["nfs-pnn"], frequency: "NFS : hebdomadaire pendant 18 semaines, puis mensuelle jusqu'à 12 mois, puis toutes les 12 semaines jusqu'à 24 mois, puis annuelle en l'absence de neutropénie." },
+  { id: "aod", label: "AOD / AVK", color: "slate", tests: ["nfs-plaquettes", "creat-dfg", "asat-alat"], frequency: "Au moins 1 fois par an ; tous les 6 mois si > 75 ans, poids < 60 kg ou clairance 30-60 mL/min ; tous les 3 mois si clairance < 30 mL/min." }
+];
+
+/* Fréquence de la situation "mrc", dépendante du stade KDIGO sélectionné —
+   la grille complète croise stade (G) ET albuminurie (A) ; cette
+   approximation par stade seul reste volontairement prudente. */
+const MRC_FREQUENCIES = {
+  "g1g2": "1 à 3 fois par an selon le niveau d'albuminurie (grille KDIGO complète dans la fiche « Suivi biologique d'une MRC / IRC »).",
+  "g3a": "1 à 3 fois par an selon le niveau d'albuminurie.",
+  "g3bplus": "2 à 4 fois par an ou plus selon le stade précis et le niveau d'albuminurie."
+};
+
+/* Examens "à ajouter seulement si indication" — issus des 7 fiches Suivis
+   biologiques. addIds peut regrouper plusieurs examens sous une seule case
+   (ex. bilan hépatique complet) ; le dédoublonnage se fait sur ces mêmes
+   identifiants, qu'ils viennent d'une bulle ou d'une option. */
+const BIO_OPTIONS = [
+  { id: "albuminemie", label: "Albuminémie", indication: "si risque nutritionnel", addIds: ["albuminemie"] },
+  { id: "crp", label: "CRP", indication: "si contexte inflammatoire, ou pour interpréter une albumine basse", addIds: ["crp"] },
+  { id: "glycemie-hba1c", label: "Glycémie à jeun + HbA1c", indication: "si diabète, prédiabète, corticothérapie, antipsychotique ou risque métabolique", addIds: ["glycemie", "hba1c"] },
+  { id: "bilan-hepatique", label: "Bilan hépatique (ASAT/ALAT, GGT, PAL, bilirubine)", indication: "hépatopathie, risque hépatique, médicament hépatotoxique ou anomalie antérieure", addIds: ["asat-alat", "ggt", "pal", "bilirubine"] },
+  { id: "eal-opt", label: "EAL (bilan lipidique)", indication: "stratégie cardiovasculaire active, diabète/MRC, statine ou anomalie antérieure", addIds: ["eal"] },
+  { id: "tsh-opt", label: "TSH", indication: "dysthyroïdie, lévothyroxine, lithium, amiodarone ou symptômes", addIds: ["tsh"] },
+  { id: "ferritine-opt", label: "Ferritine + CST", indication: "anémie, MRC, suspicion de carence martiale", addIds: ["ferritine-cst"] },
+  { id: "b12-opt", label: "Vitamine B12", indication: "carence, metformine prolongée, neuropathie, troubles cognitifs, régime végétalien, chirurgie bariatrique", addIds: ["vitamine-b12"], pairWith: "folates-opt" },
+  { id: "folates-opt", label: "Folates (vitamine B9)", indication: "alcoolisme, dénutrition, hémolyse, ou macrocytose sans point d'appel B12", addIds: ["folates"] },
+  { id: "phosphocalcique", label: "Bilan phosphocalcique (Calcémie, phosphorémie, PTH, PAL)", indication: "MRC stade G3b-G5, anomalie antérieure", addIds: ["calcemie", "phosphoremie", "pth", "pal"] },
+  { id: "afp-opt", label: "AFP (alpha-fœtoprotéine)", indication: "surveillance du CHC en complément de l'échographie (cirrhose, EASL 2024)", addIds: ["afp"] },
+  { id: "inr-avk", label: "TP / INR", indication: "surveillance sous AVK", addIds: ["tp-inr"] },
+  { id: "depakinemie-opt", label: "Dépakinémie (valproate)", indication: "", addIds: ["depakinemie"], group: "antiepi-dosages" },
+  { id: "carbamazepinemie-opt", label: "Carbamazépinémie", indication: "", addIds: ["carbamazepinemie"], group: "antiepi-dosages" },
+  { id: "phenobarbitalemie-opt", label: "Phénobarbitalémie", indication: "", addIds: ["phenobarbitalemie"], group: "antiepi-dosages" }
+];
+
 /* Ressources en ligne : liste statique, indépendante des documents ci-dessus. */
 /* =====================================================================
    MÉDICAMENTS ÉCRASABLES — liste nationale (OMéDIT Normandie / SFPC),
@@ -1908,7 +2234,11 @@ const state = {
   medocQuery: "",
   neurolepMolecule: null,
   explorerMode: false,
-  benzoSliders: [0, 0, 0, 0, 0]
+  benzoSliders: [0, 0, 0, 0, 0],
+  bioSelected: [],
+  mrcGrade: null,
+  bioOptionsSelected: [],
+  bioCustomTests: []
 };
 
 const sidebarEl = document.getElementById("sidebar");
@@ -2511,6 +2841,293 @@ function renderBenzoResults(){
   `;
 }
 
+function toggleBioSituation(id){
+  const idx = state.bioSelected.indexOf(id);
+  if(idx === -1){
+    state.bioSelected.push(id);
+  }else{
+    state.bioSelected.splice(idx, 1);
+    if(id === "mrc") state.mrcGrade = null;
+  }
+  renderBioOrdonnancePanel();
+}
+window.toggleBioSituation = toggleBioSituation;
+
+function setMrcGrade(grade){
+  state.mrcGrade = grade;
+  renderBioOrdonnancePanel();
+}
+window.setMrcGrade = setMrcGrade;
+
+function resetBioOrdonnance(){
+  state.bioSelected = [];
+  state.mrcGrade = null;
+  state.bioOptionsSelected = [];
+  state.bioCustomTests = [];
+  renderBioOrdonnancePanel();
+}
+window.resetBioOrdonnance = resetBioOrdonnance;
+
+/* Fusionne les examens des situations cochées, sans doublon, dans l'ordre
+   canonique du catalogue BIO_TESTS (plutôt que l'ordre de sélection). */
+function computeBioTestIds(){
+  const picked = [];
+  const add = id => { if(!picked.includes(id)) picked.push(id); };
+  state.bioSelected.forEach(situId => {
+    const situ = BIO_SITUATIONS.find(s => s.id === situId);
+    if(!situ) return;
+    situ.tests.forEach(add);
+    if(situId === "mrc" && state.mrcGrade === "g3bplus"){
+      add("nfs-plaquettes");
+      add("bicarbonates");
+    }
+  });
+  state.bioOptionsSelected.forEach(optId => {
+    const opt = BIO_OPTIONS.find(o => o.id === optId);
+    if(!opt) return;
+    opt.addIds.forEach(add);
+  });
+  return Object.keys(BIO_TESTS).filter(id => picked.includes(id));
+}
+
+function toggleBioOption(id){
+  const idx = state.bioOptionsSelected.indexOf(id);
+  if(idx === -1) state.bioOptionsSelected.push(id);
+  else state.bioOptionsSelected.splice(idx, 1);
+  renderBioOrdonnancePanel();
+}
+window.toggleBioOption = toggleBioOption;
+
+function addCustomBioTest(){
+  const input = document.getElementById("bioCustomInput");
+  if(!input) return;
+  const text = input.value.trim();
+  if(!text) return;
+  const norm = text.toLowerCase();
+  const alreadyCanonical = computeBioTestIds().some(id => BIO_TESTS[id].toLowerCase() === norm);
+  const alreadyCustom = state.bioCustomTests.some(t => t.toLowerCase() === norm);
+  if(!alreadyCanonical && !alreadyCustom){
+    state.bioCustomTests.push(text);
+  }
+  input.value = "";
+  renderBioOrdonnancePanel();
+}
+window.addCustomBioTest = addCustomBioTest;
+
+function removeCustomBioTest(index){
+  state.bioCustomTests.splice(index, 1);
+  renderBioOrdonnancePanel();
+}
+window.removeCustomBioTest = removeCustomBioTest;
+
+function bioBubbleHTML(situ){
+  const mc = colorVars(situ.color);
+  const active = state.bioSelected.includes(situ.id);
+  return `
+    <button type="button" class="neurolep-bubble bio-bubble ${active ? "bio-bubble-active" : ""}" style="--pill:${mc.pill};--pillbg:${mc.pillbg}" onclick="toggleBioSituation('${situ.id}')">
+      <span class="neurolep-dci">${situ.label}</span>
+      <span class="bio-check">${active ? "✓ ajouté" : "+ ajouter"}</span>
+    </button>
+  `;
+}
+
+function bioOptionRowHTML(opt, compact){
+  const checked = state.bioOptionsSelected.includes(opt.id);
+  return `
+    <label class="bio-option-row ${checked ? "bio-option-checked" : ""} ${compact ? "bio-option-row-compact" : ""}">
+      <input type="checkbox" ${checked ? "checked" : ""} onchange="toggleBioOption('${opt.id}')" />
+      <span>
+        <span class="bio-option-label">${opt.label}</span>
+        ${compact || !opt.indication ? "" : `<span class="bio-option-indication">${opt.indication}</span>`}
+      </span>
+    </label>
+  `;
+}
+
+function renderBioOrdonnancePanel(){
+  const cat = CATEGORIES.find(c => c.id === "suivis-biologiques");
+  const c = colorVars(cat.color);
+  const mrcSelected = state.bioSelected.includes("mrc");
+
+  const soloOptions = BIO_OPTIONS.filter(opt => !opt.pairWith && !opt.group && !BIO_OPTIONS.some(o => o.pairWith === opt.id));
+  const pairRows = BIO_OPTIONS.filter(opt => opt.pairWith).map(opt => {
+    const partner = BIO_OPTIONS.find(o => o.id === opt.pairWith);
+    return `<div class="bio-option-pair-row">${bioOptionRowHTML(opt)}${bioOptionRowHTML(partner)}</div>`;
+  }).join("");
+  const groupIds = [...new Set(BIO_OPTIONS.filter(o => o.group).map(o => o.group))];
+  const groupRows = groupIds.map(gid => {
+    const items = BIO_OPTIONS.filter(o => o.group === gid);
+    return `
+      <div class="bio-option-group">
+        <p class="bio-option-group-indication">Dosage plasmatique seulement si indication clinique/pharmacologique</p>
+        <div class="bio-option-group-row">${items.map(opt => bioOptionRowHTML(opt, true)).join("")}</div>
+      </div>
+    `;
+  }).join("");
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <h2 class="panel-title" style="color:${c.pill}">Créer une ordonnance de biologie</h2>
+      <p class="doc-meta">Sélectionne une ou plusieurs situations cliniques du patient : la liste des examens se construit automatiquement à droite, sans doublon.</p>
+
+      <div class="neurolep-grid">
+        ${BIO_SITUATIONS.map(situ => bioBubbleHTML(situ)).join("")}
+      </div>
+
+      ${mrcSelected ? `
+        <div class="bio-grade-wrap">
+          <span class="neurolep-label">Stade MRC / IRC (KDIGO)</span>
+          <div class="bio-grade-options">
+            <button type="button" class="bio-grade-btn ${state.mrcGrade === "g1g2" ? "bio-grade-active" : ""}" onclick="setMrcGrade('g1g2')">G1 - G2</button>
+            <button type="button" class="bio-grade-btn ${state.mrcGrade === "g3a" ? "bio-grade-active" : ""}" onclick="setMrcGrade('g3a')">G3a</button>
+            <button type="button" class="bio-grade-btn ${state.mrcGrade === "g3bplus" ? "bio-grade-active" : ""}" onclick="setMrcGrade('g3bplus')">G3b - G4 - G5</button>
+          </div>
+          <p class="doc-meta" style="margin-top:6px;">En G3b-G4-G5 : NFS et bicarbonates ajoutés automatiquement.</p>
+        </div>
+      ` : ""}
+
+      <div class="bio-layout">
+        <div class="bio-layout-left">
+          <div class="bio-options-wrap">
+            <span class="neurolep-label">Options supplémentaires — à cocher si indiqué</span>
+            <div class="bio-options-list">
+              ${soloOptions.map(opt => bioOptionRowHTML(opt)).join("")}
+            </div>
+            ${pairRows}
+            ${groupRows}
+
+            <span class="neurolep-label" style="margin-top:14px; display:block;">Ajouter un examen non listé</span>
+            <div class="bio-custom-add">
+              <input type="text" id="bioCustomInput" placeholder="Ex : sérologie, dosage spécifique…" />
+              <button type="button" onclick="addCustomBioTest()">Ajouter</button>
+            </div>
+            ${state.bioCustomTests.length ? `
+              <div class="bio-custom-list">
+                ${state.bioCustomTests.map((t, i) => `
+                  <span class="bio-custom-pill">${t} <button type="button" onclick="removeCustomBioTest(${i})" aria-label="Retirer">×</button></span>
+                `).join("")}
+              </div>
+            ` : ""}
+          </div>
+        </div>
+
+        <div class="bio-layout-right">
+          <div id="bioResultsWrap"></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const customInput = document.getElementById("bioCustomInput");
+  customInput.addEventListener("keydown", e => {
+    if(e.key === "Enter"){ e.preventDefault(); addCustomBioTest(); }
+  });
+
+  renderBioResults();
+}
+
+function renderBioResults(){
+  const wrap = document.getElementById("bioResultsWrap");
+  if(!wrap) return;
+
+  const ids = computeBioTestIds();
+  const customLines = state.bioCustomTests;
+
+  if(ids.length === 0 && customLines.length === 0){
+    wrap.innerHTML = `<div class="empty-state" style="margin-top:18px;">Sélectionne au moins une situation clinique ou une option ci-dessus pour construire la liste des examens.</div>`;
+    return;
+  }
+
+  const lines = ids.map(id => BIO_TESTS[id]).concat(customLines);
+  const heading = "Faire pratiquer par Laboratoire d'Analyses Médicales :";
+
+  // Rythme de surveillance : une ligne par situation cochée (la fréquence dépend
+  // du contexte clinique global, pas de chaque examen isolé). "mrc" est résolu
+  // selon le stade KDIGO choisi.
+  const freqItems = state.bioSelected.map(situId => {
+    const situ = BIO_SITUATIONS.find(s => s.id === situId);
+    if(!situ) return null;
+    let freq = situ.frequency;
+    let label = situ.label;
+    if(situId === "mrc"){
+      label = `MRC / IRC${state.mrcGrade ? " (stade " + ({ g1g2: "G1-G2", g3a: "G3a", g3bplus: "G3b-G5" })[state.mrcGrade] + ")" : ""}`;
+      freq = state.mrcGrade ? MRC_FREQUENCIES[state.mrcGrade] : "Choisis un stade KDIGO ci-dessus pour afficher la fréquence recommandée.";
+    }
+    return { label, freq };
+  }).filter(Boolean);
+
+  const freqHeading = "Rythme de surveillance recommandé :";
+  const plainText = heading + "\n" + lines.map(l => `- ${l}`).join("\n")
+    + (freqItems.length ? "\n\n" + freqHeading + "\n" + freqItems.map(f => `- ${f.label} : ${f.freq}`).join("\n") : "");
+  const htmlText = `<p><strong><u>${heading}</u></strong></p><ul>${lines.map(l => `<li>${l}</li>`).join("")}</ul>`
+    + (freqItems.length ? `<p><strong><u>${freqHeading}</u></strong></p><ul>${freqItems.map(f => `<li><strong>${f.label}</strong> : ${f.freq}</li>`).join("")}</ul>` : "");
+
+  wrap.innerHTML = `
+    <div class="bio-result-box">
+      <div class="bio-result-head">
+        <strong>${lines.length} examen${lines.length > 1 ? "s" : ""} à prescrire</strong>
+        <div class="bio-result-actions">
+          <button type="button" class="bio-copy-btn" id="bioCopyBtn">Copier le texte</button>
+          <button type="button" class="bio-reset-btn" onclick="resetBioOrdonnance()">Réinitialiser</button>
+        </div>
+      </div>
+      <div class="bio-result-preview">
+        <p class="bio-result-heading">${heading}</p>
+        <ul class="bio-result-list">
+          ${lines.map(l => `<li>${l}</li>`).join("")}
+        </ul>
+        ${freqItems.length ? `
+          <p class="bio-result-heading bio-freq-heading">🕒 ${freqHeading}</p>
+          <ul class="bio-freq-list">
+            ${freqItems.map(f => `<li><strong>${f.label}</strong> : ${f.freq}</li>`).join("")}
+          </ul>
+        ` : ""}
+      </div>
+    </div>
+  `;
+
+  const copyBtn = document.getElementById("bioCopyBtn");
+  copyBtn.addEventListener("click", async () => {
+    const done = () => {
+      copyBtn.textContent = "Copié ✓";
+      setTimeout(() => { copyBtn.textContent = "Copier le texte"; }, 1800);
+    };
+    try{
+      if(navigator.clipboard && window.ClipboardItem){
+        const item = new ClipboardItem({
+          "text/plain": new Blob([plainText], { type: "text/plain" }),
+          "text/html": new Blob([htmlText], { type: "text/html" })
+        });
+        await navigator.clipboard.write([item]);
+        done();
+        return;
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(plainText);
+        done();
+        return;
+      }
+      throw new Error("Clipboard API indisponible");
+    }catch(err){
+      // Repli pour navigateurs plus anciens : textarea temporaire hors écran.
+      const ta = document.createElement("textarea");
+      ta.value = plainText;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand("copy"); }catch(e){}
+      document.body.removeChild(ta);
+      done();
+    }
+  });
+}
+
 function renderResourcesPanel(){
   const groupsHTML = RESOURCES.map(g => {
     const c = colorVars(g.color);
@@ -2585,6 +3202,8 @@ function render(){
     renderNeurolepPanel();
   }else if(state.activeDoc === "benzodiazepines" && state.explorerMode){
     renderBenzoExplorerPanel();
+  }else if(state.activeDoc === "ordonnance-biologie" && state.explorerMode){
+    renderBioOrdonnancePanel();
   }else if(state.activeDoc){
     renderEmbedPage(state.activeDoc);
   }else if(state.query){
