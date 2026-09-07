@@ -22,6 +22,10 @@
     --red:#C0392B;
     --red-bg:#FCEEEC;
     --teal:#0F8C7C;
+    --emerald:#1B6B4A;
+    --indigo:#3F4B9E;
+    --indigo-bg:#ECEEF9;
+    --emerald-bg:#E6F3EC;
     --teal-bg:#E7F6F3;
     --purple:#6B4C9A;
     --purple-bg:#F1ECF7;
@@ -559,6 +563,26 @@
   .calc-result-main{font-size:26px; font-weight:700; color:var(--pill,var(--blue)); line-height:1.15;}
   .calc-result-sub{font-size:14px; font-weight:600; color:var(--text); margin-top:4px;}
   .calc-result-extra{font-size:12.5px; color:var(--text-muted); margin-top:8px;}
+  .courrier-fields{display:flex; flex-direction:column; gap:10px; margin-top:10px;}
+  .courrier-field textarea{
+    font-family:inherit;
+    font-size:13.5px;
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:9px 11px;
+    background:var(--bg);
+    resize:vertical;
+  }
+  .courrier-field textarea:focus{outline:2px solid var(--blue-light); outline-offset:1px;}
+  .courrier-preview{
+    font-size:13.5px;
+    line-height:1.65;
+    white-space:normal;
+    max-height:none;
+  }
+  .vaccin-list{margin:4px 0 0; padding-left:20px; font-size:13.5px; line-height:1.65;}
+  .vaccin-schema{font-size:14px; font-weight:600; color:var(--text); line-height:1.5;}
   .calc-hint{
     margin-top:16px;
     padding:12px 16px;
@@ -1294,6 +1318,20 @@ const CATEGORIES = [
     icon: "calculateur",
     color: "blue",
     description: "Scores et formules de référence, calculés directement ici : fonction rénale, dénutrition, risque thrombo-embolique et hémorragique."
+  },
+  {
+    id: "courriers",
+    label: "Courriers & téléexpertise",
+    icon: "courrier",
+    color: "emerald",
+    description: "Trames prêtes à remplir puis à copier : adressage à un spécialiste, téléexpertise structurée, demande d'hospitalisation, transmission à l'équipe."
+  },
+  {
+    id: "vaccination",
+    label: "Vaccination",
+    icon: "vaccin",
+    color: "indigo",
+    description: "Calendrier vaccinal en vigueur appliqué aux ESMS : qui vacciner, selon quel schéma, avec les points de vigilance propres aux résidents et aux professionnels."
   }
 ];
 
@@ -1312,6 +1350,10 @@ const CATEGORY_ICONS = {
   materiel: '<circle cx="11" cy="17" r="4"/><path d="M11 13V7"/><circle cx="11" cy="4.5" r="1.5"/><path d="M11 8h4"/><path d="M15 17h3l2-5"/>',
   /* Seringue remplie (piston + corps rempli + aiguille + goutte) : suivis biologiques */
   seringue: '<g transform="rotate(-28 11.5 12)"><line x1="2" y1="10" x2="2" y2="14"/><line x1="2" y1="12" x2="6" y2="12"/><rect x="6" y="10" width="9" height="4"/><line x1="8.5" y1="10.6" x2="8.5" y2="11.6"/><line x1="11.5" y1="10.6" x2="11.5" y2="11.6"/><line x1="15" y1="12" x2="21" y2="12"/><line x1="21" y1="12" x2="21.8" y2="12.8"/></g><path d="M19 14.4 20.6 17.4A2.3 2.3 0 1 1 17.4 17.4Z" fill="currentColor" stroke="none"/>',
+  /* Bouclier : protection vaccinale */
+  vaccin: '<path d="M12 3 5 6v6c0 4.2 2.9 7.6 7 9 4.1-1.4 7-4.8 7-9V6z"/><path d="m9 12 2 2 4-4"/>',
+  /* Enveloppe : courriers et téléexpertise */
+  courrier: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
   /* Calculatrice : scores et formules cliniques */
   calculateur: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8"/><path d="M8.5 12h.01"/><path d="M12 12h.01"/><path d="M15.5 12h.01"/><path d="M8.5 16h.01"/><path d="M12 16h.01"/><path d="M15.5 16h.01"/>',
   /* Maillon de chaîne : liens et ressources externes */
@@ -1803,6 +1845,24 @@ const DOCUMENTS = {
     meta: "ESMS — fréquences utiles et prescription biologique minimale",
     filename: "Bilan_suivi_Diabete.pdf",
     path: "suivis-biologiques/Bilan_suivi_Diabete.pdf"
+  },
+  "vaccination-pediatrique": {
+    title: "Vaccination pédiatrique — IME / IEM",
+    category: "vaccination",
+    meta: "Calendrier vaccinal 2026, volet enfant et adolescent — statut à l'admission, obligations, rattrapages et spécificités du polyhandicap",
+    interactive: true
+  },
+  "vaccination-esms": {
+    title: "Vaccination en ESMS",
+    category: "vaccination",
+    meta: "Calendrier vaccinal 2026 appliqué aux résidents et aux professionnels — 7 vaccins : cibles, schémas et points de vigilance",
+    interactive: true
+  },
+  "trames-courriers": {
+    title: "Rédiger un courrier",
+    category: "courriers",
+    meta: "Trames structurées à remplir : adressage spécialiste, téléexpertise, demande d'hospitalisation, transmission à l'équipe — texte généré prêt à copier",
+    interactive: true
   },
   "calculateurs-cliniques": {
     title: "Calculateurs cliniques",
@@ -2301,7 +2361,10 @@ const state = {
   mrcGrade: null,
   bioOptionsSelected: [],
   bioCustomTests: [],
-  calcTool: "dfg"
+  calcTool: "dfg",
+  courrierType: "specialiste",
+  courrierFields: {},
+  vaccinSel: null
 };
 
 const sidebarEl = document.getElementById("sidebar");
@@ -2338,6 +2401,7 @@ function openExplorer(id){
   state.activeDoc = id;
   state.explorerMode = true;
   state.neurolepMolecule = null;
+  state.vaccinSel = null;
   window.scrollTo({ top: 0, behavior: "smooth" });
   render();
 }
@@ -2411,7 +2475,9 @@ function colorVars(color){
     navy:   { pill: "var(--navy)",   pillbg: "var(--slate-bg)"  },
     slate:  { pill: "var(--slate)",  pillbg: "var(--slate-bg)"  },
     amber:  { pill: "var(--amber)",  pillbg: "var(--amber-bg)"  },
-    sky:    { pill: "var(--sky)",    pillbg: "var(--sky-bg)"    }
+    sky:    { pill: "var(--sky)",    pillbg: "var(--sky-bg)"    },
+    emerald:{ pill: "var(--emerald)", pillbg: "var(--emerald-bg)" },
+    indigo: { pill: "var(--indigo)",  pillbg: "var(--indigo-bg)"  }
   };
   return map[color] || map.blue;
 }
@@ -3470,6 +3536,545 @@ function runCalc(){
 }
 window.runCalc = runCalc;
 
+/* =====================================================================
+   TRAMES DE COURRIERS & TÉLÉEXPERTISE — chaque trame décrit ses champs ;
+   le texte est assemblé en direct et copiable. Les libellés sont des
+   modèles de départ, à adapter aux habitudes de l'équipe DOTR.
+   ===================================================================== */
+const COURRIER_TEMPLATES = [
+  {
+    id: "specialiste",
+    label: "Adressage à un spécialiste",
+    sub: "Demande d'avis ou de consultation",
+    color: "emerald",
+    fields: [
+      { id: "destinataire", label: "Destinataire (Dr / spécialité)", type: "text", ph: "Dr Martin, cardiologue" },
+      { id: "patient", label: "Patient (nom, prénom)", type: "text", ph: "Mme DUPONT Marie" },
+      { id: "naissance", label: "Date de naissance", type: "text", ph: "12/03/1938" },
+      { id: "etablissement", label: "Établissement", type: "text", ph: "EHPAD Les Tilleuls" },
+      { id: "motif", label: "Motif de la demande", type: "textarea", ph: "Dyspnée d'effort d'aggravation progressive depuis 2 mois…" },
+      { id: "atcd", label: "Antécédents pertinents", type: "textarea", ph: "FA permanente, HTA, MRC stade G3a…" },
+      { id: "traitements", label: "Traitements en cours", type: "textarea", ph: "Apixaban 2,5 mg x2, bisoprolol 2,5 mg…" },
+      { id: "examens", label: "Examens déjà réalisés", type: "textarea", ph: "ECG du 12/09 : FA à 92/min. NT-proBNP 1450…" },
+      { id: "question", label: "Question posée", type: "textarea", ph: "Adaptation du traitement ? Indication d'échographie ?" },
+      { id: "autonomie", label: "Autonomie / conditions de transport", type: "textarea", ph: "Marche avec déambulateur, transport en VSL nécessaire" }
+    ]
+  },
+  {
+    id: "teleexpertise",
+    label: "Téléexpertise",
+    sub: "Demande structurée à distance",
+    color: "sky",
+    fields: [
+      { id: "specialite", label: "Spécialité sollicitée", type: "text", ph: "Dermatologie" },
+      { id: "patient", label: "Patient (initiales, âge, sexe)", type: "text", ph: "M. D., 84 ans, homme" },
+      { id: "etablissement", label: "Établissement", type: "text", ph: "FAM Les Écureuils" },
+      { id: "contexte", label: "Contexte clinique bref", type: "textarea", ph: "Résident polyhandicapé, alité, lésion apparue il y a 3 semaines…" },
+      { id: "description", label: "Description de la situation", type: "textarea", ph: "Lésion sacrée 4 x 3 cm, fibrineuse, berges inflammatoires, non douloureuse…" },
+      { id: "atcd", label: "Antécédents et traitements pertinents", type: "textarea", ph: "Diabète type 2, dénutrition, corticothérapie…" },
+      { id: "examens", label: "Éléments objectifs disponibles", type: "textarea", ph: "Photographies jointes, NFS du 05/09, albuminémie 26 g/L…" },
+      { id: "question", label: "Question précise posée", type: "textarea", ph: "Stade de l'escarre ? Protocole de pansement à privilégier ?" },
+      { id: "urgence", label: "Degré d'urgence souhaité", type: "text", ph: "Non urgent / Réponse souhaitée sous 48h / Urgent" }
+    ]
+  },
+  {
+    id: "hospitalisation",
+    label: "Demande d'hospitalisation",
+    sub: "Adressage hôpital ou urgences",
+    color: "red",
+    fields: [
+      { id: "destinataire", label: "Service destinataire", type: "text", ph: "Service des urgences, CH d'Annecy" },
+      { id: "patient", label: "Patient (nom, prénom)", type: "text", ph: "Mme DUPONT Marie" },
+      { id: "naissance", label: "Date de naissance", type: "text", ph: "12/03/1938" },
+      { id: "etablissement", label: "Établissement d'origine", type: "text", ph: "EHPAD Les Tilleuls — tél. 04 XX XX XX XX" },
+      { id: "motif", label: "Motif d'hospitalisation", type: "textarea", ph: "Chute avec impotence fonctionnelle de la hanche droite…" },
+      { id: "clinique", label: "Examen clinique et constantes", type: "textarea", ph: "TA 132/78, FC 88, SpO2 96 %, T° 37,1 °C. Douleur à la mobilisation…" },
+      { id: "atcd", label: "Antécédents", type: "textarea", ph: "" },
+      { id: "traitements", label: "Traitements en cours (dont anticoagulants)", type: "textarea", ph: "Attention : sous apixaban, dernière prise ce matin 8h" },
+      { id: "allergies", label: "Allergies", type: "text", ph: "Aucune connue" },
+      { id: "directives", label: "Directives anticipées / niveau de soins", type: "textarea", ph: "Directives anticipées rédigées le 03/2025 : pas de réanimation…" },
+      { id: "contact", label: "Personne de confiance / famille à joindre", type: "textarea", ph: "Mme X (fille), 06 XX XX XX XX" }
+    ]
+  },
+  {
+    id: "transmission",
+    label: "Transmission à l'équipe",
+    sub: "Consignes à l'IDE ou à l'établissement",
+    color: "amber",
+    fields: [
+      { id: "patient", label: "Patient (nom, prénom)", type: "text", ph: "Mme DUPONT Marie" },
+      { id: "etablissement", label: "Établissement / service", type: "text", ph: "EHPAD Les Tilleuls — équipe IDE" },
+      { id: "situation", label: "Situation clinique", type: "textarea", ph: "Suite à la consultation de ce jour…" },
+      { id: "consignes", label: "Consignes de soins", type: "textarea", ph: "Pansement tous les 2 jours, pesée hebdomadaire…" },
+      { id: "traitement", label: "Modification de traitement", type: "textarea", ph: "Arrêt du zolpidem. Introduction de macrogol 1 sachet/j…" },
+      { id: "surveillance", label: "Surveillance à assurer", type: "textarea", ph: "TA quotidienne pendant 7 jours, poids 1x/semaine…" },
+      { id: "alerte", label: "Quand me rappeler / alerter", type: "textarea", ph: "Si TA systolique < 100, si douleur non soulagée, si fièvre > 38,5 °C" },
+      { id: "reeval", label: "Prochaine réévaluation", type: "text", ph: "Visite prévue le 21/09" }
+    ]
+  }
+];
+
+function setCourrierType(id){
+  state.courrierType = id;
+  state.courrierFields = {};
+  renderCourrierPanel();
+}
+window.setCourrierType = setCourrierType;
+
+function resetCourrier(){
+  state.courrierFields = {};
+  renderCourrierPanel();
+}
+window.resetCourrier = resetCourrier;
+
+function renderCourrierPanel(){
+  const cat = CATEGORIES.find(c => c.id === "courriers");
+  const c = colorVars(cat.color);
+  const activeId = state.courrierType || "specialiste";
+  const tpl = COURRIER_TEMPLATES.find(t => t.id === activeId);
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <h2 class="panel-title" style="color:${c.pill}">Rédiger un courrier</h2>
+      <p class="doc-meta">Choisis une trame, remplis ce qui est utile (les champs vides sont ignorés) : le courrier se construit à droite, prêt à copier. Rien n'est enregistré.</p>
+
+      <div class="neurolep-grid">
+        ${COURRIER_TEMPLATES.map(t => {
+          const tc = colorVars(t.color);
+          return `
+            <button type="button" class="neurolep-bubble bio-bubble ${activeId === t.id ? "bio-bubble-active" : ""}" style="--pill:${tc.pill};--pillbg:${tc.pillbg}" onclick="setCourrierType('${t.id}')">
+              <span class="neurolep-dci">${t.label}</span>
+              <span class="neurolep-brand">${t.sub}</span>
+            </button>`;
+        }).join("")}
+      </div>
+
+      <div class="bio-layout">
+        <div class="bio-layout-left">
+          <div class="bio-options-wrap">
+            <span class="neurolep-label">${tpl.label} — informations</span>
+            <div class="courrier-fields">
+              ${tpl.fields.map(f => `
+                <label class="calc-field courrier-field">
+                  <span>${f.label}</span>
+                  ${f.type === "textarea"
+                    ? `<textarea id="cf_${f.id}" rows="2" placeholder="${f.ph}">${state.courrierFields[f.id] || ""}</textarea>`
+                    : `<input type="text" id="cf_${f.id}" placeholder="${f.ph}" value="${(state.courrierFields[f.id] || "").replace(/"/g, "&quot;")}" />`}
+                </label>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+        <div class="bio-layout-right">
+          <div id="courrierResult"></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  tpl.fields.forEach(f => {
+    const el = document.getElementById("cf_" + f.id);
+    el.addEventListener("input", e => {
+      state.courrierFields[f.id] = e.target.value;
+      renderCourrierResult();
+    });
+  });
+
+  renderCourrierResult();
+}
+
+function renderCourrierResult(){
+  const out = document.getElementById("courrierResult");
+  if(!out) return;
+  const tpl = COURRIER_TEMPLATES.find(t => t.id === (state.courrierType || "specialiste"));
+  const v = id => (state.courrierFields[id] || "").trim();
+
+  const filled = tpl.fields.filter(f => v(f.id));
+  if(filled.length === 0){
+    out.innerHTML = `<div class="empty-state">Remplis au moins un champ à gauche pour voir le courrier se construire.</div>`;
+    return;
+  }
+
+  const dateJour = new Date().toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" });
+  const intros = {
+    specialiste: v("destinataire") ? `Cher confrère, chère consœur (${v("destinataire")}),` : "Cher confrère, chère consœur,",
+    teleexpertise: `Demande de téléexpertise${v("specialite") ? " — " + v("specialite") : ""}`,
+    hospitalisation: v("destinataire") ? `À l'attention du ${v("destinataire")},` : "À l'attention du service d'accueil,",
+    transmission: "Transmission à l'équipe soignante"
+  };
+  const conclusions = {
+    specialiste: "Je vous remercie par avance de votre avis et reste à votre disposition pour tout complément d'information.\n\nConfraternellement,",
+    teleexpertise: "Merci par avance pour votre réponse.",
+    hospitalisation: "Je vous remercie de votre prise en charge et reste joignable pour tout renseignement complémentaire.\n\nConfraternellement,",
+    transmission: "Merci à l'équipe pour la mise en œuvre et la traçabilité de ces consignes."
+  };
+
+  const skipInHeader = ["destinataire", "specialite"];
+  const bodyLines = tpl.fields
+    .filter(f => v(f.id) && !skipInHeader.includes(f.id))
+    .map(f => `${f.label} : ${v(f.id)}`);
+
+  const plainText = `${intros[tpl.id]}\n\n${bodyLines.join("\n\n")}\n\n${conclusions[tpl.id]}\n\nLe ${dateJour}`;
+
+  out.innerHTML = `
+    <div class="bio-result-box">
+      <div class="bio-result-head">
+        <strong>${tpl.label}</strong>
+        <div class="bio-result-actions">
+          <button type="button" class="bio-copy-btn" id="courrierCopyBtn">Copier le courrier</button>
+          <button type="button" class="bio-reset-btn" onclick="resetCourrier()">Réinitialiser</button>
+        </div>
+      </div>
+      <div class="bio-result-preview courrier-preview">${plainText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\n/g, "<br>")}</div>
+    </div>
+  `;
+
+  const btn = document.getElementById("courrierCopyBtn");
+  btn.addEventListener("click", async () => {
+    const done = () => {
+      btn.textContent = "Copié ✓";
+      setTimeout(() => { btn.textContent = "Copier le courrier"; }, 1800);
+    };
+    try{
+      await navigator.clipboard.writeText(plainText);
+      done();
+    }catch(err){
+      const ta = document.createElement("textarea");
+      ta.value = plainText;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand("copy"); }catch(e){}
+      document.body.removeChild(ta);
+      done();
+    }
+  });
+}
+
+/* =====================================================================
+   VACCINATION EN ESMS — d'après le Calendrier des vaccinations et
+   recommandations vaccinales 2026 (ministère de la Santé, mis en ligne
+   le 27/04/2026) et l'avis HAS n°2026.0016/SESPEV du 26/02/2026.
+   Contenu centré sur l'adulte, la personne âgée et les professionnels
+   en établissement — la pédiatrie complète relève du calendrier officiel.
+   ===================================================================== */
+const VACCINS_DATA = [
+  {
+    id: "grippe", nom: "Grippe saisonnière", sub: "1 dose / an", color: "red",
+    cibles: [
+      "Personnes de 65 ans et plus",
+      "Résidents en ESMS quel que soit leur âge",
+      "Personnes à risque de forme grave (pathologie chronique, obésité, immunodépression)",
+      "Professionnels de santé et de l'entourage"
+    ],
+    schema: "1 dose annuelle, à chaque campagne automnale.",
+    points: [
+      "Chez les 65 ans et plus : privilégier Efluelda (haute dose) ou Fluad (adjuvanté). Les vaccins à dose standard restent possibles.",
+      "Vaccins trivalents depuis 2025, après le retrait de la souche B/Yamagata.",
+      "Co-administration possible avec le vaccin Covid-19, en deux sites d'injection distincts."
+    ]
+  },
+  {
+    id: "covid", nom: "Covid-19", sub: "Rappel saisonnier", color: "sky",
+    cibles: [
+      "Personnes de 65 ans et plus",
+      "Résidents d'EHPAD et d'USLD",
+      "Personnes immunodéprimées et à risque de forme grave",
+      "Professionnels de santé et du médico-social"
+    ],
+    schema: "Rappel lors de la campagne saisonnière, en respectant un délai depuis la dernière dose ou la dernière infection.",
+    points: [
+      "Délai minimal de 6 mois depuis la dernière dose ou une infection documentée.",
+      "Délai réduit à 3 mois pour les 80 ans et plus, les résidents d'EHPAD/USLD et les personnes immunodéprimées.",
+      "Une dose supplémentaire au printemps est possible pour ces mêmes publics, selon la situation individuelle.",
+      "Vaccins à ARNm privilégiés (Comirnaty LP.8.1) ; Nuvaxovid (JN.1) en alternative si réticence ou contre-indication."
+    ]
+  },
+  {
+    id: "pneumocoque", nom: "Pneumocoque", sub: "Dose unique", color: "teal",
+    cibles: [
+      "Toutes les personnes de 65 ans et plus",
+      "Adultes à risque accru d'infection invasive à pneumocoque (immunodépression, pathologie chronique)"
+    ],
+    schema: "Une dose unique — le calendrier 2026 met fin aux schémas combinés antérieurs.",
+    points: [
+      "Deux vaccins conjugués possibles : Prevenar 20 ou Capvaxive (21-valent, nouveau en 2026).",
+      "Le choix du vaccin retenu dans l'établissement se décide avec le médecin coordonnateur.",
+      "Auditer le statut pneumococcique à l'entrée du résident, puis lors des réévaluations annuelles."
+    ]
+  },
+  {
+    id: "vrs", nom: "VRS", sub: "Dose unique", color: "purple",
+    cibles: [
+      "Personnes de 75 ans et plus",
+      "Personnes de 65 à 74 ans atteintes de BPCO ou d'insuffisance cardiaque"
+    ],
+    schema: "Une dose unique. La vaccination VRS entre dans le droit commun en 2026, après deux saisons de recommandations transitoires.",
+    points: [
+      "Vaccins disponibles : Abrysvo, Arexvy.",
+      "Pas de revaccination annuelle recommandée à ce stade."
+    ]
+  },
+  {
+    id: "dtp", nom: "dTP — Diphtérie, tétanos, poliomyélite", sub: "Rappels à âge fixe", color: "navy",
+    cibles: ["Tous les adultes"],
+    schema: "Rappels à 25, 45 et 65 ans ; puis tous les 10 ans à partir de 65 ans.",
+    points: [
+      "Le rythme se resserre après 65 ans (tous les 10 ans au lieu de 20).",
+      "Vérifier le statut à l'entrée en établissement : c'est souvent la vaccination la plus oubliée chez le sujet âgé.",
+      "En cas de statut inconnu ou de plaie à risque tétanigène, se référer au protocole de rattrapage."
+    ]
+  },
+  {
+    id: "coqueluche", nom: "Coqueluche (dTcaP)", sub: "Professionnels & entourage", color: "amber",
+    cibles: [
+      "Professionnels au contact de nouveau-nés et nourrissons de moins de 6 mois",
+      "Entourage familial d'un nourrisson (stratégie du cocooning)"
+    ],
+    schema: "Une dose de rappel dTcaP si la dernière injection date de plus de 5 ans.",
+    points: [
+      "Recommandation HAS de juillet 2024, dans un contexte de recrudescence marquée depuis 2024.",
+      "Concerne aussi les professionnels de santé exerçant en ville.",
+      "Pas d'indication systématique chez le résident âgé en dehors du rattrapage dTP."
+    ]
+  },
+  {
+    id: "rougeole-pro", nom: "Rougeole — professionnels", sub: "Nouvelle obligation 2026", color: "emerald",
+    cibles: [
+      "Professionnels et étudiants des secteurs sanitaire et médico-social",
+      "Professionnels de la petite enfance"
+    ],
+    schema: "Obligation d'immunisation à l'entrée en formation ou en fonction, instaurée par la loi de financement de la sécurité sociale 2026.",
+    points: [
+      "⚠ La liste précise des professionnels concernés et les modalités de mise en œuvre doivent être précisées courant 2026 par voie réglementaire.",
+      "Anticiper le recueil des preuves d'immunité (carnet vaccinal, sérologie) pour les équipes.",
+      "À suivre : vérifier la parution des textes d'application avant d'appliquer l'obligation."
+    ]
+  }
+];
+
+function setVaccin(id){
+  state.vaccinSel = state.vaccinSel === id ? null : id;
+  renderVaccinPanel();
+}
+window.setVaccin = setVaccin;
+
+function renderVaccinPanel(){
+  const cat = CATEGORIES.find(c => c.id === "vaccination");
+  const c = colorVars(cat.color);
+  const sel = state.vaccinSel ? VACCINS_DATA.find(v => v.id === state.vaccinSel) : null;
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <h2 class="panel-title" style="color:${c.pill}">Vaccination en ESMS</h2>
+      <p class="doc-meta">Calendrier des vaccinations 2026 (ministère de la Santé, 27/04/2026) — volet adulte, personne âgée et professionnels. Clique sur un vaccin pour le détail.</p>
+
+      <div class="neurolep-grid">
+        ${VACCINS_DATA.map(v => {
+          const vc = colorVars(v.color);
+          return `
+            <button type="button" class="neurolep-bubble bio-bubble ${state.vaccinSel === v.id ? "bio-bubble-active" : ""}" style="--pill:${vc.pill};--pillbg:${vc.pillbg}" onclick="setVaccin('${v.id}')">
+              <span class="neurolep-dci">${v.nom}</span>
+              <span class="neurolep-brand">${v.sub}</span>
+            </button>`;
+        }).join("")}
+      </div>
+
+      ${sel ? (() => {
+        const vc = colorVars(sel.color);
+        return `
+          <div class="neurolep-form-card" style="--pill:${vc.pill};--pillbg:${vc.pillbg}">
+            <div class="neurolep-indication">${sel.nom}</div>
+            <div class="neurolep-row"><span class="neurolep-label">Qui vacciner</span></div>
+            <ul class="vaccin-list">${sel.cibles.map(x => `<li>${x}</li>`).join("")}</ul>
+            <div class="neurolep-stats">
+              <div class="neurolep-stat"><span class="neurolep-stat-label">Schéma</span><span class="vaccin-schema">${sel.schema}</span></div>
+            </div>
+            <div class="neurolep-populations">
+              <strong>Points de vigilance</strong>
+              <ul>${sel.points.map(x => `<li>${x}</li>`).join("")}</ul>
+            </div>
+          </div>`;
+      })() : `<div class="calc-hint">Sélectionne un vaccin ci-dessus pour afficher les populations cibles, le schéma et les points de vigilance.</div>`}
+
+      <div class="doc-note" style="margin-top:18px;">
+        <strong>Sources</strong>
+        <p>Calendrier des vaccinations et recommandations vaccinales 2026, ministère chargé de la Santé (mis en ligne le 27/04/2026) — avis HAS n°2026.0016/SESPEV du 26/02/2026. Le calendrier est susceptible d'être mis à jour en cours d'année : vérifier sur sante.gouv.fr en cas de doute.</p>
+      </div>
+    </div>
+  `;
+}
+
+/* =====================================================================
+   VACCINATION PÉDIATRIQUE (IME / IEM) — Calendrier des vaccinations 2026.
+   Centré sur ce qui est utile en établissement : vérification du statut
+   à l'admission, rappels de l'enfant et de l'adolescent, rattrapages.
+   ===================================================================== */
+const VACCINS_PEDIA_DATA = [
+  {
+    id: "statut", nom: "Statut vaccinal à l'admission", sub: "Le réflexe de départ", color: "navy",
+    cibles: ["Tout enfant ou adolescent admis en IME / IEM"],
+    schema: "Vérifier le carnet de santé à l'entrée, puis à chaque réévaluation annuelle.",
+    points: [
+      "Les enfants en situation de handicap cumulent souvent des retards de rattrapage : c'est le point de contrôle le plus rentable.",
+      "Vérifier systématiquement le statut méningocoque ACWY et B jusqu'à 5 ans révolus.",
+      "Tracer le statut dans le dossier de soins et dans Mon espace santé / DMP.",
+      "Un vaccin en retard se rattrape : il n'est jamais nécessaire de recommencer un schéma complet."
+    ]
+  },
+  {
+    id: "hexavalent", nom: "DTP-Coq-Hib-HépB", sub: "Obligatoire — nourrisson", color: "teal",
+    cibles: ["Tous les nourrissons (8 valences obligatoires depuis 2018)"],
+    schema: "Vaccin hexavalent : 2 mois, 4 mois, puis rappel à 11 mois.",
+    points: [
+      "Couvre diphtérie, tétanos, poliomyélite, coqueluche, Haemophilus influenzae b et hépatite B.",
+      "Rappels ultérieurs : dTcaP à 6 ans, puis à 11-13 ans.",
+      "Puis rappels dTP à 25, 45 et 65 ans à l'âge adulte."
+    ]
+  },
+  {
+    id: "pneumo-ped", nom: "Pneumocoque", sub: "Obligatoire — nourrisson", color: "sky",
+    cibles: ["Tous les nourrissons", "Enfants à risque au-delà (immunodépression, pathologie chronique)"],
+    schema: "2 mois, 4 mois, puis rappel à 11 mois.",
+    points: [
+      "Schéma renforcé chez les prématurés et les enfants à risque : se référer au calendrier officiel.",
+      "Chez l'enfant à risque, la protection doit être réévaluée à l'adolescence."
+    ]
+  },
+  {
+    id: "meningob", nom: "Méningocoque B", sub: "Obligatoire (nés ≥ 2023)", color: "purple",
+    cibles: ["Tous les enfants nés à compter du 1er janvier 2023"],
+    schema: "3 mois, 5 mois, puis rappel à 12 mois (Bexsero).",
+    points: [
+      "Rattrapage transitoire obligatoire de 2 ans à 4 ans révolus (jusqu'au 5ᵉ anniversaire) pour les non-vaccinés — 2 doses de Bexsero.",
+      "Pour les enfants nés à compter du 1er janvier 2023, le rattrapage n'est obligatoire que s'ils n'ont pas été vaccinés avant 2 ans.",
+      "Peut être proposé de 15 à 24 ans révolus dans le cadre du rattrapage."
+    ]
+  },
+  {
+    id: "meningoacwy", nom: "Méningocoque ACWY", sub: "Obligatoire (nés ≥ 2023)", color: "red",
+    cibles: [
+      "Tous les enfants nés à compter du 1er janvier 2023",
+      "Adolescents de 11 à 14 ans (recommandé, quel que soit le statut antérieur)",
+      "Jeunes de 15 à 24 ans révolus (rattrapage recommandé)"
+    ],
+    schema: "1 dose à 6 mois, puis rappel à 12 mois. Entre 12 et 24 mois : une seule dose suffit.",
+    points: [
+      "Remplace l'ancienne obligation limitée au méningocoque C.",
+      "Rattrapage transitoire obligatoire de 2 à 4 ans révolus, y compris chez les enfants déjà vaccinés contre le méningocoque C — une dose unique à partir de 2 ans.",
+      "Vaccins : Nimenrix, Menquadfi, Menveo.",
+      "Depuis la rentrée 2025-2026, vaccination ACWY proposée gratuitement en 5ᵉ, avec la campagne HPV."
+    ]
+  },
+  {
+    id: "ror", nom: "ROR", sub: "Obligatoire — 2 doses", color: "amber",
+    cibles: ["Tous les enfants", "Rattrapage chez l'adolescent et l'adulte non immunisé"],
+    schema: "1ʳᵉ dose à 12 mois, 2ᵉ dose entre 16 et 18 mois.",
+    points: [
+      "Deux doses sont nécessaires : une seule dose ne suffit pas à considérer l'enfant protégé.",
+      "Rattrapage possible à tout âge — vérifier chez tout adolescent au statut incertain.",
+      "À relier à la nouvelle obligation d'immunisation rougeole des professionnels du médico-social (LFSS 2026)."
+    ]
+  },
+  {
+    id: "hpv", nom: "HPV (papillomavirus)", sub: "11-14 ans, rattrapage 26 ans", color: "emerald",
+    cibles: [
+      "Filles et garçons de 11 à 14 ans (recommandé)",
+      "Rattrapage ouvert jusqu'à 26 ans révolus pour tous depuis 2026"
+    ],
+    schema: "11-14 ans : 2 doses espacées de 6 à 13 mois. À partir de 15 ans : 3 doses (0, 2 et 6 mois).",
+    points: [
+      "Le rattrapage jusqu'à 26 ans, auparavant réservé à certains publics, est désormais ouvert à tous (Gardasil 9).",
+      "Campagne gratuite en 5ᵉ au collège — à évoquer systématiquement pour les jeunes scolarisés en IME.",
+      "Population souvent sous-vaccinée : y penser lors du bilan annuel de l'adolescent."
+    ]
+  },
+  {
+    id: "grippe-ped", nom: "Grippe — enfant", sub: "Enfants à risque", color: "indigo",
+    cibles: [
+      "Enfants à risque de forme grave (pathologie chronique, polyhandicap, immunodépression)",
+      "Entourage des nourrissons à risque"
+    ],
+    schema: "1 dose annuelle. Chez l'enfant de moins de 9 ans jamais vacciné : 2 doses à 1 mois d'intervalle la première année.",
+    points: [
+      "Nouveauté 2026 : Flucelvax intégré à la stratégie chez les nourrissons à risque dès l'âge de 6 mois (avis HAS du 18/12/2025).",
+      "Le polyhandicap et les troubles de la déglutition sont des facteurs de risque de forme grave à ne pas sous-estimer.",
+      "Penser aussi à la vaccination des professionnels et de l'entourage."
+    ]
+  }
+];
+
+function setVaccinPedia(id){
+  state.vaccinSel = state.vaccinSel === id ? null : id;
+  renderVaccinPediaPanel();
+}
+window.setVaccinPedia = setVaccinPedia;
+
+function vaccinPanelHTML(cat, data, titre, chapeau, handler){
+  const c = colorVars(cat.color);
+  const sel = state.vaccinSel ? data.find(v => v.id === state.vaccinSel) : null;
+  return `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <h2 class="panel-title" style="color:${c.pill}">${titre}</h2>
+      <p class="doc-meta">${chapeau}</p>
+      <div class="neurolep-grid">
+        ${data.map(v => {
+          const vc = colorVars(v.color);
+          return `
+            <button type="button" class="neurolep-bubble bio-bubble ${state.vaccinSel === v.id ? "bio-bubble-active" : ""}" style="--pill:${vc.pill};--pillbg:${vc.pillbg}" onclick="${handler}('${v.id}')">
+              <span class="neurolep-dci">${v.nom}</span>
+              <span class="neurolep-brand">${v.sub}</span>
+            </button>`;
+        }).join("")}
+      </div>
+      ${sel ? (() => {
+        const vc = colorVars(sel.color);
+        return `
+          <div class="neurolep-form-card" style="--pill:${vc.pill};--pillbg:${vc.pillbg}">
+            <div class="neurolep-indication">${sel.nom}</div>
+            <div class="neurolep-row"><span class="neurolep-label">Qui vacciner</span></div>
+            <ul class="vaccin-list">${sel.cibles.map(x => `<li>${x}</li>`).join("")}</ul>
+            <div class="neurolep-stats">
+              <div class="neurolep-stat"><span class="neurolep-stat-label">Schéma</span><span class="vaccin-schema">${sel.schema}</span></div>
+            </div>
+            <div class="neurolep-populations">
+              <strong>Points de vigilance</strong>
+              <ul>${sel.points.map(x => `<li>${x}</li>`).join("")}</ul>
+            </div>
+          </div>`;
+      })() : `<div class="calc-hint">Sélectionne un vaccin ci-dessus pour afficher les populations cibles, le schéma et les points de vigilance.</div>`}
+      <div class="doc-note" style="margin-top:18px;">
+        <strong>Sources</strong>
+        <p>Calendrier des vaccinations et recommandations vaccinales 2026, ministère chargé de la Santé (mis en ligne le 27/04/2026) — avis HAS n°2026.0016/SESPEV du 26/02/2026. Le calendrier est susceptible d'être mis à jour en cours d'année : vérifier sur sante.gouv.fr en cas de doute.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderVaccinPediaPanel(){
+  const cat = CATEGORIES.find(c => c.id === "vaccination");
+  contentEl.innerHTML = vaccinPanelHTML(cat, VACCINS_PEDIA_DATA,
+    "Vaccination pédiatrique — IME / IEM",
+    "Calendrier vaccinal 2026, volet enfant et adolescent. Clique sur un vaccin pour le détail.",
+    "setVaccinPedia");
+}
+
 function renderResourcesPanel(){
   const groupsHTML = RESOURCES.map(g => {
     const c = colorVars(g.color);
@@ -3548,6 +4153,12 @@ function render(){
     renderBioOrdonnancePanel();
   }else if(state.activeDoc === "calculateurs-cliniques" && state.explorerMode){
     renderCalcPanel();
+  }else if(state.activeDoc === "trames-courriers" && state.explorerMode){
+    renderCourrierPanel();
+  }else if(state.activeDoc === "vaccination-esms" && state.explorerMode){
+    renderVaccinPanel();
+  }else if(state.activeDoc === "vaccination-pediatrique" && state.explorerMode){
+    renderVaccinPediaPanel();
   }else if(state.activeDoc){
     renderEmbedPage(state.activeDoc);
   }else if(state.query){
