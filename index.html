@@ -523,6 +523,51 @@
   }
   .bio-freq-list strong{color:var(--text);}
 
+  /* ---------- Calculateurs cliniques ---------- */
+  .calc-box{
+    margin-top:16px;
+    padding:16px 18px;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  .calc-fields{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+  }
+  .calc-field{display:flex; flex-direction:column; gap:5px; font-size:12.5px; font-weight:600; color:var(--text);}
+  .calc-field input, .calc-field select{
+    font-family:inherit;
+    font-size:14.5px;
+    font-weight:400;
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:9px 11px;
+    background:var(--bg);
+  }
+  .calc-field input:focus, .calc-field select:focus{outline:2px solid var(--blue-light); outline-offset:1px;}
+  .calc-result{
+    margin-top:16px;
+    padding:16px 18px;
+    background:var(--pillbg,var(--sky-bg));
+    border-left:4px solid var(--pill,var(--blue));
+    border-radius:var(--radius);
+  }
+  .calc-result-main{font-size:26px; font-weight:700; color:var(--pill,var(--blue)); line-height:1.15;}
+  .calc-result-sub{font-size:14px; font-weight:600; color:var(--text); margin-top:4px;}
+  .calc-result-extra{font-size:12.5px; color:var(--text-muted); margin-top:8px;}
+  .calc-hint{
+    margin-top:16px;
+    padding:12px 16px;
+    font-size:13px;
+    color:var(--text-muted);
+    background:var(--slate-bg);
+    border-radius:8px;
+  }
+
   .bio-layout{
     display:grid;
     grid-template-columns:1.3fr 1fr;
@@ -1242,6 +1287,13 @@ const CATEGORIES = [
     icon: "materiel",
     color: "purple",
     description: "Synthèses pratiques sur le matériel médical (fauteuils roulants, dispositifs) et leurs règles de prescription."
+  },
+  {
+    id: "calculateurs",
+    label: "Calculateurs cliniques",
+    icon: "calculateur",
+    color: "blue",
+    description: "Scores et formules de référence, calculés directement ici : fonction rénale, dénutrition, risque thrombo-embolique et hémorragique."
   }
 ];
 
@@ -1260,6 +1312,8 @@ const CATEGORY_ICONS = {
   materiel: '<circle cx="11" cy="17" r="4"/><path d="M11 13V7"/><circle cx="11" cy="4.5" r="1.5"/><path d="M11 8h4"/><path d="M15 17h3l2-5"/>',
   /* Seringue remplie (piston + corps rempli + aiguille + goutte) : suivis biologiques */
   seringue: '<g transform="rotate(-28 11.5 12)"><line x1="2" y1="10" x2="2" y2="14"/><line x1="2" y1="12" x2="6" y2="12"/><rect x="6" y="10" width="9" height="4"/><line x1="8.5" y1="10.6" x2="8.5" y2="11.6"/><line x1="11.5" y1="10.6" x2="11.5" y2="11.6"/><line x1="15" y1="12" x2="21" y2="12"/><line x1="21" y1="12" x2="21.8" y2="12.8"/></g><path d="M19 14.4 20.6 17.4A2.3 2.3 0 1 1 17.4 17.4Z" fill="currentColor" stroke="none"/>',
+  /* Calculatrice : scores et formules cliniques */
+  calculateur: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8"/><path d="M8.5 12h.01"/><path d="M12 12h.01"/><path d="M15.5 12h.01"/><path d="M8.5 16h.01"/><path d="M12 16h.01"/><path d="M15.5 16h.01"/>',
   /* Maillon de chaîne : liens et ressources externes */
   ressources: '<path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1-1"/>'
 };
@@ -1750,6 +1804,12 @@ const DOCUMENTS = {
     filename: "Bilan_suivi_Diabete.pdf",
     path: "suivis-biologiques/Bilan_suivi_Diabete.pdf"
   },
+  "calculateurs-cliniques": {
+    title: "Calculateurs cliniques",
+    category: "calculateurs",
+    meta: "DFG (CKD-EPI 2021), Cockcroft-Gault, IMC, dénutrition (HAS 2021), CHA₂DS₂-VASc et HAS-BLED — calcul immédiat, formules publiques",
+    interactive: true
+  },
   "ordonnance-biologie": {
     title: "Créer une ordonnance de biologie",
     category: "suivis-biologiques",
@@ -2157,7 +2217,8 @@ const RESOURCES = [
       { name: "Ophtalmoclic", url: "https://www.ophtalmoclic.fr/", desc: "Aide diagnostique et thérapeutique en ophtalmologie pour les médecins non-ophtalmologues, sur le même principe qu'Antibioclic." },
       { name: "Le Switch — antipsychotiques", url: "http://cmpsy-switch.com/", desc: "Collège Méditerranéen de Psychiatrie : sécuriser un changement d'antipsychotique, avec équivalences de doses et schéma d'instauration jour par jour." },
       { name: "Antibio'Est — Guides", url: "https://guides.antibioest.org/#/", desc: "Référentiel régional (Grand Est) d'antibiothérapie en établissement de soins, complémentaire d'Antibioclic." },
-      { name: "ADERIM — Aide à la demande d'imagerie", url: "https://aderim.radiologie.fr/", desc: "Société Française de Radiologie & Collège de la Médecine Générale : guide le choix de l'examen d'imagerie le plus adapté et limite les irradiations inutiles." }
+      { name: "ADERIM — Aide à la demande d'imagerie", url: "https://aderim.radiologie.fr/", desc: "Société Française de Radiologie & Collège de la Médecine Générale : guide le choix de l'examen d'imagerie le plus adapté et limite les irradiations inutiles." },
+      { name: "OpioConvert — Conversion des opioïdes", url: "https://opioconvert.fr/", desc: "Calculateur d'équianalgésie : conversion entre opioïdes et voies d'administration, avec réduction de dose croisée. Développé à partir des recommandations françaises." }
     ]
   },
   {
@@ -2208,6 +2269,7 @@ const RESOURCES = [
     items: [
       { name: "SFGG — Société Française de Gériatrie et Gérontologie", url: "https://sfgg.org", desc: "Recommandations et outils spécifiques à la prise en charge des personnes âgées." },
       { name: "Doloplus / Algoplus — Échelles de douleur", url: "https://www.doloplus.fr/", desc: "Échelles de référence pour évaluer la douleur chez la personne âgée ou en situation de handicap non communicante — outil validé, utilisable au lit du patient." },
+      { name: "SFAP — Soins palliatifs et accompagnement", url: "https://www.sfap.org/", desc: "Société Française d'Accompagnement et de soins Palliatifs : recommandations, fiches pratiques et outils de référence en soins palliatifs et prise en charge de la douleur." },
       { name: "OMEDIT Normandie — Médicaments écrasables", url: "https://www.omedit-normandie.fr/boite-a-outils/bon-usage/liste-des-medicaments-ecrasables/liste-des-medicaments-ecrasables,3184,3511.html", desc: "Source officielle, mise à jour en continu par l'OMéDIT et la SFPC. Une copie de cette liste est consultable directement sur ce site dans la rubrique « Médicaments écrasables » ; revenir ici pour vérifier une mise à jour plus récente en cas de doute." },
       { name: "OMEDIT Pays de la Loire — Circuit du médicament en secteur handicap", url: "https://www.omedit-paysdelaloire.fr/qualite-securite-et-vigilances/securisation-du-circuit-des-produits-de-sante/handicap/", desc: "Outils de sécurisation du circuit du médicament en secteur handicap (autodiagnostic Handicimed, e-learning, fiches de bonnes pratiques)." }
     ]
@@ -2238,7 +2300,8 @@ const state = {
   bioSelected: [],
   mrcGrade: null,
   bioOptionsSelected: [],
-  bioCustomTests: []
+  bioCustomTests: [],
+  calcTool: "dfg"
 };
 
 const sidebarEl = document.getElementById("sidebar");
@@ -3139,6 +3202,274 @@ function renderBioResults(){
   });
 }
 
+/* =====================================================================
+   CALCULATEURS CLINIQUES — formules publiques, appliquées telles quelles.
+   Sources : CKD-EPI 2021 (Inker NEJM 2021, sans variable ethnique),
+   Cockcroft-Gault 1976, critères de dénutrition HAS/FFN 2021,
+   CHA2DS2-VASc (ESC), HAS-BLED (Pisters 2010).
+   ===================================================================== */
+const CALC_TOOLS = [
+  { id: "dfg", label: "Fonction rénale", sub: "DFG CKD-EPI 2021 + Cockcroft-Gault", color: "blue" },
+  { id: "imc", label: "IMC", sub: "Indice de masse corporelle", color: "teal" },
+  { id: "denutrition", label: "Dénutrition", sub: "Critères HAS 2021", color: "amber" },
+  { id: "chads", label: "CHA₂DS₂-VASc", sub: "Risque thrombo-embolique (FA)", color: "red" },
+  { id: "hasbled", label: "HAS-BLED", sub: "Risque hémorragique sous anticoagulant", color: "purple" }
+];
+
+function calcCkdEpi2021(screat_umol, age, sexe){
+  const scr = screat_umol / 88.4;                 // µmol/L -> mg/dL
+  const k = sexe === "F" ? 0.7 : 0.9;
+  const a = sexe === "F" ? -0.241 : -0.302;
+  const min = Math.min(scr / k, 1), max = Math.max(scr / k, 1);
+  let e = 142 * Math.pow(min, a) * Math.pow(max, -1.200) * Math.pow(0.9938, age);
+  if(sexe === "F") e *= 1.012;
+  return e;
+}
+
+function calcCockcroft(screat_umol, age, poids, sexe){
+  let cl = ((140 - age) * poids) / (0.814 * screat_umol);
+  if(sexe === "F") cl *= 0.85;
+  return cl;
+}
+
+function dfgStage(dfg){
+  if(dfg >= 90) return { code: "G1", txt: "Normal ou élevé", color: "teal" };
+  if(dfg >= 60) return { code: "G2", txt: "Légèrement diminué", color: "teal" };
+  if(dfg >= 45) return { code: "G3a", txt: "Légèrement à modérément diminué", color: "amber" };
+  if(dfg >= 30) return { code: "G3b", txt: "Modérément à sévèrement diminué", color: "amber" };
+  if(dfg >= 15) return { code: "G4", txt: "Sévèrement diminué", color: "red" };
+  return { code: "G5", txt: "Insuffisance rénale terminale", color: "red" };
+}
+
+function renderCalcPanel(){
+  const cat = CATEGORIES.find(c => c.id === "calculateurs");
+  const c = colorVars(cat.color);
+  const active = state.calcTool || "dfg";
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <h2 class="panel-title" style="color:${c.pill}">Calculateurs cliniques</h2>
+      <p class="doc-meta">Résultats calculés en direct dans le navigateur — rien n'est transmis ni enregistré.</p>
+      <div class="neurolep-grid">
+        ${CALC_TOOLS.map(t => {
+          const tc = colorVars(t.color);
+          return `
+            <button type="button" class="neurolep-bubble bio-bubble ${active === t.id ? "bio-bubble-active" : ""}" style="--pill:${tc.pill};--pillbg:${tc.pillbg}" onclick="setCalcTool('${t.id}')">
+              <span class="neurolep-dci">${t.label}</span>
+              <span class="neurolep-brand">${t.sub}</span>
+            </button>`;
+        }).join("")}
+      </div>
+      <div id="calcBody"></div>
+    </div>
+  `;
+  renderCalcBody(active);
+}
+
+function setCalcTool(id){
+  state.calcTool = id;
+  renderCalcPanel();
+}
+window.setCalcTool = setCalcTool;
+
+function calcField(label, id, placeholder, extra){
+  return `<label class="calc-field"><span>${label}</span><input type="number" id="${id}" placeholder="${placeholder}" ${extra || ""} /></label>`;
+}
+
+function calcCheck(label, id, pts){
+  return `<label class="bio-option-row"><input type="checkbox" id="${id}" onchange="runCalc()" /><span><span class="bio-option-label">${label}</span><span class="bio-option-indication">${pts} point${pts > 1 ? "s" : ""}</span></span></label>`;
+}
+
+function renderCalcBody(tool){
+  const body = document.getElementById("calcBody");
+  if(!body) return;
+
+  if(tool === "dfg"){
+    body.innerHTML = `
+      <div class="calc-box">
+        <div class="calc-fields">
+          ${calcField("Créatininémie (µmol/L)", "cCreat", "ex. 85", 'min="1"')}
+          ${calcField("Âge (années)", "cAge", "ex. 82", 'min="1" max="120"')}
+          ${calcField("Poids (kg) — pour Cockcroft", "cPoids", "ex. 62", 'min="1"')}
+          <label class="calc-field"><span>Sexe</span>
+            <select id="cSexe" onchange="runCalc()"><option value="F">Femme</option><option value="M">Homme</option></select>
+          </label>
+        </div>
+        <div id="calcResult"></div>
+        <p class="doc-meta">CKD-EPI 2021 : estimation du DFG pour classer la maladie rénale (stades KDIGO). Cockcroft-Gault : encore requis par certains RCP pour l'adaptation posologique, notamment les AOD.</p>
+      </div>`;
+  }else if(tool === "imc"){
+    body.innerHTML = `
+      <div class="calc-box">
+        <div class="calc-fields">
+          ${calcField("Poids (kg)", "cPoids", "ex. 62", 'min="1"')}
+          ${calcField("Taille (cm)", "cTaille", "ex. 165", 'min="50"')}
+          ${calcField("Âge (années)", "cAge", "ex. 82", 'min="1" max="120"')}
+        </div>
+        <div id="calcResult"></div>
+      </div>`;
+  }else if(tool === "denutrition"){
+    body.innerHTML = `
+      <div class="calc-box">
+        <div class="calc-fields">
+          ${calcField("Âge (années)", "cAge", "ex. 82", 'min="1" max="120"')}
+          ${calcField("IMC (kg/m²)", "cImc", "ex. 21", 'step="0.1"')}
+          ${calcField("Albuminémie (g/L) — si disponible", "cAlb", "ex. 32", 'step="0.1"')}
+        </div>
+        <p class="neurolep-label" style="margin-top:12px;">Critères phénotypiques (au moins 1 requis)</p>
+        <div class="bio-options-list">
+          ${calcCheck("Perte de poids ≥ 5 % en 1 mois", "pheno1", 1)}
+          ${calcCheck("Perte de poids ≥ 10 % en 6 mois", "pheno2", 1)}
+          ${calcCheck("Réduction de la masse ou de la fonction musculaire", "pheno3", 1)}
+        </div>
+        <p class="neurolep-label" style="margin-top:12px;">Critères étiologiques (au moins 1 requis)</p>
+        <div class="bio-options-list">
+          ${calcCheck("Réduction des apports ≥ 50 % > 1 semaine, ou toute réduction > 2 semaines", "etio1", 1)}
+          ${calcCheck("Malabsorption / maldigestion", "etio2", 1)}
+          ${calcCheck("Pathologie aiguë, chronique évolutive ou maligne", "etio3", 1)}
+        </div>
+        <div id="calcResult"></div>
+        <p class="doc-meta">HAS 2021 : le diagnostic exige au moins 1 critère phénotypique ET 1 critère étiologique. L'IMC seul ne suffit jamais.</p>
+      </div>`;
+  }else if(tool === "chads"){
+    body.innerHTML = `
+      <div class="calc-box">
+        <div class="bio-options-list">
+          ${calcCheck("Insuffisance cardiaque / dysfonction VG", "ch_c", 1)}
+          ${calcCheck("Hypertension artérielle", "ch_h", 1)}
+          ${calcCheck("Âge ≥ 75 ans", "ch_a2", 2)}
+          ${calcCheck("Diabète", "ch_d", 1)}
+          ${calcCheck("AVC / AIT / embolie antérieurs", "ch_s2", 2)}
+          ${calcCheck("Maladie vasculaire (IDM, AOMI, plaque aortique)", "ch_v", 1)}
+          ${calcCheck("Âge 65 - 74 ans", "ch_a", 1)}
+          ${calcCheck("Sexe féminin", "ch_sc", 1)}
+        </div>
+        <div id="calcResult"></div>
+        <p class="doc-meta">Score de risque thrombo-embolique dans la fibrillation atriale non valvulaire. Aide à la décision, à confronter au risque hémorragique et au projet de soins.</p>
+      </div>`;
+  }else{
+    body.innerHTML = `
+      <div class="calc-box">
+        <div class="bio-options-list">
+          ${calcCheck("Hypertension non contrôlée (PAS > 160 mmHg)", "hb_h", 1)}
+          ${calcCheck("Insuffisance rénale (dialyse, greffe, créat > 200 µmol/L)", "hb_a1", 1)}
+          ${calcCheck("Insuffisance hépatique (cirrhose, bilan hépatique perturbé)", "hb_a2", 1)}
+          ${calcCheck("AVC antérieur", "hb_s", 1)}
+          ${calcCheck("Antécédent hémorragique ou prédisposition", "hb_b", 1)}
+          ${calcCheck("INR instable / labile (si AVK)", "hb_l", 1)}
+          ${calcCheck("Âge > 65 ans", "hb_e", 1)}
+          ${calcCheck("Médicaments favorisants (AINS, antiagrégants)", "hb_d", 1)}
+          ${calcCheck("Consommation d'alcool excessive", "hb_dr", 1)}
+        </div>
+        <div id="calcResult"></div>
+        <p class="doc-meta">Un score ≥ 3 signale un risque hémorragique élevé : il invite à corriger les facteurs modifiables et à renforcer la surveillance, mais ne contre-indique pas à lui seul l'anticoagulation.</p>
+      </div>`;
+  }
+
+  body.querySelectorAll("input[type=number]").forEach(el => el.addEventListener("input", runCalc));
+  runCalc();
+}
+
+function calcResultHTML(color, main, sub, extra){
+  const rc = colorVars(color);
+  return `<div class="calc-result" style="--pill:${rc.pill};--pillbg:${rc.pillbg}">
+    <div class="calc-result-main">${main}</div>
+    ${sub ? `<div class="calc-result-sub">${sub}</div>` : ""}
+    ${extra || ""}
+  </div>`;
+}
+
+function runCalc(){
+  const out = document.getElementById("calcResult");
+  if(!out) return;
+  const tool = state.calcTool || "dfg";
+  const val = id => { const el = document.getElementById(id); return el ? parseFloat(el.value) : NaN; };
+  const chk = id => { const el = document.getElementById(id); return el ? el.checked : false; };
+
+  if(tool === "dfg"){
+    const creat = val("cCreat"), age = val("cAge"), poids = val("cPoids");
+    const sexeEl = document.getElementById("cSexe");
+    const sexe = sexeEl ? sexeEl.value : "F";
+    if(!creat || !age){ out.innerHTML = `<div class="calc-hint">Renseigne la créatininémie et l'âge.</div>`; return; }
+    const dfg = calcCkdEpi2021(creat, age, sexe);
+    const st = dfgStage(dfg);
+    const cock = poids ? calcCockcroft(creat, age, poids, sexe) : null;
+    out.innerHTML = calcResultHTML(st.color,
+      `${dfg.toFixed(0)} mL/min/1,73 m²`,
+      `Stade ${st.code} — ${st.txt}`,
+      cock ? `<div class="calc-result-extra">Cockcroft-Gault : <strong>${cock.toFixed(0)} mL/min</strong> (adaptation posologique)</div>` : `<div class="calc-result-extra">Ajoute le poids pour obtenir aussi la clairance de Cockcroft-Gault.</div>`);
+  }
+
+  else if(tool === "imc"){
+    const p = val("cPoids"), t = val("cTaille"), age = val("cAge");
+    if(!p || !t){ out.innerHTML = `<div class="calc-hint">Renseigne le poids et la taille.</div>`; return; }
+    const imc = p / Math.pow(t / 100, 2);
+    let color = "teal", txt = "Corpulence normale";
+    const seuilDenut = age >= 70 ? 22 : 18.5;
+    if(imc < seuilDenut){ color = "red"; txt = `Sous le seuil de dénutrition (< ${seuilDenut} ${age >= 70 ? "à partir de 70 ans" : "avant 70 ans"})`; }
+    else if(imc < 25){ color = "teal"; txt = "Corpulence normale"; }
+    else if(imc < 30){ color = "amber"; txt = "Surpoids"; }
+    else { color = "amber"; txt = "Obésité"; }
+    out.innerHTML = calcResultHTML(color, `${imc.toFixed(1)} kg/m²`, txt,
+      age ? "" : `<div class="calc-result-extra">Ajoute l'âge : le seuil de dénutrition diffère avant et après 70 ans.</div>`);
+  }
+
+  else if(tool === "denutrition"){
+    const age = val("cAge"), imc = val("cImc"), alb = val("cAlb");
+    const pheno = [chk("pheno1"), chk("pheno2"), chk("pheno3")].filter(Boolean).length;
+    const etio = [chk("etio1"), chk("etio2"), chk("etio3")].filter(Boolean).length;
+    if(!age){ out.innerHTML = `<div class="calc-hint">Renseigne l'âge (les seuils diffèrent avant et après 70 ans).</div>`; return; }
+    const seuilImc = age >= 70 ? 22 : 18.5;
+    const seuilSevere = age >= 70 ? 20 : 17;
+    const phenoImc = imc && imc < seuilImc;
+    const phenoTotal = pheno + (phenoImc ? 1 : 0);
+    const diag = phenoTotal >= 1 && etio >= 1;
+    const severe = diag && ((imc && imc < seuilSevere) || (alb && alb <= 30));
+    let detail = `Critères phénotypiques : ${phenoTotal} (dont IMC ${phenoImc ? "< " + seuilImc + " ✓" : "non contributif"}) · Critères étiologiques : ${etio}`;
+    if(!diag){
+      out.innerHTML = calcResultHTML("slate", "Critères non réunis", detail,
+        `<div class="calc-result-extra">Il faut au moins 1 critère phénotypique ET 1 critère étiologique.</div>`);
+    }else{
+      out.innerHTML = calcResultHTML(severe ? "red" : "amber",
+        severe ? "Dénutrition sévère" : "Dénutrition",
+        detail,
+        severe ? `<div class="calc-result-extra">Sévérité retenue sur IMC &lt; ${seuilSevere} et/ou albuminémie ≤ 30 g/L.</div>`
+               : `<div class="calc-result-extra">Critères de sévérité non atteints (IMC &lt; ${seuilSevere} ou albuminémie ≤ 30 g/L).</div>`);
+    }
+  }
+
+  else if(tool === "chads"){
+    let s = 0;
+    if(chk("ch_c")) s += 1;
+    if(chk("ch_h")) s += 1;
+    if(chk("ch_a2")) s += 2;
+    if(chk("ch_d")) s += 1;
+    if(chk("ch_s2")) s += 2;
+    if(chk("ch_v")) s += 1;
+    if(chk("ch_a")) s += 1;
+    if(chk("ch_sc")) s += 1;
+    const color = s >= 2 ? "red" : (s === 1 ? "amber" : "teal");
+    const txt = s >= 2 ? "Risque élevé — anticoagulation généralement recommandée"
+              : (s === 1 ? "Risque intermédiaire — anticoagulation à discuter" : "Risque faible");
+    out.innerHTML = calcResultHTML(color, `${s} / 9`, txt);
+  }
+
+  else{
+    let s = 0;
+    ["hb_h","hb_a1","hb_a2","hb_s","hb_b","hb_l","hb_e","hb_d","hb_dr"].forEach(id => { if(chk(id)) s += 1; });
+    const color = s >= 3 ? "red" : (s === 2 ? "amber" : "teal");
+    const txt = s >= 3 ? "Risque hémorragique élevé — corriger les facteurs modifiables, renforcer la surveillance"
+              : "Risque hémorragique non élevé";
+    out.innerHTML = calcResultHTML(color, `${s} / 9`, txt);
+  }
+}
+window.runCalc = runCalc;
+
 function renderResourcesPanel(){
   const groupsHTML = RESOURCES.map(g => {
     const c = colorVars(g.color);
@@ -3215,6 +3546,8 @@ function render(){
     renderBenzoExplorerPanel();
   }else if(state.activeDoc === "ordonnance-biologie" && state.explorerMode){
     renderBioOrdonnancePanel();
+  }else if(state.activeDoc === "calculateurs-cliniques" && state.explorerMode){
+    renderCalcPanel();
   }else if(state.activeDoc){
     renderEmbedPage(state.activeDoc);
   }else if(state.query){
