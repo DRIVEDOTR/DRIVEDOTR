@@ -2065,23 +2065,23 @@ const BIO_TESTS = {
 };
 
 const BIO_SITUATIONS = [
-  { id: "bilan-annuel", label: "Bilan annuel ESMS", color: "navy", tests: ["nfs-plaquettes", "ionogramme", "creat-dfg"], frequency: "1 fois par an, à individualiser selon l'âge, la fragilité et les pathologies (pas de fréquence légalement obligatoire)." },
-  { id: "diabete", label: "Diabète", color: "teal", tests: ["hba1c", "creat-dfg", "rac", "eal", "asat-alat"], frequency: "HbA1c tous les 3 à 6 mois selon l'équilibre glycémique ; dépistage des complications (rénal, CV, hépatique) au moins 1 fois par an." },
-  { id: "hta", label: "Hypertendu (HTA)", color: "blue", tests: ["ionogramme", "creat-dfg", "rac"], frequency: "Tous les 1 à 2 ans si HTA contrôlée (plus souvent si sujet âgé, diabète, MRC, protéinurie ou HTA mal contrôlée)." },
+  { id: "bilan-annuel", label: "Bilan annuel ESMS", color: "navy", tests: ["nfs-plaquettes", "ionogramme", "creat-dfg"], frequency: "Tous les 12 mois" },
+  { id: "diabete", label: "Diabète", color: "teal", tests: ["hba1c", "creat-dfg", "rac", "eal", "asat-alat"], frequency: "Tous les 6 mois" },
+  { id: "hta", label: "Hypertendu (HTA)", color: "blue", tests: ["ionogramme", "creat-dfg", "rac"], frequency: "Tous les 12 mois" },
   { id: "mrc", label: "MRC / IRC", color: "purple", tests: ["creat-dfg", "rac", "ionogramme"], gradeDependent: true },
-  { id: "hepatopathie", label: "Hépatopathie / Cirrhose", color: "amber", tests: ["nfs-plaquettes", "tp-inr", "albuminemie", "bilirubine", "ionogramme", "creat-dfg", "asat-alat", "ggt", "pal"], frequency: "Cirrhose compensée stable : tous les 6 à 12 mois. Si décompensation, ascite ou atteinte rénale : rapprocher à 1-3 mois. (Échographie de surveillance CHC tous les 6 mois, en complément — hors biologie.)" },
-  { id: "lithium", label: "Lithium", color: "red", tests: ["lithiemie", "creat-dfg", "calcemie", "tsh"], frequency: "Lithiémie : hebdomadaire le 1er mois, mensuelle le 1er trimestre, puis tous les 2 mois une fois stabilisé." },
-  { id: "clozapine", label: "Clozapine", color: "sky", tests: ["nfs-pnn"], frequency: "NFS : hebdomadaire pendant 18 semaines, puis mensuelle jusqu'à 12 mois, puis toutes les 12 semaines jusqu'à 24 mois, puis annuelle en l'absence de neutropénie." },
-  { id: "aod", label: "AOD / AVK", color: "slate", tests: ["nfs-plaquettes", "creat-dfg", "asat-alat"], frequency: "Au moins 1 fois par an ; tous les 6 mois si > 75 ans, poids < 60 kg ou clairance 30-60 mL/min ; tous les 3 mois si clairance < 30 mL/min." }
+  { id: "hepatopathie", label: "Hépatopathie / Cirrhose", color: "amber", tests: ["nfs-plaquettes", "tp-inr", "albuminemie", "bilirubine", "ionogramme", "creat-dfg", "asat-alat", "ggt", "pal"], frequency: "Tous les 6 mois" },
+  { id: "lithium", label: "Lithium", color: "red", tests: ["lithiemie", "creat-dfg", "calcemie", "tsh"], frequency: "Toutes les semaines pendant 1 mois, puis tous les 2 mois" },
+  { id: "clozapine", label: "Clozapine", color: "sky", tests: ["nfs-pnn"], frequency: "Toutes les semaines pendant 18 semaines, puis tous les mois pendant 8 mois, puis tous les 3 mois" },
+  { id: "aod", label: "AOD / AVK", color: "slate", tests: ["nfs-plaquettes", "creat-dfg", "asat-alat"], frequency: "Tous les 12 mois" }
 ];
 
 /* Fréquence de la situation "mrc", dépendante du stade KDIGO sélectionné —
    la grille complète croise stade (G) ET albuminurie (A) ; cette
    approximation par stade seul reste volontairement prudente. */
 const MRC_FREQUENCIES = {
-  "g1g2": "1 à 3 fois par an selon le niveau d'albuminurie (grille KDIGO complète dans la fiche « Suivi biologique d'une MRC / IRC »).",
-  "g3a": "1 à 3 fois par an selon le niveau d'albuminurie.",
-  "g3bplus": "2 à 4 fois par an ou plus selon le stade précis et le niveau d'albuminurie."
+  "g1g2": "Tous les 12 mois",
+  "g3a": "Tous les 6 mois",
+  "g3bplus": "Tous les 3 mois"
 };
 
 /* Examens "à ajouter seulement si indication" — issus des 7 fiches Suivis
@@ -3049,7 +3049,10 @@ function renderBioResults(){
   // Rythme de surveillance : une ligne par situation cochée (la fréquence dépend
   // du contexte clinique global, pas de chaque examen isolé). "mrc" est résolu
   // selon le stade KDIGO choisi.
-  const freqItems = state.bioSelected.map(situId => {
+  // Une ligne par fréquence distincte : les situations qui partagent le même
+  // rythme sont regroupées ensemble, pour ne jamais écrire deux fois la même
+  // fréquence (ex. Bilan annuel + HTA + AOD/AVK, tous à "Tous les 12 mois").
+  const freqByLabel = state.bioSelected.map(situId => {
     const situ = BIO_SITUATIONS.find(s => s.id === situId);
     if(!situ) return null;
     let freq = situ.frequency;
@@ -3061,7 +3064,15 @@ function renderBioResults(){
     return { label, freq };
   }).filter(Boolean);
 
-  const freqHeading = "Rythme de surveillance recommandé :";
+  const freqGroups = [];
+  freqByLabel.forEach(({ label, freq }) => {
+    const existing = freqGroups.find(g => g.freq === freq);
+    if(existing) existing.labels.push(label);
+    else freqGroups.push({ freq, labels: [label] });
+  });
+  const freqItems = freqGroups.map(g => ({ label: g.labels.join(", "), freq: g.freq }));
+
+  const freqHeading = "Examens à réaliser :";
   const plainText = heading + "\n" + lines.map(l => `- ${l}`).join("\n")
     + (freqItems.length ? "\n\n" + freqHeading + "\n" + freqItems.map(f => `- ${f.label} : ${f.freq}`).join("\n") : "");
   const htmlText = `<p><strong><u>${heading}</u></strong></p><ul>${lines.map(l => `<li>${l}</li>`).join("")}</ul>`
