@@ -597,6 +597,11 @@
   .acb-score-1{background:var(--sky);}
   .acb-score-2{background:var(--amber);}
   .acb-score-3{background:var(--red);}
+  .chariot-head{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;}
+  .chariot-sub{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--text-muted); margin:12px 0 4px;}
+  .acb-badges{display:inline-flex; gap:3px; flex:none;}
+  .acb-score-none{background:var(--border); color:var(--text-muted);}
+  .acb-dual{display:grid; grid-template-columns:1fr; gap:10px;}
   .acb-brand{display:block; font-size:11px; font-weight:600; color:var(--text-muted);}
   .acb-suggestion{text-align:left;}
   .acb-list{list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:6px;}
@@ -610,6 +615,17 @@
     color:var(--text-muted); background:none; border:none; cursor:pointer; padding:2px 6px;
   }
   .acb-remove:hover{color:var(--red);}
+  .vaccin-presentations{
+    background:var(--indigo-bg);
+    border-left:4px solid var(--indigo);
+    border-radius:var(--radius);
+    padding:12px 16px;
+    margin-top:14px;
+    font-size:13.5px;
+  }
+  .vaccin-presentations strong{display:block; color:var(--indigo); margin-bottom:6px;}
+  .vaccin-presentations ul{margin:0; padding-left:18px;}
+  .vaccin-presentations li{margin-bottom:4px;}
   .vaccin-list{margin:4px 0 0; padding-left:20px; font-size:13.5px; line-height:1.65;}
   .vaccin-schema{font-size:14px; font-weight:600; color:var(--text); line-height:1.5;}
   .calc-hint{
@@ -1875,16 +1891,23 @@ const DOCUMENTS = {
     filename: "Bilan_suivi_Diabete.pdf",
     path: "suivis-biologiques/Bilan_suivi_Diabete.pdf"
   },
+  "calendrier-vaccinal-pdf": {
+    title: "Calendrier vaccinal officiel 2026",
+    category: "vaccination",
+    meta: "Calendrier des vaccinations et recommandations vaccinales — ministère chargé de la Santé, mis en ligne le 27/04/2026 — document de référence complet",
+    filename: "Calendrier_vaccinal_2026.pdf",
+    path: "vaccination/Calendrier_vaccinal_2026.pdf"
+  },
+  "vaccination-esms": {
+    title: "Vaccination en ESMS (EHPAD / FAM / MAS)",
+    category: "vaccination",
+    meta: "Calendrier vaccinal 2026 appliqué aux résidents et aux professionnels — 7 vaccins : cibles, schémas et points de vigilance",
+    interactive: true
+  },
   "vaccination-pediatrique": {
     title: "Vaccination pédiatrique — IME / IEM",
     category: "vaccination",
     meta: "Calendrier vaccinal 2026, volet enfant et adolescent — statut à l'admission, obligations, rattrapages et spécificités du polyhandicap",
-    interactive: true
-  },
-  "vaccination-esms": {
-    title: "Vaccination en ESMS",
-    category: "vaccination",
-    meta: "Calendrier vaccinal 2026 appliqué aux résidents et aux professionnels — 7 vaccins : cibles, schémas et points de vigilance",
     interactive: true
   },
   "trames-courriers": {
@@ -2008,6 +2031,26 @@ const DOCUMENTS = {
     meta: "Formulaire officiel Cerfa n° 11574*06 — notice S3138f — prescription médicale de transport, vierge à imprimer et compléter",
     filename: "Bon_de_Transport_Vierge.pdf",
     path: "administratif/Bon_de_Transport_Vierge.pdf"
+  },
+  "guide-dotations-urgence-pdf": {
+    title: "Guide des dotations d'urgence en EHPAD",
+    category: "materiel",
+    meta: "OMéDIT Centre-Val de Loire, groupe de travail régional, février 2025 — guide complet avec grilles de vérification mensuelle, protocoles et modèles d'audit en annexe",
+    filename: "Guide_dotations_urgence_EHPAD_OMEDIT.pdf",
+    path: "materiel/Guide_dotations_urgence_EHPAD_OMEDIT.pdf"
+  },
+  "affiche-chariot-urgence": {
+    title: "Affiche — Chariot d'urgence : pas de seconde chance",
+    category: "materiel",
+    meta: "OMéDIT, mars 2026 — affiche de sensibilisation pour les équipes : critère impératif 2.3-12 de la certification HAS · Vérifier, Sceller, Tracer, Former",
+    filename: "Affiche_chariot_urgence_OMEDIT.png",
+    path: "materiel/Affiche_chariot_urgence_OMEDIT.png"
+  },
+  "chariot-urgence": {
+    title: "Dotations d'urgence en ESMS",
+    category: "materiel",
+    meta: "Chariot d'urgence vitale et dotation d'urgence relative — liste de référence à cocher, prescription de réassort générée automatiquement (OMéDIT Centre-Val de Loire, février 2025)",
+    interactive: true
   },
   "fauteuils-vph": {
     title: "Réforme de la prescription des fauteuils roulants (VPH)",
@@ -2453,7 +2496,9 @@ const state = {
   deprescClasse: null,
   deprescSituation: null,
   acbSelected: [],
-  acbQuery: ""
+  acbQuery: "",
+  chariotDotation: "vitale",
+  chariotUnchecked: []
 };
 
 const sidebarEl = document.getElementById("sidebar");
@@ -2691,7 +2736,7 @@ function renderEmbedPage(id){
   // Le remplissage Établissement / Médecin ne fonctionne que sur les protocoles
   // AS/Éduc & IDE, qui partagent tous le même gabarit (encadrés aux mêmes coordonnées).
   // Les documents administratifs/officiels (CERFA, RESPADD...) gardent le simple lien PDF.
-  const isFillable = id.startsWith("as-") || id.startsWith("ide-");
+  const isFillable = (id.startsWith("as-") || id.startsWith("ide-")) && /\.pdf$/i.test(doc.path || "");
 
   contentEl.innerHTML = `
     <button class="back-link" onclick="closeDoc()">
@@ -2717,12 +2762,21 @@ function renderEmbedPage(id){
           <p id="fillStatus" class="fill-status"></p>
         </div>
       ` : ""}
-      <div class="doc-embed-wrap">
-        <embed src="${doc.path}" type="application/pdf" />
-        <div class="doc-embed-actions">
-          <a href="${doc.path}" download="${doc.filename}">Télécharger le PDF (vierge)</a>
+      ${/\.(png|jpe?g|gif|webp|svg)$/i.test(doc.path) ? `
+        <div class="doc-image-frame">
+          <img src="${doc.path}" alt="${doc.title}" />
         </div>
-      </div>
+        <div class="doc-embed-actions" style="justify-content:flex-start;margin-bottom:16px;">
+          <a href="${doc.path}" download="${doc.filename}">Télécharger l'image</a>
+        </div>
+      ` : `
+        <div class="doc-embed-wrap">
+          <embed src="${doc.path}" type="application/pdf" />
+          <div class="doc-embed-actions">
+            <a href="${doc.path}" download="${doc.filename}">Télécharger le PDF (vierge)</a>
+          </div>
+        </div>
+      `}
       ${id === "benzodiazepines" ? `
         <div class="doc-note">
           <strong>Comment lire ce poster</strong>
@@ -3875,6 +3929,12 @@ const VACCINS_DATA = [
       "Chez les 65 ans et plus : privilégier Efluelda (haute dose) ou Fluad (adjuvanté). Les vaccins à dose standard restent possibles.",
       "Vaccins trivalents depuis 2025, après le retrait de la souche B/Yamagata.",
       "Co-administration possible avec le vaccin Covid-19, en deux sites d'injection distincts."
+    ],
+    presentations: [
+      "<strong>Efluelda</strong> — haute dose, 60 ans et plus",
+      "<strong>Fluad</strong> — adjuvanté, 65 ans et plus",
+      "<strong>Vaxigrip</strong>, <strong>Influvac</strong>, <strong>Fluarix</strong> — dose standard",
+      "<strong>Flucelvax</strong> — culture cellulaire"
     ]
   },
   {
@@ -3891,6 +3951,10 @@ const VACCINS_DATA = [
       "Délai réduit à 3 mois pour les 80 ans et plus, les résidents d'EHPAD/USLD et les personnes immunodéprimées.",
       "Une dose supplémentaire au printemps est possible pour ces mêmes publics, selon la situation individuelle.",
       "Vaccins à ARNm privilégiés (Comirnaty LP.8.1) ; Nuvaxovid (JN.1) en alternative si réticence ou contre-indication."
+    ],
+    presentations: [
+      "<strong>Comirnaty</strong> (Pfizer-BioNTech) — ARNm, souche LP.8.1",
+      "<strong>Nuvaxovid</strong> (Novavax) — protéine recombinante, souche JN.1"
     ]
   },
   {
@@ -3904,6 +3968,10 @@ const VACCINS_DATA = [
       "Deux vaccins conjugués possibles : Prevenar 20 ou Capvaxive (21-valent, nouveau en 2026).",
       "Le choix du vaccin retenu dans l'établissement se décide avec le médecin coordonnateur.",
       "Auditer le statut pneumococcique à l'entrée du résident, puis lors des réévaluations annuelles."
+    ],
+    presentations: [
+      "<strong>Prevenar 20</strong> — conjugué 20-valent",
+      "<strong>Capvaxive</strong> — conjugué 21-valent, nouveau en 2026"
     ]
   },
   {
@@ -3916,6 +3984,10 @@ const VACCINS_DATA = [
     points: [
       "Vaccins disponibles : Abrysvo, Arexvy.",
       "Pas de revaccination annuelle recommandée à ce stade."
+    ],
+    presentations: [
+      "<strong>Abrysvo</strong> (Pfizer)",
+      "<strong>Arexvy</strong> (GSK)"
     ]
   },
   {
@@ -3926,6 +3998,10 @@ const VACCINS_DATA = [
       "Le rythme se resserre après 65 ans (tous les 10 ans au lieu de 20).",
       "Vérifier le statut à l'entrée en établissement : c'est souvent la vaccination la plus oubliée chez le sujet âgé.",
       "En cas de statut inconnu ou de plaie à risque tétanigène, se référer au protocole de rattrapage."
+    ],
+    presentations: [
+      "<strong>Revaxis</strong> — dTP, rappels de l'adulte",
+      "<strong>Repevax</strong>, <strong>BoostrixTetra</strong> — dTcaP, si rappel coqueluche associé"
     ]
   },
   {
@@ -3939,6 +4015,10 @@ const VACCINS_DATA = [
       "Recommandation HAS de juillet 2024, dans un contexte de recrudescence marquée depuis 2024.",
       "Concerne aussi les professionnels de santé exerçant en ville.",
       "Pas d'indication systématique chez le résident âgé en dehors du rattrapage dTP."
+    ],
+    presentations: [
+      "<strong>Repevax</strong> (dTcaP)",
+      "<strong>BoostrixTetra</strong> (dTcaP)"
     ]
   },
   {
@@ -3952,6 +4032,10 @@ const VACCINS_DATA = [
       "⚠ La liste précise des professionnels concernés et les modalités de mise en œuvre doivent être précisées courant 2026 par voie réglementaire.",
       "Anticiper le recueil des preuves d'immunité (carnet vaccinal, sérologie) pour les équipes.",
       "À suivre : vérifier la parution des textes d'application avant d'appliquer l'obligation."
+    ],
+    presentations: [
+      "<strong>M-M-RVaxPro</strong>",
+      "<strong>Priorix</strong>"
     ]
   }
 ];
@@ -3974,7 +4058,7 @@ function renderVaccinPanel(){
     </button>
     <div class="doc-page">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
-      <h2 class="panel-title" style="color:${c.pill}">Vaccination en ESMS</h2>
+      <h2 class="panel-title" style="color:${c.pill}">Vaccination en ESMS (EHPAD / FAM / MAS)</h2>
       <p class="doc-meta">Calendrier des vaccinations 2026 (ministère de la Santé, 27/04/2026) — volet adulte, personne âgée et professionnels. Clique sur un vaccin pour le détail.</p>
 
       <div class="neurolep-grid">
@@ -3998,6 +4082,11 @@ function renderVaccinPanel(){
             <div class="neurolep-stats">
               <div class="neurolep-stat"><span class="neurolep-stat-label">Schéma</span><span class="vaccin-schema">${sel.schema}</span></div>
             </div>
+            ${sel.presentations ? `
+              <div class="vaccin-presentations">
+                <strong>💉 Présentations disponibles en France</strong>
+                <ul>${sel.presentations.map(x => `<li>${x}</li>`).join("")}</ul>
+              </div>` : ""}
             <div class="neurolep-populations">
               <strong>Points de vigilance</strong>
               <ul>${sel.points.map(x => `<li>${x}</li>`).join("")}</ul>
@@ -4038,6 +4127,11 @@ const VACCINS_PEDIA_DATA = [
       "Couvre diphtérie, tétanos, poliomyélite, coqueluche, Haemophilus influenzae b et hépatite B.",
       "Rappels ultérieurs : dTcaP à 6 ans, puis à 11-13 ans.",
       "Puis rappels dTP à 25, 45 et 65 ans à l'âge adulte."
+    ],
+    presentations: [
+      "<strong>Infanrix Hexa</strong>",
+      "<strong>Vaxelis</strong>",
+      "Rappels : <strong>Infanrix Tetra</strong>, <strong>Tetravac-acellulaire</strong> (6 ans, 11-13 ans)"
     ]
   },
   {
@@ -4047,6 +4141,10 @@ const VACCINS_PEDIA_DATA = [
     points: [
       "Schéma renforcé chez les prématurés et les enfants à risque : se référer au calendrier officiel.",
       "Chez l'enfant à risque, la protection doit être réévaluée à l'adolescence."
+    ],
+    presentations: [
+      "<strong>Prevenar 20</strong> — conjugué 20-valent",
+      "<strong>Vaxneuvance</strong> — conjugué 15-valent"
     ]
   },
   {
@@ -4057,6 +4155,10 @@ const VACCINS_PEDIA_DATA = [
       "Rattrapage transitoire obligatoire de 2 ans à 4 ans révolus (jusqu'au 5ᵉ anniversaire) pour les non-vaccinés — 2 doses de Bexsero.",
       "Pour les enfants nés à compter du 1er janvier 2023, le rattrapage n'est obligatoire que s'ils n'ont pas été vaccinés avant 2 ans.",
       "Peut être proposé de 15 à 24 ans révolus dans le cadre du rattrapage."
+    ],
+    presentations: [
+      "<strong>Bexsero</strong> — dès 2 mois",
+      "<strong>Trumenba</strong> — à partir de 10 ans"
     ]
   },
   {
@@ -4072,6 +4174,11 @@ const VACCINS_PEDIA_DATA = [
       "Rattrapage transitoire obligatoire de 2 à 4 ans révolus, y compris chez les enfants déjà vaccinés contre le méningocoque C — une dose unique à partir de 2 ans.",
       "Vaccins : Nimenrix, Menquadfi, Menveo.",
       "Depuis la rentrée 2025-2026, vaccination ACWY proposée gratuitement en 5ᵉ, avec la campagne HPV."
+    ],
+    presentations: [
+      "<strong>Nimenrix</strong>",
+      "<strong>MenQuadfi</strong>",
+      "<strong>Menveo</strong>"
     ]
   },
   {
@@ -4082,6 +4189,10 @@ const VACCINS_PEDIA_DATA = [
       "Deux doses sont nécessaires : une seule dose ne suffit pas à considérer l'enfant protégé.",
       "Rattrapage possible à tout âge — vérifier chez tout adolescent au statut incertain.",
       "À relier à la nouvelle obligation d'immunisation rougeole des professionnels du médico-social (LFSS 2026)."
+    ],
+    presentations: [
+      "<strong>M-M-RVaxPro</strong>",
+      "<strong>Priorix</strong>"
     ]
   },
   {
@@ -4095,6 +4206,9 @@ const VACCINS_PEDIA_DATA = [
       "Le rattrapage jusqu'à 26 ans, auparavant réservé à certains publics, est désormais ouvert à tous (Gardasil 9).",
       "Campagne gratuite en 5ᵉ au collège — à évoquer systématiquement pour les jeunes scolarisés en IME.",
       "Population souvent sous-vaccinée : y penser lors du bilan annuel de l'adolescent."
+    ],
+    presentations: [
+      "<strong>Gardasil 9</strong> — seul vaccin HPV disponible en France"
     ]
   },
   {
@@ -4108,6 +4222,10 @@ const VACCINS_PEDIA_DATA = [
       "Nouveauté 2026 : Flucelvax intégré à la stratégie chez les nourrissons à risque dès l'âge de 6 mois (avis HAS du 18/12/2025).",
       "Le polyhandicap et les troubles de la déglutition sont des facteurs de risque de forme grave à ne pas sous-estimer.",
       "Penser aussi à la vaccination des professionnels et de l'entourage."
+    ],
+    presentations: [
+      "<strong>Vaxigrip</strong>, <strong>Influvac</strong>, <strong>Fluarix</strong>",
+      "<strong>Flucelvax</strong> — dès 6 mois chez le nourrisson à risque (avis HAS 18/12/2025)"
     ]
   }
 ];
@@ -4150,6 +4268,11 @@ function vaccinPanelHTML(cat, data, titre, chapeau, handler){
             <div class="neurolep-stats">
               <div class="neurolep-stat"><span class="neurolep-stat-label">Schéma</span><span class="vaccin-schema">${sel.schema}</span></div>
             </div>
+            ${sel.presentations ? `
+              <div class="vaccin-presentations">
+                <strong>💉 Présentations disponibles en France</strong>
+                <ul>${sel.presentations.map(x => `<li>${x}</li>`).join("")}</ul>
+              </div>` : ""}
             <div class="neurolep-populations">
               <strong>Points de vigilance</strong>
               <ul>${sel.points.map(x => `<li>${x}</li>`).join("")}</ul>
@@ -4352,37 +4475,177 @@ const DEPRESC_SITUATIONS = [
   }
 ];
 
-/* Charge anticholinergique — échelle ACB (Anticholinergic Cognitive Burden,
-   Boustani et al., mise à jour 2012), complétée de quelques phénothiazines
-   d'usage français. Score par molécule de 1 (possible) à 3 (marqué) ;
-   le score total est la somme. Un total ≥ 3 est cliniquement significatif. */
+/* Charge anticholinergique — deux échelles officielles reprises telles quelles
+   de la fiche OMéDIT Pays de la Loire « Médicaments anticholinergiques chez le
+   sujet âgé », V3 février 2026 :
+     • ACB (Boustani et al.) — effets CENTRAUX (cognitifs) : significatif si ≥ 4
+     • CIA (Briet et al.)    — effets PÉRIPHÉRIQUES         : élevé si > 5
+   Une molécule peut figurer dans une seule des deux échelles (score null). */
 const ACB_MOLECULES = [
-  { n: "Amitriptyline", s: 3, c: "Laroxyl" }, { n: "Clomipramine", s: 3, c: "Anafranil" }, { n: "Imipramine", s: 3, c: "Tofranil" },
-  { n: "Doxépine", s: 3, c: "Quitaxon" }, { n: "Nortriptyline", s: 3 }, { n: "Trimipramine", s: 3, c: "Surmontil" },
-  { n: "Paroxétine", s: 3, c: "Deroxat" }, { n: "Hydroxyzine", s: 3, c: "Atarax" }, { n: "Alimémazine", s: 3, c: "Théralène" },
-  { n: "Prométhazine", s: 3, c: "Phénergan" }, { n: "Méclozine", s: 3, c: "Agyrax" }, { n: "Dimenhydrinate", s: 3, c: "Nausicalm, Mercalm" },
-  { n: "Cyproheptadine", s: 3, c: "Périactine" }, { n: "Chlorphénamine", s: 3, c: "Polaramine" }, { n: "Oxybutynine", s: 3, c: "Ditropan, Driptane" },
-  { n: "Toltérodine", s: 3, c: "Détrusitol" }, { n: "Solifénacine", s: 3, c: "Vesicare" }, { n: "Fésotérodine", s: 3, c: "Toviaz" },
-  { n: "Clozapine", s: 3, c: "Leponex" }, { n: "Olanzapine", s: 3, c: "Zyprexa" }, { n: "Quétiapine", s: 3, c: "Xeroquel" },
-  { n: "Chlorpromazine", s: 3, c: "Largactil" }, { n: "Cyamémazine", s: 3, c: "Tercian" }, { n: "Lévomépromazine", s: 3, c: "Nozinan" },
-  { n: "Trihexyphénidyle", s: 3, c: "Artane, Parkinane" }, { n: "Tropatépine", s: 3, c: "Lepticur" }, { n: "Bipéridène", s: 3, c: "Akineton" },
-  { n: "Scopolamine", s: 3, c: "Scopoderm" }, { n: "Atropine", s: 3 }, { n: "Disopyramide", s: 3, c: "Rythmodan" },
-  { n: "Dicyclovérine", s: 3 }, { n: "Propériciazine", s: 3, c: "Neuleptil" },
-  { n: "Carbamazépine", s: 2, c: "Tegretol" }, { n: "Oxcarbazépine", s: 2, c: "Trileptal" }, { n: "Loxapine", s: 2, c: "Loxapac" },
-  { n: "Pimozide", s: 2, c: "Orap" }, { n: "Amantadine", s: 2, c: "Mantadix" }, { n: "Péthidine", s: 2, c: "Dolosal" },
-  { n: "Cyclobenzaprine", s: 2 },
-  { n: "Alprazolam", s: 1, c: "Xanax" }, { n: "Diazépam", s: 1, c: "Valium" }, { n: "Halopéridol", s: 1, c: "Haldol" },
-  { n: "Rispéridone", s: 1, c: "Risperdal" }, { n: "Aripiprazole", s: 1, c: "Abilify" }, { n: "Venlafaxine", s: 1, c: "Effexor" },
-  { n: "Trazodone", s: 1 }, { n: "Mirtazapine", s: 1, c: "Norset" }, { n: "Fluvoxamine", s: 1, c: "Floxyfral" },
-  { n: "Bupropion", s: 1, c: "Zyban, Wellbutrin" }, { n: "Codéine", s: 1 }, { n: "Morphine", s: 1, c: "Skenan, Actiskenan, Oramorph" },
-  { n: "Fentanyl", s: 1, c: "Durogesic" }, { n: "Tramadol", s: 1, c: "Contramal, Topalgic, Ixprim" }, { n: "Digoxine", s: 1, c: "Hémigoxine" },
-  { n: "Furosémide", s: 1, c: "Lasilix" }, { n: "Prednisone", s: 1, c: "Cortancyl" }, { n: "Prednisolone", s: 1, c: "Solupred" },
-  { n: "Hydrocortisone", s: 1 }, { n: "Théophylline", s: 1, c: "Euphylline, Dilatrane" }, { n: "Ranitidine", s: 1 },
-  { n: "Cimétidine", s: 1, c: "Tagamet" }, { n: "Lopéramide", s: 1, c: "Imodium" }, { n: "Colchicine", s: 1, c: "Colchimax" },
-  { n: "Captopril", s: 1, c: "Lopril" }, { n: "Aténolol", s: 1, c: "Ténormine" }, { n: "Métoprolol", s: 1, c: "Lopressor, Séloken" },
-  { n: "Nifédipine", s: 1, c: "Adalate" }, { n: "Isosorbide", s: 1, c: "Risordan" }, { n: "Warfarine", s: 1, c: "Coumadine" },
-  { n: "Dipyridamole", s: 1, c: "Persantine" }, { n: "Triamtérène", s: 1 }, { n: "Chlortalidone", s: 1 },
-  { n: "Quinidine", s: 1 }, { n: "Hydralazine", s: 1 }, { n: "Méthotrexate", s: 1, c: "Novatrex, Imeth" }
+  { n: "Alimémazine", acb: 1, cia: 1, c: "Théralène" },
+  { n: "Alprazolam", acb: 1, cia: 1, c: "Xanax" },
+  { n: "Alvérine", acb: 1, cia: 1, c: "Météospasmyl" },
+  { n: "Amantadine", acb: 2, cia: 2, c: "Mantadix" },
+  { n: "Aminophylline", acb: 1, cia: null },
+  { n: "Amisulpride", acb: 1, cia: null, c: "Solian" },
+  { n: "Amitriptyline", acb: 3, cia: 3, c: "Laroxyl" },
+  { n: "Ampicilline", acb: 1, cia: null },
+  { n: "Aripiprazole", acb: 1, cia: 1, c: "Abilify" },
+  { n: "Atropine", acb: 3, cia: 3 },
+  { n: "Aténolol", acb: 1, cia: 1, c: "Ténormine" },
+  { n: "Azathioprine", acb: 1, cia: null, c: "Imurel" },
+  { n: "Baclofène", acb: 2, cia: null, c: "Liorésal" },
+  { n: "Bipéridène", acb: 3, cia: null, c: "Akineton" },
+  { n: "Bisacodyl", acb: 1, cia: null, c: "Dulcolax" },
+  { n: "Bromazépam", acb: 1, cia: null, c: "Lexomil" },
+  { n: "Bromocriptine", acb: 1, cia: null, c: "Parlodel" },
+  { n: "Bupropion", acb: 1, cia: 1, c: "Zyban" },
+  { n: "Bénazépril", acb: 1, cia: null },
+  { n: "Bétaxolol", acb: 1, cia: null },
+  { n: "Captopril", acb: 1, cia: 1, c: "Lopril" },
+  { n: "Carbamazépine", acb: 2, cia: 2, c: "Tegretol" },
+  { n: "Carbidopa", acb: 1, cia: null },
+  { n: "Chlordiazépoxide", acb: 1, cia: null },
+  { n: "Chlorphénamine", acb: 3, cia: 3 },
+  { n: "Chlorpromazine", acb: 3, cia: 3, c: "Largactil" },
+  { n: "Chlortalidone", acb: 1, cia: 1, c: "Hygroton" },
+  { n: "Ciclosporine", acb: 1, cia: null, c: "Néoral" },
+  { n: "Cimétidine", acb: 2, cia: 1, c: "Tagamet" },
+  { n: "Citalopram", acb: 1, cia: null, c: "Seropram" },
+  { n: "Clidinium", acb: 1, cia: 1 },
+  { n: "Clindamycine", acb: 1, cia: null },
+  { n: "Clomipramine", acb: 3, cia: 3, c: "Anafranil" },
+  { n: "Clonazépam", acb: 1, cia: null, c: "Rivotril" },
+  { n: "Clorazépate", acb: 1, cia: 1, c: "Tranxène" },
+  { n: "Clozapine", acb: 3, cia: 3, c: "Leponex" },
+  { n: "Codéine", acb: 1, cia: 1, c: "Codoliprane, Dafalgan codéiné" },
+  { n: "Colchicine", acb: 1, cia: 1, c: "Colchimax" },
+  { n: "Cyamémazine", acb: 3, cia: null, c: "Tercian" },
+  { n: "Cyclosérine", acb: 1, cia: null },
+  { n: "Cyproheptadine", acb: 3, cia: 2, c: "Périactine" },
+  { n: "Céfoxitine", acb: 1, cia: null },
+  { n: "Célécoxib", acb: 1, cia: null, c: "Celebrex" },
+  { n: "Cétirizine", acb: 1, cia: 1, c: "Zyrtec" },
+  { n: "Desloratadine", acb: 1, cia: 1, c: "Aerius" },
+  { n: "Dexaméthasone", acb: 1, cia: null, c: "Dectancyl" },
+  { n: "Dexchlorphéniramine", acb: 3, cia: null, c: "Polaramine" },
+  { n: "Dextrométhorphane", acb: 1, cia: null, c: "Tussidane" },
+  { n: "Diazépam", acb: 1, cia: 1, c: "Valium" },
+  { n: "Digoxine", acb: 1, cia: 1, c: "Hémigoxine" },
+  { n: "Diltiazem", acb: 1, cia: null, c: "Tildiem" },
+  { n: "Dimenhydrinate", acb: 3, cia: 3, c: "Nausicalm, Mercalm" },
+  { n: "Diphenhydramine", acb: 3, cia: 3 },
+  { n: "Dipyridamole", acb: 1, cia: 1, c: "Persantine" },
+  { n: "Disopyramide", acb: 2, cia: 1, c: "Rythmodan" },
+  { n: "Dompéridone", acb: 1, cia: null, c: "Motilium" },
+  { n: "Dosulépine", acb: 2, cia: null, c: "Prothiaden" },
+  { n: "Doxylamine", acb: 2, cia: 3, c: "Donormyl" },
+  { n: "Doxépine", acb: 3, cia: 3, c: "Quitaxon" },
+  { n: "Duloxétine", acb: 1, cia: null, c: "Cymbalta" },
+  { n: "Entacapone", acb: 1, cia: null, c: "Comtan" },
+  { n: "Escitalopram", acb: 1, cia: null, c: "Seroplex" },
+  { n: "Eskétamine", acb: 1, cia: null },
+  { n: "Estazolam", acb: 1, cia: null },
+  { n: "Famotidine", acb: 1, cia: null, c: "Pepdine" },
+  { n: "Fentanyl", acb: 1, cia: 1, c: "Durogesic" },
+  { n: "Fexofénadine", acb: 2, cia: null },
+  { n: "Fluoxétine", acb: 1, cia: null, c: "Prozac" },
+  { n: "Flupentixol", acb: 1, cia: null, c: "Fluanxol" },
+  { n: "Fluvoxamine", acb: 1, cia: 1, c: "Floxyfral" },
+  { n: "Furosémide", acb: null, cia: 1, c: "Lasilix" },
+  { n: "Fésotérodine", acb: 3, cia: 3, c: "Toviaz" },
+  { n: "Guaïfénésine", acb: 1, cia: null },
+  { n: "Halopéridol", acb: 1, cia: 1, c: "Haldol" },
+  { n: "Hydrocortisone", acb: 1, cia: 1 },
+  { n: "Hydroquinidine", acb: 1, cia: 1 },
+  { n: "Hydroxychloroquine", acb: 1, cia: null, c: "Plaquenil" },
+  { n: "Hydroxyzine", acb: 3, cia: 3, c: "Atarax" },
+  { n: "Imipramine", acb: 3, cia: 3, c: "Tofranil" },
+  { n: "Ipratropium", acb: 3, cia: null, c: "Atrovent" },
+  { n: "Iproniazide", acb: 1, cia: null },
+  { n: "Isosorbide", acb: 1, cia: 1, c: "Risordan" },
+  { n: "Kétamine", acb: 1, cia: null, c: "Kétalar" },
+  { n: "Lithium", acb: 1, cia: null, c: "Téralithe" },
+  { n: "Lopéramide", acb: 2, cia: 1, c: "Imodium" },
+  { n: "Loratadine", acb: 2, cia: 1, c: "Clarityne" },
+  { n: "Lorazépam", acb: 1, cia: null, c: "Temesta" },
+  { n: "Loxapine", acb: 2, cia: 2, c: "Loxapac" },
+  { n: "Lévocétirizine", acb: 1, cia: 1, c: "Xyzall" },
+  { n: "Lévodopa", acb: 1, cia: null, c: "Modopar, Sinemet" },
+  { n: "Lévomépromazine", acb: 2, cia: 2, c: "Nozinan" },
+  { n: "Maprotiline", acb: 3, cia: null, c: "Ludiomil" },
+  { n: "Metformine", acb: 1, cia: null, c: "Glucophage, Stagid" },
+  { n: "Midazolam", acb: 1, cia: null, c: "Buccolam" },
+  { n: "Milnacipran", acb: 1, cia: null, c: "Ixel" },
+  { n: "Mirtazapine", acb: 1, cia: null, c: "Norset" },
+  { n: "Morphine", acb: 1, cia: 1, c: "Skenan, Actiskenan, Oramorph" },
+  { n: "Méclozine", acb: 3, cia: 3, c: "Agyrax" },
+  { n: "Méquitazine", acb: 3, cia: null, c: "Primalan" },
+  { n: "Méthadone", acb: 2, cia: null },
+  { n: "Méthocarbamol", acb: 1, cia: 3 },
+  { n: "Méthotrexate", acb: 1, cia: null, c: "Novatrex, Imeth" },
+  { n: "Méthylprednisolone", acb: 1, cia: null },
+  { n: "Métoclopramide", acb: 1, cia: null, c: "Primpéran" },
+  { n: "Métopimazine", acb: 1, cia: null, c: "Vogalène" },
+  { n: "Métoprolol", acb: 1, cia: 1, c: "Lopressor, Séloken" },
+  { n: "Nalbuphine", acb: 1, cia: null, c: "Nubain" },
+  { n: "Naratriptan", acb: 1, cia: null },
+  { n: "Nifédipine", acb: 1, cia: 1, c: "Adalate" },
+  { n: "Néfopam", acb: 1, cia: 2, c: "Acupan" },
+  { n: "Olanzapine", acb: 2, cia: 3, c: "Zyprexa" },
+  { n: "Oxazépam", acb: 1, cia: null, c: "Seresta" },
+  { n: "Oxcarbazépine", acb: 2, cia: 2, c: "Trileptal" },
+  { n: "Oxybutynine", acb: 3, cia: 3, c: "Ditropan, Driptane" },
+  { n: "Oxycodone", acb: 1, cia: null, c: "Oxycontin, Oxynorm" },
+  { n: "Palipéridone", acb: 1, cia: 1, c: "Xeplion, Invega" },
+  { n: "Paroxétine", acb: 2, cia: 3, c: "Deroxat" },
+  { n: "Penfluridol", acb: 2, cia: null, c: "Acemap" },
+  { n: "Phénelzine", acb: 1, cia: null },
+  { n: "Phéniramine", acb: 3, cia: null },
+  { n: "Phénobarbital", acb: 1, cia: null, c: "Gardénal" },
+  { n: "Pimozide", acb: 2, cia: 2, c: "Orap" },
+  { n: "Pipampérone", acb: 1, cia: null, c: "Dipiperon" },
+  { n: "Pipotiazine", acb: 2, cia: null },
+  { n: "Pipéracilline", acb: 1, cia: null },
+  { n: "Pramipexole", acb: 1, cia: null, c: "Sifrol" },
+  { n: "Prednisolone", acb: 1, cia: null, c: "Solupred" },
+  { n: "Prednisone", acb: 1, cia: 1, c: "Cortancyl" },
+  { n: "Prométhazine", acb: 3, cia: 3, c: "Phénergan" },
+  { n: "Propériciazine", acb: 3, cia: null, c: "Neuleptil" },
+  { n: "Pseudoéphédrine", acb: 2, cia: null },
+  { n: "Quinidine", acb: 1, cia: 1 },
+  { n: "Quinine", acb: 1, cia: 1 },
+  { n: "Quétiapine", acb: 2, cia: 3, c: "Xeroquel" },
+  { n: "Rispéridone", acb: 1, cia: 1, c: "Risperdal" },
+  { n: "Scopolamine", acb: 3, cia: 3, c: "Scopoderm" },
+  { n: "Sertraline", acb: 1, cia: null, c: "Zoloft" },
+  { n: "Solifénacine", acb: 3, cia: 3, c: "Vesicare" },
+  { n: "Sulpiride", acb: 1, cia: null, c: "Dogmatil" },
+  { n: "Sumatriptan", acb: 1, cia: null, c: "Imigrane" },
+  { n: "Sélégiline", acb: 1, cia: null, c: "Déprényl" },
+  { n: "Théophylline", acb: 1, cia: 1, c: "Euphylline, Dilatrane" },
+  { n: "Tizanidine", acb: 3, cia: null },
+  { n: "Toltérodine", acb: 3, cia: 3, c: "Détrusitol" },
+  { n: "Tramadol", acb: 1, cia: null, c: "Contramal, Topalgic, Ixprim" },
+  { n: "Trandolapril", acb: 1, cia: null },
+  { n: "Tranylcypromine", acb: 1, cia: null },
+  { n: "Trazodone", acb: 1, cia: 1, c: "Trittico" },
+  { n: "Triamcinolone", acb: 1, cia: null },
+  { n: "Triamtérène", acb: 1, cia: 1, c: "Prestole" },
+  { n: "Trihexyphénidyle", acb: 3, cia: 3, c: "Artane, Parkinane" },
+  { n: "Trimipramine", acb: 3, cia: 3, c: "Surmontil" },
+  { n: "Triprolidine", acb: 2, cia: null },
+  { n: "Tropatépine", acb: 3, cia: null, c: "Lepticur" },
+  { n: "Trospium", acb: 3, cia: 3, c: "Céris" },
+  { n: "Valproate", acb: 1, cia: null, c: "Depakine" },
+  { n: "Valpromide", acb: 1, cia: null, c: "Depamide" },
+  { n: "Vancomycine", acb: 1, cia: null },
+  { n: "Venlafaxine", acb: 1, cia: 1, c: "Effexor" },
+  { n: "Warfarine", acb: 1, cia: 1, c: "Coumadine" },
+  { n: "Ziprasidone", acb: 1, cia: null },
+  { n: "Zolmitriptan", acb: 1, cia: null },
+  { n: "Zuclopenthixol", acb: 1, cia: null, c: "Clopixol" },
+  { n: "Éphédrine", acb: 1, cia: null }
 ];
 
 function setDeprescClasse(id){
@@ -4491,6 +4754,15 @@ function renderDeprescSituationPanel(){
 }
 
 /* ---------- Charge anticholinergique (échelle ACB) ---------- */
+function acbBadgesHTML(m){
+  const b = [];
+  b.push(m.acb ? `<span class="acb-score acb-score-${m.acb}" title="Score ACB (central)">${m.acb}</span>`
+               : `<span class="acb-score acb-score-none" title="Absente de l'échelle ACB">–</span>`);
+  b.push(m.cia ? `<span class="acb-score acb-score-${m.cia}" title="Score CIA (périphérique)">${m.cia}</span>`
+               : `<span class="acb-score acb-score-none" title="Absente de l'échelle CIA">–</span>`);
+  return `<span class="acb-badges">${b.join("")}</span>`;
+}
+
 function normalizeAcb(str){
   return String(str).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
@@ -4519,15 +4791,17 @@ function renderAcbPanel(){
   const cat = CATEGORIES.find(c => c.id === "medicaments-securite");
   const c = colorVars(cat.color);
 
-  const total = state.acbSelected.reduce((sum, n) => {
-    const m = ACB_MOLECULES.find(x => x.n === n);
-    return sum + (m ? m.s : 0);
-  }, 0);
+  const picked = state.acbSelected.map(n => ACB_MOLECULES.find(x => x.n === n)).filter(Boolean);
+  const totalAcb = picked.reduce((s, m) => s + (m.acb || 0), 0);
+  const totalCia = picked.reduce((s, m) => s + (m.cia || 0), 0);
 
-  let verdict, vcolor;
-  if(total === 0){ verdict = "Aucune charge anticholinergique identifiée"; vcolor = "teal"; }
-  else if(total < 3){ verdict = "Charge faible à modérée — rester vigilant"; vcolor = "amber"; }
-  else { verdict = "Charge cliniquement significative — réévaluation recommandée"; vcolor = "red"; }
+  // Seuils OMéDIT Pays de la Loire (V3, février 2026)
+  const acbSignif = totalAcb >= 4;
+  const ciaEleve  = totalCia > 5;
+  const acbColor = acbSignif ? "red" : (totalAcb > 0 ? "amber" : "teal");
+  const ciaColor = ciaEleve  ? "red" : (totalCia > 0 ? "amber" : "teal");
+  const acbTxt = acbSignif ? "Impact cognitif significatif (seuil ≥ 4)" : (totalAcb > 0 ? "Sous le seuil de significativité (≥ 4)" : "Aucun score central identifié");
+  const ciaTxt = ciaEleve  ? "Imprégnation périphérique élevée (seuil > 5)" : (totalCia > 0 ? "Sous le seuil d'imprégnation élevée (> 5)" : "Aucun score périphérique identifié");
 
   contentEl.innerHTML = `
     <button class="back-link" onclick="closeDoc()">
@@ -4537,7 +4811,7 @@ function renderAcbPanel(){
     <div class="doc-page">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}Déprescription</span>
       <h2 class="panel-title" style="color:${c.pill}">Charge anticholinergique</h2>
-      <p class="doc-meta">Saisis les molécules de l'ordonnance : le score ACB total se calcule automatiquement. Un score ≥ 3 est considéré comme cliniquement significatif.</p>
+      <p class="doc-meta">Saisis les molécules de l'ordonnance : les deux scores se calculent automatiquement. Chaque molécule porte deux badges — ACB (effets centraux) puis CIA (effets périphériques).</p>
 
       <div class="bio-layout">
         <div class="bio-layout-left">
@@ -4558,12 +4832,15 @@ function renderAcbPanel(){
                 <button type="button" class="bio-reset-btn" onclick="resetAcb()">Réinitialiser</button>
               </div>
             </div>
-            ${calcResultHTML(vcolor, `${total}`, verdict)}
+            <div class="acb-dual">
+              ${calcResultHTML(acbColor, `ACB ${totalAcb}`, acbTxt, `<div class="calc-result-extra">Effets centraux — risque cognitif (échelle de Boustani)</div>`)}
+              ${calcResultHTML(ciaColor, `CIA ${totalCia}`, ciaTxt, `<div class="calc-result-extra">Effets périphériques — bouche sèche, constipation, rétention (échelle de Briet)</div>`)}
+            </div>
             ${state.acbSelected.length ? `
               <ul class="acb-list">
                 ${state.acbSelected.map((n, i) => {
                   const m = ACB_MOLECULES.find(x => x.n === n);
-                  return `<li><span class="acb-score acb-score-${m.s}">${m.s}</span> <span>${n}${m.c ? `<span class="acb-brand">${m.c}</span>` : ""}</span>
+                  return `<li>${acbBadgesHTML(m)} <span>${n}${m.c ? `<span class="acb-brand">${m.c}</span>` : ""}</span>
                     <button type="button" class="acb-remove" onclick="removeAcbMolecule(${i})" aria-label="Retirer">×</button></li>`;
                 }).join("")}
               </ul>` : `<p class="doc-meta" style="margin-top:10px;">Aucune molécule ajoutée pour l'instant.</p>`}
@@ -4572,9 +4849,10 @@ function renderAcbPanel(){
       </div>
 
       <div class="doc-note" style="margin-top:18px;">
-        <strong>Comment lire le score</strong>
-        <p>Score par molécule : 1 = effet anticholinergique possible, 2 = effet établi modéré, 3 = effet marqué (associé au risque de confusion). Le score total est la somme des molécules. Un total ≥ 3 est cliniquement significatif ; le risque augmente avec chaque point supplémentaire. L'échelle ne tient pas compte de la dose. Toute décroissance doit être progressive, pour éviter un effet rebond.</p>
-        <p style="margin-top:8px;">Source : échelle ACB (Anticholinergic Cognitive Burden, Boustani et al., mise à jour 2012), complétée de phénothiazines d'usage courant en France. Liste non exhaustive : l'absence d'une molécule ne signifie pas qu'elle est dépourvue d'effet anticholinergique.</p>
+        <strong>Comment lire les deux scores</strong>
+        <p>Chaque molécule porte deux badges : le premier est son score <strong>ACB</strong> (effets centraux, risque cognitif — échelle de Boustani), le second son score <strong>CIA</strong> (effets périphériques : bouche sèche, constipation, rétention urinaire, troubles visuels — échelle de Briet). Un tiret signifie que la molécule ne figure pas dans cette échelle. Score par molécule : 1 = faible, 2 = modéré, 3 = fort.</p>
+        <p style="margin-top:8px;"><strong>Seuils :</strong> impact cognitif considéré significatif si <strong>ACB ≥ 4</strong> ; imprégnation périphérique considérée élevée si <strong>CIA &gt; 5</strong>. Les échelles ne tiennent compte ni de la posologie ni de la durée du traitement. Penser aussi aux traitements pris par d'autres voies (nasale, oculaire) et à l'automédication. Toute décroissance doit être progressive.</p>
+        <p style="margin-top:8px;">Source : OMéDIT Pays de la Loire, « Médicaments anticholinergiques chez le sujet âgé : les bons réflexes de prescription », V3 février 2026 — échelles ACB (Boustani et al.) et CIA (Briet et al., mise à jour Javelot 2022). 164 molécules. Liste non exhaustive : l'absence d'une molécule ne signifie pas qu'elle est dépourvue d'effet anticholinergique.</p>
       </div>
     </div>`;
 
@@ -4602,9 +4880,329 @@ function renderAcbSuggestions(){
   }
   box.innerHTML = `<div class="acb-suggestions">${matches.map(m => `
     <button type="button" class="acb-suggestion" onclick="addAcbMolecule('${m.n.replace(/'/g, "\\'")}')">
-      <span class="acb-score acb-score-${m.s}">${m.s}</span>
+      ${acbBadgesHTML(m)}
       <span>${m.n}${m.c ? `<span class="acb-brand">${m.c}</span>` : ""}</span>
     </button>`).join("")}</div>`;
+}
+
+/* =====================================================================
+   DOTATIONS D'URGENCE EN ESMS — reprise fidèle du référentiel
+   OMéDIT Centre-Val de Loire, groupe de travail régional
+   « DOTATIONS D'URGENCES MEDICALES EN EHPAD », février 2025.
+   Deux dotations distinctes : urgence VITALE (chariot/trousse scellée)
+   et urgence RELATIVE. Les quantités sont celles recommandées par le
+   référentiel, à adapter au profil de l'établissement.
+   ===================================================================== */
+const CHARIOT_DOTATIONS = [
+  { id: "vitale", label: "Urgence vitale", sub: "Chariot / trousse scellée", color: "red" },
+  { id: "relative", label: "Urgence relative", sub: "Dotation pour soins urgents", color: "amber" }
+];
+
+const CHARIOT_ITEMS = [
+  // ---------- URGENCE VITALE : MÉDICAMENTS ----------
+  { d:"vitale", s:"medicaments", n:"Adrénaline 1 mg / 1 mL, ampoule", q:"6 ampoules", i:"Choc anaphylactique, arrêt cardio-respiratoire" },
+  { d:"vitale", s:"medicaments", n:"Antiseptique alcoolique (povidone iodée 5 % ou chlorhexidine alcoolique 0,5 %), flacon 125 mL", q:"1 flacon", i:"Antisepsie avant pose de cathéter" },
+  { d:"vitale", s:"medicaments", n:"Clonazépam (Rivotril®) 1 mg / 1 mL, ampoule", q:"2 ampoules", i:"Crise convulsive" },
+  { d:"vitale", s:"medicaments", n:"Furosémide (Lasilix®) 20 mg / 2 mL, ampoule", q:"5 ampoules", i:"Œdème aigu du poumon" },
+  { d:"vitale", s:"medicaments", n:"Glucagon voie nasale (Baqsimi®)", q:"4", i:"Hypoglycémie sévère — alternative : glucose 30 % ampoule 10 mL" },
+  { d:"vitale", s:"medicaments", n:"Glucose 5 %, poche 500 mL", q:"1 poche", i:"Réhydratation — jamais en garde-veine seul" },
+  { d:"vitale", s:"medicaments", n:"Insuline d'action rapide SC (Novorapid®, Humalog® ou Lyumjev®)", q:"2 stylos + 6 aiguilles", i:"Hyperglycémie — stock commun aux deux dotations · à conserver entre +2 et +8 °C" },
+  { d:"vitale", s:"medicaments", n:"Méthylprednisolone (Solumédrol®) 40 mg / 2 mL, flacon", q:"4 flacons", i:"Œdème de Quincke, dyspnée laryngée" },
+  { d:"vitale", s:"medicaments", n:"Midazolam (Hypnovel®) 5 mg / 5 mL, ampoule", q:"4 ampoules", i:"Sédation en soins palliatifs" },
+  { d:"vitale", s:"medicaments", n:"Naloxone (Narcan®) 0,4 mg / 1 mL, ampoule", q:"2 ampoules", i:"Surdosage aux morphinomimétiques" },
+  { d:"vitale", s:"medicaments", n:"Oxygène, bouteille 1 m³", q:"2 bouteilles", i:"Détresse respiratoire" },
+  { d:"vitale", s:"medicaments", n:"Prednisone (Cortancyl®) 5 mg, comprimé", q:"20 comprimés", i:"Corticothérapie orale" },
+  { d:"vitale", s:"medicaments", n:"Salbutamol (Ventoline®) 100 µg / 200 doses, spray", q:"1 flacon", i:"Crise d'asthme, gêne respiratoire" },
+  { d:"vitale", s:"medicaments", n:"Salbutamol 5 mg / 2,5 mL (ou terbutaline 5 mg / 2 mL), unidose pour nébulisation", q:"4 unidoses", i:"Crise d'asthme — associable à l'ipratropium 0,5 mg / 2 mL" },
+  { d:"vitale", s:"medicaments", n:"Eau pour préparations injectables 10 mL, ampoule", q:"4 ampoules", i:"Solvant — ne jamais injecter seule" },
+  { d:"vitale", s:"medicaments", n:"Chlorure de sodium 0,9 %, poche 500 mL", q:"1 poche", i:"Solvant, garde-veine" },
+  { d:"vitale", s:"medicaments", n:"Chlorure de sodium 0,9 %, dosettes 5 mL", q:"4 dosettes", i:"Solvant, rinçage" },
+  { d:"vitale", s:"medicaments", n:"Trinitrine (Natispray®) 0,15 mg / dose, spray sublingual", q:"1 flacon", i:"Douleur thoracique angineuse" },
+
+  // ---------- URGENCE VITALE : DISPOSITIFS MÉDICAUX ----------
+  { d:"vitale", s:"dm", n:"Aiguilles hypodermiques SC (25G orange ou 23G bleue)", q:"3" },
+  { d:"vitale", s:"dm", n:"Aiguilles hypodermiques IV (19G rose ou 20G jaune)", q:"3" },
+  { d:"vitale", s:"dm", n:"Aiguilles hypodermiques IM (21G)", q:"3" },
+  { d:"vitale", s:"dm", n:"Lecteur de glycémie + 10 lancettes + stylo autopiqueur", q:"1" },
+  { d:"vitale", s:"dm", n:"Cathéter court veineux 16G (gris)", q:"3" },
+  { d:"vitale", s:"dm", n:"Cathéter court veineux 18G (vert)", q:"3" },
+  { d:"vitale", s:"dm", n:"Cathéter court veineux 20G (rose)", q:"3" },
+  { d:"vitale", s:"dm", n:"Film adhésif transparent semi-perméable (type Tegaderm®)", q:"3" },
+  { d:"vitale", s:"dm", n:"Garrot", q:"1" },
+  { d:"vitale", s:"dm", n:"Perfuseur 3 voies avec robinet", q:"1" },
+  { d:"vitale", s:"dm", n:"Seringues 2 mL", q:"2" },
+  { d:"vitale", s:"dm", n:"Seringues 5 mL", q:"2" },
+  { d:"vitale", s:"dm", n:"Seringues 10 mL", q:"2" },
+  { d:"vitale", s:"dm", n:"Abaisse-langue", q:"1" },
+  { d:"vitale", s:"dm", n:"Gants stériles (3 tailles)", q:"6 paires" },
+  { d:"vitale", s:"dm", n:"Gants non stériles (3 tailles)", q:"6 paires" },
+  { d:"vitale", s:"dm", n:"Masques FFP2", q:"2" },
+  { d:"vitale", s:"dm", n:"Masques chirurgicaux", q:"2" },
+  { d:"vitale", s:"dm", n:"Oxymètre de pouls", q:"1" },
+  { d:"vitale", s:"dm", n:"Produit hydro-alcoolique 100 mL", q:"1" },
+  { d:"vitale", s:"dm", n:"Scellés plastiques numérotés", q:"10" },
+  { d:"vitale", s:"dm", n:"Sparadrap siliconé, rouleau", q:"1" },
+  { d:"vitale", s:"dm", n:"Compresses stériles", q:"10" },
+  { d:"vitale", s:"dm", n:"Thermomètre électronique", q:"1" },
+  { d:"vitale", s:"dm", n:"Canule oropharyngée de Guedel (n° 2 verte ou n° 4 rouge)", q:"1" },
+  { d:"vitale", s:"dm", n:"Lunettes ou masque de protection à visière", q:"1" },
+  { d:"vitale", s:"dm", n:"Pince de Magill", q:"1", i:"Retrait de corps étranger — formation requise" },
+  { d:"vitale", s:"dm", n:"Poche de recueil 1 L pour aspirateur de mucosité", q:"1" },
+  { d:"vitale", s:"dm", n:"Sonde d'aspiration trachéo-bronchique CH 26", q:"1", i:"Ne pas monter à l'avance (stérilité)" },
+  { d:"vitale", s:"dm", n:"Raccord stop / vide pour aspiration", q:"1" },
+  { d:"vitale", s:"dm", n:"Insufflateur manuel BAVU", q:"1" },
+  { d:"vitale", s:"dm", n:"Filtre antibactérien pour BAVU", q:"1" },
+  { d:"vitale", s:"dm", n:"Masques BAVU adulte (2 tailles)", q:"2" },
+  { d:"vitale", s:"dm", n:"Masque à oxygène haute concentration", q:"1" },
+  { d:"vitale", s:"dm", n:"Masque nébuliseur adulte", q:"1" },
+  { d:"vitale", s:"dm", n:"Lunettes à oxygène", q:"2" },
+
+  // ---------- URGENCE VITALE : ÉQUIPEMENT ----------
+  { d:"vitale", s:"equipement", n:"Aspirateur de mucosité électrique portable (type LSU)", q:"1", i:"Branché en permanence sur secteur" },
+  { d:"vitale", s:"equipement", n:"Boîte à DASRI (jaune)", q:"1" },
+  { d:"vitale", s:"equipement", n:"Couverture de survie", q:"1" },
+  { d:"vitale", s:"equipement", n:"Défibrillateur automatisé externe (DAE)", q:"1", i:"Obligatoire en ESMS depuis le 1er janvier 2022" },
+  { d:"vitale", s:"equipement", n:"Électrodes de défibrillation adulte (sachets de 2)", q:"2" },
+  { d:"vitale", s:"equipement", n:"Mini-nébuliseur adulte", q:"1" },
+  { d:"vitale", s:"equipement", n:"Paire de ciseaux", q:"1" },
+  { d:"vitale", s:"equipement", n:"Plan dur pour massage cardiaque externe", q:"1" },
+  { d:"vitale", s:"equipement", n:"Sac poubelle jaune 30 L", q:"1" },
+  { d:"vitale", s:"equipement", n:"Tensiomètre + 2 brassards (normal et gros bras)", q:"1" },
+  { d:"vitale", s:"equipement", n:"Stéthoscope", q:"1" },
+
+  // ---------- URGENCE RELATIVE : MÉDICAMENTS ----------
+  { d:"relative", s:"medicaments", n:"Silodosine 4 mg (Urorec®, Silodyx®), gélules", q:"1 boîte", i:"Rétention aiguë d'urine — ne pas ouvrir ni broyer" },
+  { d:"relative", s:"medicaments", n:"Amphotéricine B 10 % (Fungizone®) ou nystatine (Mycostatine®), suspension buvable", q:"1 flacon", i:"Mycose buccale" },
+  { d:"relative", s:"medicaments", n:"Amoxicilline + acide clavulanique 1 g / 125 mg, sachets", q:"12 sachets", i:"Infection bactérienne — contrôler l'INR si AVK" },
+  { d:"relative", s:"medicaments", n:"Ceftriaxone (Rocéphine®) 1 g / 3,5 mL, solution injectable IM", q:"3 à 6 flacons", i:"Infection bactérienne — jamais en sous-cutané" },
+  { d:"relative", s:"medicaments", n:"Desloratadine (Aerius®) 5 mg, comprimés", q:"1 boîte de 30", i:"Symptômes allergiques" },
+  { d:"relative", s:"medicaments", n:"Diazépam (Valium®) 10 mg / 2 mL, ampoule", q:"2 ampoules", i:"Crise convulsive — voie intra-rectale" },
+  { d:"relative", s:"medicaments", n:"Éconazole 1 %, crème 30 g", q:"1 tube", i:"Mycose cutanée" },
+  { d:"relative", s:"medicaments", n:"Énoxaparine 4 000 UI / 0,4 mL (Lovenox®), seringues pré-remplies", q:"1 boîte de 2 ou 6", i:"Anticoagulation prophylactique" },
+  { d:"relative", s:"medicaments", n:"Furosémide 20 mg, comprimés", q:"10 comprimés", i:"Œdèmes" },
+  { d:"relative", s:"medicaments", n:"Halopéridol 1 mg (Haldol®), comprimés", q:"10 comprimés", i:"Crise d'agitation — comprimés non écrasables" },
+  { d:"relative", s:"medicaments", n:"Lavement hypertonique (type Normacol®)", q:"1 lavement ou 2 flacons 130 mL", i:"Constipation" },
+  { d:"relative", s:"medicaments", n:"Laxatif osmotique (macrogol, lactulose, lactitol), sachets", q:"10 sachets", i:"Constipation — après règles hygiéno-diététiques" },
+  { d:"relative", s:"medicaments", n:"Métopimazine (Vogalène Lyoc®) 7,5 mg, orodispersible", q:"1 boîte de 16", i:"Nausées, vomissements — durée la plus courte possible" },
+  { d:"relative", s:"medicaments", n:"Morphine sulfate (Oramorph®) 20 mg / mL", q:"1 flacon ou 3 unidoses", i:"Douleur intense — stupéfiant, accès sécurisé" },
+  { d:"relative", s:"medicaments", n:"Nicardipine LP 50 mg (Loxen®), gélules", q:"10 gélules", i:"Urgence hypertensive — forme LP, ne pas ouvrir" },
+  { d:"relative", s:"medicaments", n:"Paracétamol 500 mg (gélules ou suppositoires)", q:"2 boîtes de 16", i:"Douleur, fièvre — max 3 g/24 h" },
+  { d:"relative", s:"medicaments", n:"Phloroglucinol (Spasfon®) 80 mg, orodispersible", q:"10 comprimés", i:"Douleurs spasmodiques" },
+  { d:"relative", s:"medicaments", n:"Phytoménadione (vitamine K1) 10 mg / 1 mL, ampoule", q:"1 ampoule", i:"Surdosage en AVK sans hémorragie grave" },
+  { d:"relative", s:"medicaments", n:"Picloxydine (Vitabact®) collyre, unidoses 0,4 mL", q:"10 unidoses", i:"Collyre antiseptique" },
+  { d:"relative", s:"medicaments", n:"Polystyrène sulfonate de sodium (Kayexalate®) 15 g", q:"1 flacon", i:"Hyperkaliémie" },
+  { d:"relative", s:"medicaments", n:"Chlorure de potassium (Diffu-K®) 600 mg, gélules", q:"1 boîte", i:"Hypokaliémie" },
+  { d:"relative", s:"medicaments", n:"Racécadotril (Tiorfan®) 100 mg, gélules", q:"1 boîte", i:"Diarrhée — poursuivre l'hydratation" },
+  { d:"relative", s:"medicaments", n:"Salbutamol (Ventoline®) spray pour inhalation", q:"1 flacon", i:"Crise d'asthme — 1 flacon par résident" },
+  { d:"relative", s:"medicaments", n:"Salbutamol 5 mg / 2,5 mL (ou terbutaline), unidose pour nébulisation", q:"4 unidoses", i:"Crise d'asthme" },
+  { d:"relative", s:"medicaments", n:"Sulfadiazine argentique (Flammazine®), crème", q:"1 tube", i:"Brûlure du 2ᵉ degré, prévention d'infection locale" },
+
+  // ---------- URGENCE RELATIVE : DISPOSITIFS MÉDICAUX ----------
+  { d:"relative", s:"dm", n:"Aiguilles pour injection IM 21G (verte)", q:"3" },
+  { d:"relative", s:"dm", n:"Aiguilles pour injection SC 25G (orange)", q:"3" },
+  { d:"relative", s:"dm", n:"Bandelettes pour lecteur de glycémie", q:"30" },
+  { d:"relative", s:"dm", n:"Canule intra-rectale", q:"1", i:"Administration du diazépam" },
+  { d:"relative", s:"dm", n:"Compresses non tissées stériles 7,5 × 7,5 cm", q:"10" },
+  { d:"relative", s:"dm", n:"Lecteur de glycémie", q:"1" },
+  { d:"relative", s:"dm", n:"Stylo autopiqueur", q:"1" },
+  { d:"relative", s:"dm", n:"Gants stériles (3 tailles)", q:"6 paires" },
+  { d:"relative", s:"dm", n:"Haricot", q:"5" },
+  { d:"relative", s:"dm", n:"Poche de froid", q:"2", i:"À éviter si troubles circulatoires" },
+  { d:"relative", s:"dm", n:"Thermomètre", q:"1" },
+  { d:"relative", s:"dm", n:"Eau stérile, flacon", q:"1" },
+  { d:"relative", s:"dm", n:"Pansement hémostatique (type Coalgan®)", q:"5", i:"Épistaxis, saignements" },
+  { d:"relative", s:"dm", n:"Pansement non tissé stérile (type Cicaplaie®)", q:"selon besoin" },
+  { d:"relative", s:"dm", n:"Sparadrap siliconé, rouleau", q:"1" },
+  { d:"relative", s:"dm", n:"Sutures cutanées stériles (Steristrip®)", q:"5" },
+  { d:"relative", s:"dm", n:"Lubrifiant stérile aqueux", q:"1" },
+  { d:"relative", s:"dm", n:"Sonde de Foley CH 14", q:"1" },
+  { d:"relative", s:"dm", n:"Sonde de Foley CH 16", q:"1" },
+  { d:"relative", s:"dm", n:"Sonde pour sondage évacuateur n° 14", q:"1" },
+  { d:"relative", s:"dm", n:"Sonde pour sondage évacuateur n° 16", q:"1" },
+
+  // ---------- URGENCE RELATIVE : ÉQUIPEMENT ----------
+  { d:"relative", s:"equipement", n:"Boîte à DASRI (jaune)", q:"1" },
+  { d:"relative", s:"equipement", n:"Mini-nébuliseur adulte + masque", q:"1" },
+  { d:"relative", s:"equipement", n:"Oxymètre de pouls", q:"1" },
+  { d:"relative", s:"equipement", n:"Paire de ciseaux", q:"1" },
+  { d:"relative", s:"equipement", n:"Stéthoscope", q:"1" },
+  { d:"relative", s:"equipement", n:"Tensiomètre + 2 brassards", q:"1" }
+];
+
+const CHARIOT_SECTIONS = [
+  { id: "medicaments", label: "Médicaments" },
+  { id: "dm", label: "Dispositifs médicaux et consommables" },
+  { id: "equipement", label: "Équipement" }
+];
+
+function chariotKey(it){ return it.d + "|" + it.n; }
+
+function setChariotDotation(id){
+  state.chariotDotation = id;
+  renderChariotPanel();
+}
+window.setChariotDotation = setChariotDotation;
+
+function toggleChariotItem(key){
+  const i = state.chariotUnchecked.indexOf(key);
+  if(i === -1) state.chariotUnchecked.push(key);
+  else state.chariotUnchecked.splice(i, 1);
+  renderChariotPanel();
+}
+window.toggleChariotItem = toggleChariotItem;
+
+function chariotSelectAll(on){
+  const d = state.chariotDotation || "vitale";
+  CHARIOT_ITEMS.filter(it => it.d === d).forEach(it => {
+    const k = chariotKey(it);
+    const i = state.chariotUnchecked.indexOf(k);
+    if(on && i !== -1) state.chariotUnchecked.splice(i, 1);
+    if(!on && i === -1) state.chariotUnchecked.push(k);
+  });
+  renderChariotPanel();
+}
+window.chariotSelectAll = chariotSelectAll;
+
+function renderChariotPanel(){
+  const cat = CATEGORIES.find(c => c.id === "materiel");
+  const c = colorVars(cat.color);
+  const dId = state.chariotDotation || "vitale";
+  const dot = CHARIOT_DOTATIONS.find(x => x.id === dId);
+  const dc = colorVars(dot.color);
+  const items = CHARIOT_ITEMS.filter(it => it.d === dId);
+  const kept = items.filter(it => !state.chariotUnchecked.includes(chariotKey(it)));
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <h2 class="panel-title" style="color:${c.pill}">Dotations d'urgence en ESMS</h2>
+      <p class="doc-meta">Liste de référence pré-cochée : décoche ce dont l'établissement n'a pas besoin, la prescription de réassort se construit à droite. Quantités recommandées par le référentiel régional, à adapter au profil de l'établissement.</p>
+
+      <div class="neurolep-grid">
+        ${CHARIOT_DOTATIONS.map(x => {
+          const xc = colorVars(x.color);
+          return `<button type="button" class="neurolep-bubble bio-bubble ${dId === x.id ? "bio-bubble-active" : ""}" style="--pill:${xc.pill};--pillbg:${xc.pillbg}" onclick="setChariotDotation('${x.id}')">
+            <span class="neurolep-dci">${x.label}</span>
+            <span class="neurolep-brand">${x.sub}</span>
+          </button>`;
+        }).join("")}
+      </div>
+
+      <div class="bio-layout">
+        <div class="bio-layout-left">
+          <div class="bio-options-wrap">
+            <div class="chariot-head">
+              <span class="neurolep-label">${dot.label} — ${kept.length} / ${items.length} éléments retenus</span>
+              <div class="bio-result-actions">
+                <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(true)">Tout cocher</button>
+                <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(false)">Tout décocher</button>
+              </div>
+            </div>
+            ${CHARIOT_SECTIONS.map(sec => {
+              const list = items.filter(it => it.s === sec.id);
+              if(!list.length) return "";
+              return `
+                <div class="bio-option-group">
+                  <p class="bio-option-group-indication">${sec.label}</p>
+                  <div class="bio-options-list">
+                    ${list.map(it => {
+                      const k = chariotKey(it);
+                      const on = !state.chariotUnchecked.includes(k);
+                      return `<label class="bio-option-row ${on ? "bio-option-checked" : ""}">
+                        <input type="checkbox" ${on ? "checked" : ""} onchange="toggleChariotItem('${k.replace(/'/g, "\\'")}')" />
+                        <span>
+                          <span class="bio-option-label">${it.n}</span>
+                          <span class="bio-option-indication">${it.q}${it.i ? " — " + it.i : ""}</span>
+                        </span>
+                      </label>`;
+                    }).join("")}
+                  </div>
+                </div>`;
+            }).join("")}
+          </div>
+        </div>
+        <div class="bio-layout-right">
+          <div id="chariotResult"></div>
+        </div>
+      </div>
+
+      <div class="doc-note" style="margin-top:18px;">
+        <strong>Un chariot non opérationnel = une perte de chance</strong>
+        <p>La tenue du chariot d'urgence relève du <strong>critère impératif 2.3-12 de la certification HAS</strong> : « les équipes maîtrisent la prise en charge des urgences vitales ». Quatre réflexes : <strong>Vérifier · Sceller · Tracer · Former</strong>. Le jour J, on n'aura pas le temps de chercher.</p>
+        <p style="margin-top:8px;"><strong>Les bons réflexes</strong> — matériel entretenu et fonctionnel, chariot immédiatement accessible, équipe formée et coordonnée, vérifications tracées. <strong>À éviter</strong> — matériel introuvable, chariot incomplet, réaction désorganisée, rôles non définis.</p>
+        <p>La dotation d'urgence <strong>vitale</strong> est stockée sous scellé, jamais dans un local fermé à clé, et vérifiée idéalement chaque mois (contenu, péremptions ≥ 2 mois, fonctionnement du matériel). Toute utilisation déclenche une nouvelle prescription de réassort. La dotation d'urgence <strong>relative</strong> est définie qualitativement et quantitativement par le médecin coordonnateur et le pharmacien référent.</p>
+        <p style="margin-top:8px;"><strong>Non recommandé par le groupe de travail :</strong> les antiarythmiques (amiodarone notamment) ne sont pas recommandés dans une dotation d'urgence, en particulier en l'absence d'ECG dans l'établissement.</p>
+        <p style="margin-top:8px;">Source : OMéDIT Centre-Val de Loire, groupe de travail régional « Dotations d'urgences médicales en EHPAD », février 2025. Transposable aux FAM, MAS et IME en adaptant au profil des résidents. Ne dispense pas de la validation par le médecin coordonnateur et le pharmacien référent de l'établissement.</p>
+      </div>
+    </div>
+  `;
+  renderChariotResult();
+}
+
+function renderChariotResult(){
+  const out = document.getElementById("chariotResult");
+  if(!out) return;
+  const dId = state.chariotDotation || "vitale";
+  const dot = CHARIOT_DOTATIONS.find(x => x.id === dId);
+  const items = CHARIOT_ITEMS.filter(it => it.d === dId && !state.chariotUnchecked.includes(chariotKey(it)));
+
+  if(!items.length){
+    out.innerHTML = `<div class="empty-state">Aucun élément retenu : coche au moins un élément à gauche.</div>`;
+    return;
+  }
+
+  const meds = items.filter(it => it.s === "medicaments");
+  const mat = items.filter(it => it.s !== "medicaments");
+  const heading = `Dotation d'urgence ${dot.label.toLowerCase().replace("urgence ", "")} — réassort :`;
+
+  let plain = heading + "\n";
+  if(meds.length) plain += "\nMÉDICAMENTS :\n" + meds.map(it => `- ${it.n} — ${it.q}`).join("\n") + "\n";
+  if(mat.length)  plain += "\nDISPOSITIFS MÉDICAUX ET ÉQUIPEMENT :\n" + mat.map(it => `- ${it.n} — ${it.q}`).join("\n") + "\n";
+
+  const htmlText = `<p><strong><u>${heading}</u></strong></p>`
+    + (meds.length ? `<p><strong>Médicaments</strong></p><ul>${meds.map(it => `<li>${it.n} — ${it.q}</li>`).join("")}</ul>` : "")
+    + (mat.length ? `<p><strong>Dispositifs médicaux et équipement</strong></p><ul>${mat.map(it => `<li>${it.n} — ${it.q}</li>`).join("")}</ul>` : "");
+
+  out.innerHTML = `
+    <div class="bio-result-box">
+      <div class="bio-result-head">
+        <strong>${items.length} élément${items.length > 1 ? "s" : ""}</strong>
+        <div class="bio-result-actions">
+          <button type="button" class="bio-copy-btn" id="chariotCopyBtn">Copier la liste</button>
+        </div>
+      </div>
+      <div class="bio-result-preview">
+        <p class="bio-result-heading">${heading}</p>
+        ${meds.length ? `<p class="chariot-sub">Médicaments</p><ul class="bio-result-list">${meds.map(it => `<li>${it.n} — <strong>${it.q}</strong></li>`).join("")}</ul>` : ""}
+        ${mat.length ? `<p class="chariot-sub">Dispositifs médicaux et équipement</p><ul class="bio-result-list">${mat.map(it => `<li>${it.n} — <strong>${it.q}</strong></li>`).join("")}</ul>` : ""}
+      </div>
+    </div>
+  `;
+
+  const btn = document.getElementById("chariotCopyBtn");
+  btn.addEventListener("click", async () => {
+    const done = () => { btn.textContent = "Copié ✓"; setTimeout(() => { btn.textContent = "Copier la liste"; }, 1800); };
+    try{
+      if(navigator.clipboard && window.ClipboardItem){
+        await navigator.clipboard.write([new ClipboardItem({
+          "text/plain": new Blob([plain], { type: "text/plain" }),
+          "text/html": new Blob([htmlText], { type: "text/html" })
+        })]);
+        done(); return;
+      }
+      await navigator.clipboard.writeText(plain); done();
+    }catch(e){
+      const ta = document.createElement("textarea");
+      ta.value = plain; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); }catch(err){}
+      document.body.removeChild(ta); done();
+    }
+  });
 }
 
 function renderResourcesPanel(){
@@ -4697,6 +5295,8 @@ function render(){
     renderDeprescSituationPanel();
   }else if(state.activeDoc === "charge-anticholinergique" && state.explorerMode){
     renderAcbPanel();
+  }else if(state.activeDoc === "chariot-urgence" && state.explorerMode){
+    renderChariotPanel();
   }else if(state.activeDoc){
     renderEmbedPage(state.activeDoc);
   }else if(state.query){
