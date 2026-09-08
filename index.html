@@ -581,6 +581,33 @@
     white-space:normal;
     max-height:none;
   }
+  .acb-suggestions{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+  .acb-suggestion{
+    font-family:inherit; font-size:13px; font-weight:600;
+    display:inline-flex; align-items:center; gap:7px;
+    color:var(--text); background:var(--slate-bg);
+    border:none; padding:7px 12px; border-radius:20px; cursor:pointer;
+  }
+  .acb-suggestion:hover{background:var(--sky-bg);}
+  .acb-score{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px; border-radius:50%;
+    font-size:11.5px; font-weight:700; color:#fff; flex:none;
+  }
+  .acb-score-1{background:var(--sky);}
+  .acb-score-2{background:var(--amber);}
+  .acb-score-3{background:var(--red);}
+  .acb-list{list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:6px;}
+  .acb-list li{
+    display:flex; align-items:center; gap:9px;
+    font-size:13.5px; padding:7px 10px;
+    background:var(--bg); border-radius:8px;
+  }
+  .acb-remove{
+    margin-left:auto; font-family:inherit; font-size:16px; line-height:1;
+    color:var(--text-muted); background:none; border:none; cursor:pointer; padding:2px 6px;
+  }
+  .acb-remove:hover{color:var(--red);}
   .vaccin-list{margin:4px 0 0; padding-left:20px; font-size:13.5px; line-height:1.65;}
   .vaccin-schema{font-size:14px; font-weight:600; color:var(--text); line-height:1.5;}
   .calc-hint{
@@ -1897,6 +1924,24 @@ const DOCUMENTS = {
     filename: "Clozapine_surveillance_2026.pdf",
     path: "medicaments-securite/Clozapine_surveillance_2026.pdf"
   },
+  "deprescription-classes": {
+    title: "Déprescription par classe",
+    category: "medicaments-securite",
+    meta: "Sept classes à réévaluer en priorité chez la personne âgée — Laroche, STOPP/START, Beers",
+    interactive: true
+  },
+  "deprescription-situations": {
+    title: "Déprescription — par situation clinique",
+    category: "medicaments-securite",
+    meta: "Patient chuteur, confus, polymédiqué, insuffisant rénal, dénutri, fin de vie — les classes à revoir en priorité",
+    interactive: true
+  },
+  "charge-anticholinergique": {
+    title: "Charge anticholinergique",
+    category: "medicaments-securite",
+    meta: "Calcul du score ACB à partir des molécules de l'ordonnance — seuil de significativité clinique à 3",
+    interactive: true
+  },
   "neuroleptiques-classiques": {
     title: "Neuroleptiques classiques — Guide des posologies",
     category: "medicaments-securite",
@@ -2364,7 +2409,11 @@ const state = {
   calcTool: "dfg",
   courrierType: "specialiste",
   courrierFields: {},
-  vaccinSel: null
+  vaccinSel: null,
+  deprescClasse: null,
+  deprescSituation: null,
+  acbSelected: [],
+  acbQuery: ""
 };
 
 const sidebarEl = document.getElementById("sidebar");
@@ -2402,6 +2451,8 @@ function openExplorer(id){
   state.explorerMode = true;
   state.neurolepMolecule = null;
   state.vaccinSel = null;
+  state.deprescClasse = null;
+  state.deprescSituation = null;
   window.scrollTo({ top: 0, behavior: "smooth" });
   render();
 }
@@ -4075,6 +4126,440 @@ function renderVaccinPediaPanel(){
     "setVaccinPedia");
 }
 
+/* =====================================================================
+   DÉPRESCRIPTION — d'après la liste de Laroche (Rev Med Interne 2009),
+   les critères STOPP/START v2 (adaptation française Lang et al. 2015)
+   et v3 (2023), et les critères de Beers (AGS 2023).
+   Outil d'alerte et d'aide à la réflexion : il ne remplace ni le RCP,
+   ni l'avis pharmaceutique, ni le jugement clinique.
+   ===================================================================== */
+const DEPRESC_CLASSES = [
+  {
+    id: "benzo", nom: "Benzodiazépines & apparentés", sub: "Z-drugs inclus", color: "red",
+    probleme: "Risque de chutes, fractures, confusion, troubles mnésiques et dépendance. Bénéfice hypnotique modeste et transitoire, effets indésirables durables.",
+    alertes: [
+      "Demi-vie longue (diazépam, clorazépate, nordazépam, prazépam) : à éviter chez le sujet âgé — critère Laroche.",
+      "Prescription poursuivie au-delà de 4 semaines pour l'anxiété, ou 2 à 4 semaines pour l'insomnie.",
+      "Association de deux benzodiazépines, ou benzodiazépine + Z-drug.",
+      "Poursuite chez un patient chuteur ou confus."
+    ],
+    conduite: [
+      "Réduction progressive : environ 25 % de la dose toutes les 1 à 2 semaines, plus lentement en fin de décroissance.",
+      "Convertir d'abord une demi-vie longue vers une demi-vie courte si nécessaire.",
+      "Accompagner : mesures d'hygiène du sommeil, information du résident et de l'équipe.",
+      "Ne jamais arrêter brutalement : risque de rebond, de sevrage et de convulsions."
+    ]
+  },
+  {
+    id: "anticho", nom: "Anticholinergiques", sub: "Charge cumulée", color: "purple",
+    probleme: "Effet cumulatif sur la cognition, risque de confusion, chutes, rétention urinaire, constipation, sécheresse buccale et troubles visuels.",
+    alertes: [
+      "Antidépresseurs tricycliques (amitriptyline, clomipramine, imipramine) — à éviter, critère Laroche.",
+      "Antihistaminiques sédatifs (hydroxyzine, alimémazine, prométhazine).",
+      "Anticholinergiques urinaires (oxybutynine en particulier) chez un patient dément.",
+      "Correcteurs antiparkinsoniens (trihexyphénidyle, tropatépine) prescrits au long cours."
+    ],
+    conduite: [
+      "Calculer la charge anticholinergique globale — voir le module dédié dans cette rubrique.",
+      "Substituer par une molécule de charge nulle ou faible quand une alternative existe.",
+      "Décroître progressivement : l'arrêt brutal expose à un effet rebond cholinergique.",
+      "Réévaluer systématiquement devant toute confusion aiguë ou chute inexpliquée."
+    ]
+  },
+  {
+    id: "neuroleptiques", nom: "Antipsychotiques", sub: "Troubles du comportement", color: "amber",
+    probleme: "Chez le patient dément : surmortalité, AVC, chutes, syndrome parkinsonien, troubles métaboliques. Bénéfice modeste sur les troubles du comportement.",
+    alertes: [
+      "Prescrits pour des symptômes psycho-comportementaux de la démence sans cause somatique recherchée.",
+      "Poursuivis au-delà de 3 mois sans réévaluation formalisée.",
+      "Associés à une benzodiazépine, ou deux antipsychotiques associés.",
+      "Prescrits chez un patient parkinsonien (hors clozapine)."
+    ],
+    conduite: [
+      "Toujours rechercher d'abord une cause somatique : douleur, fécalome, rétention, infection, hypoglycémie.",
+      "Privilégier les approches non médicamenteuses et l'adaptation de l'environnement.",
+      "Si maintien nécessaire : durée la plus courte, dose minimale efficace, réévaluation tracée.",
+      "Décroissance progressive par paliers, en surveillant la réapparition des symptômes."
+    ]
+  },
+  {
+    id: "ipp", nom: "IPP", sub: "Inhibiteurs de la pompe à protons", color: "teal",
+    probleme: "Prescrits sans indication maintenue dans une majorité de cas. Risque d'infections digestives et pulmonaires, hypomagnésémie, carence en B12, fractures.",
+    alertes: [
+      "Poursuite à dose pleine au-delà de 8 semaines sans indication documentée — critère STOPP.",
+      "Prescrit initialement en « protection gastrique » d'un traitement qui n'en justifie pas.",
+      "Indication de départ non retrouvée dans le dossier."
+    ],
+    conduite: [
+      "Vérifier l'indication de maintien : œsophagite sévère, Barrett, antécédent d'ulcère compliqué, association AINS chez un patient à risque.",
+      "Sinon : réduction de dose puis arrêt, ou passage à la demande.",
+      "Un rebond acide transitoire est fréquent : prévenir le résident et l'équipe."
+    ]
+  },
+  {
+    id: "cardio", nom: "Cardiovasculaires", sub: "Antihypertenseurs, digoxine", color: "blue",
+    probleme: "Sur-traitement fréquent chez le sujet âgé fragile : hypotension orthostatique, chutes, insuffisance rénale, troubles ioniques.",
+    alertes: [
+      "Digoxine > 0,125 mg/j au long cours en cas d'insuffisance rénale — critère STOPP.",
+      "Association de plusieurs antihypertenseurs chez un patient chuteur ou dénutri.",
+      "Diurétique de l'anse prescrit pour des œdèmes déclives isolés sans insuffisance cardiaque.",
+      "Antihypertenseur central (méthyldopa, clonidine) — à éviter, critère Laroche."
+    ],
+    conduite: [
+      "Mesurer la pression artérielle debout : rechercher systématiquement une hypotension orthostatique.",
+      "Réévaluer les objectifs tensionnels selon la fragilité et l'espérance de vie.",
+      "Contrôler ionogramme et fonction rénale après toute modification."
+    ]
+  },
+  {
+    id: "antalgiques", nom: "Antalgiques & AINS", sub: "Y compris opioïdes", color: "navy",
+    probleme: "AINS : hémorragie digestive, insuffisance rénale, décompensation cardiaque. Opioïdes : confusion, chutes, constipation, dépression respiratoire.",
+    alertes: [
+      "AINS au long cours chez le sujet âgé — à éviter, critères Laroche et STOPP.",
+      "AINS associé à un anticoagulant, un antiagrégant, un IEC/ARA2 ou un diurétique.",
+      "Opioïde prescrit sans laxatif associé — critère START.",
+      "Palier 2 ou 3 sans réévaluation de l'efficacité ni de la tolérance."
+    ],
+    conduite: [
+      "Privilégier le paracétamol en première intention, à posologie adaptée au poids et à la fonction hépatique.",
+      "AINS : durée la plus courte possible, jamais au long cours, protection gastrique si indispensable.",
+      "Toute prescription d'opioïde s'accompagne d'un laxatif et d'une évaluation de la douleur tracée."
+    ]
+  },
+  {
+    id: "sous-prescription", nom: "Sous-prescription (START)", sub: "Ce qui manque", color: "emerald",
+    probleme: "La déprescription ne consiste pas seulement à retirer : certains traitements utiles manquent fréquemment chez le sujet âgé.",
+    alertes: [
+      "Anticoagulant absent en cas de fibrillation atriale sans contre-indication.",
+      "Vitamine D et calcium absents chez un patient ostéoporotique ou chuteur, peu exposé au soleil.",
+      "Traitement anti-ostéoporotique absent après fracture de fragilité.",
+      "Laxatif absent chez un patient sous opioïde.",
+      "IEC absent après infarctus ou en cas d'insuffisance cardiaque systolique."
+    ],
+    conduite: [
+      "Passer en revue les critères START à chaque révision d'ordonnance annuelle.",
+      "Mettre en balance le bénéfice attendu et l'espérance de vie, dans le cadre du projet de soins."
+    ]
+  }
+];
+
+const DEPRESC_SITUATIONS = [
+  {
+    id: "chuteur", label: "Patient chuteur", color: "red",
+    question: "Chutes répétées, trouble de l'équilibre, fracture récente",
+    classes: ["benzo", "anticho", "neuroleptiques", "cardio", "antalgiques"],
+    conseils: [
+      "Mesurer la pression artérielle couché puis debout à 1 et 3 minutes.",
+      "Compter le nombre de médicaments psychotropes : chaque psychotrope supplémentaire augmente le risque de chute.",
+      "Vérifier la vitamine D et le calcium (critère START chez le chuteur)."
+    ]
+  },
+  {
+    id: "confus", label: "Confusion / delirium", color: "purple",
+    question: "Confusion aiguë, désorientation, agitation d'apparition récente",
+    classes: ["anticho", "benzo", "neuroleptiques", "antalgiques"],
+    conseils: [
+      "Chercher d'abord une cause somatique : infection, rétention urinaire, fécalome, douleur, hypoglycémie, déshydratation.",
+      "Calculer la charge anticholinergique : un score élevé est une cause fréquente et réversible.",
+      "Toute introduction médicamenteuse récente doit être suspectée en premier."
+    ]
+  },
+  {
+    id: "polymed", label: "Polymédication", color: "amber",
+    question: "Plus de 10 lignes sur l'ordonnance",
+    classes: ["ipp", "benzo", "anticho", "cardio", "sous-prescription"],
+    conseils: [
+      "Reprendre chaque ligne : indication d'origine encore valable ? bénéfice attendu au regard de l'espérance de vie ?",
+      "Traquer les cascades médicamenteuses : un médicament prescrit pour traiter l'effet indésirable d'un autre.",
+      "Ne pas oublier le versant START : chercher aussi ce qui manque."
+    ]
+  },
+  {
+    id: "renal", label: "Insuffisance rénale", color: "blue",
+    question: "DFG abaissé, fonction rénale dégradée",
+    classes: ["cardio", "antalgiques", "ipp"],
+    conseils: [
+      "Calculer le DFG et la clairance de Cockcroft — voir la rubrique Calculateurs cliniques.",
+      "Revoir toutes les posologies à adapter : metformine, AOD, antibiotiques, digoxine.",
+      "Arrêter les AINS. Suspendre IEC/ARA2 et diurétiques en cas d'épisode aigu (règle des jours de maladie)."
+    ]
+  },
+  {
+    id: "denutri", label: "Dénutrition", color: "teal",
+    question: "Perte de poids, IMC bas, appétit diminué",
+    classes: ["ipp", "anticho", "neuroleptiques"],
+    conseils: [
+      "Rechercher les médicaments qui altèrent le goût, provoquent une sécheresse buccale ou des nausées.",
+      "Vérifier l'état bucco-dentaire et la déglutition avant d'incriminer les traitements.",
+      "Alléger les ordonnances volumineuses : le nombre de comprimés nuit à l'appétit et à l'observance."
+    ]
+  },
+  {
+    id: "fin-de-vie", label: "Fin de vie / soins palliatifs", color: "navy",
+    question: "Pronostic limité, projet de soins de confort",
+    classes: ["cardio", "ipp", "sous-prescription"],
+    conseils: [
+      "Arrêter les traitements préventifs à bénéfice différé : statines, anti-ostéoporotiques, antidiabétiques stricts.",
+      "Conserver et renforcer ce qui soulage : antalgiques, anxiolytiques, traitement des symptômes.",
+      "Réévaluer la voie d'administration et alléger le nombre de prises."
+    ]
+  }
+];
+
+/* Charge anticholinergique — échelle ACB (Anticholinergic Cognitive Burden,
+   Boustani et al., mise à jour 2012), complétée de quelques phénothiazines
+   d'usage français. Score par molécule de 1 (possible) à 3 (marqué) ;
+   le score total est la somme. Un total ≥ 3 est cliniquement significatif. */
+const ACB_MOLECULES = [
+  { n: "Amitriptyline", s: 3 }, { n: "Clomipramine", s: 3 }, { n: "Imipramine", s: 3 },
+  { n: "Doxépine", s: 3 }, { n: "Nortriptyline", s: 3 }, { n: "Trimipramine", s: 3 },
+  { n: "Paroxétine", s: 3 }, { n: "Hydroxyzine", s: 3 }, { n: "Alimémazine", s: 3 },
+  { n: "Prométhazine", s: 3 }, { n: "Méclozine", s: 3 }, { n: "Dimenhydrinate", s: 3 },
+  { n: "Cyproheptadine", s: 3 }, { n: "Chlorphénamine", s: 3 }, { n: "Oxybutynine", s: 3 },
+  { n: "Toltérodine", s: 3 }, { n: "Solifénacine", s: 3 }, { n: "Fésotérodine", s: 3 },
+  { n: "Clozapine", s: 3 }, { n: "Olanzapine", s: 3 }, { n: "Quétiapine", s: 3 },
+  { n: "Chlorpromazine", s: 3 }, { n: "Cyamémazine", s: 3 }, { n: "Lévomépromazine", s: 3 },
+  { n: "Trihexyphénidyle", s: 3 }, { n: "Tropatépine", s: 3 }, { n: "Bipéridène", s: 3 },
+  { n: "Scopolamine", s: 3 }, { n: "Atropine", s: 3 }, { n: "Disopyramide", s: 3 },
+  { n: "Dicyclovérine", s: 3 }, { n: "Propériciazine", s: 3 },
+  { n: "Carbamazépine", s: 2 }, { n: "Oxcarbazépine", s: 2 }, { n: "Loxapine", s: 2 },
+  { n: "Pimozide", s: 2 }, { n: "Amantadine", s: 2 }, { n: "Péthidine", s: 2 },
+  { n: "Cyclobenzaprine", s: 2 },
+  { n: "Alprazolam", s: 1 }, { n: "Diazépam", s: 1 }, { n: "Halopéridol", s: 1 },
+  { n: "Rispéridone", s: 1 }, { n: "Aripiprazole", s: 1 }, { n: "Venlafaxine", s: 1 },
+  { n: "Trazodone", s: 1 }, { n: "Mirtazapine", s: 1 }, { n: "Fluvoxamine", s: 1 },
+  { n: "Bupropion", s: 1 }, { n: "Codéine", s: 1 }, { n: "Morphine", s: 1 },
+  { n: "Fentanyl", s: 1 }, { n: "Tramadol", s: 1 }, { n: "Digoxine", s: 1 },
+  { n: "Furosémide", s: 1 }, { n: "Prednisone", s: 1 }, { n: "Prednisolone", s: 1 },
+  { n: "Hydrocortisone", s: 1 }, { n: "Théophylline", s: 1 }, { n: "Ranitidine", s: 1 },
+  { n: "Cimétidine", s: 1 }, { n: "Lopéramide", s: 1 }, { n: "Colchicine", s: 1 },
+  { n: "Captopril", s: 1 }, { n: "Aténolol", s: 1 }, { n: "Métoprolol", s: 1 },
+  { n: "Nifédipine", s: 1 }, { n: "Isosorbide", s: 1 }, { n: "Warfarine", s: 1 },
+  { n: "Dipyridamole", s: 1 }, { n: "Triamtérène", s: 1 }, { n: "Chlortalidone", s: 1 },
+  { n: "Quinidine", s: 1 }, { n: "Hydralazine", s: 1 }, { n: "Méthotrexate", s: 1 }
+];
+
+function setDeprescClasse(id){
+  state.deprescClasse = state.deprescClasse === id ? null : id;
+  renderDeprescClassePanel();
+}
+window.setDeprescClasse = setDeprescClasse;
+
+function deprescClasseCardHTML(cl){
+  const cc = colorVars(cl.color);
+  return `
+    <div class="neurolep-form-card" style="--pill:${cc.pill};--pillbg:${cc.pillbg}">
+      <div class="neurolep-indication">${cl.nom}</div>
+      <div class="neurolep-row"><span class="neurolep-label">Pourquoi déprescrire</span><span>${cl.probleme}</span></div>
+      <div class="neurolep-row" style="margin-top:10px;"><span class="neurolep-label">Situations à repérer</span></div>
+      <ul class="vaccin-list">${cl.alertes.map(a => `<li>${a}</li>`).join("")}</ul>
+      <div class="neurolep-populations">
+        <strong>Comment procéder</strong>
+        <ul>${cl.conduite.map(a => `<li>${a}</li>`).join("")}</ul>
+      </div>
+    </div>`;
+}
+
+function renderDeprescClassePanel(){
+  const cat = CATEGORIES.find(c => c.id === "medicaments-securite");
+  const c = colorVars(cat.color);
+  const sel = state.deprescClasse ? DEPRESC_CLASSES.find(x => x.id === state.deprescClasse) : null;
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}Déprescription</span>
+      <h2 class="panel-title" style="color:${c.pill}">Déprescription par classe</h2>
+      <p class="doc-meta">Sept classes à réévaluer en priorité chez la personne âgée ou polymédiquée. Clique sur une classe pour le détail.</p>
+      <div class="neurolep-grid">
+        ${DEPRESC_CLASSES.map(cl => {
+          const cc = colorVars(cl.color);
+          return `
+            <button type="button" class="neurolep-bubble bio-bubble ${state.deprescClasse === cl.id ? "bio-bubble-active" : ""}" style="--pill:${cc.pill};--pillbg:${cc.pillbg}" onclick="setDeprescClasse('${cl.id}')">
+              <span class="neurolep-dci">${cl.nom}</span>
+              <span class="neurolep-brand">${cl.sub}</span>
+            </button>`;
+        }).join("")}
+      </div>
+      ${sel ? deprescClasseCardHTML(sel) : `<div class="calc-hint">Sélectionne une classe ci-dessus.</div>`}
+      <div class="doc-note" style="margin-top:18px;">
+        <strong>Sources</strong>
+        <p>Liste de Laroche (Rev Med Interne 2009) · critères STOPP/START v2, adaptation française Lang et al. 2015, et v3 (2023) · critères de Beers (AGS 2023). Outil d'alerte : ne remplace ni le RCP, ni l'avis pharmaceutique, ni le jugement clinique.</p>
+      </div>
+    </div>`;
+}
+
+function setDeprescSituation(id){
+  state.deprescSituation = state.deprescSituation === id ? null : id;
+  renderDeprescSituationPanel();
+}
+window.setDeprescSituation = setDeprescSituation;
+
+function renderDeprescSituationPanel(){
+  const cat = CATEGORIES.find(c => c.id === "medicaments-securite");
+  const c = colorVars(cat.color);
+  const sel = state.deprescSituation ? DEPRESC_SITUATIONS.find(x => x.id === state.deprescSituation) : null;
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}Déprescription</span>
+      <h2 class="panel-title" style="color:${c.pill}">Déprescription — par situation</h2>
+      <p class="doc-meta">Pars du tableau clinique : l'outil remonte les classes à réévaluer en priorité et les réflexes associés.</p>
+      <div class="neurolep-grid">
+        ${DEPRESC_SITUATIONS.map(s => {
+          const sc = colorVars(s.color);
+          return `
+            <button type="button" class="neurolep-bubble bio-bubble ${state.deprescSituation === s.id ? "bio-bubble-active" : ""}" style="--pill:${sc.pill};--pillbg:${sc.pillbg}" onclick="setDeprescSituation('${s.id}')">
+              <span class="neurolep-dci">${s.label}</span>
+              <span class="neurolep-brand">${s.question}</span>
+            </button>`;
+        }).join("")}
+      </div>
+      ${sel ? (() => {
+        const sc = colorVars(sel.color);
+        const classes = sel.classes.map(id => DEPRESC_CLASSES.find(x => x.id === id)).filter(Boolean);
+        return `
+          <div class="neurolep-form-card" style="--pill:${sc.pill};--pillbg:${sc.pillbg}">
+            <div class="neurolep-indication">${sel.label}</div>
+            <div class="neurolep-row"><span class="neurolep-label">Classes à réévaluer en priorité</span></div>
+            <ul class="vaccin-list">${classes.map(cl => `<li><strong>${cl.nom}</strong> — ${cl.sub}</li>`).join("")}</ul>
+            <div class="neurolep-populations">
+              <strong>Réflexes associés</strong>
+              <ul>${sel.conseils.map(x => `<li>${x}</li>`).join("")}</ul>
+            </div>
+          </div>
+          ${classes.map(cl => deprescClasseCardHTML(cl)).join("")}`;
+      })() : `<div class="calc-hint">Sélectionne une situation clinique ci-dessus.</div>`}
+      <div class="doc-note" style="margin-top:18px;">
+        <strong>Sources</strong>
+        <p>Liste de Laroche (2009) · critères STOPP/START v2 (adaptation française 2015) et v3 (2023) · critères de Beers (AGS 2023).</p>
+      </div>
+    </div>`;
+}
+
+/* ---------- Charge anticholinergique (échelle ACB) ---------- */
+function normalizeAcb(str){
+  return String(str).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function addAcbMolecule(name){
+  if(!state.acbSelected.includes(name)) state.acbSelected.push(name);
+  state.acbQuery = "";
+  renderAcbPanel();
+}
+window.addAcbMolecule = addAcbMolecule;
+
+function removeAcbMolecule(i){
+  state.acbSelected.splice(i, 1);
+  renderAcbPanel();
+}
+window.removeAcbMolecule = removeAcbMolecule;
+
+function resetAcb(){
+  state.acbSelected = [];
+  state.acbQuery = "";
+  renderAcbPanel();
+}
+window.resetAcb = resetAcb;
+
+function renderAcbPanel(){
+  const cat = CATEGORIES.find(c => c.id === "medicaments-securite");
+  const c = colorVars(cat.color);
+
+  const total = state.acbSelected.reduce((sum, n) => {
+    const m = ACB_MOLECULES.find(x => x.n === n);
+    return sum + (m ? m.s : 0);
+  }, 0);
+
+  let verdict, vcolor;
+  if(total === 0){ verdict = "Aucune charge anticholinergique identifiée"; vcolor = "teal"; }
+  else if(total < 3){ verdict = "Charge faible à modérée — rester vigilant"; vcolor = "amber"; }
+  else { verdict = "Charge cliniquement significative — réévaluation recommandée"; vcolor = "red"; }
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}Déprescription</span>
+      <h2 class="panel-title" style="color:${c.pill}">Charge anticholinergique</h2>
+      <p class="doc-meta">Saisis les molécules de l'ordonnance : le score ACB total se calcule automatiquement. Un score ≥ 3 est considéré comme cliniquement significatif.</p>
+
+      <div class="bio-layout">
+        <div class="bio-layout-left">
+          <div class="bio-options-wrap">
+            <span class="neurolep-label">Rechercher une molécule</span>
+            <div class="medoc-search-wrap" style="margin-top:8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+              <input type="text" id="acbSearch" placeholder="Nom de la molécule (DCI)…" autocomplete="off" value="${(state.acbQuery || "").replace(/"/g, "&quot;")}" />
+            </div>
+            <div id="acbSuggestions"></div>
+          </div>
+        </div>
+        <div class="bio-layout-right">
+          <div class="bio-result-box">
+            <div class="bio-result-head">
+              <strong>Score ACB</strong>
+              <div class="bio-result-actions">
+                <button type="button" class="bio-reset-btn" onclick="resetAcb()">Réinitialiser</button>
+              </div>
+            </div>
+            ${calcResultHTML(vcolor, `${total}`, verdict)}
+            ${state.acbSelected.length ? `
+              <ul class="acb-list">
+                ${state.acbSelected.map((n, i) => {
+                  const m = ACB_MOLECULES.find(x => x.n === n);
+                  return `<li><span class="acb-score acb-score-${m.s}">${m.s}</span> ${n}
+                    <button type="button" class="acb-remove" onclick="removeAcbMolecule(${i})" aria-label="Retirer">×</button></li>`;
+                }).join("")}
+              </ul>` : `<p class="doc-meta" style="margin-top:10px;">Aucune molécule ajoutée pour l'instant.</p>`}
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-note" style="margin-top:18px;">
+        <strong>Comment lire le score</strong>
+        <p>Score par molécule : 1 = effet anticholinergique possible, 2 = effet établi modéré, 3 = effet marqué (associé au risque de confusion). Le score total est la somme des molécules. Un total ≥ 3 est cliniquement significatif ; le risque augmente avec chaque point supplémentaire. L'échelle ne tient pas compte de la dose. Toute décroissance doit être progressive, pour éviter un effet rebond.</p>
+        <p style="margin-top:8px;">Source : échelle ACB (Anticholinergic Cognitive Burden, Boustani et al., mise à jour 2012), complétée de phénothiazines d'usage courant en France. Liste non exhaustive : l'absence d'une molécule ne signifie pas qu'elle est dépourvue d'effet anticholinergique.</p>
+      </div>
+    </div>`;
+
+  const input = document.getElementById("acbSearch");
+  input.addEventListener("input", e => {
+    state.acbQuery = e.target.value;
+    renderAcbSuggestions();
+  });
+  renderAcbSuggestions();
+}
+
+function renderAcbSuggestions(){
+  const box = document.getElementById("acbSuggestions");
+  if(!box) return;
+  const q = (state.acbQuery || "").trim();
+  if(!q){
+    box.innerHTML = `<p class="doc-meta" style="margin-top:10px;">Tape les premières lettres d'une molécule pour l'ajouter.</p>`;
+    return;
+  }
+  const qn = normalizeAcb(q);
+  const matches = ACB_MOLECULES.filter(m => normalizeAcb(m.n).includes(qn) && !state.acbSelected.includes(m.n)).slice(0, 12);
+  if(matches.length === 0){
+    box.innerHTML = `<p class="doc-meta" style="margin-top:10px;">Aucune molécule trouvée pour « ${q} » dans cette échelle.</p>`;
+    return;
+  }
+  box.innerHTML = `<div class="acb-suggestions">${matches.map(m => `
+    <button type="button" class="acb-suggestion" onclick="addAcbMolecule('${m.n.replace(/'/g, "\\'")}')">
+      <span class="acb-score acb-score-${m.s}">${m.s}</span> ${m.n}
+    </button>`).join("")}</div>`;
+}
+
 function renderResourcesPanel(){
   const groupsHTML = RESOURCES.map(g => {
     const c = colorVars(g.color);
@@ -4159,6 +4644,12 @@ function render(){
     renderVaccinPanel();
   }else if(state.activeDoc === "vaccination-pediatrique" && state.explorerMode){
     renderVaccinPediaPanel();
+  }else if(state.activeDoc === "deprescription-classes" && state.explorerMode){
+    renderDeprescClassePanel();
+  }else if(state.activeDoc === "deprescription-situations" && state.explorerMode){
+    renderDeprescSituationPanel();
+  }else if(state.activeDoc === "charge-anticholinergique" && state.explorerMode){
+    renderAcbPanel();
   }else if(state.activeDoc){
     renderEmbedPage(state.activeDoc);
   }else if(state.query){
