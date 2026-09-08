@@ -2242,13 +2242,34 @@ const BIO_TESTS = {
   "proteinurie": "Recherche de protéinurie et d'hématurie (bandelette urinaire)",
   "aldo-renine": "Aldostérone et rénine plasmatiques",
   "metanephrines": "Métanéphrines urinaires ou plasmatiques",
-  "cortisol": "Cortisol libre urinaire des 24 h"
+  "cortisol": "Cortisol libre urinaire des 24 h",
+  "reticulocytes": "Réticulocytes",
+  "electrophorese": "Électrophorèse des protéines sériques",
+  "vit-d": "25-OH vitamine D",
+  "calciurie": "Calciurie des 24 h",
+  "osmo-plasm": "Osmolalité plasmatique",
+  "osmo-urin": "Osmolalité urinaire",
+  "natriurese": "Ionogramme urinaire (natriurèse)",
+  "serologies-hepatites": "Sérologies hépatites B et C",
+  "ac-hepatiques": "Auto-anticorps hépatiques (anti-muscle lisse, anti-mitochondries, anti-LKM1)",
+  "bence-jones": "Protéinurie de Bence-Jones (électrophorèse des protéines urinaires)",
+  "serologie-vih-syphilis": "Sérologies VIH et syphilis (TPHA-VDRL)",
+  "haptoglobine": "Haptoglobine",
+  "coombs": "Test de Coombs direct",
+  "magnesemie": "Magnésémie",
+  "cpk": "CPK"
 };
 
 const BIO_SITUATIONS = [
-  { id: "dec-diabete", label: "Découverte d'un diabète", color: "teal", group: "investigation", tests: ["glycemie-veineuse", "hba1c", "creat-dfg", "rac", "eal", "asat-alat", "ionogramme"], frequency: "Bilan initial, à compléter selon le type de diabète retenu" },
-  { id: "dec-hta", label: "Découverte d'une HTA", color: "blue", group: "investigation", tests: ["ionogramme", "creat-dfg", "glycemie-veineuse", "eal", "proteinurie"], frequency: "Bilan initial (HAS/SFHTA), avant ou lors de l'instauration du traitement" },
-  { id: "dec-dysthyroidie", label: "Découverte d'une dysthyroïdie", color: "purple", group: "investigation", tests: ["tsh"], frequency: "TSHus en première intention, puis bilan de 2ᵉ intention selon le résultat" },
+  { id: "dec-diabete", label: "Découverte d'un diabète", color: "teal", group: "investigation", tests: ["anti-gad", "anti-ia2", "anti-znt8", "peptide-c", "tsh"], frequency: "Bilan ponctuel de 2ᵉ intention, non répété" },
+  { id: "dec-hta", label: "Découverte d'une HTA", color: "blue", group: "investigation", tests: ["aldo-renine", "metanephrines", "cortisol", "tsh"], frequency: "Bilan ponctuel de 2ᵉ intention, non répété" },
+  { id: "dec-dysthyroidie", label: "Découverte d'une dysthyroïdie", color: "purple", group: "investigation", tests: ["t4l", "t3l", "anti-tpo", "trak", "anti-tg"], frequency: "Bilan ponctuel de 2ᵉ intention, non répété" },
+  { id: "dec-anemie", label: "Découverte d'une anémie", color: "red", group: "investigation", tests: ["reticulocytes", "ferritine-cst", "vitamine-b12", "folates", "crp", "creat-dfg", "tsh", "haptoglobine", "coombs", "electrophorese"], frequency: "Bilan étiologique ponctuel, non répété" },
+  { id: "dec-cognitif", label: "Troubles cognitifs récents", color: "navy", group: "investigation", tests: ["nfs-plaquettes", "ionogramme", "calcemie", "creat-dfg", "glycemie", "tsh", "vitamine-b12", "folates", "albuminemie", "serologie-vih-syphilis"], frequency: "Bilan ponctuel à la découverte, non répété" },
+  { id: "dec-hyponatremie", label: "Hyponatrémie", color: "sky", group: "investigation", tests: ["osmo-plasm", "osmo-urin", "natriurese", "creat-dfg", "tsh", "cortisol", "glycemie"], frequency: "Bilan ponctuel de 2ᵉ intention" },
+  { id: "dec-cytolyse", label: "Perturbation du bilan hépatique", color: "amber", group: "investigation", tests: ["asat-alat", "ggt", "pal", "bilirubine", "tp-inr", "albuminemie", "serologies-hepatites", "ferritine-cst", "ac-hepatiques", "cpk"], frequency: "Bilan étiologique ponctuel" },
+  { id: "dec-hypercalcemie", label: "Hypercalcémie", color: "emerald", group: "investigation", tests: ["calcemie", "albuminemie", "pth", "vit-d", "phosphoremie", "calciurie", "creat-dfg", "electrophorese", "bence-jones"], frequency: "Bilan étiologique ponctuel" },
+  { id: "dec-fracture", label: "Fracture de fragilité / ostéoporose", color: "slate", group: "investigation", tests: ["calcemie", "phosphoremie", "vit-d", "pth", "creat-dfg", "albuminemie", "electrophorese", "tsh"], frequency: "Bilan ponctuel avant traitement anti-ostéoporotique" },
   { id: "bilan-annuel", label: "Bilan annuel ESMS", color: "navy", tests: ["nfs-plaquettes", "ionogramme", "creat-dfg"], frequency: "Tous les 12 mois" },
   { id: "diabete", label: "Diabète", color: "teal", tests: ["hba1c", "creat-dfg", "rac", "eal", "asat-alat"], frequency: "Tous les 6 mois" },
   { id: "hta", label: "Hypertendu (HTA)", color: "blue", tests: ["ionogramme", "creat-dfg", "rac"], frequency: "Tous les 12 mois" },
@@ -2285,12 +2306,6 @@ const BIO_OPTIONS = [
   { id: "phosphocalcique", label: "Bilan phosphocalcique (Calcémie, phosphorémie, PTH, PAL)", indication: "MRC stade G3b-G5, anomalie antérieure", addIds: ["calcemie", "phosphoremie", "pth", "pal"] },
   { id: "afp-opt", label: "AFP (alpha-fœtoprotéine)", indication: "surveillance du CHC en complément de l'échographie (cirrhose, EASL 2024)", addIds: ["afp"] },
   { id: "inr-avk", label: "TP / INR", indication: "surveillance sous AVK", addIds: ["tp-inr"] },
-  { id: "diabete-type1", label: "Anticorps du diabète de type 1 (anti-GAD, anti-IA2, anti-ZnT8)", indication: "sujet jeune ou mince, cétose, doute sur le type de diabète, suspicion de LADA", addIds: ["anti-gad", "anti-ia2", "anti-znt8"], group: "investigation" },
-  { id: "peptide-c-opt", label: "Peptide C", indication: "évaluer la réserve insulinique quand le type de diabète reste incertain", addIds: ["peptide-c"], group: "investigation" },
-  { id: "thyroide-hypo", label: "T4L + anticorps anti-TPO", indication: "TSHus élevée : confirmer l'hypothyroïdie et rechercher une origine auto-immune", addIds: ["t4l", "anti-tpo"], group: "investigation" },
-  { id: "thyroide-hyper", label: "T4L, T3L + TRAK", indication: "TSHus basse : confirmer l'hyperthyroïdie et rechercher une maladie de Basedow", addIds: ["t4l", "t3l", "trak"], group: "investigation" },
-  { id: "anti-tg-opt", label: "Anticorps anti-thyroglobuline", indication: "en complément des anti-TPO si le diagnostic auto-immun reste douteux", addIds: ["anti-tg"], group: "investigation" },
-  { id: "hta-secondaire", label: "Bilan d'HTA secondaire (aldostérone/rénine, métanéphrines, cortisol)", indication: "HTA du sujet jeune, résistante, sévère d'emblée, ou hypokaliémie spontanée", addIds: ["aldo-renine", "metanephrines", "cortisol"], group: "investigation" },
   { id: "depakinemie-opt", label: "Dépakinémie (valproate)", indication: "", addIds: ["depakinemie"], group: "antiepi-dosages" },
   { id: "carbamazepinemie-opt", label: "Carbamazépinémie", indication: "", addIds: ["carbamazepinemie"], group: "antiepi-dosages" },
   { id: "phenobarbitalemie-opt", label: "Phénobarbitalémie", indication: "", addIds: ["phenobarbitalemie"], group: "antiepi-dosages" }
@@ -3155,11 +3170,6 @@ function renderBioOrdonnancePanel(){
   const mrcSelected = state.bioSelected.includes("mrc");
 
   const soloOptions = BIO_OPTIONS.filter(opt => !opt.pairWith && !opt.group && !BIO_OPTIONS.some(o => o.pairWith === opt.id));
-  const investigOptions = BIO_OPTIONS.filter(opt => opt.group === "investigation");
-  const investigShown = state.bioSelected.some(id => {
-    const s = BIO_SITUATIONS.find(x => x.id === id);
-    return s && s.group === "investigation";
-  });
   const pairRows = BIO_OPTIONS.filter(opt => opt.pairWith).map(opt => {
     const partner = BIO_OPTIONS.find(o => o.id === opt.pairWith);
     return `<div class="bio-option-pair-row">${bioOptionRowHTML(opt)}${bioOptionRowHTML(partner)}</div>`;
@@ -3189,7 +3199,7 @@ function renderBioOrdonnancePanel(){
       <div class="neurolep-grid">
         ${BIO_SITUATIONS.filter(s => !s.group).map(situ => bioBubbleHTML(situ)).join("")}
       </div>
-      <p class="neurolep-label" style="margin-top:16px;">Bilan initial — découverte d'une pathologie</p>
+      <p class="neurolep-label" style="margin-top:16px;">Bilan de 2ᵉ intention — après découverte</p>
       <div class="neurolep-grid">
         ${BIO_SITUATIONS.filter(s => s.group === "investigation").map(situ => bioBubbleHTML(situ)).join("")}
       </div>
@@ -3215,13 +3225,7 @@ function renderBioOrdonnancePanel(){
             </div>
             ${pairRows}
             ${groupRows}
-            ${investigShown ? `
-              <div class="bio-option-group">
-                <p class="bio-option-group-indication">Examens de 2ᵉ intention — bilan initial d'une pathologie découverte</p>
-                <div class="bio-options-list">
-                  ${investigOptions.map(opt => bioOptionRowHTML(opt)).join("")}
-                </div>
-              </div>` : ""}
+
 
             <span class="neurolep-label" style="margin-top:14px; display:block;">Ajouter un examen non listé</span>
             <div class="bio-custom-add">
