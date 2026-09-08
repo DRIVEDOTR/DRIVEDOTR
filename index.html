@@ -597,6 +597,8 @@
   .acb-score-1{background:var(--sky);}
   .acb-score-2{background:var(--amber);}
   .acb-score-3{background:var(--red);}
+  .acb-brand{display:block; font-size:11px; font-weight:600; color:var(--text-muted);}
+  .acb-suggestion{text-align:left;}
   .acb-list{list-style:none; margin:12px 0 0; padding:0; display:flex; flex-direction:column; gap:6px;}
   .acb-list li{
     display:flex; align-items:center; gap:9px;
@@ -2214,7 +2216,7 @@ const BIO_TESTS = {
   "glycemie": "Glycémie à jeun",
   "hba1c": "HbA1c",
   "eal": "EAL (bilan lipidique)",
-  "tsh": "TSH",
+  "tsh": "TSHus (TSH ultrasensible)",
   "ferritine-cst": "Ferritine + CST",
   "vitamine-b12": "Vitamine B12",
   "folates": "Folates (vitamine B9)",
@@ -2226,10 +2228,27 @@ const BIO_TESTS = {
   "nfs-pnn": "NFS (surveillance PNN — clozapine)",
   "depakinemie": "Dépakinémie",
   "carbamazepinemie": "Carbamazépinémie",
-  "phenobarbitalemie": "Phénobarbitalémie"
+  "phenobarbitalemie": "Phénobarbitalémie",
+  "glycemie-veineuse": "Glycémie veineuse à jeun",
+  "anti-gad": "Anticorps anti-GAD",
+  "anti-ia2": "Anticorps anti-IA2",
+  "anti-znt8": "Anticorps anti-ZnT8",
+  "peptide-c": "Peptide C",
+  "t4l": "T4 libre (T4L)",
+  "t3l": "T3 libre (T3L)",
+  "anti-tpo": "Anticorps anti-TPO",
+  "anti-tg": "Anticorps anti-thyroglobuline",
+  "trak": "Anticorps anti-récepteurs de la TSH (TRAK)",
+  "proteinurie": "Recherche de protéinurie et d'hématurie (bandelette urinaire)",
+  "aldo-renine": "Aldostérone et rénine plasmatiques",
+  "metanephrines": "Métanéphrines urinaires ou plasmatiques",
+  "cortisol": "Cortisol libre urinaire des 24 h"
 };
 
 const BIO_SITUATIONS = [
+  { id: "dec-diabete", label: "Découverte d'un diabète", color: "teal", group: "investigation", tests: ["glycemie-veineuse", "hba1c", "creat-dfg", "rac", "eal", "asat-alat", "ionogramme"], frequency: "Bilan initial, à compléter selon le type de diabète retenu" },
+  { id: "dec-hta", label: "Découverte d'une HTA", color: "blue", group: "investigation", tests: ["ionogramme", "creat-dfg", "glycemie-veineuse", "eal", "proteinurie"], frequency: "Bilan initial (HAS/SFHTA), avant ou lors de l'instauration du traitement" },
+  { id: "dec-dysthyroidie", label: "Découverte d'une dysthyroïdie", color: "purple", group: "investigation", tests: ["tsh"], frequency: "TSHus en première intention, puis bilan de 2ᵉ intention selon le résultat" },
   { id: "bilan-annuel", label: "Bilan annuel ESMS", color: "navy", tests: ["nfs-plaquettes", "ionogramme", "creat-dfg"], frequency: "Tous les 12 mois" },
   { id: "diabete", label: "Diabète", color: "teal", tests: ["hba1c", "creat-dfg", "rac", "eal", "asat-alat"], frequency: "Tous les 6 mois" },
   { id: "hta", label: "Hypertendu (HTA)", color: "blue", tests: ["ionogramme", "creat-dfg", "rac"], frequency: "Tous les 12 mois" },
@@ -2259,13 +2278,19 @@ const BIO_OPTIONS = [
   { id: "glycemie-hba1c", label: "Glycémie à jeun + HbA1c", indication: "si diabète, prédiabète, corticothérapie, antipsychotique ou risque métabolique", addIds: ["glycemie", "hba1c"] },
   { id: "bilan-hepatique", label: "Bilan hépatique (ASAT/ALAT, GGT, PAL, bilirubine)", indication: "hépatopathie, risque hépatique, médicament hépatotoxique ou anomalie antérieure", addIds: ["asat-alat", "ggt", "pal", "bilirubine"] },
   { id: "eal-opt", label: "EAL (bilan lipidique)", indication: "stratégie cardiovasculaire active, diabète/MRC, statine ou anomalie antérieure", addIds: ["eal"] },
-  { id: "tsh-opt", label: "TSH", indication: "dysthyroïdie, lévothyroxine, lithium, amiodarone ou symptômes", addIds: ["tsh"] },
+  { id: "tsh-opt", label: "TSHus", indication: "dysthyroïdie, lévothyroxine, lithium, amiodarone ou symptômes", addIds: ["tsh"] },
   { id: "ferritine-opt", label: "Ferritine + CST", indication: "anémie, MRC, suspicion de carence martiale", addIds: ["ferritine-cst"] },
   { id: "b12-opt", label: "Vitamine B12", indication: "carence, metformine prolongée, neuropathie, troubles cognitifs, régime végétalien, chirurgie bariatrique", addIds: ["vitamine-b12"], pairWith: "folates-opt" },
   { id: "folates-opt", label: "Folates (vitamine B9)", indication: "alcoolisme, dénutrition, hémolyse, ou macrocytose sans point d'appel B12", addIds: ["folates"] },
   { id: "phosphocalcique", label: "Bilan phosphocalcique (Calcémie, phosphorémie, PTH, PAL)", indication: "MRC stade G3b-G5, anomalie antérieure", addIds: ["calcemie", "phosphoremie", "pth", "pal"] },
   { id: "afp-opt", label: "AFP (alpha-fœtoprotéine)", indication: "surveillance du CHC en complément de l'échographie (cirrhose, EASL 2024)", addIds: ["afp"] },
   { id: "inr-avk", label: "TP / INR", indication: "surveillance sous AVK", addIds: ["tp-inr"] },
+  { id: "diabete-type1", label: "Anticorps du diabète de type 1 (anti-GAD, anti-IA2, anti-ZnT8)", indication: "sujet jeune ou mince, cétose, doute sur le type de diabète, suspicion de LADA", addIds: ["anti-gad", "anti-ia2", "anti-znt8"], group: "investigation" },
+  { id: "peptide-c-opt", label: "Peptide C", indication: "évaluer la réserve insulinique quand le type de diabète reste incertain", addIds: ["peptide-c"], group: "investigation" },
+  { id: "thyroide-hypo", label: "T4L + anticorps anti-TPO", indication: "TSHus élevée : confirmer l'hypothyroïdie et rechercher une origine auto-immune", addIds: ["t4l", "anti-tpo"], group: "investigation" },
+  { id: "thyroide-hyper", label: "T4L, T3L + TRAK", indication: "TSHus basse : confirmer l'hyperthyroïdie et rechercher une maladie de Basedow", addIds: ["t4l", "t3l", "trak"], group: "investigation" },
+  { id: "anti-tg-opt", label: "Anticorps anti-thyroglobuline", indication: "en complément des anti-TPO si le diagnostic auto-immun reste douteux", addIds: ["anti-tg"], group: "investigation" },
+  { id: "hta-secondaire", label: "Bilan d'HTA secondaire (aldostérone/rénine, métanéphrines, cortisol)", indication: "HTA du sujet jeune, résistante, sévère d'emblée, ou hypokaliémie spontanée", addIds: ["aldo-renine", "metanephrines", "cortisol"], group: "investigation" },
   { id: "depakinemie-opt", label: "Dépakinémie (valproate)", indication: "", addIds: ["depakinemie"], group: "antiepi-dosages" },
   { id: "carbamazepinemie-opt", label: "Carbamazépinémie", indication: "", addIds: ["carbamazepinemie"], group: "antiepi-dosages" },
   { id: "phenobarbitalemie-opt", label: "Phénobarbitalémie", indication: "", addIds: ["phenobarbitalemie"], group: "antiepi-dosages" }
@@ -3130,11 +3155,16 @@ function renderBioOrdonnancePanel(){
   const mrcSelected = state.bioSelected.includes("mrc");
 
   const soloOptions = BIO_OPTIONS.filter(opt => !opt.pairWith && !opt.group && !BIO_OPTIONS.some(o => o.pairWith === opt.id));
+  const investigOptions = BIO_OPTIONS.filter(opt => opt.group === "investigation");
+  const investigShown = state.bioSelected.some(id => {
+    const s = BIO_SITUATIONS.find(x => x.id === id);
+    return s && s.group === "investigation";
+  });
   const pairRows = BIO_OPTIONS.filter(opt => opt.pairWith).map(opt => {
     const partner = BIO_OPTIONS.find(o => o.id === opt.pairWith);
     return `<div class="bio-option-pair-row">${bioOptionRowHTML(opt)}${bioOptionRowHTML(partner)}</div>`;
   }).join("");
-  const groupIds = [...new Set(BIO_OPTIONS.filter(o => o.group).map(o => o.group))];
+  const groupIds = [...new Set(BIO_OPTIONS.filter(o => o.group && o.group !== "investigation").map(o => o.group))];
   const groupRows = groupIds.map(gid => {
     const items = BIO_OPTIONS.filter(o => o.group === gid);
     return `
@@ -3155,8 +3185,13 @@ function renderBioOrdonnancePanel(){
       <h2 class="panel-title" style="color:${c.pill}">Créer une ordonnance de biologie</h2>
       <p class="doc-meta">Sélectionne une ou plusieurs situations cliniques du patient : la liste des examens se construit automatiquement à droite, sans doublon.</p>
 
+      <p class="neurolep-label" style="margin-top:6px;">Suivi d'une pathologie connue</p>
       <div class="neurolep-grid">
-        ${BIO_SITUATIONS.map(situ => bioBubbleHTML(situ)).join("")}
+        ${BIO_SITUATIONS.filter(s => !s.group).map(situ => bioBubbleHTML(situ)).join("")}
+      </div>
+      <p class="neurolep-label" style="margin-top:16px;">Bilan initial — découverte d'une pathologie</p>
+      <div class="neurolep-grid">
+        ${BIO_SITUATIONS.filter(s => s.group === "investigation").map(situ => bioBubbleHTML(situ)).join("")}
       </div>
 
       ${mrcSelected ? `
@@ -3180,6 +3215,13 @@ function renderBioOrdonnancePanel(){
             </div>
             ${pairRows}
             ${groupRows}
+            ${investigShown ? `
+              <div class="bio-option-group">
+                <p class="bio-option-group-indication">Examens de 2ᵉ intention — bilan initial d'une pathologie découverte</p>
+                <div class="bio-options-list">
+                  ${investigOptions.map(opt => bioOptionRowHTML(opt)).join("")}
+                </div>
+              </div>` : ""}
 
             <span class="neurolep-label" style="margin-top:14px; display:block;">Ajouter un examen non listé</span>
             <div class="bio-custom-add">
@@ -4311,32 +4353,32 @@ const DEPRESC_SITUATIONS = [
    d'usage français. Score par molécule de 1 (possible) à 3 (marqué) ;
    le score total est la somme. Un total ≥ 3 est cliniquement significatif. */
 const ACB_MOLECULES = [
-  { n: "Amitriptyline", s: 3 }, { n: "Clomipramine", s: 3 }, { n: "Imipramine", s: 3 },
-  { n: "Doxépine", s: 3 }, { n: "Nortriptyline", s: 3 }, { n: "Trimipramine", s: 3 },
-  { n: "Paroxétine", s: 3 }, { n: "Hydroxyzine", s: 3 }, { n: "Alimémazine", s: 3 },
-  { n: "Prométhazine", s: 3 }, { n: "Méclozine", s: 3 }, { n: "Dimenhydrinate", s: 3 },
-  { n: "Cyproheptadine", s: 3 }, { n: "Chlorphénamine", s: 3 }, { n: "Oxybutynine", s: 3 },
-  { n: "Toltérodine", s: 3 }, { n: "Solifénacine", s: 3 }, { n: "Fésotérodine", s: 3 },
-  { n: "Clozapine", s: 3 }, { n: "Olanzapine", s: 3 }, { n: "Quétiapine", s: 3 },
-  { n: "Chlorpromazine", s: 3 }, { n: "Cyamémazine", s: 3 }, { n: "Lévomépromazine", s: 3 },
-  { n: "Trihexyphénidyle", s: 3 }, { n: "Tropatépine", s: 3 }, { n: "Bipéridène", s: 3 },
-  { n: "Scopolamine", s: 3 }, { n: "Atropine", s: 3 }, { n: "Disopyramide", s: 3 },
-  { n: "Dicyclovérine", s: 3 }, { n: "Propériciazine", s: 3 },
-  { n: "Carbamazépine", s: 2 }, { n: "Oxcarbazépine", s: 2 }, { n: "Loxapine", s: 2 },
-  { n: "Pimozide", s: 2 }, { n: "Amantadine", s: 2 }, { n: "Péthidine", s: 2 },
+  { n: "Amitriptyline", s: 3, c: "Laroxyl" }, { n: "Clomipramine", s: 3, c: "Anafranil" }, { n: "Imipramine", s: 3, c: "Tofranil" },
+  { n: "Doxépine", s: 3, c: "Quitaxon" }, { n: "Nortriptyline", s: 3 }, { n: "Trimipramine", s: 3, c: "Surmontil" },
+  { n: "Paroxétine", s: 3, c: "Deroxat" }, { n: "Hydroxyzine", s: 3, c: "Atarax" }, { n: "Alimémazine", s: 3, c: "Théralène" },
+  { n: "Prométhazine", s: 3, c: "Phénergan" }, { n: "Méclozine", s: 3, c: "Agyrax" }, { n: "Dimenhydrinate", s: 3, c: "Nausicalm, Mercalm" },
+  { n: "Cyproheptadine", s: 3, c: "Périactine" }, { n: "Chlorphénamine", s: 3, c: "Polaramine" }, { n: "Oxybutynine", s: 3, c: "Ditropan, Driptane" },
+  { n: "Toltérodine", s: 3, c: "Détrusitol" }, { n: "Solifénacine", s: 3, c: "Vesicare" }, { n: "Fésotérodine", s: 3, c: "Toviaz" },
+  { n: "Clozapine", s: 3, c: "Leponex" }, { n: "Olanzapine", s: 3, c: "Zyprexa" }, { n: "Quétiapine", s: 3, c: "Xeroquel" },
+  { n: "Chlorpromazine", s: 3, c: "Largactil" }, { n: "Cyamémazine", s: 3, c: "Tercian" }, { n: "Lévomépromazine", s: 3, c: "Nozinan" },
+  { n: "Trihexyphénidyle", s: 3, c: "Artane, Parkinane" }, { n: "Tropatépine", s: 3, c: "Lepticur" }, { n: "Bipéridène", s: 3, c: "Akineton" },
+  { n: "Scopolamine", s: 3, c: "Scopoderm" }, { n: "Atropine", s: 3 }, { n: "Disopyramide", s: 3, c: "Rythmodan" },
+  { n: "Dicyclovérine", s: 3 }, { n: "Propériciazine", s: 3, c: "Neuleptil" },
+  { n: "Carbamazépine", s: 2, c: "Tegretol" }, { n: "Oxcarbazépine", s: 2, c: "Trileptal" }, { n: "Loxapine", s: 2, c: "Loxapac" },
+  { n: "Pimozide", s: 2, c: "Orap" }, { n: "Amantadine", s: 2, c: "Mantadix" }, { n: "Péthidine", s: 2, c: "Dolosal" },
   { n: "Cyclobenzaprine", s: 2 },
-  { n: "Alprazolam", s: 1 }, { n: "Diazépam", s: 1 }, { n: "Halopéridol", s: 1 },
-  { n: "Rispéridone", s: 1 }, { n: "Aripiprazole", s: 1 }, { n: "Venlafaxine", s: 1 },
-  { n: "Trazodone", s: 1 }, { n: "Mirtazapine", s: 1 }, { n: "Fluvoxamine", s: 1 },
-  { n: "Bupropion", s: 1 }, { n: "Codéine", s: 1 }, { n: "Morphine", s: 1 },
-  { n: "Fentanyl", s: 1 }, { n: "Tramadol", s: 1 }, { n: "Digoxine", s: 1 },
-  { n: "Furosémide", s: 1 }, { n: "Prednisone", s: 1 }, { n: "Prednisolone", s: 1 },
-  { n: "Hydrocortisone", s: 1 }, { n: "Théophylline", s: 1 }, { n: "Ranitidine", s: 1 },
-  { n: "Cimétidine", s: 1 }, { n: "Lopéramide", s: 1 }, { n: "Colchicine", s: 1 },
-  { n: "Captopril", s: 1 }, { n: "Aténolol", s: 1 }, { n: "Métoprolol", s: 1 },
-  { n: "Nifédipine", s: 1 }, { n: "Isosorbide", s: 1 }, { n: "Warfarine", s: 1 },
-  { n: "Dipyridamole", s: 1 }, { n: "Triamtérène", s: 1 }, { n: "Chlortalidone", s: 1 },
-  { n: "Quinidine", s: 1 }, { n: "Hydralazine", s: 1 }, { n: "Méthotrexate", s: 1 }
+  { n: "Alprazolam", s: 1, c: "Xanax" }, { n: "Diazépam", s: 1, c: "Valium" }, { n: "Halopéridol", s: 1, c: "Haldol" },
+  { n: "Rispéridone", s: 1, c: "Risperdal" }, { n: "Aripiprazole", s: 1, c: "Abilify" }, { n: "Venlafaxine", s: 1, c: "Effexor" },
+  { n: "Trazodone", s: 1 }, { n: "Mirtazapine", s: 1, c: "Norset" }, { n: "Fluvoxamine", s: 1, c: "Floxyfral" },
+  { n: "Bupropion", s: 1, c: "Zyban, Wellbutrin" }, { n: "Codéine", s: 1 }, { n: "Morphine", s: 1, c: "Skenan, Actiskenan, Oramorph" },
+  { n: "Fentanyl", s: 1, c: "Durogesic" }, { n: "Tramadol", s: 1, c: "Contramal, Topalgic, Ixprim" }, { n: "Digoxine", s: 1, c: "Hémigoxine" },
+  { n: "Furosémide", s: 1, c: "Lasilix" }, { n: "Prednisone", s: 1, c: "Cortancyl" }, { n: "Prednisolone", s: 1, c: "Solupred" },
+  { n: "Hydrocortisone", s: 1 }, { n: "Théophylline", s: 1, c: "Euphylline, Dilatrane" }, { n: "Ranitidine", s: 1 },
+  { n: "Cimétidine", s: 1, c: "Tagamet" }, { n: "Lopéramide", s: 1, c: "Imodium" }, { n: "Colchicine", s: 1, c: "Colchimax" },
+  { n: "Captopril", s: 1, c: "Lopril" }, { n: "Aténolol", s: 1, c: "Ténormine" }, { n: "Métoprolol", s: 1, c: "Lopressor, Séloken" },
+  { n: "Nifédipine", s: 1, c: "Adalate" }, { n: "Isosorbide", s: 1, c: "Risordan" }, { n: "Warfarine", s: 1, c: "Coumadine" },
+  { n: "Dipyridamole", s: 1, c: "Persantine" }, { n: "Triamtérène", s: 1 }, { n: "Chlortalidone", s: 1 },
+  { n: "Quinidine", s: 1 }, { n: "Hydralazine", s: 1 }, { n: "Méthotrexate", s: 1, c: "Novatrex, Imeth" }
 ];
 
 function setDeprescClasse(id){
@@ -4499,7 +4541,7 @@ function renderAcbPanel(){
             <span class="neurolep-label">Rechercher une molécule</span>
             <div class="medoc-search-wrap" style="margin-top:8px;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-              <input type="text" id="acbSearch" placeholder="Nom de la molécule (DCI)…" autocomplete="off" value="${(state.acbQuery || "").replace(/"/g, "&quot;")}" />
+              <input type="text" id="acbSearch" placeholder="Molécule ou nom commercial (ex. Tercian)…" autocomplete="off" value="${(state.acbQuery || "").replace(/"/g, "&quot;")}" />
             </div>
             <div id="acbSuggestions"></div>
           </div>
@@ -4517,7 +4559,7 @@ function renderAcbPanel(){
               <ul class="acb-list">
                 ${state.acbSelected.map((n, i) => {
                   const m = ACB_MOLECULES.find(x => x.n === n);
-                  return `<li><span class="acb-score acb-score-${m.s}">${m.s}</span> ${n}
+                  return `<li><span class="acb-score acb-score-${m.s}">${m.s}</span> <span>${n}${m.c ? `<span class="acb-brand">${m.c}</span>` : ""}</span>
                     <button type="button" class="acb-remove" onclick="removeAcbMolecule(${i})" aria-label="Retirer">×</button></li>`;
                 }).join("")}
               </ul>` : `<p class="doc-meta" style="margin-top:10px;">Aucune molécule ajoutée pour l'instant.</p>`}
@@ -4545,18 +4587,19 @@ function renderAcbSuggestions(){
   if(!box) return;
   const q = (state.acbQuery || "").trim();
   if(!q){
-    box.innerHTML = `<p class="doc-meta" style="margin-top:10px;">Tape les premières lettres d'une molécule pour l'ajouter.</p>`;
+    box.innerHTML = `<p class="doc-meta" style="margin-top:10px;">Tape les premières lettres d'une molécule ou d'un nom commercial (ex. Tercian, Atarax, Xeroquel).</p>`;
     return;
   }
   const qn = normalizeAcb(q);
-  const matches = ACB_MOLECULES.filter(m => normalizeAcb(m.n).includes(qn) && !state.acbSelected.includes(m.n)).slice(0, 12);
+  const matches = ACB_MOLECULES.filter(m => (normalizeAcb(m.n).includes(qn) || (m.c && normalizeAcb(m.c).includes(qn))) && !state.acbSelected.includes(m.n)).slice(0, 12);
   if(matches.length === 0){
     box.innerHTML = `<p class="doc-meta" style="margin-top:10px;">Aucune molécule trouvée pour « ${q} » dans cette échelle.</p>`;
     return;
   }
   box.innerHTML = `<div class="acb-suggestions">${matches.map(m => `
     <button type="button" class="acb-suggestion" onclick="addAcbMolecule('${m.n.replace(/'/g, "\\'")}')">
-      <span class="acb-score acb-score-${m.s}">${m.s}</span> ${m.n}
+      <span class="acb-score acb-score-${m.s}">${m.s}</span>
+      <span>${m.n}${m.c ? `<span class="acb-brand">${m.c}</span>` : ""}</span>
     </button>`).join("")}</div>`;
 }
 
