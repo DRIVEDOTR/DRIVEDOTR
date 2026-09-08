@@ -599,6 +599,93 @@
   .acb-score-3{background:var(--red);}
   .chariot-head{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;}
   .chariot-sub{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--text-muted); margin:12px 0 4px;}
+
+  /* ---------- Sections du chariot (Médicaments / DM / Équipement) ---------- */
+  .chariot-section{
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px dashed var(--border);
+  }
+  .chariot-section:first-of-type{margin-top:12px; padding-top:0; border-top:none;}
+  .chariot-section-title{
+    font-size:13.5px;
+    font-weight:700;
+    margin:0 0 8px;
+  }
+  .chariot-section-medicaments .chariot-section-title{color:var(--red);}
+  .chariot-section-dm .chariot-section-title{color:var(--teal);}
+  .chariot-section-equipement .chariot-section-title{color:var(--purple);}
+  .chariot-item-list{display:flex; flex-direction:column; gap:6px;}
+  .chariot-item-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:8px 10px;
+    border-radius:9px;
+    background:transparent;
+  }
+  .chariot-item-active{background:var(--slate-bg);}
+  .chariot-item-info{display:flex; flex-direction:column; min-width:0;}
+  .chariot-stepper{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex:none;
+  }
+  .chariot-stepper button{
+    width:26px; height:26px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:#fff;
+    font-size:15px;
+    line-height:1;
+    color:var(--text);
+    cursor:pointer;
+  }
+  .chariot-stepper button:hover{background:var(--slate-bg);}
+  .chariot-stepper-val{
+    min-width:20px;
+    text-align:center;
+    font-size:14px;
+    font-weight:700;
+    color:var(--text);
+  }
+  .chariot-item-active .chariot-stepper-val{color:var(--teal);}
+
+  /* ---------- Présentation "ordonnance" du réassort ---------- */
+  .chariot-etab-wrap{margin-bottom:14px;}
+  .chariot-etab-wrap input{
+    font-family:inherit; font-size:14px;
+    border:1px solid var(--border); border-radius:8px;
+    padding:9px 11px; background:var(--bg); width:100%;
+  }
+  .chariot-pdf-btn{background:var(--navy);}
+  .chariot-rx{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:14px 16px;
+  }
+  .chariot-rx-heading{font-weight:700; text-decoration:underline; font-size:14px; margin:0 0 10px; color:var(--text);}
+  .chariot-rx-section-title{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--text-muted); margin:14px 0 6px;}
+  .chariot-rx-section-title:first-of-type{margin-top:0;}
+  .chariot-rx-row{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    font-size:13px;
+    padding:3px 0;
+    border-bottom:1px dotted var(--border);
+  }
+  .chariot-rx-name{flex:1; min-width:0;}
+  .chariot-rx-qty{
+    flex:none;
+    font-weight:700;
+    color:var(--teal);
+    min-width:22px;
+    text-align:right;
+  }
   .acb-badges{display:inline-flex; gap:3px; flex:none;}
   .acb-score-none{background:var(--border); color:var(--text-muted);}
   .acb-dual{display:grid; grid-template-columns:1fr; gap:10px;}
@@ -645,6 +732,7 @@
     margin-top:16px;
   }
   .bio-layout-right{position:sticky; top:16px;}
+  .chariot-layout{grid-template-columns:1fr 400px; gap:40px;}
   @media (max-width:900px){
     .bio-layout{grid-template-columns:1fr;}
     .bio-layout-right{position:static;}
@@ -832,7 +920,7 @@
   .partner-card h3{color:#fff; font-size:17px; margin-bottom:6px;}
   .partner-card p{color:#c7d3e6; font-size:14px; margin:0 0 12px; max-width:62ch;}
   .partner-links{display:flex; gap:10px; flex-wrap:wrap;}
-  .partner-links a{
+  .partner-links a, .partner-links button{
     background:rgba(255,255,255,.12);
     color:#fff;
     text-decoration:none;
@@ -840,8 +928,11 @@
     font-weight:600;
     padding:8px 14px;
     border-radius:8px;
+    border:none;
+    font-family:inherit;
+    cursor:pointer;
   }
-  .partner-links a:hover{background:rgba(255,255,255,.22);}
+  .partner-links a:hover, .partner-links button:hover{background:rgba(255,255,255,.22);}
 
   .subcat-block{margin-top:22px;}
   .subcat-block:first-child{margin-top:0;}
@@ -1345,7 +1436,7 @@ const CATEGORIES = [
   },
   {
     id: "administratif",
-    label: "Documents administratifs",
+    label: "Administratifs et Tutos",
     icon: "administratif",
     color: "amber",
     description: "CERFA, certificats et formulaires officiels utilisés dans le cadre du suivi médical des résidents."
@@ -1979,6 +2070,7 @@ const DOCUMENTS = {
     title: "Médicaments « sensibles » — règles pratiques de prescription",
     category: "medicaments-securite",
     meta: "Sources : ANSM, base de données publique des médicaments, EMA, Légifrance — consultées le 20/03/2026",
+    interactive: true,
     filename: "Medicaments_sensibles_DOTR.pdf",
     path: "medicaments-securite/Medicaments_sensibles_DOTR.pdf"
   },
@@ -2003,6 +2095,27 @@ const DOCUMENTS = {
     interactive: true,
     filename: "Benzodiazepines_equivalences_RESPADD.pdf",
     path: "medicaments-securite/Benzodiazepines_equivalences_RESPADD.pdf"
+  },
+  "tuto-tampon-numerique": {
+    title: "Tuto — Utiliser votre tampon numérique sur un PDF",
+    category: "administratif",
+    meta: "Tuto rapide PC (Adobe Acrobat Reader) — signer un PDF sans imprimer, en 6 étapes",
+    filename: "Tuto_Tampon_Numerique_PDF.jpeg",
+    path: "administratif/Tuto_Tampon_Numerique_PDF.jpeg"
+  },
+  "tuto-connexion-cardioparc": {
+    title: "CardioParc — Connexion pro & prise de RDV patient",
+    category: "administratif",
+    meta: "Contact et coordination avec CardioParc — accès pro.cardioparc.fr, demande d'avis cardio par téléexpertise (réponse < 48h), et parcours de prise de rendez-vous côté patient",
+    filename: "Tuto_Connexion_Pro_CardioParc.pdf",
+    path: "administratif/Tuto_Connexion_Pro_CardioParc.pdf"
+  },
+  "tuto-healphi-ordoclic": {
+    title: "Healphi / Ordoclic — Complément pratique",
+    category: "administratif",
+    meta: "En attendant le module d'ordonnances libres : ce qui passe par Ordoclic, ce qui passe par un document Word tamponné",
+    filename: "Tuto_Healphi_Ordoclic.jpeg",
+    path: "administratif/Tuto_Healphi_Ordoclic.jpeg"
   },
   "cerfa-ald": {
     title: "CERFA S3501 — Protocole de soins (ALD)",
@@ -2047,7 +2160,7 @@ const DOCUMENTS = {
     path: "materiel/Affiche_chariot_urgence_OMEDIT.png"
   },
   "chariot-urgence": {
-    title: "Dotations d'urgence en ESMS",
+    title: "Dotations d'urgence en ESMS (EHPAD / FAM / MAS / IME…)",
     category: "materiel",
     meta: "Chariot d'urgence vitale et dotation d'urgence relative — liste de référence à cocher, prescription de réassort générée automatiquement (OMéDIT Centre-Val de Loire, février 2025)",
     interactive: true
@@ -2498,7 +2611,9 @@ const state = {
   acbSelected: [],
   acbQuery: "",
   chariotDotation: "vitale",
-  chariotUnchecked: []
+  chariotQty: {},
+  chariotEtab: "",
+  medsensQuery: ""
 };
 
 const sidebarEl = document.getElementById("sidebar");
@@ -3987,7 +4102,8 @@ const VACCINS_DATA = [
     ],
     presentations: [
       "<strong>Abrysvo</strong> (Pfizer)",
-      "<strong>Arexvy</strong> (GSK)"
+      "<strong>Arexvy</strong> (GSK)",
+      "<strong>mResvia</strong> (Moderna) — nouveau, ARNm"
     ]
   },
   {
@@ -4036,6 +4152,19 @@ const VACCINS_DATA = [
     presentations: [
       "<strong>M-M-RVaxPro</strong>",
       "<strong>Priorix</strong>"
+    ]
+  },
+  {
+    id: "zona", nom: "Zona", sub: "65 ans et plus", color: "navy",
+    cibles: ["Personnes de 65 ans et plus"],
+    schema: "2 doses de Shingrix, espacées de 2 mois.",
+    points: [
+      "Vaccin recombinant adjuvanté — pas de vaccin vivant atténué disponible en France pour cette indication chez l'adulte.",
+      "Prévention du zona et surtout de la névralgie post-zostérienne, particulièrement invalidante et parfois chronique chez la personne âgée fragile.",
+      "Peut être co-administré avec les autres vaccins de la campagne automnale (grippe, Covid-19)."
+    ],
+    presentations: [
+      "<strong>Shingrix</strong> — seul vaccin disponible en France pour cette indication"
     ]
   }
 ];
@@ -4130,6 +4259,7 @@ const VACCINS_PEDIA_DATA = [
     ],
     presentations: [
       "<strong>Infanrix Hexa</strong>",
+      "<strong>Hexyon</strong>",
       "<strong>Vaxelis</strong>",
       "Rappels : <strong>Infanrix Tetra</strong>, <strong>Tetravac-acellulaire</strong> (6 ans, 11-13 ans)"
     ]
@@ -4143,8 +4273,9 @@ const VACCINS_PEDIA_DATA = [
       "Chez l'enfant à risque, la protection doit être réévaluée à l'adolescence."
     ],
     presentations: [
-      "<strong>Prevenar 20</strong> — conjugué 20-valent",
-      "<strong>Vaxneuvance</strong> — conjugué 15-valent"
+      "<strong>Prevenar 13</strong> — conjugué 13-valent, jusqu'à 17 ans",
+      "<strong>Vaxneuvance</strong> — conjugué 15-valent",
+      "<strong>Pneumovax</strong> — polyosidique 23-valent non conjugué, populations à risque"
     ]
   },
   {
@@ -4208,7 +4339,8 @@ const VACCINS_PEDIA_DATA = [
       "Population souvent sous-vaccinée : y penser lors du bilan annuel de l'adolescent."
     ],
     presentations: [
-      "<strong>Gardasil 9</strong> — seul vaccin HPV disponible en France"
+      "<strong>Gardasil 9</strong> — vaccin nonavalent, très largement utilisé en France",
+      "<strong>Cervarix</strong> — vaccin bivalent, alternative disponible"
     ]
   },
   {
@@ -5037,27 +5169,35 @@ const CHARIOT_SECTIONS = [
 
 function chariotKey(it){ return it.d + "|" + it.n; }
 
+/* Quantité par défaut = premier nombre trouvé dans la quantité recommandée
+   (ex. "6 ampoules" -> 6, "1 boîte" -> 1) ; à défaut, 1. */
+function chariotDefaultQty(it){
+  const m = /^(\d+)/.exec(it.q);
+  return m ? Math.min(parseInt(m[1], 10), 30) : 1;
+}
+function chariotGetQty(it){
+  const k = chariotKey(it);
+  return state.chariotQty[k] !== undefined ? state.chariotQty[k] : chariotDefaultQty(it);
+}
+function setChariotQty(key, delta){
+  const it = CHARIOT_ITEMS.find(x => chariotKey(x) === key);
+  if(!it) return;
+  const cur = chariotGetQty(it);
+  state.chariotQty[key] = Math.max(0, Math.min(30, cur + delta));
+  renderChariotPanel();
+}
+window.setChariotQty = setChariotQty;
+
 function setChariotDotation(id){
   state.chariotDotation = id;
   renderChariotPanel();
 }
 window.setChariotDotation = setChariotDotation;
 
-function toggleChariotItem(key){
-  const i = state.chariotUnchecked.indexOf(key);
-  if(i === -1) state.chariotUnchecked.push(key);
-  else state.chariotUnchecked.splice(i, 1);
-  renderChariotPanel();
-}
-window.toggleChariotItem = toggleChariotItem;
-
 function chariotSelectAll(on){
   const d = state.chariotDotation || "vitale";
   CHARIOT_ITEMS.filter(it => it.d === d).forEach(it => {
-    const k = chariotKey(it);
-    const i = state.chariotUnchecked.indexOf(k);
-    if(on && i !== -1) state.chariotUnchecked.splice(i, 1);
-    if(!on && i === -1) state.chariotUnchecked.push(k);
+    state.chariotQty[chariotKey(it)] = on ? chariotDefaultQty(it) : 0;
   });
   renderChariotPanel();
 }
@@ -5070,7 +5210,7 @@ function renderChariotPanel(){
   const dot = CHARIOT_DOTATIONS.find(x => x.id === dId);
   const dc = colorVars(dot.color);
   const items = CHARIOT_ITEMS.filter(it => it.d === dId);
-  const kept = items.filter(it => !state.chariotUnchecked.includes(chariotKey(it)));
+  const keptCount = items.filter(it => chariotGetQty(it) > 0).length;
 
   contentEl.innerHTML = `
     <button class="back-link" onclick="closeDoc()">
@@ -5079,8 +5219,8 @@ function renderChariotPanel(){
     </button>
     <div class="doc-page">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
-      <h2 class="panel-title" style="color:${c.pill}">Dotations d'urgence en ESMS</h2>
-      <p class="doc-meta">Liste de référence pré-cochée : décoche ce dont l'établissement n'a pas besoin, la prescription de réassort se construit à droite. Quantités recommandées par le référentiel régional, à adapter au profil de l'établissement.</p>
+      <h2 class="panel-title" style="color:${c.pill}">Dotations d'urgence en ESMS (EHPAD / FAM / MAS / IME…)</h2>
+      <p class="doc-meta">Liste de référence pré-remplie aux quantités recommandées : ajuste avec + / − ce dont l'établissement a besoin pour son réassort, qui se construit à droite. Mets à 0 ce qui n'est pas utile.</p>
 
       <div class="neurolep-grid">
         ${CHARIOT_DOTATIONS.map(x => {
@@ -5092,33 +5232,38 @@ function renderChariotPanel(){
         }).join("")}
       </div>
 
-      <div class="bio-layout">
+      <div class="bio-layout chariot-layout">
         <div class="bio-layout-left">
           <div class="bio-options-wrap">
             <div class="chariot-head">
-              <span class="neurolep-label">${dot.label} — ${kept.length} / ${items.length} éléments retenus</span>
+              <span class="neurolep-label">${dot.label} — ${keptCount} / ${items.length} éléments retenus</span>
               <div class="bio-result-actions">
-                <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(true)">Tout cocher</button>
-                <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(false)">Tout décocher</button>
+                <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(true)">Quantités recommandées</button>
+                <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(false)">Tout mettre à 0</button>
               </div>
             </div>
             ${CHARIOT_SECTIONS.map(sec => {
               const list = items.filter(it => it.s === sec.id);
               if(!list.length) return "";
               return `
-                <div class="bio-option-group">
-                  <p class="bio-option-group-indication">${sec.label}</p>
-                  <div class="bio-options-list">
+                <div class="chariot-section chariot-section-${sec.id}">
+                  <p class="chariot-section-title">${chariotSectionIcon(sec.id)} ${sec.label}</p>
+                  <div class="chariot-item-list">
                     ${list.map(it => {
                       const k = chariotKey(it);
-                      const on = !state.chariotUnchecked.includes(k);
-                      return `<label class="bio-option-row ${on ? "bio-option-checked" : ""}">
-                        <input type="checkbox" ${on ? "checked" : ""} onchange="toggleChariotItem('${k.replace(/'/g, "\\'")}')" />
-                        <span>
-                          <span class="bio-option-label">${it.n}</span>
-                          <span class="bio-option-indication">${it.q}${it.i ? " — " + it.i : ""}</span>
-                        </span>
-                      </label>`;
+                      const qty = chariotGetQty(it);
+                      return `
+                        <div class="chariot-item-row ${qty > 0 ? "chariot-item-active" : ""}">
+                          <div class="chariot-item-info">
+                            <span class="bio-option-label">${it.n}</span>
+                            <span class="bio-option-indication">Recommandé : ${it.q}${it.i ? " — " + it.i : ""}</span>
+                          </div>
+                          <div class="chariot-stepper">
+                            <button type="button" onclick="setChariotQty('${k.replace(/'/g, "\\'")}', -1)" aria-label="Diminuer">−</button>
+                            <span class="chariot-stepper-val">${qty}</span>
+                            <button type="button" onclick="setChariotQty('${k.replace(/'/g, "\\'")}', 1)" aria-label="Augmenter">+</button>
+                          </div>
+                        </div>`;
                     }).join("")}
                   </div>
                 </div>`;
@@ -5133,8 +5278,6 @@ function renderChariotPanel(){
       <div class="doc-note" style="margin-top:18px;">
         <strong>Un chariot non opérationnel = une perte de chance</strong>
         <p>La tenue du chariot d'urgence relève du <strong>critère impératif 2.3-12 de la certification HAS</strong> : « les équipes maîtrisent la prise en charge des urgences vitales ». Quatre réflexes : <strong>Vérifier · Sceller · Tracer · Former</strong>. Le jour J, on n'aura pas le temps de chercher.</p>
-        <p style="margin-top:8px;"><strong>Les bons réflexes</strong> — matériel entretenu et fonctionnel, chariot immédiatement accessible, équipe formée et coordonnée, vérifications tracées. <strong>À éviter</strong> — matériel introuvable, chariot incomplet, réaction désorganisée, rôles non définis.</p>
-        <p>La dotation d'urgence <strong>vitale</strong> est stockée sous scellé, jamais dans un local fermé à clé, et vérifiée idéalement chaque mois (contenu, péremptions ≥ 2 mois, fonctionnement du matériel). Toute utilisation déclenche une nouvelle prescription de réassort. La dotation d'urgence <strong>relative</strong> est définie qualitativement et quantitativement par le médecin coordonnateur et le pharmacien référent.</p>
         <p style="margin-top:8px;"><strong>Non recommandé par le groupe de travail :</strong> les antiarythmiques (amiodarone notamment) ne sont pas recommandés dans une dotation d'urgence, en particulier en l'absence d'ECG dans l'établissement.</p>
         <p style="margin-top:8px;">Source : OMéDIT Centre-Val de Loire, groupe de travail régional « Dotations d'urgences médicales en EHPAD », février 2025. Transposable aux FAM, MAS et IME en adaptant au profil des résidents. Ne dispense pas de la validation par le médecin coordonnateur et le pharmacien référent de l'établissement.</p>
       </div>
@@ -5143,49 +5286,72 @@ function renderChariotPanel(){
   renderChariotResult();
 }
 
+function chariotSectionIcon(sid){
+  return sid === "medicaments" ? "💊" : (sid === "dm" ? "🩹" : "🧰");
+}
+
 function renderChariotResult(){
   const out = document.getElementById("chariotResult");
   if(!out) return;
   const dId = state.chariotDotation || "vitale";
   const dot = CHARIOT_DOTATIONS.find(x => x.id === dId);
-  const items = CHARIOT_ITEMS.filter(it => it.d === dId && !state.chariotUnchecked.includes(chariotKey(it)));
+  const items = CHARIOT_ITEMS.filter(it => it.d === dId && chariotGetQty(it) > 0);
 
   if(!items.length){
-    out.innerHTML = `<div class="empty-state">Aucun élément retenu : coche au moins un élément à gauche.</div>`;
+    out.innerHTML = `
+      <div class="chariot-etab-wrap">
+        <label class="calc-field"><span>Nom de l'établissement</span><input type="text" id="chariotEtab" placeholder="EHPAD Les Tilleuls" value="${(state.chariotEtab || "").replace(/"/g, "&quot;")}" /></label>
+      </div>
+      <div class="empty-state">Aucun élément retenu : ajuste au moins une quantité à gauche.</div>`;
+    const etabInput = document.getElementById("chariotEtab");
+    if(etabInput) etabInput.addEventListener("input", e => { state.chariotEtab = e.target.value; });
     return;
   }
 
   const meds = items.filter(it => it.s === "medicaments");
   const mat = items.filter(it => it.s !== "medicaments");
-  const heading = `Dotation d'urgence ${dot.label.toLowerCase().replace("urgence ", "")} — réassort :`;
+  const heading = `Réassort — dotation d'urgence ${dot.label.toLowerCase().replace("urgence ", "")}`;
 
   let plain = heading + "\n";
-  if(meds.length) plain += "\nMÉDICAMENTS :\n" + meds.map(it => `- ${it.n} — ${it.q}`).join("\n") + "\n";
-  if(mat.length)  plain += "\nDISPOSITIFS MÉDICAUX ET ÉQUIPEMENT :\n" + mat.map(it => `- ${it.n} — ${it.q}`).join("\n") + "\n";
+  if(meds.length) plain += "\nMÉDICAMENTS :\n" + meds.map(it => `- ${it.n} — Qté : ${chariotGetQty(it)}`).join("\n") + "\n";
+  if(mat.length)  plain += "\nDISPOSITIFS MÉDICAUX ET ÉQUIPEMENT :\n" + mat.map(it => `- ${it.n} — Qté : ${chariotGetQty(it)}`).join("\n") + "\n";
 
   const htmlText = `<p><strong><u>${heading}</u></strong></p>`
-    + (meds.length ? `<p><strong>Médicaments</strong></p><ul>${meds.map(it => `<li>${it.n} — ${it.q}</li>`).join("")}</ul>` : "")
-    + (mat.length ? `<p><strong>Dispositifs médicaux et équipement</strong></p><ul>${mat.map(it => `<li>${it.n} — ${it.q}</li>`).join("")}</ul>` : "");
+    + (meds.length ? `<p><strong>Médicaments</strong></p><ul>${meds.map(it => `<li>${it.n} — Qté : ${chariotGetQty(it)}</li>`).join("")}</ul>` : "")
+    + (mat.length ? `<p><strong>Dispositifs médicaux et équipement</strong></p><ul>${mat.map(it => `<li>${it.n} — Qté : ${chariotGetQty(it)}</li>`).join("")}</ul>` : "");
 
   out.innerHTML = `
+    <div class="chariot-etab-wrap">
+      <label class="calc-field"><span>Nom de l'établissement</span><input type="text" id="chariotEtab" placeholder="EHPAD Les Tilleuls" value="${(state.chariotEtab || "").replace(/"/g, "&quot;")}" /></label>
+    </div>
     <div class="bio-result-box">
       <div class="bio-result-head">
-        <strong>${items.length} élément${items.length > 1 ? "s" : ""}</strong>
+        <strong>${items.length} élément${items.length > 1 ? "s" : ""} à réassortir</strong>
         <div class="bio-result-actions">
-          <button type="button" class="bio-copy-btn" id="chariotCopyBtn">Copier la liste</button>
+          <button type="button" class="bio-copy-btn" id="chariotCopyBtn">Copier</button>
+          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="chariotPdfBtn">📄 PDF à signer</button>
         </div>
       </div>
-      <div class="bio-result-preview">
-        <p class="bio-result-heading">${heading}</p>
-        ${meds.length ? `<p class="chariot-sub">Médicaments</p><ul class="bio-result-list">${meds.map(it => `<li>${it.n} — <strong>${it.q}</strong></li>`).join("")}</ul>` : ""}
-        ${mat.length ? `<p class="chariot-sub">Dispositifs médicaux et équipement</p><ul class="bio-result-list">${mat.map(it => `<li>${it.n} — <strong>${it.q}</strong></li>`).join("")}</ul>` : ""}
+      <div class="chariot-rx">
+        <p class="chariot-rx-heading">${heading}</p>
+        ${meds.length ? `
+          <p class="chariot-rx-section-title">💊 Médicaments</p>
+          ${meds.map(it => `<div class="chariot-rx-row"><span class="chariot-rx-name">${it.n}</span><span class="chariot-rx-qty">${chariotGetQty(it)}</span></div>`).join("")}
+        ` : ""}
+        ${mat.length ? `
+          <p class="chariot-rx-section-title">🩹 Dispositifs médicaux et équipement</p>
+          ${mat.map(it => `<div class="chariot-rx-row"><span class="chariot-rx-name">${it.n}</span><span class="chariot-rx-qty">${chariotGetQty(it)}</span></div>`).join("")}
+        ` : ""}
       </div>
     </div>
   `;
 
-  const btn = document.getElementById("chariotCopyBtn");
-  btn.addEventListener("click", async () => {
-    const done = () => { btn.textContent = "Copié ✓"; setTimeout(() => { btn.textContent = "Copier la liste"; }, 1800); };
+  const etabInput = document.getElementById("chariotEtab");
+  etabInput.addEventListener("input", e => { state.chariotEtab = e.target.value; });
+
+  const copyBtn = document.getElementById("chariotCopyBtn");
+  copyBtn.addEventListener("click", async () => {
+    const done = () => { copyBtn.textContent = "Copié ✓"; setTimeout(() => { copyBtn.textContent = "Copier"; }, 1800); };
     try{
       if(navigator.clipboard && window.ClipboardItem){
         await navigator.clipboard.write([new ClipboardItem({
@@ -5203,6 +5369,225 @@ function renderChariotResult(){
       document.body.removeChild(ta); done();
     }
   });
+
+  const pdfBtn = document.getElementById("chariotPdfBtn");
+  pdfBtn.addEventListener("click", () => generateChariotPdf(dot, meds, mat));
+}
+
+/* Découpe un texte en lignes ne dépassant pas maxWidth, pour une police/taille données. */
+function wrapPdfText(text, font, size, maxWidth){
+  const words = text.split(" ");
+  const lines = [];
+  let cur = "";
+  words.forEach(w => {
+    const test = cur ? cur + " " + w : w;
+    if(font.widthOfTextAtSize(test, size) > maxWidth && cur){
+      lines.push(cur);
+      cur = w;
+    }else{
+      cur = test;
+    }
+  });
+  if(cur) lines.push(cur);
+  return lines;
+}
+
+async function generateChariotPdf(dot, meds, mat){
+  const pdfBtn = document.getElementById("chariotPdfBtn");
+  const original = pdfBtn.textContent;
+  pdfBtn.textContent = "Génération…";
+  try{
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const pdfDoc = await PDFDocument.create();
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const pageW = 595.28, pageH = 841.89, margin = 50;
+    const navy = rgb(0.043, 0.145, 0.271);
+    const muted = rgb(0.4, 0.42, 0.46);
+
+    let page = pdfDoc.addPage([pageW, pageH]);
+    let y = pageH - 56;
+
+    function ensureSpace(h){
+      if(y - h < 90){
+        page = pdfDoc.addPage([pageW, pageH]);
+        y = pageH - 56;
+      }
+    }
+
+    page.drawText(`Réassort — dotation d'urgence ${dot.label.toLowerCase()}`, { x: margin, y, size: 15, font: bold, color: navy });
+    y -= 24;
+    const etab = (state.chariotEtab || "").trim();
+    page.drawText("Établissement : " + (etab || "…………………………………………………………"), { x: margin, y, size: 11, font, color: navy });
+    y -= 16;
+    page.drawText("Date : " + new Date().toLocaleDateString("fr-FR"), { x: margin, y, size: 11, font, color: navy });
+    y -= 26;
+
+    function section(title, list){
+      if(!list.length) return;
+      ensureSpace(22);
+      page.drawText(title, { x: margin, y, size: 12, font: bold, color: navy });
+      y -= 16;
+      list.forEach(it => {
+        const qty = chariotGetQty(it);
+        const lines = wrapPdfText(it.n, font, 9.5, 380);
+        lines.forEach((ln, idx) => {
+          ensureSpace(13);
+          page.drawText((idx === 0 ? "• " : "  ") + ln, { x: margin + 4, y, size: 9.5, font, color: navy });
+          if(idx === 0) page.drawText("Qté : " + qty, { x: pageW - margin - 60, y, size: 9.5, font: bold, color: navy });
+          y -= 13;
+        });
+      });
+      y -= 10;
+    }
+
+    section("Médicaments", meds);
+    section("Dispositifs médicaux et équipement", mat);
+
+    ensureSpace(90);
+    y -= 16;
+    page.drawLine({ start: { x: margin, y }, end: { x: pageW - margin, y }, thickness: 0.5, color: muted });
+    y -= 26;
+    page.drawText("Nom et signature du médecin :", { x: margin, y, size: 11, font, color: navy });
+    y -= 55;
+    page.drawText("Cachet :", { x: margin, y, size: 11, font, color: navy });
+
+    const bytes = await pdfDoc.save();
+    const blob = new Blob([bytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const safeEtab = (etab || "etablissement").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "_");
+    a.download = `Reassort_${dot.id}_${safeEtab}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }catch(err){
+    console.error(err);
+    alert("La génération du PDF a échoué. Réessaie, ou utilise le bouton Copier en attendant.");
+  }finally{
+    pdfBtn.textContent = original;
+  }
+}
+
+
+/* =====================================================================
+   MÉDICAMENTS "SENSIBLES" — moteur de recherche, transcrit fidèlement
+   du PDF DOTR "Médicaments sensibles : règles pratiques de prescription"
+   (sources ANSM, base de données publique des médicaments, EMA,
+   Légifrance, consultées le 20/03/2026). Aucune donnée inventée : en
+   cas de doute sur une durée précise, le champ le signale explicitement
+   plutôt que d'estimer.
+   ===================================================================== */
+const MEDSENS_DATA = [
+  { noms: ["Zopiclone", "Imovane"], cat: "Hypnotique usuel", duree: "4 semaines", sec: false },
+  { noms: ["Lormétazépam", "Noctamide"], cat: "Hypnotique usuel", duree: "4 semaines", sec: false },
+  { noms: ["Nitrazépam", "Mogadon"], cat: "Hypnotique usuel", duree: "4 semaines", sec: false },
+  { noms: ["Zolpidem", "Stilnox"], cat: "Hypnotique usuel", duree: "4 semaines", sec: true },
+  { noms: ["Tianeptine", "Stablon"], cat: "Antidépresseur particulier", duree: "4 semaines", sec: true },
+  { noms: ["Fentanyl transdermique", "Durogesic"], cat: "Stupéfiant / opioïde fort", duree: "4 semaines", sec: true },
+  { noms: ["Morphine", "Skenan", "Actiskenan"], cat: "Stupéfiant / opioïde fort", duree: "4 semaines", sec: true },
+  { noms: ["Oxycodone", "OxyContin", "Oxynorm"], cat: "Stupéfiant / opioïde fort", duree: "4 semaines", sec: true },
+  { noms: ["Fentanyl sublingual", "Abstral"], cat: "Stupéfiant / opioïde fort", duree: "4 semaines", sec: true },
+  { noms: ["Oxazépam", "Seresta"], cat: "Benzodiazépine anxiolytique usuelle", duree: "12 semaines", sec: false },
+  { noms: ["Alprazolam", "Xanax"], cat: "Benzodiazépine anxiolytique usuelle", duree: "12 semaines", sec: false },
+  { noms: ["Lorazépam", "Temesta"], cat: "Benzodiazépine anxiolytique usuelle", duree: "12 semaines", sec: false },
+  { noms: ["Prazépam", "Lysanxia"], cat: "Benzodiazépine anxiolytique usuelle", duree: "12 semaines", sec: false },
+  { noms: ["Bromazépam", "Lexomil"], cat: "Benzodiazépine anxiolytique usuelle", duree: "12 semaines", sec: false },
+  { noms: ["Clonazépam", "Rivotril"], cat: "Benzodiazépine — cas particulier", duree: "12 semaines", sec: true,
+    note: "Prescription initiale annuelle réservée aux spécialistes en neurologie ou en pédiatrie ; renouvellement non restreint." },
+  { noms: ["Codéine"], cat: "Opioïde faible", duree: "12 semaines", sec: true },
+  { noms: ["Tramadol"], cat: "Opioïde faible", duree: "12 semaines", sec: true },
+  { noms: ["Mélatonine LP 2 mg", "Circadin"], cat: "Mélatonine (55 ans et plus)", duree: "13 semaines", sec: false,
+    note: "AMM : insomnie primaire chez les patients de 55 ans ou plus, en monothérapie. Liste II. Pas de restriction spécifique de prescription initiale ou de renouvellement dans les sources officielles consultées." },
+  { noms: ["Mélatonine LP pédiatrique", "Slenyto"], cat: "Mélatonine pédiatrique", duree: "Pas de durée max réglementaire spécifique retrouvée", sec: false,
+    note: "AMM : enfants/adolescents de 2 à 18 ans avec TSA et/ou troubles neurogénétiques ; et de 6 à 17 ans avec TDAH. Liste I, sur ordonnance uniquement. Pas de restriction officielle de prescription initiale/renouvellement dans l'AMM consultée ; réévaluation après environ 3 mois, suivi au moins semestriel, et pour le TDAH tentative d'arrêt au moins annuelle." },
+  { noms: ["Clorazépate 20 mg", "Tranxène 20"], cat: "Autre — ordonnance sécurisée", duree: "4 semaines à 6 mois — durée précise non détaillée par ce document", sec: true },
+  { noms: ["Prégabaline", "Lyrica"], cat: "Autre — ordonnance sécurisée", duree: "6 mois", sec: true },
+  { noms: ["Midazolam injectable"], cat: "Autre — ordonnance sécurisée", duree: "4 semaines à 6 mois — durée précise non détaillée par ce document", sec: true },
+  { noms: ["Méthylphénidate", "Ritaline", "Ritaline LP", "Quasym LP"], cat: "Cas particulier", duree: "4 semaines", sec: true,
+    note: "Prescription initiale annuelle réservée aux spécialistes en neurologie, psychiatrie ou pédiatrie ; renouvellement non restreint." },
+  { noms: ["Clozapine", "Leponex"], cat: "Cas particulier", duree: null, sec: null,
+    note: "Prescription réservée aux spécialistes en psychiatrie, neurologie ou gériatrie, avec mention sur l'ordonnance de la numération des neutrophiles datée et carnet de suivi tenu à jour." },
+  { noms: ["Midazolam buccal", "Buccolam"], cat: "Cas particulier", duree: null, sec: true,
+    note: "Ordonnance sécurisée et prescription initiale annuelle réservée à certains spécialistes. La base publique 2026 affiche aussi une extension d'indication chez l'adulte ; la règle « plus de 18 ans = forcément hors AMM » n'a donc pas été retenue comme règle générale." },
+  { noms: ["Néfopam", "Acupan"], cat: "Cas particulier", duree: "Pas de durée max spécifique retrouvée", sec: false,
+    note: "Pas besoin d'ordonnance sécurisée, sur la base officielle consultée pour Acupan 20 mg/2 mL injectable." }
+];
+
+function normalizeMedsens(str){
+  return String(str).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function renderMedsensPanel(){
+  const cat = CATEGORIES.find(c => c.id === "medicaments-securite");
+  const c = colorVars(cat.color);
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}Médicaments sensibles</span>
+      <h2 class="panel-title" style="color:${c.pill}">Règles de prescription — recherche rapide</h2>
+      <p class="doc-meta">Tape un nom commercial ou une DCI : durée maximale de prescription et besoin d'ordonnance sécurisée s'affichent instantanément.</p>
+      <div class="medoc-search-wrap" style="margin-top:8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="medsensSearch" placeholder="Ex : Stilnox, Rivotril, tramadol…" autocomplete="off" value="${(state.medsensQuery || "").replace(/"/g, "&quot;")}" />
+      </div>
+      <div id="medsensResults"></div>
+      <div class="doc-note" style="margin-top:18px;">
+        <strong>Sources</strong>
+        <p>ANSM, base de données publique des médicaments, EMA, Légifrance — consultées le 20/03/2026. Document DOTR interne, à jour à cette date : en cas de doute sur une évolution réglementaire récente, se référer au RCP en vigueur.</p>
+      </div>
+    </div>
+  `;
+
+  const input = document.getElementById("medsensSearch");
+  input.addEventListener("input", e => {
+    state.medsensQuery = e.target.value;
+    renderMedsensResults();
+  });
+  renderMedsensResults();
+}
+
+function medsensCardHTML(m){
+  const secColor = m.sec === true ? "red" : (m.sec === false ? "teal" : "slate");
+  const secLabel = m.sec === true ? "Ordonnance sécurisée" : (m.sec === false ? "Ordonnance simple" : "Non précisé");
+  const sc = colorVars(secColor);
+  return `
+    <div class="neurolep-form-card" style="--pill:${sc.pill};--pillbg:${sc.pillbg}">
+      <div class="neurolep-indication">${m.cat}</div>
+      <div class="neurolep-row"><span class="neurolep-label">Nom(s)</span><span>${m.noms.join(" / ")}</span></div>
+      <div class="neurolep-stats">
+        <div class="neurolep-stat"><span class="neurolep-stat-label">Durée maximale</span><span class="neurolep-stat-value" style="font-size:16px;">${m.duree || "Non précisée"}</span></div>
+        <div class="neurolep-stat"><span class="neurolep-stat-label">Ordonnance</span><span class="neurolep-stat-value" style="color:${sc.pill};font-size:16px;">${secLabel}</span></div>
+      </div>
+      ${m.note ? `<div class="neurolep-populations"><strong>À savoir</strong><ul><li>${m.note}</li></ul></div>` : ""}
+    </div>`;
+}
+
+function renderMedsensResults(){
+  const wrap = document.getElementById("medsensResults");
+  if(!wrap) return;
+  const q = (state.medsensQuery || "").trim();
+
+  if(!q){
+    wrap.innerHTML = `<p class="doc-meta" style="margin-top:14px;">Tape le nom d'un médicament pour afficher sa fiche. ${MEDSENS_DATA.length} médicaments référencés.</p>`;
+    return;
+  }
+
+  const qn = normalizeMedsens(q);
+  const matches = MEDSENS_DATA.filter(m => m.noms.some(n => normalizeMedsens(n).includes(qn)));
+
+  if(!matches.length){
+    wrap.innerHTML = `<p class="doc-meta" style="margin-top:14px;">Aucun résultat pour « ${q} » dans cette liste. Le PDF complet reste consultable ci-dessus (bouton « Ouvrir le PDF »).</p>`;
+    return;
+  }
+
+  wrap.innerHTML = matches.map(m => medsensCardHTML(m)).join("");
 }
 
 function renderResourcesPanel(){
@@ -5239,6 +5624,7 @@ function renderResourcesPanel(){
       <div class="partner-links">
         <a href="https://pro.cardioparc.fr" target="_blank" rel="noopener">Espace professionnel — pro.cardioparc.fr</a>
         <a href="https://cardioparc.fr" target="_blank" rel="noopener">cardioparc.fr</a>
+        <button type="button" onclick="openDoc('tuto-connexion-cardioparc')">📄 Tuto connexion & RDV</button>
       </div>
     </div>
 
@@ -5297,6 +5683,8 @@ function render(){
     renderAcbPanel();
   }else if(state.activeDoc === "chariot-urgence" && state.explorerMode){
     renderChariotPanel();
+  }else if(state.activeDoc === "medicaments-sensibles" && state.explorerMode){
+    renderMedsensPanel();
   }else if(state.activeDoc){
     renderEmbedPage(state.activeDoc);
   }else if(state.query){
