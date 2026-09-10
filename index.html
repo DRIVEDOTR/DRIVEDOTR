@@ -77,6 +77,42 @@
   @media (prefers-reduced-motion:reduce){
     .bg-layer{transition:none;}
   }
+
+  /* ---------- Petite planete flottante = acces au trombinoscope, calee
+     a proximite de la fusee sur desktop. La position en vw/vh ne peut
+     pas suivre le fond "cover" au pixel pres sur toutes les tailles
+     d'ecran ; masquee sur mobile ou la fusee n'est plus au meme endroit. */
+  .planet-bubble{
+    position:fixed;
+    top:13vh;
+    left:5.5vw;
+    z-index:5;
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    padding:0;
+    background:radial-gradient(circle at 35% 30%, #eaf4ff 0%, #9cc8f5 45%, #3b7fd4 100%);
+    box-shadow:0 0 0 1px rgba(255,255,255,.6), 0 0 18px rgba(90,155,230,.65), 0 4px 14px rgba(11,37,69,.25);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    animation:planetPulse 3.6s ease-in-out infinite;
+    transition:transform .15s ease;
+  }
+  .planet-bubble:hover{transform:scale(1.08);}
+  .planet-bubble-inner{font-size:20px; filter:drop-shadow(0 1px 2px rgba(11,37,69,.35));}
+  @keyframes planetPulse{
+    0%, 100%{box-shadow:0 0 0 1px rgba(255,255,255,.6), 0 0 14px rgba(90,155,230,.55), 0 4px 14px rgba(11,37,69,.25);}
+    50%{box-shadow:0 0 0 1px rgba(255,255,255,.75), 0 0 24px rgba(90,155,230,.85), 0 4px 14px rgba(11,37,69,.25);}
+  }
+  @media (max-width:700px){
+    .planet-bubble{display:none;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .planet-bubble{animation:none;}
+  }
   h1,h2,h3,.brand-word{
     font-family:'Space Grotesk', 'IBM Plex Sans', sans-serif;
     font-weight:600;
@@ -1423,6 +1459,9 @@
 <body>
 
 <div class="bg-layer" id="bgLayer" aria-hidden="true"></div>
+<button type="button" class="planet-bubble" id="planetBubble" onclick="openDoc('trombinoscope-vms')" title="L'équipe VMS" aria-label="Voir le trombinoscope de l'équipe VMS">
+  <span class="planet-bubble-inner">👥</span>
+</button>
 
 <header class="hero">
   <div class="hero-inner">
@@ -2146,6 +2185,13 @@ const DOCUMENTS = {
     filename: "Tuto_Tampon_Numerique_PDF.jpeg",
     path: "administratif/Tuto_Tampon_Numerique_PDF.jpeg"
   },
+  "trombinoscope-vms": {
+    title: "Trombinoscope — Équipe médicale et paramédicale VMS",
+    category: "administratif",
+    meta: "Organigramme de l'équipe : direction médicale, médecine physique de réadaptation, médecine générale/gériatrie/coordination, psychiatrie-pédopsychiatrie, orthophonie, infirmière coordonnatrice — actualisé au 09/09/2026",
+    filename: "Trombinoscope_VMS_Sept2026.jpg",
+    path: "administratif/Trombinoscope_VMS_Sept2026.jpg"
+  },
   "tuto-connexion-cardioparc": {
     title: "CardioParc — Connexion pro & prise de RDV patient",
     category: "administratif",
@@ -2456,7 +2502,10 @@ const BIO_TESTS = {
   "haptoglobine": "Haptoglobine",
   "coombs": "Test de Coombs direct",
   "magnesemie": "Magnésémie",
-  "cpk": "CPK"
+  "cpk": "CPK",
+  "probnp": "NT-proBNP (ou BNP)",
+  "psa-total": "PSA total",
+  "psa-libre": "PSA libre (+ rapport PSA libre/total)"
 };
 
 const BIO_SITUATIONS = [
@@ -2507,7 +2556,10 @@ const BIO_OPTIONS = [
   { id: "inr-avk", label: "TP / INR", indication: "surveillance sous AVK", addIds: ["tp-inr"] },
   { id: "depakinemie-opt", label: "Dépakinémie (valproate)", indication: "", addIds: ["depakinemie"], group: "antiepi-dosages" },
   { id: "carbamazepinemie-opt", label: "Carbamazépinémie", indication: "", addIds: ["carbamazepinemie"], group: "antiepi-dosages" },
-  { id: "phenobarbitalemie-opt", label: "Phénobarbitalémie", indication: "", addIds: ["phenobarbitalemie"], group: "antiepi-dosages" }
+  { id: "phenobarbitalemie-opt", label: "Phénobarbitalémie", indication: "", addIds: ["phenobarbitalemie"], group: "antiepi-dosages" },
+  { id: "probnp-opt", label: "NT-proBNP (ou BNP)", indication: "suspicion ou suivi d'insuffisance cardiaque, dyspnée inexpliquée", addIds: ["probnp"] },
+  { id: "psa-opt", label: "PSA total", indication: "homme symptomatique (signes urinaires évocateurs) ou suivi d'un cancer de la prostate connu — pas de dépistage systématique (HAS), à éviter si espérance de vie < 10 ans (AFU)", addIds: ["psa-total"], pairWith: "psa-libre-opt" },
+  { id: "psa-libre-opt", label: "PSA libre / PSA total", indication: "en complément si PSA total en zone intermédiaire (4-10 ng/mL), pour aider à discriminer une cause bénigne", addIds: ["psa-libre"] }
 ];
 
 /* Ressources en ligne : liste statique, indépendante des documents ci-dessus. */
@@ -2746,9 +2798,11 @@ function renderSidebar(){
   resBtn.className = "nav-btn" + (resActive ? " active" : "");
   resBtn.style.setProperty("--pill", "var(--slate)");
   resBtn.style.setProperty("--pillbg", "var(--slate-bg)");
+  const resCount = 3 + RESOURCES.reduce((s, g) => s + g.items.length, 0);
   resBtn.innerHTML = `
     ${categoryIconHTML("ressources", "slate", "sm")}
     <span class="nav-label">Ressources utiles</span>
+    <span class="nav-count">${resCount}</span>
   `;
   resBtn.addEventListener("click", () => {
     state.activeId = "ressources";
@@ -6172,6 +6226,14 @@ function renderResourcesPanel(){
       <span class="panel-eyebrow" style="--pill:var(--slate);--pillbg:var(--slate-bg)">${categoryIconHTML("ressources","slate","xs")}Ressources utiles</span>
       <h2 class="panel-title" style="color:var(--slate)">Ressources utiles</h2>
       <p class="panel-desc">Sites de référence pour la pratique quotidienne — non hébergés sur ce Drive, mis à jour par leurs éditeurs respectifs.</p>
+    </div>
+
+    <div class="partner-card">
+      <h3>Trombinoscope — Équipe médicale et paramédicale VMS</h3>
+      <p>Qui fait quoi : direction médicale, médecine physique de réadaptation, médecine générale / gériatrie / coordination, psychiatrie-pédopsychiatrie, orthophonie, infirmière coordonnatrice.</p>
+      <div class="partner-links">
+        <button type="button" onclick="openDoc('trombinoscope-vms')">👥 Voir le trombinoscope</button>
+      </div>
     </div>
 
     <div class="partner-card">
