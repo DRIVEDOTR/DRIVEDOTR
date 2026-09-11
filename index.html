@@ -6912,10 +6912,28 @@ async function downloadHandisportPdf(){
     function drawX(page, zone, Yfn){
       page.drawText("X", { x: zone.x + 1.4, y: Yfn(zone.bottom, 1.8), size: 9, font: checkFont, color });
     }
+    // Réduit la taille jusqu'à ce que le texte tienne sur UNE seule ligne dans
+    // maxWidth, au lieu de laisser pdf-lib forcer un retour à la ligne au
+    // milieu d'un mot (ce qui s'affichait comme un espace parasite).
+    function fitSize(f, text, maxWidth, startSize, minSize){
+      let size = startSize;
+      while(size > minSize && f.widthOfTextAtSize(String(text), size) > maxWidth){
+        size -= 0.5;
+      }
+      return size;
+    }
 
     // ---- Page 1 ----
-    if(h.medecin) p1.drawText(h.medecin, { x: HANDISPORT_ZONES.medecin.x, y: Y1(HANDISPORT_ZONES.medecin.bottom, ABOVE), size: HANDISPORT_ZONES.medecin.size * SCRIPT_SCALE, font: scriptFontBold, color, maxWidth: HANDISPORT_ZONES.medecin.maxWidth });
-    if(h.patient) p1.drawText(h.patient, { x: HANDISPORT_ZONES.patient.x, y: Y1(HANDISPORT_ZONES.patient.bottom, ABOVE), size: HANDISPORT_ZONES.patient.size * SCRIPT_SCALE, font: scriptFontBold, color, maxWidth: HANDISPORT_ZONES.patient.maxWidth });
+    if(h.medecin){
+      const z = HANDISPORT_ZONES.medecin;
+      const size = fitSize(scriptFontBold, h.medecin, z.maxWidth, z.size * SCRIPT_SCALE, 8);
+      p1.drawText(h.medecin, { x: z.x, y: Y1(z.bottom, ABOVE), size, font: scriptFontBold, color });
+    }
+    if(h.patient){
+      const z = HANDISPORT_ZONES.patient;
+      const size = fitSize(scriptFontBold, h.patient, z.maxWidth, z.size * SCRIPT_SCALE, 8);
+      p1.drawText(h.patient, { x: z.x, y: Y1(z.bottom, ABOVE), size, font: scriptFontBold, color });
+    }
     if(h.dob){
       const parts = h.dob.trim().split(/[\/\-\.]/).map(p => p.trim());
       if(parts.length === 3){
