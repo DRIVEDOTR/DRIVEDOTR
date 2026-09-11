@@ -325,6 +325,23 @@
     max-width:68ch;
     font-size:14.5px;
   }
+  .selection-toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:14px;
+    padding:10px 16px;
+    background:var(--navy);
+    color:#fff;
+    border-radius:10px;
+    font-size:14px;
+  }
+  .selection-toolbar-actions{display:flex; gap:8px;}
+  .selection-toolbar .bio-reset-btn{background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.3);}
+  .selection-toolbar .bio-reset-btn:hover{background:rgba(255,255,255,.22);}
+  .selection-toolbar .bio-copy-btn{background:#fff; color:var(--navy); font-weight:700;}
 
   .grid{
     display:grid;
@@ -387,8 +404,23 @@
     flex-direction:column;
     gap:12px;
     animation:cardIn .25s ease both;
-    grid-column:span 2;
   }
+  .card-wrap{position:relative;}
+  .card-wrap-featured{grid-column:span 2;}
+  .card-wrap .card, .card-wrap .card-featured{width:100%;}
+  .card-select{
+    position:absolute;
+    top:10px;
+    right:10px;
+    z-index:2;
+    background:rgba(255,255,255,.92);
+    border-radius:6px;
+    padding:3px;
+    box-shadow:0 1px 4px rgba(11,37,69,.18);
+    display:flex;
+    line-height:0;
+  }
+  .card-select input{width:17px; height:17px; margin:0; cursor:pointer; accent-color:var(--blue);}
   .card-badge{
     align-self:flex-start;
     font-size:11.5px;
@@ -677,6 +709,22 @@
   .chariot-head{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;}
   .chariot-sub{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--text-muted); margin:12px 0 4px;}
 
+  /* ---------- Onglets de catégorie du chariot (Médicaments / DM / Équipement) ---------- */
+  .chariot-section-tabs{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px;}
+  .chariot-section-tab{
+    background:var(--card-bg);
+    border:1.5px solid var(--border);
+    border-radius:9px;
+    padding:8px 14px;
+    font-size:13.5px;
+    font-weight:600;
+    font-family:inherit;
+    color:var(--text);
+    cursor:pointer;
+  }
+  .chariot-section-tab:hover{background:var(--slate-bg);}
+  .chariot-section-tab-active{background:var(--navy); border-color:var(--navy); color:#fff;}
+
   /* ---------- Sections du chariot (Médicaments / DM / Équipement) ---------- */
   .chariot-section{
     margin-top:16px;
@@ -842,7 +890,7 @@
 
   .bio-layout{
     display:grid;
-    grid-template-columns:1.3fr 1fr;
+    grid-template-columns:1fr 1.15fr;
     gap:20px;
     align-items:start;
     margin-top:16px;
@@ -1032,7 +1080,10 @@
     padding:20px 22px;
     box-shadow:var(--shadow);
     margin-bottom:24px;
+    flex:1 1 320px;
   }
+  .partner-row{display:flex; gap:20px; flex-wrap:wrap; margin-bottom:24px;}
+  .partner-row .partner-card{margin-bottom:0;}
   .partner-card h3{color:#fff; font-size:17px; margin-bottom:6px;}
   .partner-card p{color:#c7d3e6; font-size:14px; margin:0 0 12px; max-width:62ch;}
   .partner-links{display:flex; gap:10px; flex-wrap:wrap;}
@@ -1208,6 +1259,7 @@
   }
   .back-link:hover{color:var(--blue);}
   .doc-page{max-width:840px;}
+  .doc-page-wide{max-width:1180px;}
   .doc-meta{
     color:var(--text-muted);
     font-size:13px;
@@ -1476,6 +1528,7 @@
     flex-wrap:wrap;
   }
   .neurolep-label{font-weight:600; color:var(--text-muted); flex:none;}
+  .calc-group-heading{font-size:17px; font-weight:700; color:var(--text); margin-top:22px; margin-bottom:2px;}
   .neurolep-stats{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
@@ -1528,6 +1581,8 @@
 <!-- pdf-lib : génère un PDF rempli (Établissement / Médecin) entièrement dans le navigateur,
      sans rien envoyer à un serveur ni rien conserver après la session. -->
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<!-- JSZip : assemble un .zip de PDF sélectionnés entièrement dans le navigateur. -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 </head>
 <body>
 
@@ -2782,6 +2837,8 @@ const state = {
   chariotDotation: "vitale",
   chariotQty: {},
   chariotEtab: "",
+  chariotSection: "medicaments",
+  selectedDocs: {},
   medsensQuery: ""
 };
 
@@ -2960,39 +3017,115 @@ function colorVars(color){
 
 function cardHTML(protocolItem, cat){
   const c = colorVars(cat.color);
+  const doc = DOCUMENTS[protocolItem.id];
+  const hasPdf = doc && doc.path && /\.pdf$/i.test(doc.path);
+  const selected = !!state.selectedDocs[protocolItem.id];
+  const checkboxHTML = hasPdf ? `
+    <label class="card-select">
+      <input type="checkbox" ${selected ? "checked" : ""} onchange="toggleDocSelect('${protocolItem.id}')" />
+    </label>` : "";
 
   if(protocolItem.interactive){
-    const doc = DOCUMENTS[protocolItem.id];
     return `
-      <div class="card card-featured" style="--pill:${c.pill};--pillbg:${c.pillbg}">
-        <span class="card-badge">🔎 Outil interactif</span>
-        <div class="card-title">${protocolItem.title}</div>
-        <div class="card-dual-actions">
-          <button type="button" onclick="openExplorer('${protocolItem.id}')">
-            Explorer
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
-          </button>
-          ${doc.path ? `
-            <button type="button" class="card-dual-secondary" onclick="openDoc('${protocolItem.id}')">
-              Ouvrir le PDF
+      <div class="card-wrap card-wrap-featured">
+        ${checkboxHTML}
+        <div class="card card-featured" style="--pill:${c.pill};--pillbg:${c.pillbg}">
+          <span class="card-badge">🔎 Outil interactif</span>
+          <div class="card-title">${protocolItem.title}</div>
+          <div class="card-dual-actions">
+            <button type="button" onclick="openExplorer('${protocolItem.id}')">
+              Explorer
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
             </button>
-          ` : ""}
+            ${doc.path ? `
+              <button type="button" class="card-dual-secondary" onclick="openDoc('${protocolItem.id}')">
+                Ouvrir le PDF
+              </button>
+            ` : ""}
+          </div>
         </div>
       </div>
     `;
   }
 
   return `
-    <button class="card" style="text-align:left;cursor:pointer" onclick="openDoc('${protocolItem.id}')">
-      <span class="card-tag" style="--pill:${c.pill};--pillbg:${c.pillbg}">${cat.label}</span>
-      <div class="card-title">${protocolItem.title}</div>
-      <span class="card-open">
-        Ouvrir le PDF
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
-      </span>
-    </button>
+    <div class="card-wrap">
+      ${checkboxHTML}
+      <button class="card" style="text-align:left;cursor:pointer" onclick="openDoc('${protocolItem.id}')">
+        <span class="card-tag" style="--pill:${c.pill};--pillbg:${c.pillbg}">${cat.label}</span>
+        <div class="card-title">${protocolItem.title}</div>
+        <span class="card-open">
+          Ouvrir le PDF
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+        </span>
+      </button>
+    </div>
   `;
 }
+
+function toggleDocSelect(id){
+  if(state.selectedDocs[id]) delete state.selectedDocs[id];
+  else state.selectedDocs[id] = true;
+  render();
+}
+window.toggleDocSelect = toggleDocSelect;
+
+function clearDocSelection(){
+  state.selectedDocs = {};
+  render();
+}
+window.clearDocSelection = clearDocSelection;
+
+function selectionToolbarHTML(){
+  const ids = Object.keys(state.selectedDocs);
+  if(!ids.length) return "";
+  return `
+    <div class="selection-toolbar">
+      <span><strong>${ids.length}</strong> document${ids.length > 1 ? "s" : ""} sélectionné${ids.length > 1 ? "s" : ""}</span>
+      <div class="selection-toolbar-actions">
+        <button type="button" class="bio-reset-btn" onclick="clearDocSelection()">Tout désélectionner</button>
+        <button type="button" class="bio-copy-btn" id="zipDownloadBtn" onclick="downloadSelectedZip()">📦 Télécharger le ZIP</button>
+      </div>
+    </div>`;
+}
+
+async function downloadSelectedZip(){
+  const btn = document.getElementById("zipDownloadBtn");
+  const original = btn ? btn.textContent : "";
+  const ids = Object.keys(state.selectedDocs);
+  if(!ids.length) return;
+  if(btn){ btn.textContent = "Préparation…"; btn.disabled = true; }
+  try{
+    const zip = new JSZip();
+    const usedNames = {};
+    for(const id of ids){
+      const doc = DOCUMENTS[id];
+      if(!doc || !doc.path) continue;
+      const resp = await fetch(doc.path);
+      if(!resp.ok) throw new Error("Échec du chargement : " + doc.path);
+      const bytes = await resp.arrayBuffer();
+      let name = (doc.title || id).replace(/[\\/:*?"<>|]/g, "-").trim() + ".pdf";
+      if(usedNames[name]){ usedNames[name]++; name = name.replace(/\.pdf$/, ` (${usedNames[name]}).pdf`); }
+      else usedNames[name] = 1;
+      zip.file(name, bytes);
+    }
+    const blob = await zip.generateAsync({ type: "blob" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Protocoles_DOTR_${ids.length}.zip`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }catch(err){
+    console.error(err);
+    alert("Le téléchargement du ZIP a échoué pour au moins un document. Vérifie ta connexion et réessaie.");
+  }finally{
+    if(btn){ btn.textContent = original; btn.disabled = false; }
+  }
+}
+window.downloadSelectedZip = downloadSelectedZip;
 
 function renderCategoryPanel(cat){
   const c = colorVars(cat.color);
@@ -3063,6 +3196,7 @@ function renderCategoryPanel(cat){
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
       <h2 class="panel-title" style="color:${c.pill}">${cat.label}</h2>
       <p class="panel-desc">${cat.description}</p>
+      ${selectionToolbarHTML()}
     </div>
     ${body}
   `;
@@ -3083,7 +3217,7 @@ function renderEmbedPage(id){
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
       Retour — ${cat.label}
     </button>
-    <div class="doc-page">
+    <div class="doc-page ${/\.(png|jpe?g|gif|webp|svg)$/i.test(doc.path) ? "doc-page-wide" : ""}">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
       <h2 class="panel-title">${doc.title}</h2>
       <p class="doc-meta">${doc.meta}</p>
@@ -3587,7 +3721,7 @@ function renderBioOrdonnancePanel(){
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
       Retour — ${cat.label}
     </button>
-    <div class="doc-page">
+    <div class="doc-page doc-page-wide">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
       <h2 class="panel-title" style="color:${c.pill}">Créer une ordonnance de biologie</h2>
       <p class="doc-meta">Sélectionne une ou plusieurs situations cliniques du patient : la liste des examens se construit automatiquement à droite, sans doublon.</p>
@@ -3782,7 +3916,7 @@ const CALC_TOOLS = [
   { id: "pallia", label: "Pallia Geronto", sub: "Recours aux soins palliatifs", color: "purple", group: "palliatif" }
 ];
 const CALC_GROUPS = [
-  { id: "fonction", label: "Fonction & risque" },
+  { id: "fonction", label: "🩺 Fonction & risque" },
   { id: "douleur", label: "🔴 Douleur" },
   { id: "escarre", label: "🩹 Risque d'escarre" },
   { id: "palliatif", label: "🕊️ Soins palliatifs" }
@@ -3829,8 +3963,9 @@ function renderCalcPanel(){
       <p class="doc-meta">Résultats calculés en direct dans le navigateur — rien n'est transmis ni enregistré. Chaque outil peut aussi générer une fiche PDF imprimable.</p>
       ${CALC_GROUPS.map(g => {
         const tools = CALC_TOOLS.filter(t => t.group === g.id);
+        const groupIsActive = tools.some(t => t.id === active);
         return `
-          <p class="neurolep-label" style="margin-top:14px;">${g.label}</p>
+          <p class="calc-group-heading">${g.label}</p>
           <div class="neurolep-grid">
             ${tools.map(t => {
               const tc = colorVars(t.color);
@@ -3840,9 +3975,9 @@ function renderCalcPanel(){
                   <span class="neurolep-brand">${t.sub}</span>
                 </button>`;
             }).join("")}
-          </div>`;
+          </div>
+          ${groupIsActive ? `<div id="calcBody"></div>` : ""}`;
       }).join("")}
-      <div id="calcBody"></div>
     </div>
   `;
   renderCalcBody(active);
@@ -4079,7 +4214,7 @@ function renderCalcBody(tool){
   }else if(tool === "braden"){
     body.innerHTML = `
       <div class="calc-box">
-        <div class="calc-fields" style="grid-template-columns:1fr;">
+        <div class="calc-fields" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
           ${BRADEN_CATS.map(cat => `
             <label class="calc-field"><span>${cat.label}</span>
               <select id="braden_${cat.id}" onchange="runCalc()">
@@ -4095,7 +4230,7 @@ function renderCalcBody(tool){
   }else if(tool === "norton"){
     body.innerHTML = `
       <div class="calc-box">
-        <div class="calc-fields" style="grid-template-columns:1fr;">
+        <div class="calc-fields" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
           ${NORTON_CATS.map(cat => `
             <label class="calc-field"><span>${cat.label}</span>
               <select id="norton_${cat.id}" onchange="runCalc()">
@@ -4332,8 +4467,18 @@ async function generateScalePdf(opts){
         y = pageH - 50;
       }
     }
+    // La police standard Helvetica de pdf-lib (encodage WinAnsi) ne sait pas
+    // dessiner ≥ / ≤ / … : on les remplace par leur équivalent ASCII avant
+    // tout drawText, sans toucher à l'affichage à l'écran (HTML) qui, lui,
+    // n'a pas cette contrainte.
+    function pdfSafe(text){
+      return String(text)
+        .replace(/≥/g, ">=")
+        .replace(/≤/g, "<=")
+        .replace(/…/g, "...");
+    }
     function wrap(text, f, size, maxWidth){
-      const words = String(text).split(" ");
+      const words = pdfSafe(text).split(" ");
       const lines = []; let cur = "";
       words.forEach(w => {
         const test = cur ? cur + " " + w : w;
@@ -4343,10 +4488,10 @@ async function generateScalePdf(opts){
       return lines;
     }
 
-    page.drawText(opts.title, { x: margin, y, size: 16, font: bold, color: navy });
+    page.drawText(pdfSafe(opts.title), { x: margin, y, size: 16, font: bold, color: navy });
     y -= 20;
     if(opts.subtitle){
-      page.drawText(opts.subtitle, { x: margin, y, size: 11, font, color: muted });
+      page.drawText(pdfSafe(opts.subtitle), { x: margin, y, size: 11, font, color: muted });
       y -= 20;
     }
     page.drawText("Le " + new Date().toLocaleDateString("fr-FR"), { x: margin, y, size: 9.5, font, color: muted });
@@ -4365,7 +4510,7 @@ async function generateScalePdf(opts){
           ensureSpace(13);
           page.drawText((idx === 0 ? "• " : "  ") + ln, { x: margin + 4, y, size: 10, font, color: navy });
           if(idx === 0 && r.value !== undefined && r.value !== null){
-            page.drawText(String(r.value), { x: pageW - margin - 90, y, size: 10, font: bold, color: navy });
+            page.drawText(pdfSafe(r.value), { x: pageW - margin - 90, y, size: 10, font: bold, color: navy });
           }
           y -= 13;
         });
@@ -4384,7 +4529,7 @@ async function generateScalePdf(opts){
       y -= 20;
       opts.resultLines.forEach(line => {
         ensureSpace(16);
-        page.drawText(line, { x: margin, y, size: 12.5, font: bold, color: navy });
+        page.drawText(pdfSafe(line), { x: margin, y, size: 12.5, font: bold, color: navy });
         y -= 17;
       });
     }
@@ -4645,7 +4790,7 @@ function renderCourrierPanel(){
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
       Retour — ${cat.label}
     </button>
-    <div class="doc-page">
+    <div class="doc-page doc-page-wide">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
       <h2 class="panel-title" style="color:${c.pill}">Rédiger un courrier</h2>
       <p class="doc-meta">Choisis une trame, remplis ce qui est utile (les champs vides sont ignorés) : le courrier se construit à droite, prêt à copier. Rien n'est enregistré.</p>
@@ -5935,9 +6080,16 @@ function setChariotDotation(id){
 }
 window.setChariotDotation = setChariotDotation;
 
+function setChariotSection(id){
+  state.chariotSection = id;
+  renderChariotPanel();
+}
+window.setChariotSection = setChariotSection;
+
 function chariotSelectAll(on){
   const d = state.chariotDotation || "vitale";
-  CHARIOT_ITEMS.filter(it => it.d === d).forEach(it => {
+  const s = state.chariotSection || "medicaments";
+  CHARIOT_ITEMS.filter(it => it.d === d && it.s === s).forEach(it => {
     state.chariotQty[chariotKey(it)] = on ? chariotDefaultQty(it) : 0;
   });
   renderChariotPanel();
@@ -5950,7 +6102,9 @@ function renderChariotPanel(){
   const dId = state.chariotDotation || "vitale";
   const dot = CHARIOT_DOTATIONS.find(x => x.id === dId);
   const dc = colorVars(dot.color);
-  const items = CHARIOT_ITEMS.filter(it => it.d === dId);
+  const sId = state.chariotSection || "medicaments";
+  const sec = CHARIOT_SECTIONS.find(s => s.id === sId);
+  const items = CHARIOT_ITEMS.filter(it => it.d === dId && it.s === sId);
   const keptCount = items.filter(it => chariotGetQty(it) > 0).length;
 
   contentEl.innerHTML = `
@@ -5973,42 +6127,45 @@ function renderChariotPanel(){
         }).join("")}
       </div>
 
+      <p class="doc-meta" style="margin-top:10px;">Affiche une seule catégorie à la fois — un PDF plus court et plus lisible pour chaque réassort.</p>
+      <div class="chariot-section-tabs">
+        ${CHARIOT_SECTIONS.map(s => `
+          <button type="button" class="chariot-section-tab ${sId === s.id ? "chariot-section-tab-active" : ""}" onclick="setChariotSection('${s.id}')">
+            ${chariotSectionIcon(s.id)} ${s.label}
+          </button>
+        `).join("")}
+      </div>
+
       <div class="bio-layout chariot-layout">
         <div class="bio-layout-left">
           <div class="bio-options-wrap">
             <div class="chariot-head">
-              <span class="neurolep-label">${dot.label} — ${keptCount} / ${items.length} éléments retenus</span>
+              <span class="neurolep-label">${dot.label} — ${sec.label} — ${keptCount} / ${items.length} éléments retenus</span>
               <div class="bio-result-actions">
                 <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(true)">Quantités recommandées</button>
                 <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(false)">Tout mettre à 0</button>
               </div>
             </div>
-            ${CHARIOT_SECTIONS.map(sec => {
-              const list = items.filter(it => it.s === sec.id);
-              if(!list.length) return "";
-              return `
-                <div class="chariot-section chariot-section-${sec.id}">
-                  <p class="chariot-section-title">${chariotSectionIcon(sec.id)} ${sec.label}</p>
-                  <div class="chariot-item-list">
-                    ${list.map(it => {
-                      const k = chariotKey(it);
-                      const qty = chariotGetQty(it);
-                      return `
-                        <div class="chariot-item-row ${qty > 0 ? "chariot-item-active" : ""}">
-                          <div class="chariot-item-info">
-                            <span class="bio-option-label">${it.n}</span>
-                            <span class="bio-option-indication">Recommandé : ${it.q}${it.i ? " — " + it.i : ""}</span>
-                          </div>
-                          <div class="chariot-stepper">
-                            <button type="button" onclick="setChariotQty('${k.replace(/'/g, "\\'")}', -1)" aria-label="Diminuer">−</button>
-                            <span class="chariot-stepper-val">${qty}</span>
-                            <button type="button" onclick="setChariotQty('${k.replace(/'/g, "\\'")}', 1)" aria-label="Augmenter">+</button>
-                          </div>
-                        </div>`;
-                    }).join("")}
-                  </div>
-                </div>`;
-            }).join("")}
+            <div class="chariot-section chariot-section-${sId}">
+              <div class="chariot-item-list">
+                ${items.map(it => {
+                  const k = chariotKey(it);
+                  const qty = chariotGetQty(it);
+                  return `
+                    <div class="chariot-item-row ${qty > 0 ? "chariot-item-active" : ""}">
+                      <div class="chariot-item-info">
+                        <span class="bio-option-label">${it.n}</span>
+                        <span class="bio-option-indication">Recommandé : ${it.q}${it.i ? " — " + it.i : ""}</span>
+                      </div>
+                      <div class="chariot-stepper">
+                        <button type="button" onclick="setChariotQty('${k.replace(/'/g, "\\'")}', -1)" aria-label="Diminuer">−</button>
+                        <span class="chariot-stepper-val">${qty}</span>
+                        <button type="button" onclick="setChariotQty('${k.replace(/'/g, "\\'")}', 1)" aria-label="Augmenter">+</button>
+                      </div>
+                    </div>`;
+                }).join("")}
+              </div>
+            </div>
           </div>
         </div>
         <div class="bio-layout-right">
@@ -6036,30 +6193,27 @@ function renderChariotResult(){
   if(!out) return;
   const dId = state.chariotDotation || "vitale";
   const dot = CHARIOT_DOTATIONS.find(x => x.id === dId);
-  const items = CHARIOT_ITEMS.filter(it => it.d === dId && chariotGetQty(it) > 0);
+  const sId = state.chariotSection || "medicaments";
+  const sec = CHARIOT_SECTIONS.find(s => s.id === sId);
+  const items = CHARIOT_ITEMS.filter(it => it.d === dId && it.s === sId && chariotGetQty(it) > 0);
 
   if(!items.length){
     out.innerHTML = `
       <div class="chariot-etab-wrap">
         <label class="calc-field"><span>Nom de l'établissement</span><input type="text" id="chariotEtab" placeholder="EHPAD Les Tilleuls" value="${(state.chariotEtab || "").replace(/"/g, "&quot;")}" /></label>
       </div>
-      <div class="empty-state">Aucun élément retenu : ajuste au moins une quantité à gauche.</div>`;
+      <div class="empty-state">Aucun élément retenu dans « ${sec.label} » : ajuste au moins une quantité à gauche.</div>`;
     const etabInput = document.getElementById("chariotEtab");
     if(etabInput) etabInput.addEventListener("input", e => { state.chariotEtab = e.target.value; });
     return;
   }
 
-  const meds = items.filter(it => it.s === "medicaments");
-  const mat = items.filter(it => it.s !== "medicaments");
-  const heading = `Réassort — dotation d'urgence ${dot.label.toLowerCase().replace("urgence ", "")}`;
+  const heading = `Réassort — dotation d'urgence ${dot.label.toLowerCase().replace("urgence ", "")} — ${sec.label}`;
 
-  let plain = heading + "\n";
-  if(meds.length) plain += "\nMÉDICAMENTS :\n" + meds.map(it => `- ${it.n} — Qté : ${chariotGetQty(it)}`).join("\n") + "\n";
-  if(mat.length)  plain += "\nDISPOSITIFS MÉDICAUX ET ÉQUIPEMENT :\n" + mat.map(it => `- ${it.n} — Qté : ${chariotGetQty(it)}`).join("\n") + "\n";
+  let plain = heading + "\n\n" + items.map(it => `- ${it.n} — Qté : ${chariotGetQty(it)}`).join("\n") + "\n";
 
   const htmlText = `<p><strong><u>${heading}</u></strong></p>`
-    + (meds.length ? `<p><strong>Médicaments</strong></p><ul>${meds.map(it => `<li>${it.n} — Qté : ${chariotGetQty(it)}</li>`).join("")}</ul>` : "")
-    + (mat.length ? `<p><strong>Dispositifs médicaux et équipement</strong></p><ul>${mat.map(it => `<li>${it.n} — Qté : ${chariotGetQty(it)}</li>`).join("")}</ul>` : "");
+    + `<ul>${items.map(it => `<li>${it.n} — Qté : ${chariotGetQty(it)}</li>`).join("")}</ul>`;
 
   out.innerHTML = `
     <div class="chariot-etab-wrap">
@@ -6075,14 +6229,7 @@ function renderChariotResult(){
       </div>
       <div class="chariot-rx">
         <p class="chariot-rx-heading">${heading}</p>
-        ${meds.length ? `
-          <p class="chariot-rx-section-title">💊 Médicaments</p>
-          ${meds.map(it => `<div class="chariot-rx-row"><span class="chariot-rx-name">${it.n}</span><span class="chariot-rx-qty">${chariotGetQty(it)}</span></div>`).join("")}
-        ` : ""}
-        ${mat.length ? `
-          <p class="chariot-rx-section-title">🩹 Dispositifs médicaux et équipement</p>
-          ${mat.map(it => `<div class="chariot-rx-row"><span class="chariot-rx-name">${it.n}</span><span class="chariot-rx-qty">${chariotGetQty(it)}</span></div>`).join("")}
-        ` : ""}
+        ${items.map(it => `<div class="chariot-rx-row"><span class="chariot-rx-name">${it.n}</span><span class="chariot-rx-qty">${chariotGetQty(it)}</span></div>`).join("")}
       </div>
     </div>
   `;
@@ -6112,7 +6259,7 @@ function renderChariotResult(){
   });
 
   const pdfBtn = document.getElementById("chariotPdfBtn");
-  pdfBtn.addEventListener("click", () => generateChariotPdf(dot, meds, mat));
+  pdfBtn.addEventListener("click", () => generateChariotPdf(dot, sec, items));
 }
 
 /* Découpe un texte en lignes ne dépassant pas maxWidth, pour une police/taille données. */
@@ -6133,7 +6280,7 @@ function wrapPdfText(text, font, size, maxWidth){
   return lines;
 }
 
-async function generateChariotPdf(dot, meds, mat){
+async function generateChariotPdf(dot, sec, items){
   const pdfBtn = document.getElementById("chariotPdfBtn");
   const original = pdfBtn.textContent;
   pdfBtn.textContent = "Génération…";
@@ -6157,33 +6304,26 @@ async function generateChariotPdf(dot, meds, mat){
     }
 
     page.drawText(`Réassort — dotation d'urgence ${dot.label.toLowerCase()}`, { x: margin, y, size: 15, font: bold, color: navy });
-    y -= 24;
+    y -= 20;
+    page.drawText(sec.label, { x: margin, y, size: 12, font: bold, color: muted });
+    y -= 22;
     const etab = (state.chariotEtab || "").trim();
     page.drawText("Établissement : " + (etab || "…………………………………………………………"), { x: margin, y, size: 11, font, color: navy });
     y -= 16;
     page.drawText("Date : " + new Date().toLocaleDateString("fr-FR"), { x: margin, y, size: 11, font, color: navy });
     y -= 26;
 
-    function section(title, list){
-      if(!list.length) return;
-      ensureSpace(22);
-      page.drawText(title, { x: margin, y, size: 12, font: bold, color: navy });
-      y -= 16;
-      list.forEach(it => {
-        const qty = chariotGetQty(it);
-        const lines = wrapPdfText(it.n, font, 9.5, 380);
-        lines.forEach((ln, idx) => {
-          ensureSpace(13);
-          page.drawText((idx === 0 ? "• " : "  ") + ln, { x: margin + 4, y, size: 9.5, font, color: navy });
-          if(idx === 0) page.drawText("Qté : " + qty, { x: pageW - margin - 60, y, size: 9.5, font: bold, color: navy });
-          y -= 13;
-        });
+    items.forEach(it => {
+      const qty = chariotGetQty(it);
+      const lines = wrapPdfText(it.n, font, 9.5, 380);
+      lines.forEach((ln, idx) => {
+        ensureSpace(13);
+        page.drawText((idx === 0 ? "• " : "  ") + ln, { x: margin + 4, y, size: 9.5, font, color: navy });
+        if(idx === 0) page.drawText("Qté : " + qty, { x: pageW - margin - 60, y, size: 9.5, font: bold, color: navy });
+        y -= 13;
       });
-      y -= 10;
-    }
-
-    section("Médicaments", meds);
-    section("Dispositifs médicaux et équipement", mat);
+    });
+    y -= 10;
 
     ensureSpace(90);
     y -= 16;
@@ -6199,7 +6339,7 @@ async function generateChariotPdf(dot, meds, mat){
     const a = document.createElement("a");
     a.href = url;
     const safeEtab = (etab || "etablissement").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "_");
-    a.download = `Reassort_${dot.id}_${safeEtab}.pdf`;
+    a.download = `Reassort_${dot.id}_${sec.id}_${safeEtab}.pdf`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -6359,21 +6499,23 @@ function renderResourcesPanel(){
       <p class="panel-desc">Sites de référence pour la pratique quotidienne — non hébergés sur ce Drive, mis à jour par leurs éditeurs respectifs.</p>
     </div>
 
-    <div class="partner-card">
-      <h3>CardioParc — Téléexpertise cardiologique</h3>
-      <p>Demande d'avis cardiologique et prise de rendez-vous : réponse donnée en moins de 48h avec compte rendu. En cas de besoin urgent, privilégier une demande de télé-expertise en priorité « urgent ».</p>
-      <div class="partner-links">
-        <a href="https://pro.cardioparc.fr" target="_blank" rel="noopener">Espace professionnel — pro.cardioparc.fr</a>
-        <a href="https://cardioparc.fr" target="_blank" rel="noopener">cardioparc.fr</a>
-        <button type="button" onclick="openDoc('tuto-connexion-cardioparc')">📄 Tuto connexion & RDV</button>
+    <div class="partner-row">
+      <div class="partner-card">
+        <h3>CardioParc — Téléexpertise cardiologique</h3>
+        <p>Demande d'avis cardiologique et prise de rendez-vous : réponse donnée en moins de 48h avec compte rendu. En cas de besoin urgent, privilégier une demande de télé-expertise en priorité « urgent ».</p>
+        <div class="partner-links">
+          <a href="https://pro.cardioparc.fr" target="_blank" rel="noopener">Espace professionnel — pro.cardioparc.fr</a>
+          <a href="https://cardioparc.fr" target="_blank" rel="noopener">cardioparc.fr</a>
+          <button type="button" onclick="openDoc('tuto-connexion-cardioparc')">📄 Tuto connexion & RDV</button>
+        </div>
       </div>
-    </div>
 
-    <div class="partner-card">
-      <h3>Omnidoc — Téléexpertise toutes spécialités</h3>
-      <p>Plateforme nationale de référence pour demander l'avis tracé d'un spécialiste sur un patient, sans déplacement — acte reconnu et rémunéré par l'Assurance Maladie. Très largement utilisée en EHPAD et structures médico-sociales.</p>
-      <div class="partner-links">
-        <a href="https://omnidoc.fr" target="_blank" rel="noopener">omnidoc.fr</a>
+      <div class="partner-card">
+        <h3>Omnidoc — Téléexpertise toutes spécialités</h3>
+        <p>Plateforme nationale de référence pour demander l'avis tracé d'un spécialiste sur un patient, sans déplacement — acte reconnu et rémunéré par l'Assurance Maladie. Très largement utilisée en EHPAD et structures médico-sociales.</p>
+        <div class="partner-links">
+          <a href="https://omnidoc.fr" target="_blank" rel="noopener">omnidoc.fr</a>
+        </div>
       </div>
     </div>
 
@@ -6395,6 +6537,7 @@ function renderSearchPanel(){
     <div class="panel-head">
       <span class="panel-eyebrow">🔎 Recherche</span>
       <h2 class="panel-title">${results.length} résultat${results.length > 1 ? "s" : ""} pour « ${state.query} »</h2>
+      ${selectionToolbarHTML()}
     </div>
     ${body}
   `;
