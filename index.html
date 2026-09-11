@@ -1416,6 +1416,33 @@
     cursor:pointer;
   }
   .fill-download-btn:hover{opacity:.92;}
+  .fill-download-btn-lg{
+    font-size:15.5px;
+    padding:13px 22px;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(14,140,130,.28);
+  }
+  .handi-top-row{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .handi-top-row .calc-group-heading{margin-bottom:0;}
+  .handi-bottom-row{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:18px;
+  }
+  .handi-reset-btn{
+    font-size:13.5px;
+    padding:12px 18px;
+    border-radius:10px;
+  }
   .fill-status{
     font-size:12.5px;
     color:var(--text-muted);
@@ -6496,11 +6523,11 @@ const HANDISPORT_ACTIVITIES = [
 ];
 
 const HANDISPORT_ZONES = {
-  medecin:      { x: 200,   bottom: 171.8, size: 10.5, maxWidth: 300 },
-  patient:      { x: 166,   bottom: 228.2, size: 10.5, maxWidth: 335 },
-  dobJour:      { x: 181,   bottom: 270.4, size: 10.5 },
-  dobMois:      { x: 207,   bottom: 270.4, size: 10.5 },
-  dobAnnee:     { x: 233,   bottom: 270.4, size: 10.5 },
+  medecin:      { x: 200,   bottom: 171.8, size: 11.5, maxWidth: 300 },
+  patient:      { x: 166,   bottom: 228.2, size: 11.5, maxWidth: 335 },
+  dobJour:      { x: 181,   bottom: 270.4, size: 11 },
+  dobMois:      { x: 207,   bottom: 270.4, size: 11 },
+  dobAnnee:     { x: 233,   bottom: 270.4, size: 11 },
   sexeM:        { x: 380.1, bottom: 270.4 },
   sexeF:        { x: 455.8, bottom: 270.4 },
   competP1:     { x: 79.9,  bottom: 340.6 },
@@ -6511,15 +6538,15 @@ const HANDISPORT_ZONES = {
   autresCheck:  { x: 377.5, bottom: 583.2 },
   autresText:   { x: 449,   bottom: 583.2, size: 9, maxWidth: 66 },
   autresText2:  { x: 411.6, bottom: 598,   size: 9, maxWidth: 105 },
-  nbCases:      { x: 202,   bottom: 681.2, size: 11 },
-  examJour:     { x: 201.6, bottom: 707.1, size: 10.5 },
-  examMois:     { x: 225.9, bottom: 707.1, size: 10.5 },
-  examAnnee:    { x: 250.5, bottom: 707.1, size: 10.5 }
+  nbCases:      { x: 202,   bottom: 681.2, size: 12 },
+  examJour:     { x: 201.6, bottom: 707.1, size: 11 },
+  examMois:     { x: 225.9, bottom: 707.1, size: 11 },
+  examAnnee:    { x: 250.5, bottom: 707.1, size: 11 }
 };
 
 function handiDefaultState(){
   return {
-    medecin: "", patient: "", dobJour: "", dobMois: "", dobAnnee: "",
+    medecin: "", patient: "", dob: "",
     sexe: "", competition: false, loisir: false, remarques: "",
     activities: {}, autres: false, autresText: "", query: ""
   };
@@ -6594,26 +6621,33 @@ function renderHandisportPanel(){
       <h2 class="panel-title" style="color:${c.pill}">Certificat médical Handisport — remplissage guidé</h2>
       <p class="doc-meta">Fédération Française Handisport, Annexe 2. Renseigne les champs ci-dessous : le PDF final est généré à partir du formulaire vierge, avec les croix et le texte placés directement aux bons endroits.</p>
 
-      <p class="calc-group-heading">📋 Informations générales (page 1)</p>
-      <div class="calc-fields" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr));">
-        <label class="calc-field"><span>Docteur (nom du médecin)</span><input type="text" id="hMedecin" value="${h.medecin.replace(/"/g, "&quot;")}" placeholder="Nom du médecin" /></label>
-        <label class="calc-field"><span>Nom et prénom du patient</span><input type="text" id="hPatient" value="${h.patient.replace(/"/g, "&quot;")}" placeholder="Nom Prénom" /></label>
-      </div>
-      <div class="calc-fields" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); margin-top:10px;">
-        <label class="calc-field"><span>Naissance — jour</span><input type="text" maxlength="2" id="hDobJ" value="${h.dobJour}" placeholder="JJ" /></label>
-        <label class="calc-field"><span>Naissance — mois</span><input type="text" maxlength="2" id="hDobM" value="${h.dobMois}" placeholder="MM" /></label>
-        <label class="calc-field"><span>Naissance — année</span><input type="text" maxlength="4" id="hDobA" value="${h.dobAnnee}" placeholder="AAAA" /></label>
+      <div class="handi-top-row">
+        <p class="calc-group-heading" style="margin-top:10px;">📋 Informations générales (page 1)</p>
+        <button type="button" id="handiDownloadBtnTop" class="fill-download-btn fill-download-btn-lg" onclick="downloadHandisportPdf()">📄 Télécharger le document final</button>
       </div>
 
-      <div class="bio-options-list" style="margin-top:14px;">
-        <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "M" ? "checked" : ""} onchange="setHandiField('sexe','M')" /><span class="bio-option-label">Masculin</span></label>
-        <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "F" ? "checked" : ""} onchange="setHandiField('sexe','F')" /><span class="bio-option-label">Féminin</span></label>
+      <div class="calc-box">
+        <div class="calc-fields" style="grid-template-columns:1fr;">
+          <label class="calc-field"><span>Docteur (nom du médecin)</span><input type="text" id="hMedecin" value="${h.medecin.replace(/"/g, "&quot;")}" placeholder="Nom du médecin" /></label>
+          <label class="calc-field"><span>Nom et prénom du patient</span><input type="text" id="hPatient" value="${h.patient.replace(/"/g, "&quot;")}" placeholder="Nom Prénom" /></label>
+          <label class="calc-field"><span>Date de naissance</span><input type="date" id="hDob" value="${h.dob}" /></label>
+        </div>
       </div>
 
-      <p class="doc-meta" style="margin-top:14px;">Absence de contre-indication à la pratique sportive :</p>
-      <div class="bio-options-list">
-        <label class="bio-option-row"><input type="checkbox" ${h.competition ? "checked" : ""} onchange="setHandiField('competition', this.checked)" /><span class="bio-option-label">de compétition</span></label>
-        <label class="bio-option-row"><input type="checkbox" ${h.loisir ? "checked" : ""} onchange="setHandiField('loisir', this.checked)" /><span class="bio-option-label">de loisir</span></label>
+      <div class="calc-box" style="margin-top:12px;">
+        <p class="neurolep-label" style="margin-bottom:8px;">Sexe</p>
+        <div class="bio-options-list">
+          <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "M" ? "checked" : ""} onchange="setHandiField('sexe','M')" /><span class="bio-option-label">Masculin</span></label>
+          <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "F" ? "checked" : ""} onchange="setHandiField('sexe','F')" /><span class="bio-option-label">Féminin</span></label>
+        </div>
+      </div>
+
+      <div class="calc-box" style="margin-top:12px;">
+        <p class="neurolep-label" style="margin-bottom:8px;">Absence de contre-indication à la pratique sportive</p>
+        <div class="bio-options-list">
+          <label class="bio-option-row"><input type="checkbox" ${h.competition ? "checked" : ""} onchange="setHandiField('competition', this.checked)" /><span class="bio-option-label">de compétition</span></label>
+          <label class="bio-option-row"><input type="checkbox" ${h.loisir ? "checked" : ""} onchange="setHandiField('loisir', this.checked)" /><span class="bio-option-label">de loisir</span></label>
+        </div>
       </div>
 
       <label class="calc-field" style="margin-top:14px;"><span>Remarques restrictives éventuelles</span>
@@ -6622,16 +6656,19 @@ function renderHandisportPanel(){
 
       <p class="calc-group-heading">🏅 Activités pratiquées (page 2)</p>
       <p class="doc-meta">Coche « Compét » et/ou « Loisir » pour chaque activité concernée par ce certificat.</p>
-      <div class="medoc-search-wrap" style="margin-top:8px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input type="text" id="hActivitySearch" placeholder="Filtrer une activité…" autocomplete="off" value="${h.query.replace(/"/g, "&quot;")}" />
-      </div>
-      <div id="handiActivitiesGrid" class="handi-grid"></div>
 
-      <div class="bio-options-list" style="margin-top:14px;">
-        <label class="bio-option-row"><input type="checkbox" ${h.autres ? "checked" : ""} onchange="toggleHandiAutres()" /><span class="bio-option-label">Autres</span></label>
+      <div class="calc-box">
+        <div class="medoc-search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="hActivitySearch" placeholder="Filtrer une activité…" autocomplete="off" value="${h.query.replace(/"/g, "&quot;")}" />
+        </div>
+        <div id="handiActivitiesGrid" class="handi-grid"></div>
+
+        <div class="bio-options-list" style="margin-top:14px;">
+          <label class="bio-option-row"><input type="checkbox" ${h.autres ? "checked" : ""} onchange="toggleHandiAutres()" /><span class="bio-option-label">Autres</span></label>
+        </div>
+        <label class="calc-field"><span>Préciser « Autres » activité(s)</span><input type="text" id="hAutresText" value="${h.autresText.replace(/"/g, "&quot;")}" placeholder="Ex : Tir sportif, Fitness adapté…" /></label>
       </div>
-      <label class="calc-field"><span>Préciser « Autres » activité(s)</span><input type="text" id="hAutresText" value="${h.autresText.replace(/"/g, "&quot;")}" placeholder="Ex : Tir sportif, Fitness adapté…" /></label>
 
       <div class="doc-note" style="margin-top:18px;">
         <strong id="handiSummary">0 case cochée sur la page 2</strong>
@@ -6643,14 +6680,17 @@ function renderHandisportPanel(){
         <p>Le PDF téléchargé n'est pas signé : il reste à <strong>apposer la signature et le cachet du médecin</strong> une fois téléchargé — au stylo sur l'impression, ou numériquement (voir le tuto tampon numérique dans cette rubrique).</p>
       </div>
 
-      <button type="button" id="handiDownloadBtn" class="fill-download-btn" style="margin-top:16px;" onclick="downloadHandisportPdf()">📄 Télécharger le document final</button>
+      <div class="handi-bottom-row">
+        <button type="button" class="bio-reset-btn handi-reset-btn" onclick="resetHandisportForm()">↺ Réinitialiser</button>
+        <button type="button" id="handiDownloadBtn" class="fill-download-btn fill-download-btn-lg" onclick="downloadHandisportPdf()">📄 Télécharger le document final</button>
+      </div>
       <p id="handiStatus" class="fill-status"></p>
     </div>
   `;
 
-  ["hMedecin","hPatient","hDobJ","hDobM","hDobA","hRemarques","hAutresText"].forEach(id => {
+  ["hMedecin","hPatient","hDob","hRemarques","hAutresText"].forEach(id => {
     const el = document.getElementById(id);
-    const map = { hMedecin:"medecin", hPatient:"patient", hDobJ:"dobJour", hDobM:"dobMois", hDobA:"dobAnnee", hRemarques:"remarques", hAutresText:"autresText" };
+    const map = { hMedecin:"medecin", hPatient:"patient", hDob:"dob", hRemarques:"remarques", hAutresText:"autresText" };
     el.addEventListener("input", e => { state.handisport[map[id]] = e.target.value; });
   });
   document.getElementById("hActivitySearch").addEventListener("input", e => {
@@ -6662,9 +6702,15 @@ function renderHandisportPanel(){
   renderHandiSummary();
 }
 
+function resetHandisportForm(){
+  state.handisport = handiDefaultState();
+  renderHandisportPanel();
+}
+window.resetHandisportForm = resetHandisportForm;
+
 async function downloadHandisportPdf(){
   const statusEl = document.getElementById("handiStatus");
-  const btn = document.getElementById("handiDownloadBtn");
+  const btn = document.getElementById("handiDownloadBtn") || document.getElementById("handiDownloadBtnTop");
   const h = state.handisport;
   const original = btn.textContent;
   btn.textContent = "Génération…";
@@ -6677,8 +6723,12 @@ async function downloadHandisportPdf(){
     const existingBytes = await response.arrayBuffer();
     const { PDFDocument, StandardFonts, rgb } = PDFLib;
     const pdfDoc = await PDFDocument.load(existingBytes);
-    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-    const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    // Times : plus agréable à lire et plus "certificat" que la police du
+    // formulaire d'origine, pour tout le texte que l'on ajoute par-dessus.
+    const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+    const fontBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
+    // Les croix dans les cases restent en Helvetica Gras (inchangé, parfaitement calé).
+    const checkFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     const color = rgb(0.09, 0.145, 0.27);
 
     const pages = pdfDoc.getPages();
@@ -6686,6 +6736,7 @@ async function downloadHandisportPdf(){
     const h1 = p1.getHeight(), h2 = p2.getHeight();
     const Y1 = (bottom, nudge) => h1 - bottom + (nudge || 1.6);
     const Y2 = (bottom, nudge) => h2 - bottom + (nudge || 1.6);
+    const ABOVE = 3.2; // décalage "juste au-dessus des pointillés" pour le texte saisi
 
     function wrap(text, f, size, maxWidth){
       const words = String(text).split(" ");
@@ -6698,15 +6749,18 @@ async function downloadHandisportPdf(){
       return lines;
     }
     function drawX(page, zone, Yfn){
-      page.drawText("X", { x: zone.x + 1.4, y: Yfn(zone.bottom, 1.8), size: 9, font: bold, color });
+      page.drawText("X", { x: zone.x + 1.4, y: Yfn(zone.bottom, 1.8), size: 9, font: checkFont, color });
     }
 
     // ---- Page 1 ----
-    if(h.medecin) p1.drawText(h.medecin, { x: HANDISPORT_ZONES.medecin.x, y: Y1(HANDISPORT_ZONES.medecin.bottom), size: HANDISPORT_ZONES.medecin.size, font, color, maxWidth: HANDISPORT_ZONES.medecin.maxWidth });
-    if(h.patient) p1.drawText(h.patient, { x: HANDISPORT_ZONES.patient.x, y: Y1(HANDISPORT_ZONES.patient.bottom), size: HANDISPORT_ZONES.patient.size, font, color, maxWidth: HANDISPORT_ZONES.patient.maxWidth });
-    if(h.dobJour) p1.drawText(h.dobJour.padStart(2, "0"), { x: HANDISPORT_ZONES.dobJour.x, y: Y1(HANDISPORT_ZONES.dobJour.bottom), size: HANDISPORT_ZONES.dobJour.size, font, color });
-    if(h.dobMois) p1.drawText(h.dobMois.padStart(2, "0"), { x: HANDISPORT_ZONES.dobMois.x, y: Y1(HANDISPORT_ZONES.dobMois.bottom), size: HANDISPORT_ZONES.dobMois.size, font, color });
-    if(h.dobAnnee) p1.drawText(h.dobAnnee, { x: HANDISPORT_ZONES.dobAnnee.x, y: Y1(HANDISPORT_ZONES.dobAnnee.bottom), size: HANDISPORT_ZONES.dobAnnee.size, font, color });
+    if(h.medecin) p1.drawText(h.medecin, { x: HANDISPORT_ZONES.medecin.x, y: Y1(HANDISPORT_ZONES.medecin.bottom, ABOVE), size: HANDISPORT_ZONES.medecin.size, font: fontBold, color, maxWidth: HANDISPORT_ZONES.medecin.maxWidth });
+    if(h.patient) p1.drawText(h.patient, { x: HANDISPORT_ZONES.patient.x, y: Y1(HANDISPORT_ZONES.patient.bottom, ABOVE), size: HANDISPORT_ZONES.patient.size, font: fontBold, color, maxWidth: HANDISPORT_ZONES.patient.maxWidth });
+    if(h.dob){
+      const [aaaa, mm, jj] = h.dob.split("-");
+      if(jj)   p1.drawText(jj,   { x: HANDISPORT_ZONES.dobJour.x,  y: Y1(HANDISPORT_ZONES.dobJour.bottom, ABOVE),  size: HANDISPORT_ZONES.dobJour.size,  font, color });
+      if(mm)   p1.drawText(mm,   { x: HANDISPORT_ZONES.dobMois.x,  y: Y1(HANDISPORT_ZONES.dobMois.bottom, ABOVE),  size: HANDISPORT_ZONES.dobMois.size,  font, color });
+      if(aaaa) p1.drawText(aaaa, { x: HANDISPORT_ZONES.dobAnnee.x, y: Y1(HANDISPORT_ZONES.dobAnnee.bottom, ABOVE), size: HANDISPORT_ZONES.dobAnnee.size, font, color });
+    }
     if(h.sexe === "M") drawX(p1, HANDISPORT_ZONES.sexeM, Y1);
     if(h.sexe === "F") drawX(p1, HANDISPORT_ZONES.sexeF, Y1);
     if(h.competition) drawX(p1, HANDISPORT_ZONES.competP1, Y1);
@@ -6720,12 +6774,12 @@ async function downloadHandisportPdf(){
       });
     }
 
-    // ---- Page 2 : activités ----
+    // ---- Page 2 : activités (inchangé, alignement déjà validé) ----
     HANDISPORT_ACTIVITIES.forEach((a, i) => {
       const st = h.activities[i];
       if(!st) return;
-      if(st.c && a.c) p2.drawText("X", { x: a.c[0] + 1.4, y: Y2(a.c[1], 1.8), size: 9, font: bold, color });
-      if(st.l && a.l) p2.drawText("X", { x: a.l[0] + 1.4, y: Y2(a.l[1], 1.8), size: 9, font: bold, color });
+      if(st.c && a.c) p2.drawText("X", { x: a.c[0] + 1.4, y: Y2(a.c[1], 1.8), size: 9, font: checkFont, color });
+      if(st.l && a.l) p2.drawText("X", { x: a.l[0] + 1.4, y: Y2(a.l[1], 1.8), size: 9, font: checkFont, color });
     });
     if(h.autres){
       drawX(p2, HANDISPORT_ZONES.autresCheck, Y2);
@@ -6737,18 +6791,18 @@ async function downloadHandisportPdf(){
       }
     }
 
-    // Nombre de cases cochées (auto)
+    // Nombre de cases cochées (auto), juste au-dessus des pointillés
     const total = handiCheckedCount();
-    p2.drawText(String(total), { x: HANDISPORT_ZONES.nbCases.x, y: Y2(HANDISPORT_ZONES.nbCases.bottom), size: HANDISPORT_ZONES.nbCases.size, font: bold, color });
+    p2.drawText(String(total), { x: HANDISPORT_ZONES.nbCases.x, y: Y2(HANDISPORT_ZONES.nbCases.bottom, ABOVE), size: HANDISPORT_ZONES.nbCases.size, font: fontBold, color });
 
-    // Date de l'examen médical (aujourd'hui, auto)
+    // Date de l'examen médical (aujourd'hui, auto), juste au-dessus des pointillés
     const today = new Date();
     const jj = String(today.getDate()).padStart(2, "0");
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const aaaa = String(today.getFullYear());
-    p2.drawText(jj,   { x: HANDISPORT_ZONES.examJour.x,  y: Y2(HANDISPORT_ZONES.examJour.bottom),  size: HANDISPORT_ZONES.examJour.size,  font, color });
-    p2.drawText(mm,   { x: HANDISPORT_ZONES.examMois.x,  y: Y2(HANDISPORT_ZONES.examMois.bottom),  size: HANDISPORT_ZONES.examMois.size,  font, color });
-    p2.drawText(aaaa, { x: HANDISPORT_ZONES.examAnnee.x, y: Y2(HANDISPORT_ZONES.examAnnee.bottom), size: HANDISPORT_ZONES.examAnnee.size, font, color });
+    p2.drawText(jj,   { x: HANDISPORT_ZONES.examJour.x,  y: Y2(HANDISPORT_ZONES.examJour.bottom, ABOVE),  size: HANDISPORT_ZONES.examJour.size,  font, color });
+    p2.drawText(mm,   { x: HANDISPORT_ZONES.examMois.x,  y: Y2(HANDISPORT_ZONES.examMois.bottom, ABOVE),  size: HANDISPORT_ZONES.examMois.size,  font, color });
+    p2.drawText(aaaa, { x: HANDISPORT_ZONES.examAnnee.x, y: Y2(HANDISPORT_ZONES.examAnnee.bottom, ABOVE), size: HANDISPORT_ZONES.examAnnee.size, font, color });
 
     const bytes = await pdfDoc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
