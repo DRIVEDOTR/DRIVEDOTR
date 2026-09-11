@@ -1149,7 +1149,7 @@
     transform:translateY(-50%);
     opacity:.45;
   }
-  #medocSearch{
+  #medocSearch, .medoc-search-wrap input{
     width:100%;
     padding:13px 14px 13px 42px;
     border-radius:10px;
@@ -1463,18 +1463,52 @@
     padding:6px 4px;
     border-bottom:1px solid var(--border);
   }
-  .handi-name{flex:1; font-size:13.5px; color:var(--text);}
+  .handi-name{flex:1; font-size:14px; font-weight:700; color:var(--navy);}
   .handi-cb{
     display:flex;
     align-items:center;
     gap:5px;
     font-size:12px;
-    color:var(--text-muted);
-    font-weight:600;
+    font-weight:700;
     flex:none;
     white-space:nowrap;
   }
-  .handi-cb input{width:15px; height:15px; margin:0; cursor:pointer; accent-color:var(--blue);}
+  .handi-cb-compet{color:var(--blue);}
+  .handi-cb-loisir{color:var(--teal);}
+  .handi-cb-compet input{accent-color:var(--blue);}
+  .handi-cb-loisir input{accent-color:var(--teal);}
+  .handi-cb input{width:15px; height:15px; margin:0; cursor:pointer;}
+
+  /* ---------- Handisport : lignes divisées (date+sexe, compét/loisir+remarques) ---------- */
+  .handi-row-split{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:stretch;
+    gap:12px;
+    margin-top:12px;
+  }
+  .handi-row-split .calc-box{margin-top:0;}
+  .handi-col-narrow{flex:1 1 220px;}
+  .handi-col-wide{flex:2 1 320px;}
+  .bio-options-list-row{display:flex; flex-direction:row; flex-wrap:wrap; gap:10px 22px;}
+  .handi-autres-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-top:14px;
+    flex-wrap:wrap;
+  }
+  .handi-autres-row .bio-option-row{flex:none; width:auto;}
+  .handi-autres-row input[type="text"]{
+    flex:1 1 260px;
+    font-family:inherit;
+    font-size:13px;
+    padding:9px 12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    color:var(--text);
+  }
+  .handi-top-row-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
   .doc-image-zoom-wrap{
     position:relative;
     overflow:auto;
@@ -6602,8 +6636,8 @@ function renderHandiActivities(){
     return `
       <div class="handi-row">
         <span class="handi-name">${a.n}</span>
-        <label class="handi-cb"><input type="checkbox" ${st.c ? "checked" : ""} onchange="toggleHandiActivity(${i},'c')" /> Compét</label>
-        <label class="handi-cb"><input type="checkbox" ${st.l ? "checked" : ""} onchange="toggleHandiActivity(${i},'l')" /> Loisir</label>
+        <label class="handi-cb handi-cb-compet"><input type="checkbox" ${st.c ? "checked" : ""} onchange="toggleHandiActivity(${i},'c')" /> Compét</label>
+        <label class="handi-cb handi-cb-loisir"><input type="checkbox" ${st.l ? "checked" : ""} onchange="toggleHandiActivity(${i},'l')" /> Loisir</label>
       </div>`;
   }).join("");
 }
@@ -6626,36 +6660,46 @@ function renderHandisportPanel(){
 
       <div class="handi-top-row">
         <p class="calc-group-heading" style="margin-top:10px;">📋 Informations générales (page 1)</p>
-        <button type="button" id="handiDownloadBtnTop" class="fill-download-btn fill-download-btn-lg" onclick="downloadHandisportPdf()">📄 Télécharger le document final</button>
+        <div class="handi-top-row-actions">
+          <button type="button" class="bio-reset-btn handi-reset-btn" onclick="resetHandisportForm()">↺ Réinitialiser</button>
+          <button type="button" id="handiDownloadBtnTop" class="fill-download-btn fill-download-btn-lg" onclick="downloadHandisportPdf()">📄 Télécharger le document final</button>
+        </div>
       </div>
 
       <div class="calc-box">
         <div class="calc-fields" style="grid-template-columns:1fr;">
           <label class="calc-field"><span>Docteur (nom du médecin)</span><input type="text" id="hMedecin" value="${h.medecin.replace(/"/g, "&quot;")}" placeholder="Nom du médecin" /></label>
           <label class="calc-field"><span>Nom et prénom du patient</span><input type="text" id="hPatient" value="${h.patient.replace(/"/g, "&quot;")}" placeholder="Nom Prénom" /></label>
-          <label class="calc-field"><span>Date de naissance</span><input type="date" id="hDob" value="${h.dob}" /></label>
         </div>
       </div>
 
-      <div class="calc-box" style="margin-top:12px;">
-        <p class="neurolep-label" style="margin-bottom:8px;">Sexe</p>
-        <div class="bio-options-list">
-          <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "M" ? "checked" : ""} onchange="setHandiField('sexe','M')" /><span class="bio-option-label">Masculin</span></label>
-          <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "F" ? "checked" : ""} onchange="setHandiField('sexe','F')" /><span class="bio-option-label">Féminin</span></label>
+      <div class="handi-row-split">
+        <div class="calc-box handi-col-narrow">
+          <label class="calc-field"><span>Date de naissance</span><input type="text" id="hDob" value="${h.dob.replace(/"/g, "&quot;")}" placeholder="JJ/MM/AAAA" /></label>
+        </div>
+        <div class="calc-box handi-col-wide">
+          <p class="neurolep-label" style="margin-bottom:8px;">Sexe</p>
+          <div class="bio-options-list bio-options-list-row">
+            <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "M" ? "checked" : ""} onchange="setHandiField('sexe','M')" /><span class="bio-option-label">Masculin</span></label>
+            <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "F" ? "checked" : ""} onchange="setHandiField('sexe','F')" /><span class="bio-option-label">Féminin</span></label>
+          </div>
         </div>
       </div>
 
-      <div class="calc-box" style="margin-top:12px;">
-        <p class="neurolep-label" style="margin-bottom:8px;">Absence de contre-indication à la pratique sportive</p>
-        <div class="bio-options-list">
-          <label class="bio-option-row"><input type="checkbox" ${h.competition ? "checked" : ""} onchange="setHandiField('competition', this.checked)" /><span class="bio-option-label">de compétition</span></label>
-          <label class="bio-option-row"><input type="checkbox" ${h.loisir ? "checked" : ""} onchange="setHandiField('loisir', this.checked)" /><span class="bio-option-label">de loisir</span></label>
+      <div class="handi-row-split">
+        <div class="calc-box handi-col-narrow">
+          <p class="neurolep-label" style="margin-bottom:8px;">Contre-indication</p>
+          <div class="bio-options-list bio-options-list-row">
+            <label class="bio-option-row"><input type="checkbox" ${h.competition ? "checked" : ""} onchange="setHandiField('competition', this.checked)" /><span class="bio-option-label">Compétition</span></label>
+            <label class="bio-option-row"><input type="checkbox" ${h.loisir ? "checked" : ""} onchange="setHandiField('loisir', this.checked)" /><span class="bio-option-label">Loisir</span></label>
+          </div>
+        </div>
+        <div class="calc-box handi-col-wide">
+          <label class="calc-field"><span>Remarques restrictives éventuelles</span>
+            <textarea id="hRemarques" rows="2" style="font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;resize:vertical;">${h.remarques}</textarea>
+          </label>
         </div>
       </div>
-
-      <label class="calc-field" style="margin-top:14px;"><span>Remarques restrictives éventuelles</span>
-        <textarea id="hRemarques" rows="3" style="font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;resize:vertical;">${h.remarques}</textarea>
-      </label>
 
       <p class="calc-group-heading">🏅 Activités pratiquées (page 2)</p>
       <p class="doc-meta">Coche « Compét » et/ou « Loisir » pour chaque activité concernée par ce certificat.</p>
@@ -6667,10 +6711,10 @@ function renderHandisportPanel(){
         </div>
         <div id="handiActivitiesGrid" class="handi-grid"></div>
 
-        <div class="bio-options-list" style="margin-top:14px;">
+        <div class="handi-autres-row">
           <label class="bio-option-row"><input type="checkbox" ${h.autres ? "checked" : ""} onchange="toggleHandiAutres()" /><span class="bio-option-label">Autres</span></label>
+          <input type="text" id="hAutresText" value="${h.autresText.replace(/"/g, "&quot;")}" placeholder="Préciser l'activité (ex : Tir sportif, Fitness adapté…)" />
         </div>
-        <label class="calc-field"><span>Préciser « Autres » activité(s)</span><input type="text" id="hAutresText" value="${h.autresText.replace(/"/g, "&quot;")}" placeholder="Ex : Tir sportif, Fitness adapté…" /></label>
       </div>
 
       <div class="doc-note" style="margin-top:18px;">
@@ -6797,10 +6841,19 @@ async function downloadHandisportPdf(){
     if(h.medecin) p1.drawText(h.medecin, { x: HANDISPORT_ZONES.medecin.x, y: Y1(HANDISPORT_ZONES.medecin.bottom, ABOVE), size: HANDISPORT_ZONES.medecin.size * SCRIPT_SCALE, font: scriptFontBold, color, maxWidth: HANDISPORT_ZONES.medecin.maxWidth });
     if(h.patient) p1.drawText(h.patient, { x: HANDISPORT_ZONES.patient.x, y: Y1(HANDISPORT_ZONES.patient.bottom, ABOVE), size: HANDISPORT_ZONES.patient.size * SCRIPT_SCALE, font: scriptFontBold, color, maxWidth: HANDISPORT_ZONES.patient.maxWidth });
     if(h.dob){
-      const [aaaa, mm, jj] = h.dob.split("-");
-      if(jj)   p1.drawText(jj,   { x: HANDISPORT_ZONES.dobJour.x,  y: Y1(HANDISPORT_ZONES.dobJour.bottom, ABOVE),  size: HANDISPORT_ZONES.dobJour.size * SCRIPT_SCALE,  font: scriptFont, color });
-      if(mm)   p1.drawText(mm,   { x: HANDISPORT_ZONES.dobMois.x,  y: Y1(HANDISPORT_ZONES.dobMois.bottom, ABOVE),  size: HANDISPORT_ZONES.dobMois.size * SCRIPT_SCALE,  font: scriptFont, color });
-      if(aaaa) p1.drawText(aaaa, { x: HANDISPORT_ZONES.dobAnnee.x, y: Y1(HANDISPORT_ZONES.dobAnnee.bottom, ABOVE), size: HANDISPORT_ZONES.dobAnnee.size * SCRIPT_SCALE, font: scriptFont, color });
+      const parts = h.dob.trim().split(/[\/\-\.]/).map(p => p.trim());
+      if(parts.length === 3){
+        const jj = parts[0].padStart(2, "0");
+        const mm = parts[1].padStart(2, "0");
+        let aaaa = parts[2];
+        if(aaaa.length === 2){
+          const yy = parseInt(aaaa, 10);
+          aaaa = (yy > 30 ? "19" : "20") + aaaa.padStart(2, "0");
+        }
+        p1.drawText(jj,   { x: HANDISPORT_ZONES.dobJour.x,  y: Y1(HANDISPORT_ZONES.dobJour.bottom, ABOVE),  size: HANDISPORT_ZONES.dobJour.size * SCRIPT_SCALE,  font: scriptFont, color });
+        p1.drawText(mm,   { x: HANDISPORT_ZONES.dobMois.x,  y: Y1(HANDISPORT_ZONES.dobMois.bottom, ABOVE),  size: HANDISPORT_ZONES.dobMois.size * SCRIPT_SCALE,  font: scriptFont, color });
+        p1.drawText(aaaa, { x: HANDISPORT_ZONES.dobAnnee.x, y: Y1(HANDISPORT_ZONES.dobAnnee.bottom, ABOVE), size: HANDISPORT_ZONES.dobAnnee.size * SCRIPT_SCALE, font: scriptFont, color });
+      }
     }
     if(h.sexe === "M") drawX(p1, HANDISPORT_ZONES.sexeM, Y1);
     if(h.sexe === "F") drawX(p1, HANDISPORT_ZONES.sexeF, Y1);
