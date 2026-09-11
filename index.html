@@ -6859,20 +6859,20 @@ async function downloadHandisportPdf(){
     // Vérifié directement dans l'arborescence du dépôt : ofl/caveat/ ne contient
     // qu'un seul fichier variable "Caveat[wght].ttf" (pas de sous-dossier
     // /static/, contrairement à d'autres familles — d'où l'échec précédent).
+    // Fichiers statiques (Regular/Bold), confirmés dans le dépôt source de la
+    // police (googlefonts/caveat/fonts/ttf/) — plus sûrs à intégrer qu'un
+    // fichier de police variable, qui pose parfois des soucis avec fontkit.
     const CAVEAT_SOURCES = [
-      "https://cdn.jsdelivr.net/gh/google/fonts/ofl/caveat/Caveat%5Bwght%5D.ttf",
-      "https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/Caveat%5Bwght%5D.ttf"
+      { reg: "https://cdn.jsdelivr.net/gh/googlefonts/caveat/fonts/ttf/Caveat-Regular.ttf", bold: "https://cdn.jsdelivr.net/gh/googlefonts/caveat/fonts/ttf/Caveat-Bold.ttf" },
+      { reg: "https://raw.githubusercontent.com/googlefonts/caveat/main/fonts/ttf/Caveat-Regular.ttf", bold: "https://raw.githubusercontent.com/googlefonts/caveat/main/fonts/ttf/Caveat-Bold.ttf" }
     ];
     for(const src of CAVEAT_SOURCES){
       try{
-        const resp = await fetch(src);
-        if(!resp.ok) throw new Error("font");
-        const bytes = await resp.arrayBuffer();
-        // Police variable : une seule instance embarquée, utilisée à la fois
-        // pour le texte normal et les champs "gras" (Caveat reste bien lisible
-        // sans variante bold distincte).
-        scriptFont = await pdfDoc.embedFont(bytes);
-        scriptFontBold = scriptFont;
+        const [regResp, boldResp] = await Promise.all([fetch(src.reg), fetch(src.bold)]);
+        if(!regResp.ok || !boldResp.ok) throw new Error("font");
+        const [regBytes, boldBytes] = await Promise.all([regResp.arrayBuffer(), boldResp.arrayBuffer()]);
+        scriptFont = await pdfDoc.embedFont(regBytes);
+        scriptFontBold = await pdfDoc.embedFont(boldBytes);
         usingScript = true;
         break;
       }catch(fontErr){
@@ -6985,7 +6985,7 @@ async function downloadHandisportPdf(){
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
-    statusEl.textContent = "PDF téléchargé — il reste à le signer et le tamponner.";
+    statusEl.textContent = "PDF téléchargé (police " + (usingScript ? "manuscrite" : "Times — la police manuscrite n'a pas pu être chargée, vérifie la connexion") + ") — il reste à le signer et le tamponner.";
   }catch(err){
     console.error(err);
     statusEl.textContent = "La génération a échoué. Réessaie, ou utilise le PDF vierge en attendant.";
