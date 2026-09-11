@@ -6922,17 +6922,29 @@ async function downloadHandisportPdf(){
       }
       return size;
     }
+    // Dessine caractère par caractère, en avançant nous-mêmes de la largeur
+    // exacte de chaque caractère : la police manuscrite provoque un espacement
+    // erratique (lettres qui se retrouvent séparées par un blanc) quand on
+    // laisse pdf-lib disposer une chaîne entière en un seul appel — ceci
+    // contourne complètement ce comportement.
+    function drawTextManual(page, text, x, y, size, font, color){
+      let cx = x;
+      for(const ch of String(text)){
+        page.drawText(ch, { x: cx, y, size, font, color });
+        cx += font.widthOfTextAtSize(ch, size);
+      }
+    }
 
     // ---- Page 1 ----
     if(h.medecin){
       const z = HANDISPORT_ZONES.medecin;
       const size = fitSize(scriptFontBold, h.medecin, z.maxWidth, z.size * SCRIPT_SCALE, 8);
-      p1.drawText(h.medecin, { x: z.x, y: Y1(z.bottom, ABOVE), size, font: scriptFontBold, color });
+      drawTextManual(p1, h.medecin, z.x, Y1(z.bottom, ABOVE), size, scriptFontBold, color);
     }
     if(h.patient){
       const z = HANDISPORT_ZONES.patient;
       const size = fitSize(scriptFontBold, h.patient, z.maxWidth, z.size * SCRIPT_SCALE, 8);
-      p1.drawText(h.patient, { x: z.x, y: Y1(z.bottom, ABOVE), size, font: scriptFontBold, color });
+      drawTextManual(p1, h.patient, z.x, Y1(z.bottom, ABOVE), size, scriptFontBold, color);
     }
     if(h.dob){
       const parts = h.dob.trim().split(/[\/\-\.]/).map(p => p.trim());
@@ -6944,9 +6956,9 @@ async function downloadHandisportPdf(){
           const yy = parseInt(aaaa, 10);
           aaaa = (yy > 30 ? "19" : "20") + aaaa.padStart(2, "0");
         }
-        p1.drawText(jj,   { x: HANDISPORT_ZONES.dobJour.x,  y: Y1(HANDISPORT_ZONES.dobJour.bottom, ABOVE),  size: HANDISPORT_ZONES.dobJour.size * SCRIPT_SCALE,  font: scriptFont, color });
-        p1.drawText(mm,   { x: HANDISPORT_ZONES.dobMois.x,  y: Y1(HANDISPORT_ZONES.dobMois.bottom, ABOVE),  size: HANDISPORT_ZONES.dobMois.size * SCRIPT_SCALE,  font: scriptFont, color });
-        p1.drawText(aaaa, { x: HANDISPORT_ZONES.dobAnnee.x, y: Y1(HANDISPORT_ZONES.dobAnnee.bottom, ABOVE), size: HANDISPORT_ZONES.dobAnnee.size * SCRIPT_SCALE, font: scriptFont, color });
+        drawTextManual(p1, jj,   HANDISPORT_ZONES.dobJour.x,  Y1(HANDISPORT_ZONES.dobJour.bottom, ABOVE),  HANDISPORT_ZONES.dobJour.size * SCRIPT_SCALE,  scriptFont, color);
+        drawTextManual(p1, mm,   HANDISPORT_ZONES.dobMois.x,  Y1(HANDISPORT_ZONES.dobMois.bottom, ABOVE),  HANDISPORT_ZONES.dobMois.size * SCRIPT_SCALE,  scriptFont, color);
+        drawTextManual(p1, aaaa, HANDISPORT_ZONES.dobAnnee.x, Y1(HANDISPORT_ZONES.dobAnnee.bottom, ABOVE), HANDISPORT_ZONES.dobAnnee.size * SCRIPT_SCALE, scriptFont, color);
       }
     }
     if(h.sexe === "M") drawX(p1, HANDISPORT_ZONES.sexeM, Y1);
@@ -6981,16 +6993,16 @@ async function downloadHandisportPdf(){
 
     // Nombre de cases cochées (auto), juste au-dessus des pointillés
     const total = handiCheckedCount();
-    p2.drawText(String(total), { x: HANDISPORT_ZONES.nbCases.x, y: Y2(HANDISPORT_ZONES.nbCases.bottom, ABOVE), size: HANDISPORT_ZONES.nbCases.size * SCRIPT_SCALE, font: scriptFontBold, color });
+    drawTextManual(p2, String(total), HANDISPORT_ZONES.nbCases.x, Y2(HANDISPORT_ZONES.nbCases.bottom, ABOVE), HANDISPORT_ZONES.nbCases.size * SCRIPT_SCALE, scriptFontBold, color);
 
     // Date de l'examen médical (aujourd'hui, auto), juste au-dessus des pointillés
     const today = new Date();
     const jj = String(today.getDate()).padStart(2, "0");
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const aaaa = String(today.getFullYear());
-    p2.drawText(jj,   { x: HANDISPORT_ZONES.examJour.x,  y: Y2(HANDISPORT_ZONES.examJour.bottom, ABOVE),  size: HANDISPORT_ZONES.examJour.size * SCRIPT_SCALE,  font: scriptFont, color });
-    p2.drawText(mm,   { x: HANDISPORT_ZONES.examMois.x,  y: Y2(HANDISPORT_ZONES.examMois.bottom, ABOVE),  size: HANDISPORT_ZONES.examMois.size * SCRIPT_SCALE,  font: scriptFont, color });
-    p2.drawText(aaaa, { x: HANDISPORT_ZONES.examAnnee.x, y: Y2(HANDISPORT_ZONES.examAnnee.bottom, ABOVE), size: HANDISPORT_ZONES.examAnnee.size * SCRIPT_SCALE, font: scriptFont, color });
+    drawTextManual(p2, jj,   HANDISPORT_ZONES.examJour.x,  Y2(HANDISPORT_ZONES.examJour.bottom, ABOVE),  HANDISPORT_ZONES.examJour.size * SCRIPT_SCALE,  scriptFont, color);
+    drawTextManual(p2, mm,   HANDISPORT_ZONES.examMois.x,  Y2(HANDISPORT_ZONES.examMois.bottom, ABOVE),  HANDISPORT_ZONES.examMois.size * SCRIPT_SCALE,  scriptFont, color);
+    drawTextManual(p2, aaaa, HANDISPORT_ZONES.examAnnee.x, Y2(HANDISPORT_ZONES.examAnnee.bottom, ABOVE), HANDISPORT_ZONES.examAnnee.size * SCRIPT_SCALE, scriptFont, color);
 
     const bytes = await pdfDoc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
