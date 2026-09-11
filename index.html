@@ -1421,6 +1421,33 @@
     color:var(--text-muted);
     margin:8px 0 0;
   }
+
+  /* ---------- Grille d'activités du certificat Handisport ---------- */
+  .handi-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:3px 24px;
+    margin-top:10px;
+  }
+  .handi-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:6px 4px;
+    border-bottom:1px solid var(--border);
+  }
+  .handi-name{flex:1; font-size:13.5px; color:var(--text);}
+  .handi-cb{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    font-size:12px;
+    color:var(--text-muted);
+    font-weight:600;
+    flex:none;
+    white-space:nowrap;
+  }
+  .handi-cb input{width:15px; height:15px; margin:0; cursor:pointer; accent-color:var(--blue);}
   .doc-image-zoom-wrap{
     position:relative;
     overflow:auto;
@@ -2352,7 +2379,8 @@ const DOCUMENTS = {
   "certif-handisport": {
     title: "Certificat médical Handisport",
     category: "administratif",
-    meta: "Fédération Française Handisport — Annexe 2, certificat vierge à imprimer et compléter",
+    meta: "Fédération Française Handisport — Annexe 2. Remplissage guidé : infos patient, sexe, compétition/loisir et toutes les activités, avec décompte automatique et date du jour.",
+    interactive: true,
     filename: "Certificat_medical_Handisport_vierge.pdf",
     path: "administratif/Certificat_medical_Handisport_vierge.pdf"
   },
@@ -2839,6 +2867,7 @@ const state = {
   chariotEtab: "",
   chariotSection: "medicaments",
   selectedDocs: {},
+  handisport: null,
   medsensQuery: ""
 };
 
@@ -6401,6 +6430,348 @@ function normalizeMedsens(str){
   return String(str).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
+/* =====================================================================
+   CERTIFICAT MÉDICAL HANDISPORT — outil de remplissage interactif.
+   Coordonnées extraites précisément du PDF vierge (Annexe 2, FF Handisport)
+   par analyse programmatique (pdfplumber), pas de recopie manuelle.
+   Le PDF final est généré par pdf-lib en dessinant les croix et le texte
+   directement sur une copie du PDF vierge, aux coordonnées exactes.
+   ===================================================================== */
+const HANDISPORT_ACTIVITIES = [
+  { n: "Athlétisme", c: [96.1,177.7], l: [143.3,177.7] },
+  { n: "Aviron", c: [96.1,192.6], l: [143.3,192.6] },
+  { n: "Badminton", c: [96.1,207.6], l: [143.3,207.6] },
+  { n: "Basket-ball", c: [96.1,222.3], l: [143.3,222.3] },
+  { n: "Boccia", c: [96.1,237.3], l: [143.3,237.3] },
+  { n: "Bowling", c: [96.1,252.0], l: [143.3,252.0] },
+  { n: "Boxe", c: [96.1,267.0], l: [143.3,267.0] },
+  { n: "Canoe-kayak/pirogue", c: [96.1,282.0], l: [143.3,282.0] },
+  { n: "Cécifoot", c: [96.1,296.7], l: [143.3,296.7] },
+  { n: "Cyclisme handcycle", c: [96.1,311.7], l: [143.3,311.7] },
+  { n: "Cyclisme solo", c: [96.1,326.4], l: [143.3,326.4] },
+  { n: "Cyclisme tandem", c: [96.1,341.4], l: [143.3,341.4] },
+  { n: "Cyclisme tricycle", c: [96.1,356.1], l: [143.3,356.1] },
+  { n: "Danse", c: [96.1,371.1], l: [143.3,371.1] },
+  { n: "Equitation", c: [96.1,386.1], l: [143.3,386.1] },
+  { n: "Escalade", c: [96.1,402.7], l: [143.3,402.7] },
+  { n: "Escrime", c: [96.1,419.5], l: [143.3,419.5] },
+  { n: "Football a 5", c: [96.1,434.4], l: [143.3,434.4] },
+  { n: "Football a 7", c: [96.1,449.2], l: [143.3,449.2] },
+  { n: "Football a 11", c: [96.1,464.2], l: [143.3,464.2] },
+  { n: "Foot fauteuil", c: [96.1,479.1], l: [143.3,479.1] },
+  { n: "Futsal", c: [96.1,493.9], l: [143.3,493.9] },
+  { n: "Futsal -sourds", c: [96.1,508.8], l: [143.3,508.8] },
+  { n: "Goalball/ Torball", c: [96.1,523.6], l: [143.3,523.6] },
+  { n: "Golf", c: [96.1,538.5], l: [143.3,538.5] },
+  { n: "Gymnastique", c: [96.1,553.5], l: [143.3,553.5] },
+  { n: "Haltérophilie", c: [96.1,568.3], l: [143.3,568.3] },
+  { n: "Handball", c: [96.1,583.2], l: [143.3,583.2] },
+  { n: "Hockey sur glace", c: [330.5,177.7], l: [377.5,177.7] },
+  { n: "Hockey sur gazon", c: [330.5,192.6], l: [377.5,192.6] },
+  { n: "Hockey en fauteuil", c: [330.5,207.6], l: [377.5,207.6] },
+  { n: "Judo", c: [330.5,222.3], l: [377.5,222.3] },
+  { n: "Karaté", c: [330.5,237.3], l: [377.5,237.3] },
+  { n: "Musculation", c: [330.5,252.0], l: [377.5,252.0] },
+  { n: "Natation", c: [330.5,267.0], l: [377.5,267.0] },
+  { n: "Patinage", c: [330.5,282.0], l: [377.5,282.0] },
+  { n: "Plongée sous-marine", c: [330.5,296.7], l: [377.5,296.7] },
+  { n: "Randonnée - FTT", c: [330.5,311.7], l: [377.5,311.7] },
+  { n: "Randonnée -joëlette", c: [330.5,326.4], l: [377.5,326.4] },
+  { n: "Randonnée pédestre", c: [330.5,341.4], l: [377.5,341.4] },
+  { n: "Roller", c: [330.5,356.1], l: [377.5,356.1] },
+  { n: "Rugby", c: [330.5,371.1], l: [377.5,371.1] },
+  { n: "Sarbacane", c: [330.5,386.1], l: [377.5,386.1] },
+  { n: "Showdown", c: [330.5,400.8], l: [377.5,400.8] },
+  { n: "Ski alpin", c: [330.5,417.6], l: [377.5,417.6] },
+  { n: "Ski nordique / Biathlon", c: [330.5,434.4], l: [377.5,434.4] },
+  { n: "Snowboard", c: [330.5,449.2], l: [377.5,449.2] },
+  { n: "Sports boules/ Pétanque", c: [330.5,464.2], l: [377.5,464.2] },
+  { n: "Tai chi", c: [330.5,479.1], l: [377.5,479.1] },
+  { n: "Taekwondo", c: [330.5,493.9], l: [377.5,493.9] },
+  { n: "Tennis", c: [330.5,508.8], l: [377.5,508.8] },
+  { n: "Tennis de table", c: [330.5,523.6], l: [377.5,523.6] },
+  { n: "Tir à l'arc", c: [330.5,538.5], l: [377.5,538.5] },
+  { n: "Triathlon", c: [330.5,553.5], l: [377.5,553.5] },
+  { n: "Voile", c: [330.5,568.3], l: [377.5,568.3] },
+];
+
+const HANDISPORT_ZONES = {
+  medecin:      { x: 200,   bottom: 171.8, size: 10.5, maxWidth: 300 },
+  patient:      { x: 166,   bottom: 228.2, size: 10.5, maxWidth: 335 },
+  dobJour:      { x: 181,   bottom: 270.4, size: 10.5 },
+  dobMois:      { x: 207,   bottom: 270.4, size: 10.5 },
+  dobAnnee:     { x: 233,   bottom: 270.4, size: 10.5 },
+  sexeM:        { x: 380.1, bottom: 270.4 },
+  sexeF:        { x: 455.8, bottom: 270.4 },
+  competP1:     { x: 79.9,  bottom: 340.6 },
+  loisirP1:     { x: 79.9,  bottom: 368.7 },
+  remarques1:   { x: 251.8, bottom: 410.9, size: 9.5, maxWidth: 260 },
+  remarques2:   { x: 79.9,  bottom: 430.2, size: 9.5, maxWidth: 428 },
+  remarques3:   { x: 79.9,  bottom: 447.7, size: 9.5, maxWidth: 429 },
+  autresCheck:  { x: 377.5, bottom: 583.2 },
+  autresText:   { x: 449,   bottom: 583.2, size: 9, maxWidth: 66 },
+  autresText2:  { x: 411.6, bottom: 598,   size: 9, maxWidth: 105 },
+  nbCases:      { x: 202,   bottom: 681.2, size: 11 },
+  examJour:     { x: 201.6, bottom: 707.1, size: 10.5 },
+  examMois:     { x: 225.9, bottom: 707.1, size: 10.5 },
+  examAnnee:    { x: 250.5, bottom: 707.1, size: 10.5 }
+};
+
+function handiDefaultState(){
+  return {
+    medecin: "", patient: "", dobJour: "", dobMois: "", dobAnnee: "",
+    sexe: "", competition: false, loisir: false, remarques: "",
+    activities: {}, autres: false, autresText: "", query: ""
+  };
+}
+
+function normalizeHandi(s){
+  return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function setHandiField(field, value){
+  state.handisport[field] = value;
+  renderHandiSummary();
+}
+window.setHandiField = setHandiField;
+
+function toggleHandiActivity(idx, type){
+  const a = state.handisport.activities[idx] || {};
+  a[type] = !a[type];
+  state.handisport.activities[idx] = a;
+  renderHandiSummary();
+}
+window.toggleHandiActivity = toggleHandiActivity;
+
+function toggleHandiAutres(){
+  state.handisport.autres = !state.handisport.autres;
+  renderHandiSummary();
+}
+window.toggleHandiAutres = toggleHandiAutres;
+
+function handiCheckedCount(){
+  let n = 0;
+  Object.values(state.handisport.activities).forEach(a => { if(a.c) n++; if(a.l) n++; });
+  if(state.handisport.autres) n++;
+  return n;
+}
+
+function renderHandiSummary(){
+  const el = document.getElementById("handiSummary");
+  if(!el) return;
+  el.textContent = handiCheckedCount() + " case" + (handiCheckedCount() > 1 ? "s" : "") + " cochée" + (handiCheckedCount() > 1 ? "s" : "") + " sur la page 2";
+}
+
+function renderHandiActivities(){
+  const wrap = document.getElementById("handiActivitiesGrid");
+  if(!wrap) return;
+  const q = normalizeHandi(state.handisport.query || "");
+  wrap.innerHTML = HANDISPORT_ACTIVITIES.map((a, i) => {
+    if(q && !normalizeHandi(a.n).includes(q)) return "";
+    const st = state.handisport.activities[i] || {};
+    return `
+      <div class="handi-row">
+        <span class="handi-name">${a.n}</span>
+        <label class="handi-cb"><input type="checkbox" ${st.c ? "checked" : ""} onchange="toggleHandiActivity(${i},'c')" /> Compét</label>
+        <label class="handi-cb"><input type="checkbox" ${st.l ? "checked" : ""} onchange="toggleHandiActivity(${i},'l')" /> Loisir</label>
+      </div>`;
+  }).join("");
+}
+
+function renderHandisportPanel(){
+  const cat = CATEGORIES.find(c => c.id === "administratif");
+  const c = colorVars(cat.color);
+  if(!state.handisport) state.handisport = handiDefaultState();
+  const h = state.handisport;
+
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page doc-page-wide">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <h2 class="panel-title" style="color:${c.pill}">Certificat médical Handisport — remplissage guidé</h2>
+      <p class="doc-meta">Fédération Française Handisport, Annexe 2. Renseigne les champs ci-dessous : le PDF final est généré à partir du formulaire vierge, avec les croix et le texte placés directement aux bons endroits.</p>
+
+      <p class="calc-group-heading">📋 Informations générales (page 1)</p>
+      <div class="calc-fields" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr));">
+        <label class="calc-field"><span>Docteur (nom du médecin)</span><input type="text" id="hMedecin" value="${h.medecin.replace(/"/g, "&quot;")}" placeholder="Nom du médecin" /></label>
+        <label class="calc-field"><span>Nom et prénom du patient</span><input type="text" id="hPatient" value="${h.patient.replace(/"/g, "&quot;")}" placeholder="Nom Prénom" /></label>
+      </div>
+      <div class="calc-fields" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); margin-top:10px;">
+        <label class="calc-field"><span>Naissance — jour</span><input type="text" maxlength="2" id="hDobJ" value="${h.dobJour}" placeholder="JJ" /></label>
+        <label class="calc-field"><span>Naissance — mois</span><input type="text" maxlength="2" id="hDobM" value="${h.dobMois}" placeholder="MM" /></label>
+        <label class="calc-field"><span>Naissance — année</span><input type="text" maxlength="4" id="hDobA" value="${h.dobAnnee}" placeholder="AAAA" /></label>
+      </div>
+
+      <div class="bio-options-list" style="margin-top:14px;">
+        <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "M" ? "checked" : ""} onchange="setHandiField('sexe','M')" /><span class="bio-option-label">Masculin</span></label>
+        <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "F" ? "checked" : ""} onchange="setHandiField('sexe','F')" /><span class="bio-option-label">Féminin</span></label>
+      </div>
+
+      <p class="doc-meta" style="margin-top:14px;">Absence de contre-indication à la pratique sportive :</p>
+      <div class="bio-options-list">
+        <label class="bio-option-row"><input type="checkbox" ${h.competition ? "checked" : ""} onchange="setHandiField('competition', this.checked)" /><span class="bio-option-label">de compétition</span></label>
+        <label class="bio-option-row"><input type="checkbox" ${h.loisir ? "checked" : ""} onchange="setHandiField('loisir', this.checked)" /><span class="bio-option-label">de loisir</span></label>
+      </div>
+
+      <label class="calc-field" style="margin-top:14px;"><span>Remarques restrictives éventuelles</span>
+        <textarea id="hRemarques" rows="3" style="font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;resize:vertical;">${h.remarques}</textarea>
+      </label>
+
+      <p class="calc-group-heading">🏅 Activités pratiquées (page 2)</p>
+      <p class="doc-meta">Coche « Compét » et/ou « Loisir » pour chaque activité concernée par ce certificat.</p>
+      <div class="medoc-search-wrap" style="margin-top:8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="hActivitySearch" placeholder="Filtrer une activité…" autocomplete="off" value="${h.query.replace(/"/g, "&quot;")}" />
+      </div>
+      <div id="handiActivitiesGrid" class="handi-grid"></div>
+
+      <div class="bio-options-list" style="margin-top:14px;">
+        <label class="bio-option-row"><input type="checkbox" ${h.autres ? "checked" : ""} onchange="toggleHandiAutres()" /><span class="bio-option-label">Autres</span></label>
+      </div>
+      <label class="calc-field"><span>Préciser « Autres » activité(s)</span><input type="text" id="hAutresText" value="${h.autresText.replace(/"/g, "&quot;")}" placeholder="Ex : Tir sportif, Fitness adapté…" /></label>
+
+      <div class="doc-note" style="margin-top:18px;">
+        <strong id="handiSummary">0 case cochée sur la page 2</strong>
+        <p>Le nombre total de cases cochées et la date de l'examen (aujourd'hui) sont insérés automatiquement dans le PDF final.</p>
+      </div>
+
+      <div class="doc-note" style="margin-top:12px; border-color:var(--amber);">
+        <strong>⚠️ Avant de remettre le document</strong>
+        <p>Le PDF téléchargé n'est pas signé : il reste à <strong>apposer la signature et le cachet du médecin</strong> une fois téléchargé — au stylo sur l'impression, ou numériquement (voir le tuto tampon numérique dans cette rubrique).</p>
+      </div>
+
+      <button type="button" id="handiDownloadBtn" class="fill-download-btn" style="margin-top:16px;" onclick="downloadHandisportPdf()">📄 Télécharger le document final</button>
+      <p id="handiStatus" class="fill-status"></p>
+    </div>
+  `;
+
+  ["hMedecin","hPatient","hDobJ","hDobM","hDobA","hRemarques","hAutresText"].forEach(id => {
+    const el = document.getElementById(id);
+    const map = { hMedecin:"medecin", hPatient:"patient", hDobJ:"dobJour", hDobM:"dobMois", hDobA:"dobAnnee", hRemarques:"remarques", hAutresText:"autresText" };
+    el.addEventListener("input", e => { state.handisport[map[id]] = e.target.value; });
+  });
+  document.getElementById("hActivitySearch").addEventListener("input", e => {
+    state.handisport.query = e.target.value;
+    renderHandiActivities();
+  });
+
+  renderHandiActivities();
+  renderHandiSummary();
+}
+
+async function downloadHandisportPdf(){
+  const statusEl = document.getElementById("handiStatus");
+  const btn = document.getElementById("handiDownloadBtn");
+  const h = state.handisport;
+  const original = btn.textContent;
+  btn.textContent = "Génération…";
+  statusEl.textContent = "";
+
+  try{
+    const doc = DOCUMENTS["certif-handisport"];
+    const response = await fetch(doc.path);
+    if(!response.ok) throw new Error("PDF introuvable");
+    const existingBytes = await response.arrayBuffer();
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const pdfDoc = await PDFDocument.load(existingBytes);
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const color = rgb(0.09, 0.145, 0.27);
+
+    const pages = pdfDoc.getPages();
+    const p1 = pages[0], p2 = pages[1];
+    const h1 = p1.getHeight(), h2 = p2.getHeight();
+    const Y1 = (bottom, nudge) => h1 - bottom + (nudge || 1.6);
+    const Y2 = (bottom, nudge) => h2 - bottom + (nudge || 1.6);
+
+    function wrap(text, f, size, maxWidth){
+      const words = String(text).split(" ");
+      const lines = []; let cur = "";
+      words.forEach(w => {
+        const test = cur ? cur + " " + w : w;
+        if(f.widthOfTextAtSize(test, size) > maxWidth && cur){ lines.push(cur); cur = w; } else cur = test;
+      });
+      if(cur) lines.push(cur);
+      return lines;
+    }
+    function drawX(page, zone, Yfn){
+      page.drawText("X", { x: zone.x + 1.4, y: Yfn(zone.bottom, 1.8), size: 9, font: bold, color });
+    }
+
+    // ---- Page 1 ----
+    if(h.medecin) p1.drawText(h.medecin, { x: HANDISPORT_ZONES.medecin.x, y: Y1(HANDISPORT_ZONES.medecin.bottom), size: HANDISPORT_ZONES.medecin.size, font, color, maxWidth: HANDISPORT_ZONES.medecin.maxWidth });
+    if(h.patient) p1.drawText(h.patient, { x: HANDISPORT_ZONES.patient.x, y: Y1(HANDISPORT_ZONES.patient.bottom), size: HANDISPORT_ZONES.patient.size, font, color, maxWidth: HANDISPORT_ZONES.patient.maxWidth });
+    if(h.dobJour) p1.drawText(h.dobJour.padStart(2, "0"), { x: HANDISPORT_ZONES.dobJour.x, y: Y1(HANDISPORT_ZONES.dobJour.bottom), size: HANDISPORT_ZONES.dobJour.size, font, color });
+    if(h.dobMois) p1.drawText(h.dobMois.padStart(2, "0"), { x: HANDISPORT_ZONES.dobMois.x, y: Y1(HANDISPORT_ZONES.dobMois.bottom), size: HANDISPORT_ZONES.dobMois.size, font, color });
+    if(h.dobAnnee) p1.drawText(h.dobAnnee, { x: HANDISPORT_ZONES.dobAnnee.x, y: Y1(HANDISPORT_ZONES.dobAnnee.bottom), size: HANDISPORT_ZONES.dobAnnee.size, font, color });
+    if(h.sexe === "M") drawX(p1, HANDISPORT_ZONES.sexeM, Y1);
+    if(h.sexe === "F") drawX(p1, HANDISPORT_ZONES.sexeF, Y1);
+    if(h.competition) drawX(p1, HANDISPORT_ZONES.competP1, Y1);
+    if(h.loisir) drawX(p1, HANDISPORT_ZONES.loisirP1, Y1);
+    if(h.remarques){
+      const remLines = wrap(h.remarques, font, 9.5, HANDISPORT_ZONES.remarques2.maxWidth);
+      const zones = [HANDISPORT_ZONES.remarques1, HANDISPORT_ZONES.remarques2, HANDISPORT_ZONES.remarques3];
+      remLines.slice(0, 3).forEach((ln, i) => {
+        const z = zones[i];
+        p1.drawText(ln, { x: z.x, y: Y1(z.bottom), size: z.size, font, color, maxWidth: z.maxWidth });
+      });
+    }
+
+    // ---- Page 2 : activités ----
+    HANDISPORT_ACTIVITIES.forEach((a, i) => {
+      const st = h.activities[i];
+      if(!st) return;
+      if(st.c && a.c) p2.drawText("X", { x: a.c[0] + 1.4, y: Y2(a.c[1], 1.8), size: 9, font: bold, color });
+      if(st.l && a.l) p2.drawText("X", { x: a.l[0] + 1.4, y: Y2(a.l[1], 1.8), size: 9, font: bold, color });
+    });
+    if(h.autres){
+      drawX(p2, HANDISPORT_ZONES.autresCheck, Y2);
+      if(h.autresText){
+        const z1 = HANDISPORT_ZONES.autresText, z2 = HANDISPORT_ZONES.autresText2;
+        const lines = wrap(h.autresText, font, z1.size, z1.maxWidth);
+        if(lines[0]) p2.drawText(lines[0], { x: z1.x, y: Y2(z1.bottom), size: z1.size, font, color, maxWidth: z1.maxWidth });
+        if(lines[1]) p2.drawText(lines[1], { x: z2.x, y: Y2(z2.bottom), size: z2.size, font, color, maxWidth: z2.maxWidth });
+      }
+    }
+
+    // Nombre de cases cochées (auto)
+    const total = handiCheckedCount();
+    p2.drawText(String(total), { x: HANDISPORT_ZONES.nbCases.x, y: Y2(HANDISPORT_ZONES.nbCases.bottom), size: HANDISPORT_ZONES.nbCases.size, font: bold, color });
+
+    // Date de l'examen médical (aujourd'hui, auto)
+    const today = new Date();
+    const jj = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const aaaa = String(today.getFullYear());
+    p2.drawText(jj,   { x: HANDISPORT_ZONES.examJour.x,  y: Y2(HANDISPORT_ZONES.examJour.bottom),  size: HANDISPORT_ZONES.examJour.size,  font, color });
+    p2.drawText(mm,   { x: HANDISPORT_ZONES.examMois.x,  y: Y2(HANDISPORT_ZONES.examMois.bottom),  size: HANDISPORT_ZONES.examMois.size,  font, color });
+    p2.drawText(aaaa, { x: HANDISPORT_ZONES.examAnnee.x, y: Y2(HANDISPORT_ZONES.examAnnee.bottom), size: HANDISPORT_ZONES.examAnnee.size, font, color });
+
+    const bytes = await pdfDoc.save();
+    const blob = new Blob([bytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const safeName = (h.patient || "certificat").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "_");
+    a.download = `Certificat_Handisport_${safeName}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    statusEl.textContent = "PDF téléchargé — il reste à le signer et le tamponner.";
+  }catch(err){
+    console.error(err);
+    statusEl.textContent = "La génération a échoué. Réessaie, ou utilise le PDF vierge en attendant.";
+  }finally{
+    btn.textContent = original;
+  }
+}
+window.downloadHandisportPdf = downloadHandisportPdf;
+
+
 function renderMedsensPanel(){
   const cat = CATEGORIES.find(c => c.id === "medicaments-securite");
   const c = colorVars(cat.color);
@@ -6569,6 +6940,8 @@ function render(){
     renderChariotPanel();
   }else if(state.activeDoc === "medicaments-sensibles" && state.explorerMode){
     renderMedsensPanel();
+  }else if(state.activeDoc === "certif-handisport" && state.explorerMode){
+    renderHandisportPanel();
   }else if(state.activeDoc){
     renderEmbedPage(state.activeDoc);
   }else if(state.query){
