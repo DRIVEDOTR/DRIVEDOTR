@@ -3169,7 +3169,9 @@ function colorVars(color){
 function cardHTML(protocolItem, cat){
   const c = colorVars(cat.color);
   const doc = DOCUMENTS[protocolItem.id];
-  const hasPdf = doc && doc.path && /\.pdf$/i.test(doc.path);
+  // Sélection multiple + ZIP : réservée à Protocoles Généraux (voir consigne
+  // explicite) — les autres rubriques n'affichent pas la case à cocher.
+  const hasPdf = cat.id === "protocoles-generaux" && doc && doc.path && /\.pdf$/i.test(doc.path);
   const openLabel = (doc && doc.openLabel) || "Ouvrir le PDF";
   const selected = !!state.selectedDocs[protocolItem.id];
   const checkboxHTML = hasPdf ? `
