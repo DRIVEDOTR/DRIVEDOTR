@@ -342,6 +342,26 @@
   .selection-toolbar .bio-reset-btn{background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.3);}
   .selection-toolbar .bio-reset-btn:hover{background:rgba(255,255,255,.22);}
   .selection-toolbar .bio-copy-btn{background:#fff; color:var(--navy); font-weight:700;}
+  .zip-fill-panel{
+    margin-top:10px;
+    padding:14px 16px;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  .zip-fill-title{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--text);
+    margin:0 0 10px;
+  }
+  .zip-fill-title span{font-weight:400; color:var(--text-muted);}
+  .zip-fill-fields{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:12px;
+  }
 
   .grid{
     display:grid;
@@ -1489,6 +1509,20 @@
   }
   .handi-row-split .calc-box{margin-top:0;}
   .handi-col-narrow{flex:1 1 220px;}
+  .handi-row-triple{align-items:stretch;}
+  .handi-col-third{flex:1 1 0; min-width:190px;}
+  .handi-col-third > .neurolep-label{margin:0 0 8px;}
+  .handi-compact-input{
+    width:100%;
+    font-family:inherit;
+    font-size:14px;
+    padding:7px 10px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    color:var(--text);
+    background:var(--bg);
+  }
+  .bio-options-list-compact .bio-option-row{padding:6px 8px;}
   .handi-col-wide{flex:2 1 320px;}
   .bio-options-list-row{display:flex; flex-direction:row; flex-wrap:wrap; gap:10px 22px;}
   .handi-autres-row{
@@ -2932,6 +2966,7 @@ const state = {
   chariotSection: "medicaments",
   selectedDocs: {},
   handisport: null,
+  zipFill: { etablissement: "", medecin: "", lieu: "", date: "" },
   medsensQuery: ""
 };
 
@@ -3169,9 +3204,16 @@ function clearDocSelection(){
 }
 window.clearDocSelection = clearDocSelection;
 
+function setZipFillField(field, value){
+  state.zipFill[field] = value;
+}
+window.setZipFillField = setZipFillField;
+
 function selectionToolbarHTML(){
   const ids = Object.keys(state.selectedDocs);
   if(!ids.length) return "";
+  const hasFillable = ids.some(id => isFillableDoc(id, DOCUMENTS[id]));
+  const zf = state.zipFill;
   return `
     <div class="selection-toolbar">
       <span><strong>${ids.length}</strong> document${ids.length > 1 ? "s" : ""} sélectionné${ids.length > 1 ? "s" : ""}</span>
@@ -3179,7 +3221,19 @@ function selectionToolbarHTML(){
         <button type="button" class="bio-reset-btn" onclick="clearDocSelection()">Tout désélectionner</button>
         <button type="button" class="bio-copy-btn" id="zipDownloadBtn" onclick="downloadSelectedZip()">📦 Télécharger le ZIP</button>
       </div>
-    </div>`;
+    </div>
+    ${hasFillable ? `
+      <div class="zip-fill-panel">
+        <p class="zip-fill-title">Pré-remplir Établissement / Médecin / Fait à / Date avant de zipper <span>(facultatif — laisse tout vide pour garder les PDF vierges)</span></p>
+        <div class="zip-fill-fields">
+          <label class="calc-field"><span>Établissement</span><input type="text" value="${zf.etablissement.replace(/"/g, "&quot;")}" oninput="setZipFillField('etablissement', this.value)" /></label>
+          <label class="calc-field"><span>Médecin</span><input type="text" value="${zf.medecin.replace(/"/g, "&quot;")}" oninput="setZipFillField('medecin', this.value)" placeholder="« Docteur » ajouté automatiquement" /></label>
+          <label class="calc-field"><span>Fait à (lieu)</span><input type="text" value="${zf.lieu.replace(/"/g, "&quot;")}" oninput="setZipFillField('lieu', this.value)" /></label>
+          <label class="calc-field"><span>Le (date)</span><input type="date" value="${zf.date}" oninput="setZipFillField('date', this.value)" /></label>
+        </div>
+      </div>
+    ` : ""}
+  `;
 }
 
 async function downloadSelectedZip(){
@@ -3191,12 +3245,21 @@ async function downloadSelectedZip(){
   try{
     const zip = new JSZip();
     const usedNames = {};
+    const zf = state.zipFill;
+    const medecin = formatMedecinName(zf.medecin);
+    let jour = "", mois = "", annee = "";
+    if(zf.date){ [annee, mois, jour] = zf.date.split("-"); }
+    const anyFillValue = !!(zf.etablissement || medecin || zf.lieu || zf.date);
+
     for(const id of ids){
       const doc = DOCUMENTS[id];
       if(!doc || !doc.path) continue;
       const resp = await fetch(doc.path);
       if(!resp.ok) throw new Error("Échec du chargement : " + doc.path);
-      const bytes = await resp.arrayBuffer();
+      let bytes = await resp.arrayBuffer();
+      if(anyFillValue && isFillableDoc(id, doc)){
+        bytes = await fillPdfBytes(bytes, { etablissement: zf.etablissement, medecin, lieu: zf.lieu, jour, mois, annee });
+      }
       let name = (doc.title || id).replace(/[\\/:*?"<>|]/g, "-").trim() + ".pdf";
       if(usedNames[name]){ usedNames[name]++; name = name.replace(/\.pdf$/, ` (${usedNames[name]}).pdf`); }
       else usedNames[name] = 1;
@@ -3303,7 +3366,7 @@ function renderEmbedPage(id){
   // Le remplissage Établissement / Médecin ne fonctionne que sur les protocoles
   // AS/Éduc & IDE, qui partagent tous le même gabarit (encadrés aux mêmes coordonnées).
   // Les documents administratifs/officiels (CERFA, RESPADD...) gardent le simple lien PDF.
-  const isFillable = (id.startsWith("as-") || id.startsWith("ide-")) && /\.pdf$/i.test(doc.path || "");
+  const isFillable = isFillableDoc(id, doc);
 
   contentEl.innerHTML = `
     <button class="back-link" onclick="closeDoc()">
@@ -3372,6 +3435,49 @@ const FILL_ZONES = {
   annee:         { x: 376, y: 127, size: 10 }    // au-dessus des pointillés " ...."
 };
 
+function isFillableDoc(id, doc){
+  return (id.startsWith("as-") || id.startsWith("ide-")) && !!doc && /\.pdf$/i.test(doc.path || "");
+}
+
+// Coeur du remplissage, partagé entre le bouton PDF unique (fillStatus) et le
+// ZIP global des protocoles sélectionnés : prend les octets d'un PDF vierge
+// et les valeurs saisies, renvoie les octets du PDF rempli. N'importe rien,
+// ne déclenche aucun téléchargement — ça reste la responsabilité de l'appelant.
+async function fillPdfBytes(existingBytes, values){
+  const { PDFDocument, StandardFonts, rgb } = PDFLib;
+  const pdfDoc = await PDFDocument.load(existingBytes);
+  const page = pdfDoc.getPages()[0];
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const color = rgb(0.09, 0.145, 0.27);
+
+  if(values.etablissement){
+    const z = FILL_ZONES.etablissement;
+    page.drawText(values.etablissement, { x: z.x, y: z.y, size: z.size, lineHeight: z.lineHeight, font, color, maxWidth: z.maxWidth });
+  }
+  if(values.medecin){
+    const z = FILL_ZONES.medecin;
+    page.drawText(values.medecin, { x: z.x, y: z.y, size: z.size, lineHeight: z.lineHeight, font, color, maxWidth: z.maxWidth });
+  }
+  if(values.lieu){
+    const z = FILL_ZONES.lieu;
+    page.drawText(values.lieu, { x: z.x, y: z.y, size: z.size, font, color });
+  }
+  if(values.jour && values.mois && values.annee){
+    page.drawText(values.jour,  { x: FILL_ZONES.jour.x,  y: FILL_ZONES.jour.y,  size: FILL_ZONES.jour.size,  font, color });
+    page.drawText(values.mois,  { x: FILL_ZONES.mois.x,  y: FILL_ZONES.mois.y,  size: FILL_ZONES.mois.size,  font, color });
+    page.drawText(values.annee, { x: FILL_ZONES.annee.x, y: FILL_ZONES.annee.y, size: FILL_ZONES.annee.size, font, color });
+  }
+
+  return pdfDoc.save();
+}
+
+// Ajoute "Docteur " devant le nom du médecin, sauf s'il est déjà présent.
+function formatMedecinName(input){
+  const trimmed = (input || "").trim();
+  if(!trimmed) return "";
+  return !/^(dr|docteur)\b/i.test(trimmed) ? "Docteur " + trimmed : trimmed;
+}
+
 async function downloadFilledPdf(doc){
   const statusEl = document.getElementById("fillStatus");
   const etablissement = document.getElementById("fillEtablissement").value.trim();
@@ -3384,46 +3490,19 @@ async function downloadFilledPdf(doc){
     return;
   }
 
-  // Ajoute "Docteur " devant le nom du médecin, sauf s'il est déjà présent.
-  const medecin = medecinInput && !/^(dr|docteur)\b/i.test(medecinInput)
-    ? "Docteur " + medecinInput
-    : medecinInput;
-
+  const medecin = formatMedecinName(medecinInput);
   statusEl.textContent = "Génération du PDF…";
 
   try{
-    const { PDFDocument, StandardFonts, rgb } = PDFLib;
     // Le PDF vierge est un fichier à part (voir doc.path) : on va le chercher
     // avant de pouvoir le pré-remplir et le proposer au téléchargement.
     const response = await fetch(doc.path);
     if(!response.ok) throw new Error("PDF introuvable");
     const existingBytes = await response.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(existingBytes);
-    const page = pdfDoc.getPages()[0];
-    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-    const color = rgb(0.09, 0.145, 0.27);
+    let jour = "", mois = "", annee = "";
+    if(dateValue){ [annee, mois, jour] = dateValue.split("-"); }
+    const bytes = await fillPdfBytes(existingBytes, { etablissement, medecin, lieu, jour, mois, annee });
 
-    if(etablissement){
-      const z = FILL_ZONES.etablissement;
-      page.drawText(etablissement, { x: z.x, y: z.y, size: z.size, lineHeight: z.lineHeight, font, color, maxWidth: z.maxWidth });
-    }
-    if(medecin){
-      const z = FILL_ZONES.medecin;
-      page.drawText(medecin, { x: z.x, y: z.y, size: z.size, lineHeight: z.lineHeight, font, color, maxWidth: z.maxWidth });
-    }
-    if(lieu){
-      const z = FILL_ZONES.lieu;
-      page.drawText(lieu, { x: z.x, y: z.y, size: z.size, font, color });
-    }
-    if(dateValue){
-      // dateValue au format "AAAA-MM-JJ" (natif du champ <input type="date">).
-      const [annee, mois, jour] = dateValue.split("-");
-      page.drawText(jour,  { x: FILL_ZONES.jour.x,  y: FILL_ZONES.jour.y,  size: FILL_ZONES.jour.size,  font, color });
-      page.drawText(mois,  { x: FILL_ZONES.mois.x,  y: FILL_ZONES.mois.y,  size: FILL_ZONES.mois.size,  font, color });
-      page.drawText(annee, { x: FILL_ZONES.annee.x, y: FILL_ZONES.annee.y, size: FILL_ZONES.annee.size, font, color });
-    }
-
-    const bytes = await pdfDoc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -6673,33 +6752,30 @@ function renderHandisportPanel(){
         </div>
       </div>
 
-      <div class="handi-row-split">
-        <div class="calc-box handi-col-narrow">
-          <label class="calc-field"><span>Date de naissance</span><input type="text" id="hDob" value="${h.dob.replace(/"/g, "&quot;")}" placeholder="JJ/MM/AAAA" /></label>
+      <div class="handi-row-split handi-row-triple">
+        <div class="calc-box handi-col-third">
+          <p class="neurolep-label">Date de naissance</p>
+          <input type="text" id="hDob" class="handi-compact-input" value="${h.dob.replace(/"/g, "&quot;")}" placeholder="JJ/MM/AAAA" />
         </div>
-        <div class="calc-box handi-col-wide">
-          <p class="neurolep-label" style="margin-bottom:8px;">Sexe</p>
-          <div class="bio-options-list bio-options-list-row">
+        <div class="calc-box handi-col-third">
+          <p class="neurolep-label">Sexe</p>
+          <div class="bio-options-list bio-options-list-row bio-options-list-compact">
             <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "M" ? "checked" : ""} onchange="setHandiField('sexe','M')" /><span class="bio-option-label">Masculin</span></label>
             <label class="bio-option-row"><input type="radio" name="hSexe" ${h.sexe === "F" ? "checked" : ""} onchange="setHandiField('sexe','F')" /><span class="bio-option-label">Féminin</span></label>
           </div>
         </div>
-      </div>
-
-      <div class="handi-row-split">
-        <div class="calc-box handi-col-narrow">
-          <p class="neurolep-label" style="margin-bottom:8px;">Contre-indication</p>
-          <div class="bio-options-list bio-options-list-row">
+        <div class="calc-box handi-col-third">
+          <p class="neurolep-label">Non contre-indication à</p>
+          <div class="bio-options-list bio-options-list-row bio-options-list-compact">
             <label class="bio-option-row"><input type="checkbox" ${h.competition ? "checked" : ""} onchange="setHandiField('competition', this.checked)" /><span class="bio-option-label">Compétition</span></label>
             <label class="bio-option-row"><input type="checkbox" ${h.loisir ? "checked" : ""} onchange="setHandiField('loisir', this.checked)" /><span class="bio-option-label">Loisir</span></label>
           </div>
         </div>
-        <div class="calc-box handi-col-wide">
-          <label class="calc-field"><span>Remarques restrictives éventuelles</span>
-            <textarea id="hRemarques" rows="2" style="font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;resize:vertical;">${h.remarques}</textarea>
-          </label>
-        </div>
       </div>
+
+      <label class="calc-field" style="margin-top:12px;"><span>Remarques restrictives éventuelles</span>
+        <textarea id="hRemarques" rows="2" style="font-family:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;resize:vertical;">${h.remarques}</textarea>
+      </label>
 
       <p class="calc-group-heading">🏅 Activités pratiquées (page 2)</p>
       <p class="doc-meta">Coche « Compét » et/ou « Loisir » pour chaque activité concernée par ce certificat.</p>
