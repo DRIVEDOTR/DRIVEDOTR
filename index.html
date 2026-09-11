@@ -2737,7 +2737,7 @@ const BIO_TESTS = {
   "glycemie": "Glycémie à jeun",
   "hba1c": "HbA1c",
   "eal": "EAL (bilan lipidique)",
-  "tsh": "TSHus (TSH ultrasensible)",
+  "tsh": "TSHus",
   "ferritine-cst": "Ferritine + CST",
   "vitamine-b12": "Vitamine B12",
   "folates": "Folates (vitamine B9)",
@@ -6457,8 +6457,8 @@ function renderChariotResult(){
     return;
   }
 
-  const etabName = (state.chariotEtab || "").trim() || "……………………………";
-  const heading = `Dotation pour Chariot d'Urgence ${dot.label.replace("Urgence ", "")} pour l'établissement : ${etabName}`;
+  const etabName = (state.chariotEtab || "").trim();
+  const heading = `Dotation pour Chariot d'Urgence ${dot.label.replace("Urgence ", "")} pour l'Établissement :${etabName ? " " + etabName : ""}`;
 
   let plain = heading + "\n\n" + items.map(it => `- ${it.n} — Qté : ${chariotGetQty(it)}`).join("\n") + "\n";
 
@@ -6554,7 +6554,7 @@ async function generateChariotPdf(dot, sec, items){
     }
 
     const etab = (state.chariotEtab || "").trim();
-    page.drawText(`Dotation pour Chariot d'Urgence ${dot.label.replace("Urgence ", "")} pour l'établissement : ${etab || "……………………………"}`, { x: margin, y, size: 14, font: bold, color: navy, maxWidth: pageW - 2 * margin, lineHeight: 17 });
+    page.drawText(`Dotation pour Chariot d'Urgence ${dot.label.replace("Urgence ", "")} pour l'Établissement :${etab ? " " + etab : ""}`, { x: margin, y, size: 14, font: bold, color: navy, maxWidth: pageW - 2 * margin, lineHeight: 17 });
     y -= 34;
     page.drawText(sec.label, { x: margin, y, size: 12, font: bold, color: muted });
     y -= 22;
