@@ -6457,7 +6457,8 @@ function renderChariotResult(){
     return;
   }
 
-  const heading = `Réassort — dotation d'urgence ${dot.label.toLowerCase().replace("urgence ", "")} — ${sec.label}`;
+  const etabName = (state.chariotEtab || "").trim() || "……………………………";
+  const heading = `Dotation pour Chariot d'Urgence ${dot.label.replace("Urgence ", "")} pour l'établissement : ${etabName}`;
 
   let plain = heading + "\n\n" + items.map(it => `- ${it.n} — Qté : ${chariotGetQty(it)}`).join("\n") + "\n";
 
@@ -6552,13 +6553,11 @@ async function generateChariotPdf(dot, sec, items){
       }
     }
 
-    page.drawText(`Réassort — dotation d'urgence ${dot.label.toLowerCase()}`, { x: margin, y, size: 15, font: bold, color: navy });
-    y -= 20;
+    const etab = (state.chariotEtab || "").trim();
+    page.drawText(`Dotation pour Chariot d'Urgence ${dot.label.replace("Urgence ", "")} pour l'établissement : ${etab || "……………………………"}`, { x: margin, y, size: 14, font: bold, color: navy, maxWidth: pageW - 2 * margin, lineHeight: 17 });
+    y -= 34;
     page.drawText(sec.label, { x: margin, y, size: 12, font: bold, color: muted });
     y -= 22;
-    const etab = (state.chariotEtab || "").trim();
-    page.drawText("Établissement : " + (etab || "…………………………………………………………"), { x: margin, y, size: 11, font, color: navy });
-    y -= 16;
     page.drawText("Date : " + new Date().toLocaleDateString("fr-FR"), { x: margin, y, size: 11, font, color: navy });
     y -= 26;
 
