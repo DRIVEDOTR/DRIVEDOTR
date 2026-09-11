@@ -1588,6 +1588,14 @@
     margin-left:auto;
   }
   .doc-image-zoom-dl:hover{text-decoration:underline;}
+  .doc-second-image-label{
+    font-size:13px;
+    font-weight:700;
+    color:var(--text-muted);
+    margin:22px 0 6px;
+    padding-top:16px;
+    border-top:1px dashed var(--border);
+  }
   .doc-note{
     font-size:12.5px;
     color:var(--text-muted);
@@ -1846,7 +1854,9 @@ function categoryIconHTML(iconKey, color, size){
    pour créer une nouvelle sous-catégorie de métier. */
 const SUBCATEGORIES = {
   "as-educ": "Protocoles AS / Éduc",
-  "ide": "Protocoles IDE"
+  "ide": "Protocoles IDE",
+  "admin": "Administratifs",
+  "tutos": "Tutos"
 };
 
 /* Thèmes cliniques affichés comme sous-sections à l'intérieur d'une
@@ -2321,9 +2331,12 @@ const DOCUMENTS = {
   "calendrier-vaccinal-pdf": {
     title: "Calendrier vaccinal officiel 2026",
     category: "vaccination",
-    meta: "Calendrier des vaccinations et recommandations vaccinales — ministère chargé de la Santé, mis en ligne le 27/04/2026 — document de référence complet",
-    filename: "Calendrier_vaccinal_2026.pdf",
-    path: "vaccination/Calendrier_vaccinal_2026.pdf"
+    meta: "Santé publique France, mis à jour avril 2026 — deux vues complémentaires : par tranche d'âge (grille) et par vaccin (frise chronologique)",
+    openLabel: "Ouvrir le calendrier",
+    filename: "Calendrier_vaccinal_2026.jpg",
+    path: "vaccination/Calendrier_vaccinal_2026.jpg",
+    filename2: "Calendrier_vaccinal_2026_tous_ages.jpg",
+    path2: "vaccination/Calendrier_vaccinal_2026_tous_ages.jpg"
   },
   "vaccination-esms": {
     title: "Vaccination en ESMS (EHPAD / FAM / MAS)",
@@ -2435,6 +2448,7 @@ const DOCUMENTS = {
   "tuto-tampon-numerique": {
     title: "Tuto — Utiliser votre tampon numérique sur un PDF",
     category: "administratif",
+    subcategory: "tutos",
     meta: "Tuto rapide PC (Adobe Acrobat Reader) — signer un PDF sans imprimer, en 6 étapes",
     filename: "Tuto_Tampon_Numerique_PDF.jpeg",
     path: "administratif/Tuto_Tampon_Numerique_PDF.jpeg"
@@ -2442,6 +2456,7 @@ const DOCUMENTS = {
   "trombinoscope-vms": {
     title: "Trombinoscope — Équipe médicale et paramédicale VMS",
     category: "administratif",
+    subcategory: "admin",
     meta: "Organigramme de l'équipe : direction médicale, médecine physique de réadaptation, médecine générale/gériatrie/coordination, psychiatrie-pédopsychiatrie, orthophonie, infirmière coordonnatrice — actualisé au 09/09/2026",
     filename: "Trombinoscope_VMS_Sept2026.jpg",
     path: "administratif/Trombinoscope_VMS_Sept2026.jpg"
@@ -2449,6 +2464,7 @@ const DOCUMENTS = {
   "tuto-connexion-cardioparc": {
     title: "CardioParc — Connexion pro & prise de RDV patient",
     category: "administratif",
+    subcategory: "tutos",
     meta: "Contact et coordination avec CardioParc — accès pro.cardioparc.fr, demande d'avis cardio par téléexpertise (réponse < 48h), et parcours de prise de rendez-vous côté patient",
     filename: "Tuto_Connexion_Pro_CardioParc.pdf",
     path: "administratif/Tuto_Connexion_Pro_CardioParc.pdf"
@@ -2456,6 +2472,7 @@ const DOCUMENTS = {
   "tuto-healphi-ordoclic": {
     title: "Healphi / Ordoclic — Complément pratique",
     category: "administratif",
+    subcategory: "tutos",
     meta: "En attendant le module d'ordonnances libres : ce qui passe par Ordoclic, ce qui passe par un document Word tamponné",
     filename: "Tuto_Healphi_Ordoclic.jpeg",
     path: "administratif/Tuto_Healphi_Ordoclic.jpeg"
@@ -2463,6 +2480,7 @@ const DOCUMENTS = {
   "cerfa-ald": {
     title: "CERFA S3501 — Protocole de soins (ALD)",
     category: "administratif",
+    subcategory: "admin",
     meta: "Formulaire officiel Cerfa n° 11626*27 / notice n° 50774#03 et 50775#03 — articles L.324-1, L.160-14-3°, L.160-14-4° et D.160-4 du code de la sécurité sociale",
     filename: "CERFA_ALD_S3501.pdf",
     path: "administratif/CERFA_ALD_S3501.pdf"
@@ -2470,6 +2488,7 @@ const DOCUMENTS = {
   "cerfa-15695-mdph": {
     title: "CERFA 15695*01 — Certificat médical MDPH",
     category: "administratif",
+    subcategory: "admin",
     meta: "Formulaire officiel Cerfa n° 15695*01 — certificat médical à joindre à une demande à la Maison Départementale des Personnes Handicapées (MDPH) — articles R.146-26 et D.245-25 du code de l'action sociale et des familles",
     filename: "CERFA_15695_Certificat_medical_MDPH.pdf",
     path: "administratif/CERFA_15695_Certificat_medical_MDPH.pdf"
@@ -2477,6 +2496,7 @@ const DOCUMENTS = {
   "certif-handisport": {
     title: "Certificat médical Handisport",
     category: "administratif",
+    subcategory: "admin",
     meta: "Fédération Française Handisport — Annexe 2. Remplissage guidé : infos patient, sexe, compétition/loisir et toutes les activités, avec décompte automatique et date du jour.",
     interactive: true,
     filename: "Certificat_medical_Handisport_vierge.pdf",
@@ -2485,6 +2505,7 @@ const DOCUMENTS = {
   "bon-transport-vierge": {
     title: "Prescription médicale de transport (CERFA)",
     category: "administratif",
+    subcategory: "admin",
     meta: "Formulaire officiel Cerfa n° 11574*06 — notice S3138f — prescription médicale de transport, vierge à imprimer et compléter",
     filename: "Bon_de_Transport_Vierge.pdf",
     path: "administratif/Bon_de_Transport_Vierge.pdf"
@@ -2758,7 +2779,8 @@ const BIO_TESTS = {
   "coombs": "Test de Coombs direct",
   "magnesemie": "Magnésémie",
   "cpk": "CPK",
-  "probnp": "NT-proBNP (ou BNP)",
+  "probnp": "NT-proBNP",
+  "ammoniemie": "Ammoniémie",
   "psa-total": "PSA total",
   "psa-libre": "PSA libre (+ rapport PSA libre/total)"
 };
@@ -2812,7 +2834,8 @@ const BIO_OPTIONS = [
   { id: "depakinemie-opt", label: "Dépakinémie (valproate)", indication: "", addIds: ["depakinemie"], group: "antiepi-dosages" },
   { id: "carbamazepinemie-opt", label: "Carbamazépinémie", indication: "", addIds: ["carbamazepinemie"], group: "antiepi-dosages" },
   { id: "phenobarbitalemie-opt", label: "Phénobarbitalémie", indication: "", addIds: ["phenobarbitalemie"], group: "antiepi-dosages" },
-  { id: "probnp-opt", label: "NT-proBNP (ou BNP)", indication: "suspicion ou suivi d'insuffisance cardiaque, dyspnée inexpliquée", addIds: ["probnp"] },
+  { id: "probnp-opt", label: "NT-proBNP", indication: "suspicion ou suivi d'insuffisance cardiaque, dyspnée inexpliquée", addIds: ["probnp"] },
+  { id: "ammoniemie-opt", label: "Ammoniémie", indication: "confusion ou trouble de la conscience inexpliqué sous valproate (hyperammoniémie possible même avec valproatémie et bilan hépatique normaux), ou suspicion d'encéphalopathie hépatique (hépatopathie connue) — prélèvement à acheminer immédiatement au laboratoire sur glace, un délai fausse le résultat à la hausse", addIds: ["ammoniemie"] },
   { id: "psa-opt", label: "PSA total", indication: "homme symptomatique (signes urinaires évocateurs) ou suivi d'un cancer de la prostate connu — pas de dépistage systématique (HAS), à éviter si espérance de vie < 10 ans (AFU)", addIds: ["psa-total"], pairWith: "psa-libre-opt" },
   { id: "psa-libre-opt", label: "PSA libre / PSA total", indication: "en complément si PSA total en zone intermédiaire (4-10 ng/mL), pour aider à discriminer une cause bénigne", addIds: ["psa-libre"] }
 ];
@@ -3147,6 +3170,7 @@ function cardHTML(protocolItem, cat){
   const c = colorVars(cat.color);
   const doc = DOCUMENTS[protocolItem.id];
   const hasPdf = doc && doc.path && /\.pdf$/i.test(doc.path);
+  const openLabel = (doc && doc.openLabel) || "Ouvrir le PDF";
   const selected = !!state.selectedDocs[protocolItem.id];
   const checkboxHTML = hasPdf ? `
     <label class="card-select">
@@ -3167,7 +3191,7 @@ function cardHTML(protocolItem, cat){
             </button>
             ${doc.path ? `
               <button type="button" class="card-dual-secondary" onclick="openDoc('${protocolItem.id}')">
-                Ouvrir le PDF
+                ${openLabel}
               </button>
             ` : ""}
           </div>
@@ -3183,7 +3207,7 @@ function cardHTML(protocolItem, cat){
         <span class="card-tag" style="--pill:${c.pill};--pillbg:${c.pillbg}">${cat.label}</span>
         <div class="card-title">${protocolItem.title}</div>
         <span class="card-open">
-          Ouvrir le PDF
+          ${openLabel}
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
         </span>
       </button>
@@ -3198,8 +3222,14 @@ function toggleDocSelect(id){
 }
 window.toggleDocSelect = toggleDocSelect;
 
-function clearDocSelection(){
-  state.selectedDocs = {};
+function clearDocSelection(scopeId){
+  if(scopeId){
+    Object.keys(state.selectedDocs).forEach(id => {
+      if(DOCUMENTS[id] && DOCUMENTS[id].category === scopeId) delete state.selectedDocs[id];
+    });
+  }else{
+    state.selectedDocs = {};
+  }
   render();
 }
 window.clearDocSelection = clearDocSelection;
@@ -3209,17 +3239,24 @@ function setZipFillField(field, value){
 }
 window.setZipFillField = setZipFillField;
 
-function selectionToolbarHTML(){
-  const ids = Object.keys(state.selectedDocs);
+// scopeId = id de la catégorie actuellement affichée : la barre de sélection
+// et le panneau de pré-remplissage ne montrent QUE les documents sélectionnés
+// dans cette catégorie, pour qu'ils disparaissent en changeant de rubrique au
+// lieu de rester affichés partout. scopeId absent (page de recherche) = tout
+// montrer, toutes catégories confondues.
+function selectionToolbarHTML(scopeId){
+  const allIds = Object.keys(state.selectedDocs);
+  const ids = scopeId ? allIds.filter(id => DOCUMENTS[id] && DOCUMENTS[id].category === scopeId) : allIds;
   if(!ids.length) return "";
   const hasFillable = ids.some(id => isFillableDoc(id, DOCUMENTS[id]));
   const zf = state.zipFill;
+  const scopeArg = scopeId ? `'${scopeId}'` : "";
   return `
     <div class="selection-toolbar">
       <span><strong>${ids.length}</strong> document${ids.length > 1 ? "s" : ""} sélectionné${ids.length > 1 ? "s" : ""}</span>
       <div class="selection-toolbar-actions">
-        <button type="button" class="bio-reset-btn" onclick="clearDocSelection()">Tout désélectionner</button>
-        <button type="button" class="bio-copy-btn" id="zipDownloadBtn" onclick="downloadSelectedZip()">📦 Télécharger le ZIP</button>
+        <button type="button" class="bio-reset-btn" onclick="clearDocSelection(${scopeArg})">Tout désélectionner</button>
+        <button type="button" class="bio-copy-btn" id="zipDownloadBtn" onclick="downloadSelectedZip(${scopeArg})">📦 Télécharger le ZIP</button>
       </div>
     </div>
     ${hasFillable ? `
@@ -3236,10 +3273,11 @@ function selectionToolbarHTML(){
   `;
 }
 
-async function downloadSelectedZip(){
+async function downloadSelectedZip(scopeId){
   const btn = document.getElementById("zipDownloadBtn");
   const original = btn ? btn.textContent : "";
-  const ids = Object.keys(state.selectedDocs);
+  const allIds = Object.keys(state.selectedDocs);
+  const ids = scopeId ? allIds.filter(id => DOCUMENTS[id] && DOCUMENTS[id].category === scopeId) : allIds;
   if(!ids.length) return;
   if(btn){ btn.textContent = "Préparation…"; btn.disabled = true; }
   try{
@@ -3352,7 +3390,7 @@ function renderCategoryPanel(cat){
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
       <h2 class="panel-title" style="color:${c.pill}">${cat.label}</h2>
       <p class="panel-desc">${cat.description}</p>
-      ${selectionToolbarHTML()}
+      ${selectionToolbarHTML(cat.id)}
     </div>
     ${body}
   `;
@@ -3402,6 +3440,18 @@ function renderEmbedPage(id){
           <button type="button" onclick="resetImageZoom('docImgWrap')">↺ Réinitialiser</button>
           ${id !== "trombinoscope-vms" ? `<a href="${doc.path}" download="${doc.filename}" class="doc-image-zoom-dl">Télécharger l'image</a>` : ""}
         </div>
+        ${doc.path2 ? `
+          <p class="doc-second-image-label">Autre vue du même calendrier — par vaccin :</p>
+          <div class="doc-image-zoom-wrap" id="docImgWrap2">
+            <img src="${doc.path2}" alt="${doc.title} — vue par vaccin" onclick="toggleImageZoom('docImgWrap2', event)" />
+          </div>
+          <div class="doc-image-zoom-toolbar">
+            <button type="button" onclick="adjustImageZoom('docImgWrap2', -40)">🔍− Réduire</button>
+            <button type="button" onclick="adjustImageZoom('docImgWrap2', 40)">🔍+ Agrandir</button>
+            <button type="button" onclick="resetImageZoom('docImgWrap2')">↺ Réinitialiser</button>
+            <a href="${doc.path2}" download="${doc.filename2}" class="doc-image-zoom-dl">Télécharger l'image</a>
+          </div>
+        ` : ""}
       ` : `
         <div class="doc-embed-wrap">
           <embed src="${doc.path}" type="application/pdf" />
@@ -5116,6 +5166,7 @@ const VACCINS_DATA = [
       "Personnes de 65 ans et plus",
       "Résidents d'EHPAD et d'USLD",
       "Personnes immunodéprimées et à risque de forme grave",
+      "Personnes atteintes de troubles psychiatriques, de démence ou de trisomie 21",
       "Professionnels de santé et du médico-social"
     ],
     schema: "Rappel lors de la campagne saisonnière, en respectant un délai depuis la dernière dose ou la dernière infection.",
@@ -5296,6 +5347,19 @@ function renderVaccinPanel(){
    ===================================================================== */
 const VACCINS_PEDIA_DATA = [
   {
+    id: "bcg", nom: "BCG (tuberculose)", sub: "Enfants à risque, dès 1 mois", color: "blue",
+    cibles: ["Enfants exposés à un risque élevé de tuberculose, de 1 mois à 15 ans"],
+    schema: "Une dose unique, dès l'âge de 1 mois, chez les enfants à risque.",
+    points: [
+      "Vaccination ciblée sur les facteurs de risque, pas systématique en population générale : origine ou séjour prévu dans un pays de forte endémie, antécédents familiaux de tuberculose, conditions de vie précaires ou en collectivité.",
+      "Pas de revaccination ni de contrôle tuberculinique systématique après la vaccination.",
+      "En cas de doute sur l'indication, se rapprocher du centre de vaccination BCG ou du CLAT (centre de lutte antituberculeuse) du secteur."
+    ],
+    presentations: [
+      "<strong>BCG SSI</strong> — seul vaccin BCG disponible en France"
+    ]
+  },
+  {
     id: "statut", nom: "Statut vaccinal à l'admission", sub: "Le réflexe de départ", color: "navy",
     cibles: ["Tout enfant ou adolescent admis en IME / IEM"],
     schema: "Vérifier le carnet de santé à l'entrée, puis à chaque réévaluation annuelle.",
@@ -5307,11 +5371,22 @@ const VACCINS_PEDIA_DATA = [
     ]
   },
   {
+    id: "rotavirus", nom: "Rotavirus", sub: "Recommandé, dès 2 mois", color: "slate",
+    cibles: ["Tous les nourrissons, à partir de 2 mois"],
+    schema: "2 à 3 doses orales selon le vaccin utilisé, en respectant les âges limites de début et de fin de schéma.",
+    points: [
+      "Vaccination orale (gouttes), pas une injection — schéma à démarrer tôt, il existe un âge limite strict pour la première dose.",
+      "Recommandée, pas obligatoire, contrairement aux valences du vaccin hexavalent.",
+      "Chez l'enfant polyhandicapé avec troubles digestifs ou de la déglutition connus, en discuter au préalable avec l'équipe soignante."
+    ]
+  },
+  {
     id: "hexavalent", nom: "DTP-Coq-Hib-HépB", sub: "Obligatoire — nourrisson", color: "teal",
     cibles: ["Tous les nourrissons (8 valences obligatoires depuis 2018)"],
     schema: "Vaccin hexavalent : 2 mois, 4 mois, puis rappel à 11 mois.",
     points: [
       "Couvre diphtérie, tétanos, poliomyélite, coqueluche, Haemophilus influenzae b et hépatite B.",
+      "Hépatite B non faite en nourrisson : rattrapage possible jusqu'à 15 ans inclus ; à partir de 16 ans, recommandée uniquement chez les personnes exposées au risque.",
       "Rappels ultérieurs : dTcaP à 6 ans, puis à 11-13 ans.",
       "Puis rappels dTP à 25, 45 et 65 ans à l'âge adulte."
     ],
