@@ -1637,6 +1637,9 @@
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <!-- JSZip : assemble un .zip de PDF sélectionnés entièrement dans le navigateur. -->
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<!-- fontkit : nécessaire à pdf-lib pour intégrer une police externe (le certificat
+     Handisport charge une police manuscrite pour le texte saisi). -->
+<script src="https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
 </head>
 <body>
 
@@ -6723,13 +6726,46 @@ async function downloadHandisportPdf(){
     const existingBytes = await response.arrayBuffer();
     const { PDFDocument, StandardFonts, rgb } = PDFLib;
     const pdfDoc = await PDFDocument.load(existingBytes);
-    // Times : plus agréable à lire et plus "certificat" que la police du
-    // formulaire d'origine, pour tout le texte que l'on ajoute par-dessus.
+    if(window.fontkit) pdfDoc.registerFontkit(window.fontkit);
+
+    // Police "script" moderne (Caveat, Google Fonts) pour le nom du médecin,
+    // du patient, la date de naissance, le nombre de cases et la date de
+    // l'examen — avec repli silencieux sur Times si le chargement échoue
+    // (pas de connexion, police indisponible…) pour que l'outil marche
+    // toujours.
+    let scriptFont, scriptFontBold, usingScript = false;
+    // Deux sources sont tentées (miroirs différents du même dépôt Google
+    // Fonts) avant d'abandonner et de revenir à Times.
+    const CAVEAT_SOURCES = [
+      { reg: "https://cdn.jsdelivr.net/gh/google/fonts/ofl/caveat/static/Caveat-Regular.ttf", bold: "https://cdn.jsdelivr.net/gh/google/fonts/ofl/caveat/static/Caveat-Bold.ttf" },
+      { reg: "https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/static/Caveat-Regular.ttf", bold: "https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/static/Caveat-Bold.ttf" }
+    ];
+    for(const src of CAVEAT_SOURCES){
+      try{
+        const [regBytes, boldBytes] = await Promise.all([
+          fetch(src.reg).then(r => { if(!r.ok) throw new Error("font"); return r.arrayBuffer(); }),
+          fetch(src.bold).then(r => { if(!r.ok) throw new Error("font"); return r.arrayBuffer(); })
+        ]);
+        scriptFont = await pdfDoc.embedFont(regBytes);
+        scriptFontBold = await pdfDoc.embedFont(boldBytes);
+        usingScript = true;
+        break;
+      }catch(fontErr){
+        console.warn("Source de police script indisponible, tentative suivante.", fontErr);
+      }
+    }
+
+    // Times : pour les remarques et le texte "Autres" (police stable, plus
+    // sûre dans les colonnes étroites). Sert aussi de repli si Caveat échoue.
     const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
     const fontBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
+    if(!usingScript){ scriptFont = font; scriptFontBold = fontBold; }
     // Les croix dans les cases restent en Helvetica Gras (inchangé, parfaitement calé).
     const checkFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     const color = rgb(0.09, 0.145, 0.27);
+    // Caveat a besoin d'un corps plus grand qu'une police classique pour un
+    // rendu et une lisibilité équivalents.
+    const SCRIPT_SCALE = usingScript ? 1.4 : 1;
 
     const pages = pdfDoc.getPages();
     const p1 = pages[0], p2 = pages[1];
@@ -6753,13 +6789,13 @@ async function downloadHandisportPdf(){
     }
 
     // ---- Page 1 ----
-    if(h.medecin) p1.drawText(h.medecin, { x: HANDISPORT_ZONES.medecin.x, y: Y1(HANDISPORT_ZONES.medecin.bottom, ABOVE), size: HANDISPORT_ZONES.medecin.size, font: fontBold, color, maxWidth: HANDISPORT_ZONES.medecin.maxWidth });
-    if(h.patient) p1.drawText(h.patient, { x: HANDISPORT_ZONES.patient.x, y: Y1(HANDISPORT_ZONES.patient.bottom, ABOVE), size: HANDISPORT_ZONES.patient.size, font: fontBold, color, maxWidth: HANDISPORT_ZONES.patient.maxWidth });
+    if(h.medecin) p1.drawText(h.medecin, { x: HANDISPORT_ZONES.medecin.x, y: Y1(HANDISPORT_ZONES.medecin.bottom, ABOVE), size: HANDISPORT_ZONES.medecin.size * SCRIPT_SCALE, font: scriptFontBold, color, maxWidth: HANDISPORT_ZONES.medecin.maxWidth });
+    if(h.patient) p1.drawText(h.patient, { x: HANDISPORT_ZONES.patient.x, y: Y1(HANDISPORT_ZONES.patient.bottom, ABOVE), size: HANDISPORT_ZONES.patient.size * SCRIPT_SCALE, font: scriptFontBold, color, maxWidth: HANDISPORT_ZONES.patient.maxWidth });
     if(h.dob){
       const [aaaa, mm, jj] = h.dob.split("-");
-      if(jj)   p1.drawText(jj,   { x: HANDISPORT_ZONES.dobJour.x,  y: Y1(HANDISPORT_ZONES.dobJour.bottom, ABOVE),  size: HANDISPORT_ZONES.dobJour.size,  font, color });
-      if(mm)   p1.drawText(mm,   { x: HANDISPORT_ZONES.dobMois.x,  y: Y1(HANDISPORT_ZONES.dobMois.bottom, ABOVE),  size: HANDISPORT_ZONES.dobMois.size,  font, color });
-      if(aaaa) p1.drawText(aaaa, { x: HANDISPORT_ZONES.dobAnnee.x, y: Y1(HANDISPORT_ZONES.dobAnnee.bottom, ABOVE), size: HANDISPORT_ZONES.dobAnnee.size, font, color });
+      if(jj)   p1.drawText(jj,   { x: HANDISPORT_ZONES.dobJour.x,  y: Y1(HANDISPORT_ZONES.dobJour.bottom, ABOVE),  size: HANDISPORT_ZONES.dobJour.size * SCRIPT_SCALE,  font: scriptFont, color });
+      if(mm)   p1.drawText(mm,   { x: HANDISPORT_ZONES.dobMois.x,  y: Y1(HANDISPORT_ZONES.dobMois.bottom, ABOVE),  size: HANDISPORT_ZONES.dobMois.size * SCRIPT_SCALE,  font: scriptFont, color });
+      if(aaaa) p1.drawText(aaaa, { x: HANDISPORT_ZONES.dobAnnee.x, y: Y1(HANDISPORT_ZONES.dobAnnee.bottom, ABOVE), size: HANDISPORT_ZONES.dobAnnee.size * SCRIPT_SCALE, font: scriptFont, color });
     }
     if(h.sexe === "M") drawX(p1, HANDISPORT_ZONES.sexeM, Y1);
     if(h.sexe === "F") drawX(p1, HANDISPORT_ZONES.sexeF, Y1);
@@ -6793,24 +6829,24 @@ async function downloadHandisportPdf(){
 
     // Nombre de cases cochées (auto), juste au-dessus des pointillés
     const total = handiCheckedCount();
-    p2.drawText(String(total), { x: HANDISPORT_ZONES.nbCases.x, y: Y2(HANDISPORT_ZONES.nbCases.bottom, ABOVE), size: HANDISPORT_ZONES.nbCases.size, font: fontBold, color });
+    p2.drawText(String(total), { x: HANDISPORT_ZONES.nbCases.x, y: Y2(HANDISPORT_ZONES.nbCases.bottom, ABOVE), size: HANDISPORT_ZONES.nbCases.size * SCRIPT_SCALE, font: scriptFontBold, color });
 
     // Date de l'examen médical (aujourd'hui, auto), juste au-dessus des pointillés
     const today = new Date();
     const jj = String(today.getDate()).padStart(2, "0");
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const aaaa = String(today.getFullYear());
-    p2.drawText(jj,   { x: HANDISPORT_ZONES.examJour.x,  y: Y2(HANDISPORT_ZONES.examJour.bottom, ABOVE),  size: HANDISPORT_ZONES.examJour.size,  font, color });
-    p2.drawText(mm,   { x: HANDISPORT_ZONES.examMois.x,  y: Y2(HANDISPORT_ZONES.examMois.bottom, ABOVE),  size: HANDISPORT_ZONES.examMois.size,  font, color });
-    p2.drawText(aaaa, { x: HANDISPORT_ZONES.examAnnee.x, y: Y2(HANDISPORT_ZONES.examAnnee.bottom, ABOVE), size: HANDISPORT_ZONES.examAnnee.size, font, color });
+    p2.drawText(jj,   { x: HANDISPORT_ZONES.examJour.x,  y: Y2(HANDISPORT_ZONES.examJour.bottom, ABOVE),  size: HANDISPORT_ZONES.examJour.size * SCRIPT_SCALE,  font: scriptFont, color });
+    p2.drawText(mm,   { x: HANDISPORT_ZONES.examMois.x,  y: Y2(HANDISPORT_ZONES.examMois.bottom, ABOVE),  size: HANDISPORT_ZONES.examMois.size * SCRIPT_SCALE,  font: scriptFont, color });
+    p2.drawText(aaaa, { x: HANDISPORT_ZONES.examAnnee.x, y: Y2(HANDISPORT_ZONES.examAnnee.bottom, ABOVE), size: HANDISPORT_ZONES.examAnnee.size * SCRIPT_SCALE, font: scriptFont, color });
 
     const bytes = await pdfDoc.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    const safeName = (h.patient || "certificat").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "_");
-    a.download = `Certificat_Handisport_${safeName}.pdf`;
+    const safeName = (h.patient || "Patient").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[\\/:*?"<>|]/g, "").replace(/\s+/g, " ").trim();
+    a.download = `${safeName} Certificat Handisport.pdf`;
     document.body.appendChild(a);
     a.click();
     a.remove();
