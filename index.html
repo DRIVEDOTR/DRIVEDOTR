@@ -6474,6 +6474,7 @@ function renderChariotResult(){
         <strong>${items.length} élément${items.length > 1 ? "s" : ""} à réassortir</strong>
         <div class="bio-result-actions">
           <button type="button" class="bio-copy-btn" id="chariotCopyBtn">Copier</button>
+          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="chariotChecklistBtn">📋 Doc Établissement</button>
           <button type="button" class="bio-copy-btn chariot-pdf-btn" id="chariotPdfBtn">📄 PDF à signer</button>
         </div>
       </div>
@@ -6510,6 +6511,9 @@ function renderChariotResult(){
 
   const pdfBtn = document.getElementById("chariotPdfBtn");
   pdfBtn.addEventListener("click", () => generateChariotPdf(dot, sec, items));
+
+  const checklistBtn = document.getElementById("chariotChecklistBtn");
+  checklistBtn.addEventListener("click", () => generateChariotChecklistPdf(dot, sec, items));
 }
 
 /* Découpe un texte en lignes ne dépassant pas maxWidth, pour une police/taille données. */
@@ -6597,6 +6601,109 @@ async function generateChariotPdf(dot, sec, items){
     alert("La génération du PDF a échoué. Réessaie, ou utilise le bouton Copier en attendant.");
   }finally{
     pdfBtn.textContent = original;
+  }
+}
+
+async function generateChariotChecklistPdf(dot, sec, items){
+  const btn = document.getElementById("chariotChecklistBtn");
+  const original = btn.textContent;
+  btn.textContent = "Génération…";
+  try{
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const pdfDoc = await PDFDocument.create();
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const pageW = 595.28, pageH = 841.89, margin = 36;
+    const navy = rgb(0.043, 0.145, 0.271);
+    const muted = rgb(0.4, 0.42, 0.46);
+    const etab = (state.chariotEtab || "").trim();
+
+    const colGap = 20;
+    const colWidth = (pageW - 2 * margin - colGap) / 2;
+    const boxSize = 15;
+    const rowH = 20;
+    const nameMaxWidth = colWidth - boxSize - 10;
+    const leftX = margin;
+    const rightX = margin + colWidth + colGap;
+    const bottomLimit = 96; // réserve la zone "Vérifié par / Date" en bas de chaque page
+
+    function drawHeader(page){
+      let y = pageH - 50;
+      page.drawText(`Dotation pour Chariot d'Urgence ${dot.label.replace("Urgence ", "")} pour l'Établissement :${etab ? " " + etab : ""}`, { x: margin, y, size: 13, font: bold, color: navy, maxWidth: pageW - 2 * margin, lineHeight: 16 });
+      y -= 30;
+      page.drawText(sec.label + " — document de contrôle du chariot", { x: margin, y, size: 11, font: bold, color: muted });
+      y -= 17;
+      page.drawText("Date du contrôle : " + new Date().toLocaleDateString("fr-FR"), { x: margin, y, size: 9.5, font, color: navy });
+      y -= 15;
+      page.drawText("Cocher ou inscrire la quantité effectivement présente dans le chariot.", { x: margin, y, size: 8.5, font, color: muted });
+      y -= 18;
+      return y;
+    }
+
+    function drawFooter(page){
+      const y = bottomLimit - 26;
+      page.drawLine({ start: { x: margin, y: y + 22 }, end: { x: pageW - margin, y: y + 22 }, thickness: 0.5, color: muted });
+      page.drawText("Vérifié par (nom, fonction) :", { x: margin, y, size: 9.5, font, color: navy });
+      page.drawText("Date : ___ / ___ / ______", { x: pageW - margin - 140, y, size: 9.5, font, color: navy });
+    }
+
+    // Une "ligne" de checklist peut tenir sur 1 ou 2 lignes de texte selon la
+    // longueur du nom ; on calcule sa hauteur réelle avant de la placer, pour
+    // ne jamais dessiner en dehors de la page.
+    function rowHeightFor(it){
+      const lines = wrapPdfText(it.n, font, 8.5, nameMaxWidth).slice(0, 2);
+      return { lines, height: Math.max(rowH, lines.length * 10.5 + 7) };
+    }
+
+    let page = pdfDoc.addPage([pageW, pageH]);
+    let top = drawHeader(page);
+    let leftY = top, rightY = top;
+    let col = 0; // 0 = colonne gauche, 1 = colonne droite
+
+    items.forEach(it => {
+      const { lines, height } = rowHeightFor(it);
+      let x, y;
+      if(col === 0){
+        if(leftY - height < bottomLimit){ col = 1; }
+      }
+      if(col === 1){
+        if(rightY - height < bottomLimit){
+          // Les deux colonnes sont pleines : nouvelle page, on repart à gauche.
+          drawFooter(page);
+          page = pdfDoc.addPage([pageW, pageH]);
+          top = drawHeader(page);
+          leftY = top; rightY = top; col = 0;
+        }
+      }
+      x = col === 0 ? leftX : rightX;
+      y = col === 0 ? leftY : rightY;
+
+      page.drawRectangle({ x: x + colWidth - boxSize, y: y - boxSize + 3, width: boxSize, height: boxSize, borderColor: navy, borderWidth: 1 });
+      lines.forEach((ln, idx) => {
+        page.drawText(ln, { x, y: y - idx * 10.5, size: 8.5, font, color: navy });
+      });
+
+      if(col === 0) leftY -= height; else rightY -= height;
+    });
+
+    drawFooter(page);
+
+    const bytes = await pdfDoc.save();
+    const blob = new Blob([bytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const safeEtab = (etab || "etablissement").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "_");
+    a.download = `Controle_Chariot_${dot.id}_${sec.id}_${safeEtab}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }catch(err){
+    console.error(err);
+    alert("La génération du document a échoué. Réessaie, ou utilise le bouton Copier en attendant.");
+  }finally{
+    btn.textContent = original;
   }
 }
 
