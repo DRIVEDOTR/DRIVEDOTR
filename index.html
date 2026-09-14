@@ -226,7 +226,7 @@
 
   /* ---------- Layout ---------- */
   .layout{
-    max-width:1450px;
+    max-width:1180px;
     margin:0 auto;
     padding:0 clamp(14px,3vw,32px) 60px;
     display:grid;
@@ -1719,6 +1719,12 @@
     .chariot-stepper button{width:32px; height:32px; font-size:17px;}
     .card-select{padding:5px;}
     .card-select input{width:19px; height:19px;}
+
+    /* Les navigateurs mobiles n'affichent pas les PDF via <embed> : on
+       affiche le message d'aide et on reduit le cadre pour ne pas laisser
+       un grand vide, sans supprimer l'apercu (certains mobiles l'affichent). */
+    .doc-embed-mobile-hint{display:flex;}
+    .doc-embed-wrap embed{height:42vh;}
   }
 
   @media (prefers-reduced-motion: reduce){
