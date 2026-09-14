@@ -58,13 +58,17 @@
      marque le plus distinctif) — voir la note dans la media query. */
   .bg-layer{
     position:fixed;
-    inset:-12vh 0 -12vh 0;
+    inset:-7vh 0 -7vh 0;
     z-index:-1;
     pointer-events:none;
     background-color:#EAF3FD;
     background-image:var(--bg-photo);
     background-size:cover;
-    background-position:center 74%;
+    /* Le calque ne deborde plus que de 7vh en haut et en bas : moins il est
+       haut, moins "cover" a besoin de rogner sur les cotes, donc la fusee
+       (a 7,8% de la largeur de l'image) reste entiere. Le 42% horizontal
+       decale legerement vers la gauche pour lui laisser encore plus d'air. */
+    background-position:42% 74%;
     background-repeat:no-repeat;
     transition:transform .12s linear;
   }
@@ -167,7 +171,7 @@
   .hero-inner{
     max-width:1180px;
     margin:0 auto;
-    padding:18px clamp(14px,3vw,32px) 4px;
+    padding:6px clamp(14px,3vw,32px) 2px;
     display:flex;
     justify-content:center;
   }
@@ -176,7 +180,7 @@
   .hero-banner{
     display:block;
     width:100%;
-    max-width:1100px;
+    max-width:820px;
     height:auto;
     mix-blend-mode:multiply;
     -webkit-mask-image:linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
@@ -7488,7 +7492,7 @@ searchEl.addEventListener("input", e => {
 
   let ticking = false;
   function update(){
-    const offset = Math.min(window.scrollY * 0.05, 90);
+    const offset = Math.min(window.scrollY * 0.05, 55);
     layer.style.transform = `translate3d(0, ${offset}px, 0)`;
     ticking = false;
   }
