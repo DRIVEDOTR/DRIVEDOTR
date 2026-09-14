@@ -1366,6 +1366,17 @@
     width:100%;
     height:72vh;
   }
+  .doc-embed-mobile-hint{
+    display:none;
+    align-items:center;
+    gap:10px;
+    padding:16px;
+    background:var(--amber-bg);
+    font-size:13px;
+    color:var(--text);
+  }
+  .doc-embed-mobile-hint span{font-size:22px; flex:none;}
+  .doc-embed-mobile-hint p{margin:0;}
   .doc-embed-actions{
     display:flex;
     gap:10px;
@@ -1697,6 +1708,17 @@
     .sidebar-label{display:none;}
     .nav-btn{width:auto; padding:8px 12px; border:1px solid var(--border);}
     .nav-count{display:none;}
+
+    /* Empêche le zoom automatique d'iOS Safari au focus d'un champ : tout
+       champ de saisie sous 16px déclenche ce zoom, gênant à corriger à la
+       main sur chaque classe — un correctif global est plus sûr. */
+    input, select, textarea{font-size:16px !important;}
+
+    /* Cibles tactiles un peu plus confortables sur les petits boutons denses
+       (compteurs +/-, cases à cocher de sélection). */
+    .chariot-stepper button{width:32px; height:32px; font-size:17px;}
+    .card-select{padding:5px;}
+    .card-select input{width:19px; height:19px;}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -3457,6 +3479,10 @@ function renderEmbedPage(id){
       ` : `
         <div class="doc-embed-wrap">
           <embed src="${doc.path}" type="application/pdf" />
+          <div class="doc-embed-mobile-hint">
+            <span>📄</span>
+            <p>L'aperçu intégré ne s'affiche pas sur mobile — ouvre directement le PDF ci-dessous.</p>
+          </div>
           <div class="doc-embed-actions">
             <a href="${doc.path}" download="${doc.filename}">Télécharger le PDF (vierge)</a>
           </div>
