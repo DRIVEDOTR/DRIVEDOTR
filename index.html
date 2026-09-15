@@ -4367,6 +4367,8 @@ const CALC_TOOLS = [
   { id: "algoplus", label: "ALGOPLUS", sub: "Douleur — non communicant", color: "red", group: "douleur" },
   { id: "dn4", label: "DN4", sub: "Douleur neuropathique", color: "red", group: "douleur" },
   { id: "sansalvadour", label: "San Salvadour", sub: "Douleur — polyhandicap", color: "red", group: "douleur" },
+  { id: "geddi", label: "GED-DI", sub: "Douleur — déficience intellectuelle", color: "red", group: "douleur" },
+  { id: "geddi-tsa", label: "GED-DI modifiée TSA", sub: "Douleur — autisme, écart / état de base", color: "purple", group: "douleur" },
   { id: "braden", label: "Braden", sub: "Risque d'escarre", color: "amber", group: "escarre" },
   { id: "norton", label: "Norton", sub: "Risque d'escarre", color: "amber", group: "escarre" },
   { id: "pallia", label: "Pallia Geronto", sub: "Recours aux soins palliatifs", color: "purple", group: "palliatif" }
@@ -4465,6 +4467,113 @@ const ALGOPLUS_ITEMS = [
   { id: "corps", label: "Corps", desc: "Retrait ou protection d'une zone, refus de mobilisation, attitude figée…" },
   { id: "comportement", label: "Comportement", desc: "Agitation, agressivité, agrippement…" }
 ];
+
+/* GED-DI (Grille d'Évaluation de la Douleur - Déficience Intellectuelle),
+   nom français de la NCCPC de Breau et al. Les 30 items sont repris mot pour
+   mot de la grille officielle diffusée par le RSVA / Pediadol (traduction
+   Wood, Broda, Morin, Breau 2004 ; validation francophone Zabalia et al. 2011),
+   dans l'ordre d'origine et regroupés selon les 7 sous-échelles de l'échelle.
+   Cotation 0-3 par item + NA, total 0 à 90. */
+const GEDDI_SECTIONS = [
+  { heading: "Vocal", items: [
+    { id: "g1", label: "Gémit, se plaint, pleurniche faiblement" },
+    { id: "g2", label: "Pleure (modérément)" },
+    { id: "g3", label: "Crie / hurle (fortement)" },
+    { id: "g4", label: "Émet un son ou un mot particulier pour exprimer la douleur (ex. : crie, type de rire particulier)" }
+  ]},
+  { heading: "Social", items: [
+    { id: "g5", label: "Ne collabore pas, grincheux, irritable, malheureux" },
+    { id: "g6", label: "Interagit moins avec les autres, se retire" },
+    { id: "g7", label: "Recherche le confort ou la proximité physique" },
+    { id: "g8", label: "Est difficile à distraire, à satisfaire ou à apaiser" }
+  ]},
+  { heading: "Expression faciale", items: [
+    { id: "g9", label: "Fronce les sourcils" },
+    { id: "g10", label: "Changement dans les yeux : écarquillés, plissés. Air renfrogné" },
+    { id: "g11", label: "Ne rit pas, oriente ses lèvres vers le bas" },
+    { id: "g12", label: "Ferme ses lèvres fermement, fait la moue, lèvres frémissantes, maintenues de manière proéminente" },
+    { id: "g13", label: "Serre les dents, grince des dents, se mord la langue ou tire la langue" }
+  ]},
+  { heading: "Activité", items: [
+    { id: "g14", label: "Ne bouge pas, est inactif ou silencieux" },
+    { id: "g15", label: "Saute partout, est agité, ne tient pas en place" }
+  ]},
+  { heading: "Corps et membres", items: [
+    { id: "g16", label: "Présente un faible tonus, est affalé" },
+    { id: "g17", label: "Présente une rigidité motrice, est raide, tendu, spastique" },
+    { id: "g18", label: "Montre par des gestes ou des touchers, les parties du corps douloureuses" },
+    { id: "g19", label: "Protège la partie du corps douloureuse ou privilégie une partie du corps non douloureuse" },
+    { id: "g20", label: "Tente de se soustraire au toucher d'une partie de son corps, sensible au toucher" },
+    { id: "g21", label: "Bouge son corps d'une manière particulière dans le but de montrer sa douleur (ex. : fléchit sa tête vers l'arrière, se recroqueville)" }
+  ]},
+  { heading: "Signes physiologiques", items: [
+    { id: "g22", label: "Frissonne" },
+    { id: "g23", label: "La couleur de sa peau change, devient pâle" },
+    { id: "g24", label: "Transpire, sue" },
+    { id: "g25", label: "Larmes visibles" },
+    { id: "g26", label: "A le souffle court, coupé" },
+    { id: "g27", label: "Retient sa respiration" }
+  ]},
+  { heading: "Alimentation et sommeil — hors contexte post-opératoire (nécessite de connaître la personne)", items: [
+    { id: "g28", label: "Mange moins, non intéressé par la nourriture" },
+    { id: "g29", label: "Dort plus" },
+    { id: "g30", label: "Dort moins" }
+  ]}
+];
+
+/* GED-DI « modifiée » pour les TSA — 27 items, repris mot pour mot et dans
+   l'ordre d'origine de la grille du Collectif Douleur (coordination des IDE
+   des Équipes Mobiles Autisme de la région Rhône-Alpes, mise à jour décembre
+   2016). Différences avec la grille standard : ajout de l'auto- et de
+   l'hétéro-agressivité, regroupement de certains items, et surtout
+   interprétation par ÉCART avec un état de base et non par seuil absolu. */
+const GEDDI_TSA_SECTIONS = [
+  { heading: "Vocal", items: [
+    { id: "t1", label: "Gémit, se plaint, pleurniche faiblement" },
+    { id: "t2", label: "Pleure (modérément)" },
+    { id: "t3", label: "Crie / hurle (fortement)" }
+  ]},
+  { heading: "Social", items: [
+    { id: "t4", label: "Ne collabore pas, grincheux, irritable" },
+    { id: "t5", label: "Interagit moins avec les autres, se retire" },
+    { id: "t6", label: "Recherche le confort ou la proximité physique" },
+    { id: "t7", label: "Est difficile à distraire ou apaiser" }
+  ]},
+  { heading: "Expression faciale et comportement", items: [
+    { id: "t8", label: "Fronce les sourcils" },
+    { id: "t9", label: "Changement dans les yeux : écarquillés, plissés, air renfrogné" },
+    { id: "t10", label: "Auto-agressivité" },
+    { id: "t11", label: "Hétéro-agressivité" },
+    { id: "t12", label: "Fait la moue, lèvres fermées, frémissantes, maintenues proéminentes" },
+    { id: "t13", label: "Serre les dents, grince des dents, se mord la langue ou tire la langue" }
+  ]},
+  { heading: "Activité", items: [
+    { id: "t14", label: "Ne bouge pas, est inactif ou silencieux" },
+    { id: "t15", label: "Saute partout, est agité, ne tient pas en place" }
+  ]},
+  { heading: "Corps et membres", items: [
+    { id: "t16", label: "Présente un faible tonus, est affalé" },
+    { id: "t17", label: "Présente une rigidité motrice, est raide, tendu, spastique" },
+    { id: "t18", label: "Montre par des gestes ou des touchers une partie du corps" },
+    { id: "t19", label: "Tente de se soustraire au toucher (tout ou partie du corps)" }
+  ]},
+  { heading: "Signes physiologiques", items: [
+    { id: "t20", label: "Frissonne" },
+    { id: "t21", label: "La couleur de peau change et devient pâle" },
+    { id: "t22", label: "La couleur de peau change et il existe une hypersudation" },
+    { id: "t23", label: "Larmes visibles" },
+    { id: "t24", label: "A le souffle court ou hyperventile" },
+    { id: "t25", label: "Retient sa respiration" }
+  ]},
+  { heading: "Alimentation et sommeil", items: [
+    { id: "t26", label: "Mange moins, moins intéressé par la nourriture — ou mange plus" },
+    { id: "t27", label: "Dort plus ou dort moins" }
+  ]}
+];
+
+function geddiFlat(sections){
+  return sections.reduce((acc, s) => acc.concat(s.items), []);
+}
 
 const DN4_SECTIONS = [
   { heading: "La douleur présente-t-elle une ou plusieurs des caractéristiques suivantes ?", items: [
@@ -4667,6 +4776,42 @@ function renderCalcBody(tool){
         <div id="calcResult"></div>
         <p class="doc-meta">Score ≥ 2/40 : doute sur une éventuelle douleur. Score ≥ 6/40 : douleur avérée. Échelle conçue pour la personne polyhandicapée non communicante.</p>
       </div>`;
+  }else if(tool === "geddi" || tool === "geddi-tsa"){
+    const tsa = tool === "geddi-tsa";
+    const sections = tsa ? GEDDI_TSA_SECTIONS : GEDDI_SECTIONS;
+    const px = tsa ? "gedt_" : "ged_";
+    body.innerHTML = `
+      <div class="calc-box">
+        <p class="doc-meta" style="margin-top:0;">${tsa
+          ? "Période d'observation à définir selon la situation (demi-journée, journée, semaine…). Cotation à remplir de préférence en binôme, en moins de 10 minutes."
+          : "Sur les 5 dernières minutes, indiquer à quelle fréquence la personne a montré les comportements suivants."}</p>
+        <p class="doc-meta"><strong>0</strong> = pas observé · <strong>1</strong> = observé à l'occasion · <strong>2</strong> = passablement ou souvent · <strong>3</strong> = très souvent · <strong>NA</strong> = ne s'applique pas (la personne n'est pas capable d'effectuer cette action).</p>
+        ${tsa ? `
+          <div class="calc-fields" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); margin:14px 0 4px;">
+            <label class="calc-field"><span>Score de l'état de base</span><input type="number" min="0" max="81" id="gedtBase" placeholder="ex. 8" oninput="runCalc()" /></label>
+          </div>
+          <p class="doc-meta" style="margin-top:0;">L'état de base est une cotation réalisée hors douleur, à refaire chaque année. Laisse vide si tu ne l'as pas encore : le score brut s'affichera quand même.</p>
+        ` : ""}
+        <div class="sansalvadour-list" style="margin-top:12px;">
+          ${sections.map(sec => `
+            <p class="neurolep-label" style="margin-top:14px;">${sec.heading}</p>
+            ${sec.items.map(it => `
+              <div class="sansalvadour-row">
+                <div class="calc-field" style="flex:1;">
+                  <span style="font-weight:500;">${it.label}</span>
+                </div>
+                <select id="${px}${it.id}" onchange="runCalc()">
+                  <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="NA">NA</option>
+                </select>
+              </div>
+            `).join("")}
+          `).join("")}
+        </div>
+        <div id="calcResult"></div>
+        <p class="doc-meta">${tsa
+          ? "Interprétation par écart : le score est significatif de douleur lorsque l'écart entre l'état de base et l'évaluation est supérieur à 6. Grille du Collectif Douleur — IDE des Équipes Mobiles Autisme Rhône-Alpes, mise à jour décembre 2016."
+          : "Seuils : 6 à 10 = douleur légère ; 11 et plus = douleur moyenne à sévère. Utilisable de 3 ans à l'âge adulte, sans nécessité de connaître le comportement habituel de la personne."}</p>
+      </div>`;
   }else if(tool === "braden"){
     body.innerHTML = `
       <div class="calc-box">
@@ -4843,6 +4988,46 @@ function runCalc(){
       + pdfButtonHTML("pdfSanSalvadour");
   }
 
+  else if(tool === "geddi" || tool === "geddi-tsa"){
+    const tsa = tool === "geddi-tsa";
+    const sections = tsa ? GEDDI_TSA_SECTIONS : GEDDI_SECTIONS;
+    const px = tsa ? "gedt_" : "ged_";
+    let total = 0, na = 0;
+    geddiFlat(sections).forEach(it => {
+      const v = document.getElementById(px + it.id).value;
+      if(v === "NA") na++; else total += parseInt(v, 10);
+    });
+    const maxPossible = (geddiFlat(sections).length - na) * 3;
+
+    if(tsa){
+      const baseEl = document.getElementById("gedtBase");
+      const baseRaw = baseEl ? baseEl.value.trim() : "";
+      if(baseRaw === ""){
+        out.innerHTML = calcResultHTML("slate", `${total} / ${maxPossible}`,
+          "Score brut — renseigne l'état de base pour interpréter l'écart",
+          `<div class="calc-result-extra">${na} item${na > 1 ? "s" : ""} coté${na > 1 ? "s" : ""} NA (exclu${na > 1 ? "s" : ""} du total)</div>`)
+          + pdfButtonHTML("pdfGeddiTsa");
+      }else{
+        const base = parseInt(baseRaw, 10) || 0;
+        const ecart = total - base;
+        const signif = ecart > 6;
+        const color = signif ? "red" : (ecart > 0 ? "amber" : "teal");
+        const txt = signif
+          ? "Écart significatif de douleur (> 6 par rapport à l'état de base)"
+          : (ecart > 0 ? "Écart présent mais sous le seuil de significativité (> 6)" : "Pas d'écart en faveur d'une douleur");
+        out.innerHTML = calcResultHTML(color, `Écart ${ecart > 0 ? "+" : ""}${ecart}`, txt,
+          `<div class="calc-result-extra">Évaluation ${total} / ${maxPossible} — état de base ${base}${na ? ` · ${na} item${na > 1 ? "s" : ""} NA` : ""}</div>`)
+          + pdfButtonHTML("pdfGeddiTsa");
+      }
+    }else{
+      const color = total >= 11 ? "red" : (total >= 6 ? "amber" : "teal");
+      const txt = total >= 11 ? "Douleur moyenne à sévère (≥ 11)"
+        : (total >= 6 ? "Douleur légère (6 à 10)" : "Sous le seuil de douleur (< 6)");
+      out.innerHTML = calcResultHTML(color, `${total} / ${maxPossible}`, txt,
+        na ? `<div class="calc-result-extra">${na} item${na > 1 ? "s" : ""} coté${na > 1 ? "s" : ""} NA (exclu${na > 1 ? "s" : ""} du total)</div>` : "")
+        + pdfButtonHTML("pdfGeddi");
+    }
+  }
   else if(tool === "braden"){
     const vals = BRADEN_CATS.map(cat => val("braden_" + cat.id));
     if(vals.some(v => !v)){ out.innerHTML = `<div class="calc-hint">Renseigne les 6 catégories.</div>`; return; }
@@ -5072,6 +5257,63 @@ function pdfSanSalvadour(){
   });
 }
 window.pdfSanSalvadour = pdfSanSalvadour;
+
+function pdfGeddiCommon(tsa){
+  const sections = tsa ? GEDDI_TSA_SECTIONS : GEDDI_SECTIONS;
+  const px = tsa ? "gedt_" : "ged_";
+  let total = 0, na = 0;
+  const pdfSections = sections.map(sec => ({
+    heading: sec.heading,
+    rows: sec.items.map(it => {
+      const v = document.getElementById(px + it.id).value;
+      if(v === "NA"){ na++; return { label: it.label, value: "NA" }; }
+      total += parseInt(v, 10);
+      return { label: it.label, value: v };
+    })
+  }));
+  const maxPossible = (geddiFlat(sections).length - na) * 3;
+
+  if(tsa){
+    const baseEl = document.getElementById("gedtBase");
+    const baseRaw = baseEl ? baseEl.value.trim() : "";
+    const lines = [`Évaluation : ${total} / ${maxPossible}${na ? ` (${na} item(s) NA)` : ""}`];
+    if(baseRaw !== ""){
+      const base = parseInt(baseRaw, 10) || 0;
+      const ecart = total - base;
+      lines.push(`État de base : ${base}`);
+      lines.push(`Écart : ${ecart > 0 ? "+" : ""}${ecart}`);
+      lines.push(ecart > 6 ? "Écart significatif de douleur (> 6)" : "Écart non significatif (seuil > 6)");
+    }else{
+      lines.push("État de base non renseigné — écart non calculable");
+    }
+    generateScalePdf({
+      btnId: "pdfGeddiTsaBtn",
+      filename: "GED-DI_modifiee_TSA.pdf",
+      title: "GED-DI modifiée pour les TSA",
+      subtitle: "Évaluation de la douleur — trouble du spectre de l'autisme",
+      sections: pdfSections,
+      resultLines: lines,
+      footerNote: "Le score est significatif de douleur lorsque l'écart entre l'état de base et l'évaluation est supérieur à 6. L'état de base est réalisé hors douleur et refait chaque année ; toute évaluation ultérieure de score plus bas devient le nouvel état de base. Réévaluer après prise en charge de la douleur. Grille du Collectif Douleur — coordination des IDE des Équipes Mobiles Autisme, région Rhône-Alpes, mise à jour décembre 2016. " + CALC_SOURCE_NOTE
+    });
+  }else{
+    generateScalePdf({
+      btnId: "pdfGeddiBtn",
+      filename: "GED-DI.pdf",
+      title: "GED-DI — Grille d'Évaluation de la Douleur / Déficience Intellectuelle",
+      subtitle: "Version française de la NCCPC (Breau et al.)",
+      sections: pdfSections,
+      resultLines: [`Score : ${total} / ${maxPossible}${na ? ` (${na} item(s) NA)` : ""}`,
+        total >= 11 ? "Douleur moyenne à sévère (>= 11)" : (total >= 6 ? "Douleur légère (6 à 10)" : "Sous le seuil de douleur (< 6)")],
+      footerNote: "Seuils : 6 à 10 = douleur légère ; 11 et plus = douleur moyenne à sévère. 30 items cotés de 0 à 3 (0 à 90). Traduction Wood, Broda, Morin, Breau (2004) ; validation francophone Zabalia et al., Can J Anesth 2011. " + CALC_SOURCE_NOTE
+    });
+  }
+}
+
+function pdfGeddi(){ pdfGeddiCommon(false); }
+window.pdfGeddi = pdfGeddi;
+
+function pdfGeddiTsa(){ pdfGeddiCommon(true); }
+window.pdfGeddiTsa = pdfGeddiTsa;
 
 function pdfBraden(){
   const rows = BRADEN_CATS.map(cat => {
