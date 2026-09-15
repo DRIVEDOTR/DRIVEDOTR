@@ -3736,6 +3736,15 @@ function renderCategoryPanel(cat){
       <p class="panel-desc">${cat.description}</p>
       ${selectionToolbarHTML(cat.id)}
     </div>
+    ${cat.id === "medicaments-securite" ? `
+      <div class="partner-card calc-pulselife-card">
+        <a href="https://app.pulselife.com/medicines" target="_blank" rel="noopener" class="partner-logo-tile" aria-label="PulseLife"><img src="https://images.prismic.io/pulselife-institutional-website/65d710533a605798c18c139a_PulseLife-logo.png?auto=format,compress" alt="PulseLife" /></a>
+        <p>Chercher un médicament précis — posologie, interactions, contre-indications : la <strong>base médicamenteuse PulseLife</strong> (monographies ANSM / EMA) s'ouvre dans un nouvel onglet.</p>
+        <div class="partner-links">
+          <a href="https://app.pulselife.com/medicines" target="_blank" rel="noopener">Ouvrir la base médicaments</a>
+        </div>
+      </div>
+    ` : ""}
     ${body}
   `;
 }
