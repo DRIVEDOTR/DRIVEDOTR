@@ -1166,6 +1166,9 @@
     margin-bottom:12px;
   }
   .grid-featured .card-wrap-featured{grid-column:auto;}
+  /* Deux grilles qui se suivent (ex. Administratifs : CERFA puis certificat
+     Handisport) doivent respirer, sinon les bulles semblent collees. */
+  .grid + .grid{margin-top:18px;}
 
   .theme-block{margin-top:18px; padding-left:14px; border-left:3px solid var(--pill, var(--border));}
   .theme-block:first-child{margin-top:0;}
