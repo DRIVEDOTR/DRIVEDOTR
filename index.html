@@ -1191,6 +1191,116 @@
   }
   .theme-heading .nav-count{font-size:11.5px; padding:1px 7px;}
 
+  /* ---------- Bandeau d'accroche des outils interactifs ---------- */
+  .tool-hero{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:18px 20px;
+    border-radius:14px;
+    background:linear-gradient(135deg, var(--pill,var(--blue)) 0%, var(--navy) 100%);
+    color:#fff;
+    box-shadow:0 4px 16px rgba(11,37,69,.22);
+    margin:6px 0 18px;
+  }
+  .tool-hero-icon{
+    font-size:34px;
+    line-height:1;
+    flex:none;
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));
+  }
+  .tool-hero-body{flex:1; min-width:0;}
+  .tool-hero-title{
+    font-family:'Space Grotesk','IBM Plex Sans',sans-serif;
+    font-size:19px;
+    font-weight:700;
+    margin:0 0 4px;
+  }
+  .tool-hero-sub{font-size:13.5px; opacity:.92; margin:0;}
+  .tool-hero-stats{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+  .tool-hero-stat{
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.28);
+    border-radius:20px;
+    padding:3px 11px;
+    font-size:12px;
+    font-weight:700;
+    white-space:nowrap;
+  }
+  @media (max-width:560px){
+    .tool-hero{flex-direction:column; align-items:flex-start; gap:10px;}
+  }
+
+  /* ---------- Jauge de score avec seuil visible ---------- */
+  .score-gauge{
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-left:5px solid var(--col,var(--blue));
+    border-radius:11px;
+    padding:12px 14px;
+    margin-bottom:10px;
+  }
+  .score-gauge-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .score-gauge-name{font-size:12.5px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em;}
+  .score-gauge-val{font-size:26px; font-weight:800; color:var(--col,var(--blue)); line-height:1;}
+  .score-gauge-bar{
+    position:relative;
+    height:10px;
+    border-radius:6px;
+    background:var(--slate-bg);
+    overflow:visible;
+  }
+  .score-gauge-bar i{
+    display:block;
+    height:100%;
+    border-radius:6px;
+    background:var(--col,var(--blue));
+    transition:width .25s ease;
+  }
+  .score-gauge-mark{
+    position:absolute;
+    top:-4px;
+    width:2px;
+    height:18px;
+    background:var(--text);
+    opacity:.55;
+  }
+  .score-gauge-mark::after{
+    content:attr(data-label);
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:9.5px;
+    font-weight:700;
+    color:var(--text-muted);
+    white-space:nowrap;
+  }
+  .score-gauge-txt{font-size:12.5px; font-weight:600; color:var(--text); margin:16px 0 0;}
+  .score-gauge-note{font-size:11.5px; color:var(--text-muted); margin:3px 0 0;}
+
+  /* ---------- Acces rapide (molecules frequentes) ---------- */
+  .quick-chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:10px;}
+  .quick-chip{
+    font-family:inherit;
+    font-size:12.5px;
+    font-weight:600;
+    padding:6px 12px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    background:var(--card-bg);
+    color:var(--text);
+    cursor:pointer;
+  }
+  .quick-chip:hover{background:var(--sky-bg); border-color:var(--blue-light);}
+  .quick-chip-on{background:var(--blue); border-color:var(--blue); color:#fff;}
+
   /* ---------- Médicaments écrasables ---------- */
   .medoc-search-wrap{
     position:relative;
@@ -2745,6 +2855,24 @@ const BENZO_AXES = [
   { key: "hypnosedative", label: "Action hypno-sédative" }
 ];
 
+/* Profils types : preremplissent les 5 curseurs dans l'ordre de BENZO_AXES
+   (somatique, psychique, anti-epileptique, myorelaxant, hypno-sedatif). */
+const BENZO_PRESETS = [
+  { icon: "😰", label: "Anxiété psychique", v: [1, 5, 0, 0, 1] },
+  { icon: "💓", label: "Angoisse somatique", v: [5, 1, 0, 1, 1] },
+  { icon: "🌙", label: "Insomnie", v: [0, 0, 0, 0, 5] },
+  { icon: "💪", label: "Contracture musculaire", v: [1, 1, 0, 5, 1] },
+  { icon: "⚡", label: "Crise convulsive", v: [0, 0, 5, 0, 1] }
+];
+
+function applyBenzoPreset(i){
+  const p = BENZO_PRESETS[i];
+  if(!p) return;
+  state.benzoSliders = p.v.slice();
+  renderBenzoExplorerPanel();
+}
+window.applyBenzoPreset = applyBenzoPreset;
+
 const BENZO_PROFILES = [
   { id: "alprazolam", dci: "Alprazolam", dose: "0,5 mg", brand: "Xanax®", v: [5,3,2,1,2] },
   { id: "bromazepam", dci: "Bromazepam", dose: "12 mg", brand: "Lexomil®", v: [4,5,3,3,3] },
@@ -3846,8 +3974,23 @@ function renderBenzoExplorerPanel(){
     </button>
     <div class="doc-page">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}Benzodiazépines</span>
-      <h2 class="panel-title" style="color:${c.pill}">Trouver la molécule adaptée</h2>
+      <div class="tool-hero" style="--pill:${c.pill}">
+        <span class="tool-hero-icon">🎚️</span>
+        <div class="tool-hero-body">
+          <p class="tool-hero-title">Quelle benzodiazépine pour quel profil ?</p>
+          <p class="tool-hero-sub">Anxiolyse, sédation, myorelaxation… Règle le profil recherché : les molécules les plus proches se classent instantanément, demi-vie à l'appui.</p>
+          <div class="tool-hero-stats">
+            <span class="tool-hero-stat">25 molécules profilées</span>
+            <span class="tool-hero-stat">5 axes d'effet</span>
+            <span class="tool-hero-stat">Classement en direct</span>
+          </div>
+        </div>
+      </div>
       <p class="doc-meta">Règle les 5 curseurs selon le profil recherché (0 = effet nul, 5 = effet très puissant) : les molécules les plus proches s'affichent instantanément.</p>
+      <p class="neurolep-label" style="margin-top:14px;">Profils types — un clic pour préremplir</p>
+      <div class="quick-chips">
+        ${BENZO_PRESETS.map((p, i) => `<button type="button" class="quick-chip" onclick="applyBenzoPreset(${i})">${p.icon} ${p.label}</button>`).join("")}
+      </div>
       <div class="benzo-sliders">
         ${BENZO_AXES.map((ax, i) => `
           <div class="benzo-slider-row">
@@ -5856,11 +5999,11 @@ const ACB_MOLECULES = [
   { n: "Bromazépam", acb: 1, cia: null, c: "Lexomil" },
   { n: "Bromocriptine", acb: 1, cia: null, c: "Parlodel" },
   { n: "Bupropion", acb: 1, cia: 1, c: "Zyban" },
-  { n: "Bénazépril", acb: 1, cia: null },
-  { n: "Bétaxolol", acb: 1, cia: null },
+  { n: "Bénazépril", acb: 1, cia: null , c: "Briem / Cibacène"},
+  { n: "Bétaxolol", acb: 1, cia: null , c: "Kerlone"},
   { n: "Captopril", acb: 1, cia: 1, c: "Lopril" },
   { n: "Carbamazépine", acb: 2, cia: 2, c: "Tegretol" },
-  { n: "Carbidopa", acb: 1, cia: null },
+  { n: "Carbidopa", acb: 1, cia: null , c: "dans Sinemet (avec lévodopa)"},
   { n: "Chlordiazépoxide", acb: 1, cia: null },
   { n: "Chlorphénamine", acb: 3, cia: 3 },
   { n: "Chlorpromazine", acb: 3, cia: 3, c: "Largactil" },
@@ -5869,7 +6012,7 @@ const ACB_MOLECULES = [
   { n: "Cimétidine", acb: 2, cia: 1, c: "Tagamet" },
   { n: "Citalopram", acb: 1, cia: null, c: "Seropram" },
   { n: "Clidinium", acb: 1, cia: 1 },
-  { n: "Clindamycine", acb: 1, cia: null },
+  { n: "Clindamycine", acb: 1, cia: null , c: "Dalacine"},
   { n: "Clomipramine", acb: 3, cia: 3, c: "Anafranil" },
   { n: "Clonazépam", acb: 1, cia: null, c: "Rivotril" },
   { n: "Clorazépate", acb: 1, cia: 1, c: "Tranxène" },
@@ -5890,7 +6033,7 @@ const ACB_MOLECULES = [
   { n: "Digoxine", acb: 1, cia: 1, c: "Hémigoxine" },
   { n: "Diltiazem", acb: 1, cia: null, c: "Tildiem" },
   { n: "Dimenhydrinate", acb: 3, cia: 3, c: "Nausicalm, Mercalm" },
-  { n: "Diphenhydramine", acb: 3, cia: 3 },
+  { n: "Diphenhydramine", acb: 3, cia: 3 , c: "Nautamine"},
   { n: "Dipyridamole", acb: 1, cia: 1, c: "Persantine" },
   { n: "Disopyramide", acb: 2, cia: 1, c: "Rythmodan" },
   { n: "Dompéridone", acb: 1, cia: null, c: "Motilium" },
@@ -5900,11 +6043,11 @@ const ACB_MOLECULES = [
   { n: "Duloxétine", acb: 1, cia: null, c: "Cymbalta" },
   { n: "Entacapone", acb: 1, cia: null, c: "Comtan" },
   { n: "Escitalopram", acb: 1, cia: null, c: "Seroplex" },
-  { n: "Eskétamine", acb: 1, cia: null },
-  { n: "Estazolam", acb: 1, cia: null },
+  { n: "Eskétamine", acb: 1, cia: null , c: "Spravato"},
+  { n: "Estazolam", acb: 1, cia: null , c: "Nuctalon"},
   { n: "Famotidine", acb: 1, cia: null, c: "Pepdine" },
   { n: "Fentanyl", acb: 1, cia: 1, c: "Durogesic" },
-  { n: "Fexofénadine", acb: 2, cia: null },
+  { n: "Fexofénadine", acb: 2, cia: null , c: "Telfast"},
   { n: "Fluoxétine", acb: 1, cia: null, c: "Prozac" },
   { n: "Flupentixol", acb: 1, cia: null, c: "Fluanxol" },
   { n: "Fluvoxamine", acb: 1, cia: 1, c: "Floxyfral" },
@@ -5913,12 +6056,12 @@ const ACB_MOLECULES = [
   { n: "Guaïfénésine", acb: 1, cia: null },
   { n: "Halopéridol", acb: 1, cia: 1, c: "Haldol" },
   { n: "Hydrocortisone", acb: 1, cia: 1 },
-  { n: "Hydroquinidine", acb: 1, cia: 1 },
+  { n: "Hydroquinidine", acb: 1, cia: 1 , c: "Sérécor"},
   { n: "Hydroxychloroquine", acb: 1, cia: null, c: "Plaquenil" },
   { n: "Hydroxyzine", acb: 3, cia: 3, c: "Atarax" },
   { n: "Imipramine", acb: 3, cia: 3, c: "Tofranil" },
   { n: "Ipratropium", acb: 3, cia: null, c: "Atrovent" },
-  { n: "Iproniazide", acb: 1, cia: null },
+  { n: "Iproniazide", acb: 1, cia: null , c: "Marsilid"},
   { n: "Isosorbide", acb: 1, cia: 1, c: "Risordan" },
   { n: "Kétamine", acb: 1, cia: null, c: "Kétalar" },
   { n: "Lithium", acb: 1, cia: null, c: "Téralithe" },
@@ -5937,15 +6080,15 @@ const ACB_MOLECULES = [
   { n: "Morphine", acb: 1, cia: 1, c: "Skenan, Actiskenan, Oramorph" },
   { n: "Méclozine", acb: 3, cia: 3, c: "Agyrax" },
   { n: "Méquitazine", acb: 3, cia: null, c: "Primalan" },
-  { n: "Méthadone", acb: 2, cia: null },
-  { n: "Méthocarbamol", acb: 1, cia: 3 },
+  { n: "Méthadone", acb: 2, cia: null , c: "Méthadone AP-HP"},
+  { n: "Méthocarbamol", acb: 1, cia: 3 , c: "Lumirelax"},
   { n: "Méthotrexate", acb: 1, cia: null, c: "Novatrex, Imeth" },
-  { n: "Méthylprednisolone", acb: 1, cia: null },
+  { n: "Méthylprednisolone", acb: 1, cia: null , c: "Médrol / Solumédrol"},
   { n: "Métoclopramide", acb: 1, cia: null, c: "Primpéran" },
   { n: "Métopimazine", acb: 1, cia: null, c: "Vogalène" },
   { n: "Métoprolol", acb: 1, cia: 1, c: "Lopressor, Séloken" },
   { n: "Nalbuphine", acb: 1, cia: null, c: "Nubain" },
-  { n: "Naratriptan", acb: 1, cia: null },
+  { n: "Naratriptan", acb: 1, cia: null , c: "Naramig"},
   { n: "Nifédipine", acb: 1, cia: 1, c: "Adalate" },
   { n: "Néfopam", acb: 1, cia: 2, c: "Acupan" },
   { n: "Olanzapine", acb: 2, cia: 3, c: "Zyprexa" },
@@ -5961,16 +6104,16 @@ const ACB_MOLECULES = [
   { n: "Phénobarbital", acb: 1, cia: null, c: "Gardénal" },
   { n: "Pimozide", acb: 2, cia: 2, c: "Orap" },
   { n: "Pipampérone", acb: 1, cia: null, c: "Dipiperon" },
-  { n: "Pipotiazine", acb: 2, cia: null },
+  { n: "Pipotiazine", acb: 2, cia: null , c: "Piportil"},
   { n: "Pipéracilline", acb: 1, cia: null },
   { n: "Pramipexole", acb: 1, cia: null, c: "Sifrol" },
   { n: "Prednisolone", acb: 1, cia: null, c: "Solupred" },
   { n: "Prednisone", acb: 1, cia: 1, c: "Cortancyl" },
   { n: "Prométhazine", acb: 3, cia: 3, c: "Phénergan" },
   { n: "Propériciazine", acb: 3, cia: null, c: "Neuleptil" },
-  { n: "Pseudoéphédrine", acb: 2, cia: null },
+  { n: "Pseudoéphédrine", acb: 2, cia: null , c: "Actifed / Sudafed"},
   { n: "Quinidine", acb: 1, cia: 1 },
-  { n: "Quinine", acb: 1, cia: 1 },
+  { n: "Quinine", acb: 1, cia: 1 , c: "Quinimax / Hexaquine"},
   { n: "Quétiapine", acb: 2, cia: 3, c: "Xeroquel" },
   { n: "Rispéridone", acb: 1, cia: 1, c: "Risperdal" },
   { n: "Scopolamine", acb: 3, cia: 3, c: "Scopoderm" },
@@ -5980,13 +6123,13 @@ const ACB_MOLECULES = [
   { n: "Sumatriptan", acb: 1, cia: null, c: "Imigrane" },
   { n: "Sélégiline", acb: 1, cia: null, c: "Déprényl" },
   { n: "Théophylline", acb: 1, cia: 1, c: "Euphylline, Dilatrane" },
-  { n: "Tizanidine", acb: 3, cia: null },
+  { n: "Tizanidine", acb: 3, cia: null , c: "Sirdalud"},
   { n: "Toltérodine", acb: 3, cia: 3, c: "Détrusitol" },
   { n: "Tramadol", acb: 1, cia: null, c: "Contramal, Topalgic, Ixprim" },
-  { n: "Trandolapril", acb: 1, cia: null },
+  { n: "Trandolapril", acb: 1, cia: null , c: "Odrik"},
   { n: "Tranylcypromine", acb: 1, cia: null },
   { n: "Trazodone", acb: 1, cia: 1, c: "Trittico" },
-  { n: "Triamcinolone", acb: 1, cia: null },
+  { n: "Triamcinolone", acb: 1, cia: null , c: "Kenacort"},
   { n: "Triamtérène", acb: 1, cia: 1, c: "Prestole" },
   { n: "Trihexyphénidyle", acb: 3, cia: 3, c: "Artane, Parkinane" },
   { n: "Trimipramine", acb: 3, cia: 3, c: "Surmontil" },
@@ -5999,7 +6142,7 @@ const ACB_MOLECULES = [
   { n: "Venlafaxine", acb: 1, cia: 1, c: "Effexor" },
   { n: "Warfarine", acb: 1, cia: 1, c: "Coumadine" },
   { n: "Ziprasidone", acb: 1, cia: null },
-  { n: "Zolmitriptan", acb: 1, cia: null },
+  { n: "Zolmitriptan", acb: 1, cia: null , c: "Zomig"},
   { n: "Zuclopenthixol", acb: 1, cia: null, c: "Clopixol" },
   { n: "Éphédrine", acb: 1, cia: null }
 ];
@@ -6109,6 +6252,36 @@ function renderDeprescSituationPanel(){
     </div>`;
 }
 
+/* Molecules anticholinergiques les plus frequemment rencontrees en EHPAD /
+   ESMS : raccourci d'ajout en un clic (toutes issues de ACB_MOLECULES). */
+const ACB_QUICK = [
+  "Hydroxyzine", "Cyamémazine", "Amitriptyline", "Oxybutynine", "Alimémazine",
+  "Lévomépromazine", "Loxapine", "Clozapine", "Olanzapine", "Quétiapine",
+  "Paroxétine", "Métoclopramide", "Trihexyphénidyle", "Solifénacine",
+  "Scopolamine", "Doxylamine", "Tramadol", "Furosémide", "Digoxine"
+];
+
+/* Jauge de score avec repere de seuil — utilisee par la charge
+   anticholinergique (ACB et CIA). */
+function scoreGaugeHTML(name, value, threshold, max, color, txt, note){
+  const cv = colorVars(color);
+  const pct = Math.min(100, (value / max) * 100);
+  const markPct = Math.min(100, (threshold / max) * 100);
+  return `
+    <div class="score-gauge" style="--col:${cv.pill}">
+      <div class="score-gauge-head">
+        <span class="score-gauge-name">${name}</span>
+        <span class="score-gauge-val">${value}</span>
+      </div>
+      <div class="score-gauge-bar">
+        <i style="width:${pct}%"></i>
+        <span class="score-gauge-mark" style="left:${markPct}%" data-label="seuil ${threshold}"></span>
+      </div>
+      <p class="score-gauge-txt">${txt}</p>
+      <p class="score-gauge-note">${note}</p>
+    </div>`;
+}
+
 /* ---------- Charge anticholinergique (échelle ACB) ---------- */
 function acbBadgesHTML(m){
   const b = [];
@@ -6166,7 +6339,19 @@ function renderAcbPanel(){
     </button>
     <div class="doc-page">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}Déprescription</span>
-      <h2 class="panel-title" style="color:${c.pill}">Charge anticholinergique</h2>
+      <div class="tool-hero" style="--pill:${c.pill}">
+        <span class="tool-hero-icon">🧠</span>
+        <div class="tool-hero-body">
+          <p class="tool-hero-title">Charge anticholinergique</p>
+          <p class="tool-hero-sub">Chutes, confusion, rétention urinaire, constipation : additionne l'ordonnance et repère en quelques secondes une cause fréquente — et réversible.</p>
+          <div class="tool-hero-stats">
+            <span class="tool-hero-stat">164 molécules</span>
+            <span class="tool-hero-stat">145 noms commerciaux</span>
+            <span class="tool-hero-stat">2 échelles : ACB + CIA</span>
+            <span class="tool-hero-stat">Recherche par princeps</span>
+          </div>
+        </div>
+      </div>
       <p class="doc-meta">Saisis les molécules de l'ordonnance : les deux scores se calculent automatiquement. Chaque molécule porte deux badges — ACB (effets centraux) puis CIA (effets périphériques).</p>
 
       <div class="bio-layout">
@@ -6178,6 +6363,14 @@ function renderAcbPanel(){
               <input type="text" id="acbSearch" placeholder="Molécule ou nom commercial (ex. Tercian)…" autocomplete="off" value="${(state.acbQuery || "").replace(/"/g, "&quot;")}" />
             </div>
             <div id="acbSuggestions"></div>
+            <p class="neurolep-label" style="margin-top:16px;">Ajout rapide — les plus courants en EHPAD</p>
+            <div class="quick-chips">
+              ${ACB_QUICK.filter(n => ACB_MOLECULES.some(m => m.n === n)).map(n => {
+                const m = ACB_MOLECULES.find(x => x.n === n);
+                const on = state.acbSelected.includes(n);
+                return `<button type="button" class="quick-chip ${on ? "quick-chip-on" : ""}" onclick="addAcbMolecule('${n.replace(/'/g, "\\'")}')">${m.c ? m.c.split(" /")[0] : n}</button>`;
+              }).join("")}
+            </div>
           </div>
         </div>
         <div class="bio-layout-right">
@@ -6189,8 +6382,8 @@ function renderAcbPanel(){
               </div>
             </div>
             <div class="acb-dual">
-              ${calcResultHTML(acbColor, `ACB ${totalAcb}`, acbTxt, `<div class="calc-result-extra">Effets centraux — risque cognitif (échelle de Boustani)</div>`)}
-              ${calcResultHTML(ciaColor, `CIA ${totalCia}`, ciaTxt, `<div class="calc-result-extra">Effets périphériques — bouche sèche, constipation, rétention (échelle de Briet)</div>`)}
+              ${scoreGaugeHTML("ACB", totalAcb, 4, 12, acbColor, acbTxt, "Effets centraux — risque cognitif (échelle de Boustani)")}
+              ${scoreGaugeHTML("CIA", totalCia, 6, 12, ciaColor, ciaTxt, "Effets périphériques — bouche sèche, constipation, rétention (échelle de Briet)")}
             </div>
             ${state.acbSelected.length ? `
               <ul class="acb-list">
@@ -6208,7 +6401,7 @@ function renderAcbPanel(){
         <strong>Comment lire les deux scores</strong>
         <p>Chaque molécule porte deux badges : le premier est son score <strong>ACB</strong> (effets centraux, risque cognitif — échelle de Boustani), le second son score <strong>CIA</strong> (effets périphériques : bouche sèche, constipation, rétention urinaire, troubles visuels — échelle de Briet). Un tiret signifie que la molécule ne figure pas dans cette échelle. Score par molécule : 1 = faible, 2 = modéré, 3 = fort.</p>
         <p style="margin-top:8px;"><strong>Seuils :</strong> impact cognitif considéré significatif si <strong>ACB ≥ 4</strong> ; imprégnation périphérique considérée élevée si <strong>CIA &gt; 5</strong>. Les échelles ne tiennent compte ni de la posologie ni de la durée du traitement. Penser aussi aux traitements pris par d'autres voies (nasale, oculaire) et à l'automédication. Toute décroissance doit être progressive.</p>
-        <p style="margin-top:8px;">Source : OMéDIT Pays de la Loire, « Médicaments anticholinergiques chez le sujet âgé : les bons réflexes de prescription », V3 février 2026 — échelles ACB (Boustani et al.) et CIA (Briet et al., mise à jour Javelot 2022). 164 molécules. Liste non exhaustive : l'absence d'une molécule ne signifie pas qu'elle est dépourvue d'effet anticholinergique.</p>
+        <p style="margin-top:8px;">Source : OMéDIT Pays de la Loire, « Médicaments anticholinergiques chez le sujet âgé : les bons réflexes de prescription », V3 février 2026 — échelles ACB (Boustani et al.) et CIA (Briet et al., mise à jour Javelot 2022). 164 molécules (145 avec leur nom commercial). Liste non exhaustive : l'absence d'une molécule ne signifie pas qu'elle est dépourvue d'effet anticholinergique.</p>
       </div>
     </div>`;
 
