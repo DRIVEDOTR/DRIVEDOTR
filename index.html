@@ -1100,7 +1100,9 @@
     gap:6px;
   }
   .res-card:hover{border-color:var(--pill,var(--blue-light)); border-left-color:var(--pill,var(--blue-light));}
-  .res-name{font-weight:600; font-size:15px; display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .res-head{display:flex; align-items:center; gap:8px; min-width:0;}
+  .res-favicon{width:18px; height:18px; flex:none; border-radius:4px; object-fit:contain;}
+  .res-name{font-weight:600; font-size:15px; display:flex; align-items:center; justify-content:space-between; gap:8px; min-width:0;}
   .res-url{font-size:12.5px; color:var(--pill,var(--blue));}
   .res-desc{font-size:13.5px; color:var(--text-muted);}
 
@@ -1116,15 +1118,26 @@
   .partner-row{display:flex; gap:20px; flex-wrap:wrap; margin-bottom:24px;}
   .partner-row .partner-card{margin-bottom:0;}
   .partner-card h3{color:#fff; font-size:17px; margin-bottom:6px;}
+  .partner-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .partner-head h3{margin-bottom:0;}
   .partner-logo-tile{
     display:inline-flex;
     align-items:center;
     background:#fff;
-    border-radius:8px;
-    padding:6px 10px;
-    margin-bottom:10px;
+    border-radius:9px;
+    padding:7px 12px;
+    box-shadow:0 1px 4px rgba(0,0,0,.18);
+    transition:transform .12s ease, box-shadow .12s ease;
+    flex:none;
   }
-  .partner-logo-tile img{display:block; height:22px; width:auto;}
+  .partner-logo-tile:hover{transform:translateY(-1px); box-shadow:0 3px 8px rgba(0,0,0,.24);}
+  .partner-logo-tile img{display:block; height:30px; width:auto; max-width:120px; object-fit:contain;}
   .calc-pulselife-card{
     display:flex;
     align-items:center;
@@ -4585,7 +4598,7 @@ function renderCalcPanel(){
       </div>
 
       <div class="partner-card calc-pulselife-card">
-        <div class="partner-logo-tile"><img src="https://images.prismic.io/pulselife-institutional-website/65d710533a605798c18c139a_PulseLife-logo.png?auto=format,compress" alt="PulseLife" /></div>
+        <a href="https://pulselife.com/fr-fr" target="_blank" rel="noopener" class="partner-logo-tile" aria-label="PulseLife"><img src="https://images.prismic.io/pulselife-institutional-website/65d710533a605798c18c139a_PulseLife-logo.png?auto=format,compress" alt="PulseLife" /></a>
         <p>Besoin d'un score qui n'est pas encore ici ? <strong>PulseLife</strong> en propose plus de 400 autres, toutes spécialités confondues — gratuit pour tous les professionnels de santé.</p>
         <div class="partner-links">
           <a href="https://pulselife.com/fr-fr" target="_blank" rel="noopener">pulselife.com</a>
@@ -8785,13 +8798,19 @@ function renderResourcesPanel(){
         <span class="res-group-pill">${g.icon} ${g.group}</span>
       </h3>
       <div class="res-list">
-        ${g.items.map(r => `
+        ${g.items.map(r => {
+          const domain = r.url.replace(/^https?:\/\//, "").split("/")[0];
+          return `
           <a class="res-card" href="${r.url}" target="_blank" rel="noopener" style="--pill:${c.pill}">
-            <span class="res-name">${r.name}</span>
-            <span class="res-url">${r.url.replace(/^https?:\/\//, "").split("/")[0]}</span>
+            <span class="res-head">
+              <img class="res-favicon" src="https://www.google.com/s2/favicons?domain=${domain}&sz=64" alt="" loading="lazy" />
+              <span class="res-name">${r.name}</span>
+            </span>
+            <span class="res-url">${domain}</span>
             <span class="res-desc">${r.desc}</span>
           </a>
-        `).join("")}
+        `;
+        }).join("")}
       </div>
     </div>
   `;
@@ -8806,7 +8825,12 @@ function renderResourcesPanel(){
 
     <div class="partner-row">
       <div class="partner-card">
-        <h3>CardioParc — Téléexpertise cardiologique</h3>
+        <div class="partner-head">
+          <a href="https://cardioparc.fr" target="_blank" rel="noopener" class="partner-logo-tile" aria-label="CardioParc">
+            <img src="https://cardioparc.fr/app/themes/cardio-parc/assets/img/common/logo/logo-color-simple.svg" alt="CardioParc" />
+          </a>
+          <h3>CardioParc — Téléexpertise cardiologique</h3>
+        </div>
         <p>Demande d'avis cardiologique et prise de rendez-vous : réponse donnée en moins de 48h avec compte rendu. En cas de besoin urgent, privilégier une demande de télé-expertise en priorité « urgent ».</p>
         <div class="partner-links">
           <a href="https://pro.cardioparc.fr" target="_blank" rel="noopener">Espace professionnel — pro.cardioparc.fr</a>
@@ -8816,7 +8840,12 @@ function renderResourcesPanel(){
       </div>
 
       <div class="partner-card">
-        <h3>Omnidoc — Téléexpertise toutes spécialités</h3>
+        <div class="partner-head">
+          <a href="https://omnidoc.fr" target="_blank" rel="noopener" class="partner-logo-tile" aria-label="Omnidoc">
+            <img src="https://www.google.com/s2/favicons?domain=omnidoc.fr&sz=128" alt="Omnidoc" />
+          </a>
+          <h3>Omnidoc — Téléexpertise toutes spécialités</h3>
+        </div>
         <p>Plateforme nationale de référence pour demander l'avis tracé d'un spécialiste sur un patient, sans déplacement — acte reconnu et rémunéré par l'Assurance Maladie. Très largement utilisée en EHPAD et structures médico-sociales.</p>
         <div class="partner-links">
           <a href="https://omnidoc.fr" target="_blank" rel="noopener">omnidoc.fr</a>
@@ -8824,8 +8853,12 @@ function renderResourcesPanel(){
       </div>
 
       <div class="partner-card">
-        <div class="partner-logo-tile"><img src="https://images.prismic.io/pulselife-institutional-website/65d710533a605798c18c139a_PulseLife-logo.png?auto=format,compress" alt="PulseLife" /></div>
-        <h3>PulseLife — Moteur médical & apps cliniques</h3>
+        <div class="partner-head">
+          <a href="https://pulselife.com/fr-fr" target="_blank" rel="noopener" class="partner-logo-tile" aria-label="PulseLife">
+            <img src="https://images.prismic.io/pulselife-institutional-website/65d710533a605798c18c139a_PulseLife-logo.png?auto=format,compress" alt="PulseLife" />
+          </a>
+          <h3>PulseLife — Moteur médical & apps cliniques</h3>
+        </div>
         <p>Recherche médicale et chatbot IA sécurisé (sources exclusivement médicales, références cliquables), 300+ applications cliniques et plus de 400 scores et algorithmes de décision. Gratuit pour tous les professionnels de santé.</p>
         <div class="partner-links">
           <a href="https://pulselife.com/fr-fr" target="_blank" rel="noopener">pulselife.com</a>
