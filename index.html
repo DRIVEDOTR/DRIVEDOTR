@@ -1231,6 +1231,33 @@
     .gs-row-select select{min-width:0; width:100%;}
   }
 
+  .gs-number-wrap{display:flex; align-items:center; gap:7px; flex:none;}
+  .gs-number-wrap input{
+    width:70px;
+    font-family:inherit;
+    font-size:14px;
+    text-align:center;
+    padding:7px 8px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--bg);
+    color:var(--text);
+  }
+  .gs-number-max{font-size:12.5px; font-weight:700; color:var(--text-muted);}
+  .gs-help{display:block; font-size:11.5px; font-weight:400; color:var(--text-muted); margin-top:2px;}
+  .aggir-illustr{
+    font-size:10.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    color:var(--text-muted);
+    background:var(--slate-bg);
+    border-radius:20px;
+    padding:1px 8px;
+    margin-left:4px;
+  }
+  .calc-pdf-blank{background:var(--slate-bg) !important; color:var(--text) !important; margin-left:8px;}
+
   /* ---------- Bandeau d'accroche des outils interactifs ---------- */
   .tool-hero{
     display:flex;
@@ -4432,7 +4459,13 @@ const CALC_TOOLS = [
   { id: "childpugh", label: "Child-Pugh", sub: "Sévérité d'une cirrhose", color: "amber", group: "organes" },
   { id: "ipss", label: "IPSS", sub: "Symptômes urinaires — HBP", color: "sky", group: "organes" },
 
-  { id: "auditc", label: "AUDIT-C", sub: "Consommation d'alcool à risque", color: "purple", group: "addicto" }
+  { id: "auditc", label: "AUDIT-C", sub: "Consommation d'alcool à risque", color: "purple", group: "addicto" },
+
+  { id: "aggir", label: "Grille AGGIR", sub: "Perte d'autonomie — calcul du GIR", color: "navy", group: "geriatrie" },
+  { id: "doloplus", label: "DOLOPLUS-2", sub: "Douleur — personne âgée non communicante", color: "red", group: "douleur" },
+  { id: "mmse-report", label: "MMSE — report", sub: "Total et interprétation des sous-scores", color: "indigo", group: "cognition" },
+  { id: "stopbang", label: "STOP-BANG", sub: "Risque d'apnées du sommeil", color: "sky", group: "sommeil" },
+  { id: "epworth", label: "Epworth", sub: "Somnolence diurne", color: "sky", group: "sommeil" }
 ];
 const CALC_GROUPS = [
   { id: "fonction", label: "🩺 Fonction & risque" },
@@ -4443,6 +4476,7 @@ const CALC_GROUPS = [
   { id: "infectio", label: "🦠 Infectiologie" },
   { id: "thrombo", label: "🩸 Thrombose" },
   { id: "organes", label: "🫁 Spécialités d'organe" },
+  { id: "sommeil", label: "😴 Sommeil" },
   { id: "addicto", label: "🍷 Addictions" },
   { id: "palliatif", label: "🕊️ Soins palliatifs" }
 ];
@@ -4849,7 +4883,101 @@ const GENERIC_SCORES = {
       : { color: "teal", txt: "Très forte probabilité d'absence de dépression (0/4)" },
     note: "Outil de repérage seulement. Chez la personne âgée, la dépression se présente souvent par des plaintes somatiques, une apathie ou une aggravation cognitive plutôt que par une tristesse exprimée.",
     source: "Mini-GDS (version française courte de la Geriatric Depression Scale de Yesavage)."
+  },
+
+  /* ---------- Sommeil ---------- */
+  "stopbang": {
+    title: "STOP-BANG",
+    subtitle: "Dépistage du syndrome d'apnées obstructives du sommeil",
+    items: [
+      { id: "s", label: "S — Ronflement fort (audible porte fermée, ou signalé par l'entourage)", type: "check", value: 1 },
+      { id: "t", label: "T — Fatigue, somnolence ou épuisement dans la journée", type: "check", value: 1 },
+      { id: "o", label: "O — Arrêts respiratoires ou étouffements observés pendant le sommeil", type: "check", value: 1 },
+      { id: "p", label: "P — Hypertension artérielle (traitée ou en cours de traitement)", type: "check", value: 1 },
+      { id: "b", label: "B — IMC > 35 kg/m²", type: "check", value: 1 },
+      { id: "a", label: "A — Âge > 50 ans", type: "check", value: 1 },
+      { id: "n", label: "N — Tour de cou > 40 cm", type: "check", value: 1 },
+      { id: "g", label: "G — Sexe masculin", type: "check", value: 1 }
+    ],
+    interpret: t => t >= 5
+      ? { color: "red", txt: "Risque élevé de SAOS (5 à 8) — avis spécialisé / polygraphie" }
+      : (t >= 3 ? { color: "amber", txt: "Risque intermédiaire (3 à 4)" }
+                : { color: "teal", txt: "Risque faible (0 à 2)" }),
+    note: "Un score ≥ 3 est déjà sensible pour un SAOS modéré à sévère. En EHPAD, penser au SAOS devant une somnolence diurne, des troubles cognitifs fluctuants, une HTA résistante ou une fibrillation atriale — avant d'incriminer la iatrogénie seule.",
+    source: "STOP-BANG (Chung et al., University Health Network) — libre d'usage clinique non commercial."
+  },
+
+  "epworth": {
+    title: "Échelle d'Epworth",
+    subtitle: "Somnolence diurne excessive",
+    intro: "Quelle chance avez-vous de somnoler ou de vous endormir dans les situations suivantes ? 0 = aucune · 1 = faible · 2 = moyenne · 3 = forte.",
+    items: [
+      { id: "q1", label: "Assis en train de lire", type: "select", options: [["0 — aucune chance", 0], ["1 — faible", 1], ["2 — moyenne", 2], ["3 — forte", 3]] },
+      { id: "q2", label: "En train de regarder la télévision", type: "select", options: [["0 — aucune chance", 0], ["1 — faible", 1], ["2 — moyenne", 2], ["3 — forte", 3]] },
+      { id: "q3", label: "Assis, inactif, dans un lieu public (théâtre, réunion)", type: "select", options: [["0 — aucune chance", 0], ["1 — faible", 1], ["2 — moyenne", 2], ["3 — forte", 3]] },
+      { id: "q4", label: "Passager d'une voiture roulant sans arrêt pendant une heure", type: "select", options: [["0 — aucune chance", 0], ["1 — faible", 1], ["2 — moyenne", 2], ["3 — forte", 3]] },
+      { id: "q5", label: "Allongé l'après-midi pour se reposer, quand les circonstances le permettent", type: "select", options: [["0 — aucune chance", 0], ["1 — faible", 1], ["2 — moyenne", 2], ["3 — forte", 3]] },
+      { id: "q6", label: "Assis en train de parler à quelqu'un", type: "select", options: [["0 — aucune chance", 0], ["1 — faible", 1], ["2 — moyenne", 2], ["3 — forte", 3]] },
+      { id: "q7", label: "Assis calmement après un déjeuner sans alcool", type: "select", options: [["0 — aucune chance", 0], ["1 — faible", 1], ["2 — moyenne", 2], ["3 — forte", 3]] },
+      { id: "q8", label: "Dans une voiture immobilisée quelques minutes dans un embouteillage", type: "select", options: [["0 — aucune chance", 0], ["1 — faible", 1], ["2 — moyenne", 2], ["3 — forte", 3]] }
+    ],
+    interpret: t => t >= 16
+      ? { color: "red", txt: "Somnolence diurne sévère (16 à 24)" }
+      : (t >= 11 ? { color: "amber", txt: "Somnolence diurne excessive (11 à 15)" }
+                 : { color: "teal", txt: "Somnolence diurne normale (0 à 10)" }),
+    note: "Mesure la somnolence ressentie, pas la sévérité des apnées : un Epworth normal n'élimine pas un SAOS. Complémentaire du STOP-BANG, qui évalue lui le risque d'apnées.",
+    source: "Epworth Sleepiness Scale (Johns MW, 1991). Échelle sous copyright : usage clinique individuel libre, une licence est requise pour un usage institutionnel ou commercial."
+  },
+
+  /* ---------- Douleur ---------- */
+  "doloplus": {
+    title: "DOLOPLUS-2",
+    subtitle: "Évaluation comportementale de la douleur chez la personne âgée",
+    intro: "Observation comportementale — 10 items cotés de 0 à 3. Ne rien coter en cas d'item inadapté (ex. item 7 chez un malade grabataire).",
+    items: [
+      { id: "d1", label: "1 · Plaintes somatiques", type: "select", options: [["Pas de plainte", 0], ["Plaintes uniquement à la sollicitation", 1], ["Plaintes spontanées occasionnelles", 2], ["Plaintes spontanées continues", 3]] },
+      { id: "d2", label: "2 · Positions antalgiques au repos", type: "select", options: [["Pas de position antalgique", 0], ["Le sujet évite certaines positions de façon occasionnelle", 1], ["Position antalgique permanente et efficace", 2], ["Position antalgique permanente inefficace", 3]] },
+      { id: "d3", label: "3 · Protection de zones douloureuses", type: "select", options: [["Pas de protection", 0], ["Protection à la sollicitation n'empêchant pas la poursuite de l'examen ou des soins", 1], ["Protection à la sollicitation empêchant tout examen ou soins", 2], ["Protection au repos, en l'absence de toute sollicitation", 3]] },
+      { id: "d4", label: "4 · Mimique", type: "select", options: [["Mimique habituelle", 0], ["Mimique semblant exprimer la douleur à la sollicitation", 1], ["Mimique semblant exprimer la douleur en l'absence de toute sollicitation", 2], ["Mimique inexpressive en permanence et de manière inhabituelle (atone, figée, regard vide)", 3]] },
+      { id: "d5", label: "5 · Sommeil", type: "select", options: [["Sommeil habituel", 0], ["Difficultés d'endormissement", 1], ["Réveils fréquents (agitation motrice)", 2], ["Insomnie avec retentissement sur les phases d'éveil", 3]] },
+      { id: "d6", label: "6 · Toilette et/ou habillage", type: "select", options: [["Possibilités habituelles inchangées", 0], ["Possibilités habituelles peu diminuées (précautionneux mais complet)", 1], ["Possibilités habituelles très diminuées, toilette et/ou habillage étant difficiles et partiels", 2], ["Toilette et/ou habillage impossibles, le malade exprimant son opposition à toute tentative", 3]] },
+      { id: "d7", label: "7 · Mouvements", type: "select", options: [["Possibilités habituelles inchangées", 0], ["Possibilités habituelles actives limitées (le malade évite certains mouvements, diminue son périmètre de marche)", 1], ["Possibilités habituelles actives et passives limitées (même aidé, le malade diminue ses mouvements)", 2], ["Mouvement impossible, toute mobilisation entraînant une opposition", 3]] },
+      { id: "d8", label: "8 · Communication", type: "select", options: [["Inchangée", 0], ["Intensifiée (la personne attire l'attention de manière inhabituelle)", 1], ["Diminuée (la personne s'isole)", 2], ["Absence ou refus de toute communication", 3]] },
+      { id: "d9", label: "9 · Vie sociale", type: "select", options: [["Participation habituelle aux différentes activités (repas, animations, ateliers thérapeutiques…)", 0], ["Participation aux différentes activités uniquement à la sollicitation", 1], ["Refus partiel de participation aux différentes activités", 2], ["Refus de toute vie sociale", 3]] },
+      { id: "d10", label: "10 · Troubles du comportement", type: "select", options: [["Comportement habituel", 0], ["Troubles du comportement à la sollicitation et itératif", 1], ["Troubles du comportement à la sollicitation et permanent", 2], ["Troubles du comportement permanent (en dehors de toute sollicitation)", 3]] }
+    ],
+    interpret: t => t >= 5
+      ? { color: "red", txt: "Douleur affirmée (≥ 5 / 30)" }
+      : (t >= 1 ? { color: "amber", txt: "Sous le seuil — laisser le bénéfice du doute, envisager un test antalgique" }
+                : { color: "teal", txt: "Pas d'argument comportemental pour une douleur" }),
+    note: "Items 1 à 5 : retentissement somatique · 6 et 7 : psychomoteur · 8 à 10 : psychosocial. Coter en équipe pluridisciplinaire. Ne jamais comparer les scores de deux patients : seule la cinétique des scores d'un même patient a du sens. Pour un score entre 1 et 4/30, un test antalgique est recommandé — si le comportement change, la douleur est incriminée.",
+    source: "Échelle DOLOPLUS-2 (Wary B. et collectif Doloplus) — www.doloplus.fr. Tout changement de comportement chez une personne âgée doit faire évoquer la douleur."
+  },
+
+  /* ---------- Cognition ---------- */
+  "mmse-report": {
+    title: "MMSE — report du score",
+    subtitle: "Saisie des sous-scores d'un MMSE déjà passé",
+    intro: "Cet outil ne reproduit pas le test (sous copyright) : il reporte les sous-scores obtenus lors de la passation pour calculer le total et situer le résultat.",
+    items: [
+      { id: "ot", label: "Orientation temporelle", type: "number", max: 5 },
+      { id: "os", label: "Orientation spatiale", type: "number", max: 5 },
+      { id: "app", label: "Apprentissage (3 mots)", type: "number", max: 3 },
+      { id: "att", label: "Attention et calcul", type: "number", max: 5 },
+      { id: "rap", label: "Rappel des 3 mots", type: "number", max: 3 },
+      { id: "lang", label: "Langage", type: "number", max: 8 },
+      { id: "praxie", label: "Praxies constructives", type: "number", max: 1 }
+    ],
+    interpret: t => t < 10
+      ? { color: "red", txt: "Altération sévère (< 10 / 30)" }
+      : (t < 19 ? { color: "red", txt: "Altération modérée à modérément sévère (10 à 18)" }
+        : (t < 24 ? { color: "amber", txt: "Altération légère (19 à 23)" }
+          : (t < 27 ? { color: "amber", txt: "Zone limite (24 à 26) — à interpréter avec le contexte" }
+                    : { color: "teal", txt: "Score dans les limites de la normale (27 à 30)" }))),
+    note: "Le seuil classique de 24/30 doit être ajusté au niveau socio-culturel, à l'âge et aux déficits sensoriels : un score normal n'élimine pas un trouble cognitif débutant chez une personne à haut niveau d'études, et l'inverse est vrai. Un MMSE isolé ne pose aucun diagnostic.",
+    source: "MMSE (Folstein et al., 1975) — test sous copyright (PAR Inc.), non reproduit ici. Découpage des sous-scores selon la version française consensuelle GRECO (total sur 30)."
   }
+
 };
 
 function genericScoreTotal(id){
@@ -4858,7 +4986,9 @@ function genericScoreTotal(id){
   sc.items.forEach(it => {
     const el = document.getElementById("gs_" + id + "_" + it.id);
     if(!el) return;
-    total += it.type === "check" ? (el.checked ? it.value : 0) : parseFloat(el.value);
+    if(it.type === "check")      total += el.checked ? it.value : 0;
+    else if(it.type === "number") total += Math.min(it.max, Math.max(0, parseInt(el.value || "0", 10)));
+    else                          total += parseFloat(el.value);
   });
   return Math.round(total * 10) / 10;
 }
@@ -4867,9 +4997,9 @@ function genericScoreMax(id){
   const sc = GENERIC_SCORES[id];
   let max = 0;
   sc.items.forEach(it => {
-    max += it.type === "check"
-      ? Math.max(0, it.value)
-      : Math.max(...it.options.map(o => o[1]));
+    if(it.type === "check")      max += Math.max(0, it.value);
+    else if(it.type === "number") max += it.max;
+    else                          max += Math.max(...it.options.map(o => o[1]));
   });
   return Math.round(max * 10) / 10;
 }
@@ -4885,6 +5015,14 @@ function renderGenericScore(id, body){
             <input type="checkbox" id="gs_${id}_${it.id}" onchange="runCalc()" />
             <span class="bio-option-label">${it.label}</span>
           </label>
+        ` : it.type === "number" ? `
+          <div class="gs-row gs-row-select">
+            <span class="bio-option-label">${it.label}</span>
+            <span class="gs-number-wrap">
+              <input type="number" id="gs_${id}_${it.id}" min="0" max="${it.max}" value="0" oninput="runCalc()" />
+              <span class="gs-number-max">/ ${it.max}</span>
+            </span>
+          </div>
         ` : `
           <div class="gs-row gs-row-select">
             <span class="bio-option-label">${it.label}</span>
@@ -4905,7 +5043,9 @@ function runGenericScore(id, out){
   const total = genericScoreTotal(id);
   const max = genericScoreMax(id);
   const r = sc.interpret(total);
-  out.innerHTML = calcResultHTML(r.color, `${total} / ${max}`, r.txt) + pdfButtonHTML("pdfGenericScore");
+  out.innerHTML = calcResultHTML(r.color, `${total} / ${max}`, r.txt)
+    + pdfButtonHTML("pdfGenericScore")
+    + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfGenericBlankBtn" onclick="pdfGenericBlank()">📄 PDF vierge</button>`;
 }
 
 function pdfGenericScore(){
@@ -4917,6 +5057,8 @@ function pdfGenericScore(){
     let val;
     if(it.type === "check"){
       val = el.checked ? `Oui (${it.value > 0 ? "+" : ""}${it.value})` : "Non (0)";
+    }else if(it.type === "number"){
+      val = `${Math.min(it.max, Math.max(0, parseInt(el.value || "0", 10)))} / ${it.max}`;
     }else{
       const opt = it.options.find(o => String(o[1]) === el.value);
       val = opt ? `${opt[0]} (${opt[1]})` : el.value;
@@ -4937,6 +5079,99 @@ function pdfGenericScore(){
   });
 }
 window.pdfGenericScore = pdfGenericScore;
+
+/* Version vierge : même grille, sans réponse — pour impression et remplissage
+   à la main, ou passation au lit du résident. */
+function pdfGenericBlank(){
+  const id = state.calcTool;
+  const sc = GENERIC_SCORES[id];
+  if(!sc) return;
+  const rows = sc.items.map(it => {
+    let note;
+    if(it.type === "check")       note = "Oui / Non";
+    else if(it.type === "number") note = `Score obtenu : ____ / ${it.max}`;
+    else                          note = it.options.map(o => `${o[1]} = ${o[0]}`).join("  ·  ");
+    return { label: it.label, note, value: "____" };
+  });
+  generateScalePdf({
+    btnId: "pdfGenericBlankBtn",
+    filename: sc.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "_") + "_vierge.pdf",
+    title: sc.title + " — grille vierge",
+    subtitle: sc.subtitle,
+    sections: [{ rows }],
+    resultLines: ["Score total : ______", "Conclusion : ______________________________"],
+    footerNote: (sc.note ? sc.note + " " : "") + sc.source + " " + CALC_SOURCE_NOTE
+  });
+}
+window.pdfGenericBlank = pdfGenericBlank;
+
+/* =====================================================================
+   GRILLE AGGIR — algorithme officiel du décret n° 97-427 du 28 avril 1997
+   (annexe 2). Huit groupes A à H sont testés successivement : le premier
+   qui atteint son seuil fixe le rang (1 à 13), converti ensuite en GIR.
+   Les coefficients ci-dessous sont repris tels quels du texte réglementaire.
+   Ordre des variables : cohérence, orientation, toilette, habillage,
+   alimentation, élimination, transferts, déplacements intérieur,
+   déplacements extérieur, communication à distance.
+   ===================================================================== */
+const AGGIR_VARIABLES = [
+  { id: "coherence",  label: "Cohérence", help: "Converser et/ou se comporter de façon sensée" },
+  { id: "orientation", label: "Orientation", help: "Se repérer dans le temps et dans l'espace" },
+  { id: "toilette",   label: "Toilette", help: "Assurer son hygiène corporelle (haut et bas du corps)" },
+  { id: "habillage",  label: "Habillage", help: "S'habiller, se déshabiller, se présenter" },
+  { id: "alimentation", label: "Alimentation", help: "Se servir et manger les aliments préparés" },
+  { id: "elimination", label: "Élimination", help: "Assurer l'hygiène de l'élimination urinaire et fécale" },
+  { id: "transferts", label: "Transferts", help: "Se lever, se coucher, s'asseoir" },
+  { id: "deplInt",    label: "Déplacements à l'intérieur", help: "Avec ou sans canne, déambulateur, fauteuil roulant" },
+  { id: "deplExt",    label: "Déplacements à l'extérieur", help: "À partir de la porte d'entrée, sans moyen de transport" },
+  { id: "communication", label: "Communication à distance", help: "Utiliser téléphone, alarme, sonnette" }
+];
+
+const AGGIR_GROUPES = [
+  { id: "A", C: [2000, 1200, 40, 40, 60, 100, 800, 200, 0, 0], B: [0, 0, 16, 16, 20, 16, 120, 32, 0, 0],
+    seuils: [[4380, 1], [4140, 2], [3390, 3]] },
+  { id: "B", C: [1500, 1200, 40, 40, 60, 100, 800, -80, 0, 0], B: [320, 120, 16, 16, 0, 16, 120, -40, 0, 0],
+    seuils: [[2016, 4]] },
+  { id: "C", C: [0, 0, 40, 40, 60, 160, 1000, 400, 0, 0], B: [0, 0, 16, 16, 20, 20, 200, 40, 0, 0],
+    seuils: [[1700, 5], [1432, 6]] },
+  { id: "D", C: [0, 0, 0, 0, 2000, 400, 2000, 200, 0, 0], B: [0, 0, 0, 0, 200, 200, 200, 0, 0, 0],
+    seuils: [[2400, 7]] },
+  { id: "E", C: [400, 400, 400, 400, 400, 800, 800, 200, 0, 0], B: [0, 0, 100, 100, 100, 100, 100, 0, 0, 0],
+    seuils: [[1200, 8]] },
+  { id: "F", C: [200, 200, 500, 500, 500, 500, 500, 500, 200, 0], B: [0, 100, 100, 100, 100, 100, 100, 0, 0, 0],
+    seuils: [[800, 9]] },
+  { id: "G", C: [150, 150, 300, 300, 500, 500, 400, 200, 0, 0], B: [0, 0, 200, 200, 200, 200, 200, 100, 0, 0],
+    seuils: [[650, 10]] },
+  { id: "H", C: [0, 0, 3000, 3000, 3000, 3000, 1000, 1000, 0, 0], B: [0, 0, 2000, 2000, 2000, 2000, 2000, 1000, 0, 0],
+    seuils: [[4000, 11], [2000, 12]] }
+];
+
+function aggirRangToGir(rang){
+  if(rang === 1) return 1;
+  if(rang >= 2 && rang <= 7) return 2;
+  if(rang === 8 || rang === 9) return 3;
+  if(rang === 10 || rang === 11) return 4;
+  if(rang === 12) return 5;
+  return 6;
+}
+
+/* Renvoie { rang, gir, detail } à partir des 10 modalités A / B / C. */
+function aggirCompute(modalites){
+  const detail = [];
+  for(const g of AGGIR_GROUPES){
+    let somme = 0;
+    modalites.forEach((m, i) => {
+      if(m === "C") somme += g.C[i];
+      else if(m === "B") somme += g.B[i];
+    });
+    detail.push({ groupe: g.id, somme });
+    for(const [seuil, rang] of g.seuils){
+      if(somme >= seuil) return { rang, gir: aggirRangToGir(rang), detail };
+    }
+  }
+  // Aucun seuil atteint jusqu'au groupe H inclus : rang 13.
+  return { rang: 13, gir: 6, detail };
+}
 
 const GEDDI_SECTIONS = [
   { heading: "Vocal", items: [
@@ -5242,6 +5477,31 @@ function renderCalcBody(tool){
         <div id="calcResult"></div>
         <p class="doc-meta">Score ≥ 2/40 : doute sur une éventuelle douleur. Score ≥ 6/40 : douleur avérée. Échelle conçue pour la personne polyhandicapée non communicante.</p>
       </div>`;
+  }else if(tool === "aggir"){
+    body.innerHTML = `
+      <div class="calc-box">
+        <p class="doc-meta" style="margin-top:0;"><strong>A</strong> = fait seul, spontanément, totalement, habituellement et correctement · <strong>B</strong> = fait partiellement, ou non habituellement, ou non correctement · <strong>C</strong> = ne fait pas.</p>
+        <div class="gs-list">
+          ${AGGIR_VARIABLES.map((v, i) => `
+            <div class="gs-row gs-row-select">
+              <span class="bio-option-label">
+                ${v.label}${i >= 8 ? ` <span class="aggir-illustr">n'entre pas dans le calcul</span>` : ""}
+                <span class="gs-help">${v.help}</span>
+              </span>
+              <select id="aggir_${v.id}" onchange="runCalc()">
+                <option value="A">A — fait seul</option>
+                <option value="B">B — partiellement</option>
+                <option value="C">C — ne fait pas</option>
+              </select>
+            </div>`).join("")}
+        </div>
+        <div id="calcResult"></div>
+        <div class="doc-note" style="margin-top:14px;">
+          <p>Les deux dernières variables (déplacements à l'extérieur, communication à distance) sont cotées pour la vision d'ensemble mais leurs coefficients sont nuls dans l'algorithme officiel : elles n'influencent pas le GIR. Les 7 variables illustratives (gestion, cuisine, ménage, transports, achats, suivi du traitement, activités de temps libre) n'entrent pas non plus dans le calcul.</p>
+          <p style="margin-top:8px;"><strong>Le GIR calculé ici n'est pas opposable</strong> : seul celui établi par l'équipe médico-sociale du département, ou validé en établissement lors de la coupe, fait foi. Seuls les GIR 1 à 4 ouvrent droit à l'APA.</p>
+        </div>
+        <p class="doc-meta">Algorithme officiel du décret n° 97-427 du 28 avril 1997 (annexe 2), article R232-3 du code de l'action sociale et des familles.</p>
+      </div>`;
   }else if(tool === "geddi" || tool === "geddi-tsa"){
     const tsa = tool === "geddi-tsa";
     const sections = tsa ? GEDDI_TSA_SECTIONS : GEDDI_SECTIONS;
@@ -5428,7 +5688,8 @@ function runCalc(){
     const s = checked.length;
     const color = s >= 2 ? "red" : "teal";
     const txt = s >= 2 ? "Suspicion de douleur (seuil ≥ 2 atteint)" : "Sous le seuil de suspicion (≥ 2)";
-    out.innerHTML = calcResultHTML(color, `${s} / 5`, txt) + pdfButtonHTML("pdfAlgoplus");
+    out.innerHTML = calcResultHTML(color, `${s} / 5`, txt) + pdfButtonHTML("pdfAlgoplus")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfAlgoplusBlankBtn" onclick="pdfAlgoplusBlank()">📄 PDF vierge</button>`;
   }
 
   else if(tool === "dn4"){
@@ -5437,7 +5698,8 @@ function runCalc(){
     const s = checked.length;
     const color = s >= 4 ? "red" : "teal";
     const txt = s >= 4 ? "En faveur d'une composante neuropathique (seuil ≥ 4 atteint)" : "Sous le seuil (≥ 4)";
-    out.innerHTML = calcResultHTML(color, `${s} / 10`, txt) + pdfButtonHTML("pdfDn4");
+    out.innerHTML = calcResultHTML(color, `${s} / 10`, txt) + pdfButtonHTML("pdfDn4")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfDn4BlankBtn" onclick="pdfDn4Blank()">📄 PDF vierge</button>`;
   }
 
   else if(tool === "sansalvadour"){
@@ -5452,9 +5714,20 @@ function runCalc(){
     const txt = total >= 6 ? "Douleur avérée (≥ 6/40)" : (total >= 2 ? "Doute sur une éventuelle douleur (≥ 2/40)" : "Sous le seuil de doute (< 2/40)");
     out.innerHTML = calcResultHTML(color, `${total} / ${maxPossible}`, txt,
       maxPossible < 40 ? `<div class="calc-result-extra">Total ramené sur ${maxPossible} points : ${40 - maxPossible} point(s) d'item(s) non pertinent(s) exclu(s). Les seuils officiels (2 et 6) restent définis sur l'échelle /40.</div>` : "")
-      + pdfButtonHTML("pdfSanSalvadour");
+      + pdfButtonHTML("pdfSanSalvadour")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfSanSalvadourBlankBtn" onclick="pdfSanSalvadourBlank()">📄 PDF vierge</button>`;
   }
 
+  else if(tool === "aggir"){
+    const modalites = AGGIR_VARIABLES.map(v => document.getElementById("aggir_" + v.id).value);
+    const r = aggirCompute(modalites);
+    const color = r.gir <= 2 ? "red" : (r.gir <= 4 ? "amber" : "teal");
+    const apa = r.gir <= 4 ? "Ouvre droit à l'APA (GIR 1 à 4)" : "N'ouvre pas droit à l'APA (GIR 5 et 6)";
+    out.innerHTML = calcResultHTML(color, `GIR ${r.gir}`, apa,
+      `<div class="calc-result-extra">Rang ${r.rang} de l'algorithme · groupe déclenchant : ${r.detail[r.detail.length - 1].groupe}</div>`)
+      + pdfButtonHTML("pdfAggir")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfAggirBlankBtn" onclick="pdfAggirBlank()">📄 PDF vierge</button>`;
+  }
   else if(tool === "geddi" || tool === "geddi-tsa"){
     const tsa = tool === "geddi-tsa";
     const sections = tsa ? GEDDI_TSA_SECTIONS : GEDDI_SECTIONS;
@@ -5473,7 +5746,8 @@ function runCalc(){
         out.innerHTML = calcResultHTML("slate", `${total} / ${maxPossible}`,
           "Score brut — renseigne l'état de base pour interpréter l'écart",
           `<div class="calc-result-extra">${na} item${na > 1 ? "s" : ""} coté${na > 1 ? "s" : ""} NA (exclu${na > 1 ? "s" : ""} du total)</div>`)
-          + pdfButtonHTML("pdfGeddiTsa");
+          + pdfButtonHTML("pdfGeddiTsa")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfGeddiTsaBlankBtn" onclick="pdfGeddiBlank(true)">📄 PDF vierge</button>`;
       }else{
         const base = parseInt(baseRaw, 10) || 0;
         const ecart = total - base;
@@ -5484,7 +5758,8 @@ function runCalc(){
           : (ecart > 0 ? "Écart présent mais sous le seuil de significativité (> 6)" : "Pas d'écart en faveur d'une douleur");
         out.innerHTML = calcResultHTML(color, `Écart ${ecart > 0 ? "+" : ""}${ecart}`, txt,
           `<div class="calc-result-extra">Évaluation ${total} / ${maxPossible} — état de base ${base}${na ? ` · ${na} item${na > 1 ? "s" : ""} NA` : ""}</div>`)
-          + pdfButtonHTML("pdfGeddiTsa");
+          + pdfButtonHTML("pdfGeddiTsa")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfGeddiTsaBlankBtn" onclick="pdfGeddiBlank(true)">📄 PDF vierge</button>`;
       }
     }else{
       const color = total >= 11 ? "red" : (total >= 6 ? "amber" : "teal");
@@ -5492,7 +5767,8 @@ function runCalc(){
         : (total >= 6 ? "Douleur légère (6 à 10)" : "Sous le seuil de douleur (< 6)");
       out.innerHTML = calcResultHTML(color, `${total} / ${maxPossible}`, txt,
         na ? `<div class="calc-result-extra">${na} item${na > 1 ? "s" : ""} coté${na > 1 ? "s" : ""} NA (exclu${na > 1 ? "s" : ""} du total)</div>` : "")
-        + pdfButtonHTML("pdfGeddi");
+        + pdfButtonHTML("pdfGeddi")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfGeddiBlankBtn" onclick="pdfGeddiBlank(false)">📄 PDF vierge</button>`;
     }
   }
   else if(tool === "braden"){
@@ -5504,7 +5780,8 @@ function runCalc(){
     else if(total >= 13){ color = "amber"; txt = "Risque modéré"; }
     else if(total >= 8){ color = "amber"; txt = "Risque élevé"; }
     else { color = "red"; txt = "Risque très élevé"; }
-    out.innerHTML = calcResultHTML(color, `${total} / 23`, txt) + pdfButtonHTML("pdfBraden");
+    out.innerHTML = calcResultHTML(color, `${total} / 23`, txt) + pdfButtonHTML("pdfBraden")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfBradenBlankBtn" onclick="pdfBradenBlank()">📄 PDF vierge</button>`;
   }
 
   else if(tool === "norton"){
@@ -5516,7 +5793,8 @@ function runCalc(){
     else if(total >= 13){ color = "amber"; txt = "Risque modéré"; }
     else if(total >= 9){ color = "amber"; txt = "Risque élevé"; }
     else { color = "red"; txt = "Risque très élevé"; }
-    out.innerHTML = calcResultHTML(color, `${total} / 20`, txt) + pdfButtonHTML("pdfNorton");
+    out.innerHTML = calcResultHTML(color, `${total} / 20`, txt) + pdfButtonHTML("pdfNorton")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfNortonBlankBtn" onclick="pdfNortonBlank()">📄 PDF vierge</button>`;
   }
 
   else if(tool === "pallia"){
@@ -5525,9 +5803,11 @@ function runCalc(){
     if(!item1){
       out.innerHTML = calcResultHTML("slate", "Non applicable", "L'item 1 doit être coché pour utiliser cet outil.");
     }else if(others.length > 0){
-      out.innerHTML = calcResultHTML("red", `${others.length} item${others.length > 1 ? "s" : ""} positif${others.length > 1 ? "s" : ""}`, "Recours à une équipe de soins palliatifs à envisager") + pdfButtonHTML("pdfPallia");
+      out.innerHTML = calcResultHTML("red", `${others.length} item${others.length > 1 ? "s" : ""} positif${others.length > 1 ? "s" : ""}`, "Recours à une équipe de soins palliatifs à envisager") + pdfButtonHTML("pdfPallia")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfPalliaBlankBtn" onclick="pdfPalliaBlank()">📄 PDF vierge</button>`;
     }else{
-      out.innerHTML = calcResultHTML("teal", "0 item positif", "Aucun élément supplémentaire ne ressort pour l'instant") + pdfButtonHTML("pdfPallia");
+      out.innerHTML = calcResultHTML("teal", "0 item positif", "Aucun élément supplémentaire ne ressort pour l'instant") + pdfButtonHTML("pdfPallia")
+      + `<button type="button" class="bio-copy-btn calc-pdf-btn calc-pdf-blank" id="pdfPalliaBlankBtn" onclick="pdfPalliaBlank()">📄 PDF vierge</button>`;
     }
   }
 }
@@ -5724,6 +6004,133 @@ function pdfSanSalvadour(){
   });
 }
 window.pdfSanSalvadour = pdfSanSalvadour;
+
+/* PDF vierges des grilles historiques : même contenu, sans réponse, pour
+   impression et remplissage à la main au lit du résident. */
+function pdfBlankScale(opts){
+  generateScalePdf({
+    btnId: opts.btnId,
+    filename: opts.filename,
+    title: opts.title + " — grille vierge",
+    subtitle: opts.subtitle,
+    sections: opts.sections,
+    resultLines: ["Score total : ______", "Conclusion : ______________________________",
+      "Évaluateur / date : ______________________"],
+    footerNote: opts.footerNote + " " + CALC_SOURCE_NOTE
+  });
+}
+
+function pdfAlgoplusBlank(){
+  pdfBlankScale({
+    btnId: "pdfAlgoplusBlankBtn", filename: "ALGOPLUS_vierge.pdf",
+    title: "ALGOPLUS", subtitle: "Douleur aiguë chez la personne âgée non communicante — 5 items, oui / non",
+    sections: [{ rows: ALGOPLUS_ITEMS.map(it => ({ label: it.label, note: it.desc + "  —  Oui / Non", value: "____" })) }],
+    footerNote: "Un seul item coté oui suffit à évoquer la douleur ; un score ≥ 2 / 5 affirme la douleur."
+  });
+}
+window.pdfAlgoplusBlank = pdfAlgoplusBlank;
+
+function pdfDn4Blank(){
+  pdfBlankScale({
+    btnId: "pdfDn4BlankBtn", filename: "DN4_vierge.pdf",
+    title: "DN4", subtitle: "Dépistage d'une douleur neuropathique — 10 items, oui / non",
+    sections: DN4_SECTIONS.map(s => ({ heading: s.heading, rows: s.items.map(it => ({ label: it.label, note: "Oui / Non", value: "____" })) })),
+    footerNote: "Un score ≥ 4 / 10 oriente vers une douleur neuropathique."
+  });
+}
+window.pdfDn4Blank = pdfDn4Blank;
+
+function pdfSanSalvadourBlank(){
+  pdfBlankScale({
+    btnId: "pdfSanSalvadourBlankBtn", filename: "San_Salvadour_vierge.pdf",
+    title: "San Salvadour (DESS)", subtitle: "Douleur chez l'enfant ou l'adulte polyhandicapé — 10 items cotés de 0 à 4",
+    sections: [{ rows: SANSALVADOUR_ITEMS.map(it => ({ label: it.label, note: it.desc + "  —  cotation 0 à 4", value: "____" })) }],
+    footerNote: "Nécessite de connaître le comportement habituel de la personne (dossier de base). Un score ≥ 6 / 40 évoque une douleur."
+  });
+}
+window.pdfSanSalvadourBlank = pdfSanSalvadourBlank;
+
+function pdfBradenBlank(){
+  pdfBlankScale({
+    btnId: "pdfBradenBlankBtn", filename: "Braden_vierge.pdf",
+    title: "Échelle de Braden", subtitle: "Risque d'escarre — 6 catégories, total sur 23",
+    sections: [{ rows: BRADEN_CATS.map(cat => ({ label: cat.label, note: cat.options.map(o => `${o.v} = ${o.t}`).join("  ·  "), value: "____" })) }],
+    footerNote: "Plus le score est BAS, plus le risque d'escarre est élevé."
+  });
+}
+window.pdfBradenBlank = pdfBradenBlank;
+
+function pdfNortonBlank(){
+  pdfBlankScale({
+    btnId: "pdfNortonBlankBtn", filename: "Norton_vierge.pdf",
+    title: "Échelle de Norton", subtitle: "Risque d'escarre — 5 catégories, total sur 20",
+    sections: [{ rows: NORTON_CATS.map(cat => ({ label: cat.label, note: cat.options.map(o => `${o.v} = ${o.t}`).join("  ·  "), value: "____" })) }],
+    footerNote: "Plus le score est BAS, plus le risque d'escarre est élevé."
+  });
+}
+window.pdfNortonBlank = pdfNortonBlank;
+
+function pdfPalliaBlank(){
+  pdfBlankScale({
+    btnId: "pdfPalliaBlankBtn", filename: "Pallia_Geronto_vierge.pdf",
+    title: "Pallia Geronto", subtitle: "Repérage d'un besoin de soins palliatifs chez la personne âgée",
+    sections: [{ rows: PALLIA_ITEMS.map(it => ({ label: String(it.label), note: "Oui / Non", value: "____" })) }],
+    footerNote: "L'item 1 est une condition préalable : sans lui, l'outil ne s'applique pas."
+  });
+}
+window.pdfPalliaBlank = pdfPalliaBlank;
+
+function pdfGeddiBlank(tsa){
+  const sections = tsa ? GEDDI_TSA_SECTIONS : GEDDI_SECTIONS;
+  pdfBlankScale({
+    btnId: tsa ? "pdfGeddiTsaBlankBtn" : "pdfGeddiBlankBtn",
+    filename: tsa ? "GED-DI_modifiee_TSA_vierge.pdf" : "GED-DI_vierge.pdf",
+    title: tsa ? "GED-DI modifiée pour les TSA" : "GED-DI",
+    subtitle: "Cotation 0 à 3 par item · NA = ne s'applique pas",
+    sections: sections.map(s => ({ heading: s.heading, rows: s.items.map(it => ({ label: it.label, note: "0 = pas observé · 1 = à l'occasion · 2 = souvent · 3 = très souvent · NA", value: "____" })) })),
+    footerNote: tsa
+      ? "Interprétation par écart : significatif lorsque l'écart avec l'état de base dépasse 6. État de base : ______"
+      : "Seuils : 6 à 10 = douleur légère ; 11 et plus = douleur moyenne à sévère."
+  });
+}
+window.pdfGeddiBlank = pdfGeddiBlank;
+
+function pdfAggir(){
+  const modalites = AGGIR_VARIABLES.map(v => document.getElementById("aggir_" + v.id).value);
+  const r = aggirCompute(modalites);
+  const libelle = { A: "A — fait seul", B: "B — partiellement", C: "C — ne fait pas" };
+  generateScalePdf({
+    btnId: "pdfAggirBtn",
+    filename: "Grille_AGGIR_GIR" + r.gir + ".pdf",
+    title: "Grille AGGIR — évaluation de la perte d'autonomie",
+    subtitle: "Variables discriminantes et groupe iso-ressources",
+    sections: [{ rows: AGGIR_VARIABLES.map((v, i) => ({
+      label: v.label + (i >= 8 ? " (hors calcul)" : ""),
+      value: libelle[modalites[i]]
+    })) }],
+    resultLines: [`GIR ${r.gir} (rang ${r.rang})`,
+      r.gir <= 4 ? "Ouvre droit à l'APA" : "N'ouvre pas droit à l'APA"],
+    footerNote: "GIR non opposable : seul celui établi par l'équipe médico-sociale du département, ou validé en établissement lors de la coupe, fait foi. Algorithme du décret n° 97-427 du 28 avril 1997 (annexe 2). " + CALC_SOURCE_NOTE
+  });
+}
+window.pdfAggir = pdfAggir;
+
+function pdfAggirBlank(){
+  generateScalePdf({
+    btnId: "pdfAggirBlankBtn",
+    filename: "Grille_AGGIR_vierge.pdf",
+    title: "Grille AGGIR — grille vierge",
+    subtitle: "Cotation A / B / C des variables discriminantes",
+    sections: [{ rows: AGGIR_VARIABLES.map((v, i) => ({
+      label: v.label + (i >= 8 ? " (hors calcul du GIR)" : ""),
+      note: v.help + "  —  A = fait seul  ·  B = partiellement  ·  C = ne fait pas",
+      value: "____"
+    })) }],
+    resultLines: ["GIR : ______", "Évaluateur / date : ______________________"],
+    footerNote: "A = fait seul, spontanément, totalement, habituellement et correctement. B = fait partiellement, ou non habituellement, ou non correctement. C = ne fait pas. Algorithme du décret n° 97-427 du 28 avril 1997. " + CALC_SOURCE_NOTE
+  });
+}
+window.pdfAggirBlank = pdfAggirBlank;
 
 function pdfGeddiCommon(tsa){
   const sections = tsa ? GEDDI_TSA_SECTIONS : GEDDI_SECTIONS;
