@@ -2600,6 +2600,30 @@ const DOCUMENTS = {
     filename: "Bilan_suivi_Diabete.pdf",
     path: "suivis-biologiques/Bilan_suivi_Diabete.pdf"
   },
+  "fiche-algoplus": {
+    title: "ALGOPLUS — fiche officielle",
+    category: "calculateurs",
+    meta: "Grille officielle avec consignes de passation et erreurs fréquemment rencontrées — Collectif Doloplus",
+    openLabel: "Ouvrir la fiche",
+    filename: "Echelle_ALGOPLUS.pdf",
+    path: "echelles/Echelle_ALGOPLUS.pdf"
+  },
+  "fiche-doloplus": {
+    title: "DOLOPLUS — fiche officielle",
+    category: "calculateurs",
+    meta: "Grille officielle sur 6 colonnes de cotation, pour le suivi dans le temps d'un même patient",
+    openLabel: "Ouvrir la fiche",
+    filename: "Echelle_DOLOPLUS.pdf",
+    path: "echelles/Echelle_DOLOPLUS.pdf"
+  },
+  "fiche-ecpa": {
+    title: "ECPA — fiche officielle",
+    category: "calculateurs",
+    meta: "Grille officielle avec les conseils d'utilisation de l'échelle",
+    openLabel: "Ouvrir la fiche",
+    filename: "Echelle_ECPA.pdf",
+    path: "echelles/Echelle_ECPA.pdf"
+  },
   "calendrier-vaccinal-pdf": {
     title: "Calendrier vaccinal officiel 2026",
     category: "vaccination",
@@ -4533,6 +4557,7 @@ const CALC_TOOLS = [
 
   { id: "aggir", label: "Grille AGGIR", sub: "Perte d'autonomie — calcul du GIR", color: "navy", group: "geriatrie" },
   { id: "doloplus", label: "DOLOPLUS-2", sub: "Douleur — personne âgée non communicante", color: "red", group: "douleur" },
+  { id: "ecpa", label: "ECPA", sub: "Douleur — avant et pendant les soins", color: "red", group: "douleur" },
   { id: "mmse-report", label: "MMSE — report", sub: "Total et interprétation des sous-scores", color: "indigo", group: "cognition" },
   { id: "stopbang", label: "STOP-BANG", sub: "Risque d'apnées du sommeil", color: "sky", group: "sommeil" },
   { id: "epworth", label: "Epworth", sub: "Somnolence diurne", color: "sky", group: "sommeil" }
@@ -4622,6 +4647,26 @@ function renderCalcPanel(){
         <input type="text" id="calcSearch" placeholder="Chercher un score (angine, escarre, dénutrition, douleur…)" autocomplete="off" value="${(state.calcQuery || "").replace(/"/g, "&quot;")}" />
       </div>
 
+      ${!state.calcQuery ? `
+        <p class="calc-group-heading">📄 Fiches officielles à imprimer</p>
+        <p class="doc-meta" style="margin-top:0;">Les grilles d'origine, telles que publiées — utiles pour une cotation papier ou pour vérifier un libellé.</p>
+        <div class="grid" style="margin-bottom:6px;">
+          ${["fiche-algoplus", "fiche-doloplus", "fiche-ecpa"].map(fid => {
+            const d = DOCUMENTS[fid];
+            return `
+              <div class="card-wrap">
+                <button class="card" style="text-align:left;cursor:pointer" onclick="openDoc('${fid}')">
+                  <span class="card-tag" style="--pill:${c.pill};--pillbg:${c.pillbg}">Fiche officielle</span>
+                  <div class="card-title">${d.title.replace(" — fiche officielle", "")}</div>
+                  <span class="card-open">Ouvrir la fiche
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+                  </span>
+                </button>
+              </div>`;
+          }).join("")}
+        </div>
+      ` : ""}
+
       ${shownGroups.length ? shownGroups.map(({ g, tools }) => {
         const groupIsActive = tools.some(t => t.id === active);
         return `
@@ -4675,7 +4720,7 @@ function calcCheck(label, id, pts){
 const ALGOPLUS_ITEMS = [
   { id: "visage", label: "Visage", desc: "Froncements de sourcils, grimaces, crispation, mâchoires serrées, visage figé…" },
   { id: "regard", label: "Regard", desc: "Regard inattentif, fixe, lointain ou suppliant, pleurs, yeux fermés…" },
-  { id: "plaintes", label: "Plaintes", desc: "Gémissements, cris, plaintes verbales claires…" },
+  { id: "plaintes", label: "Plaintes", desc: "« Aïe », « Ouille », « J'ai mal », gémissements, cris." },
   { id: "corps", label: "Corps", desc: "Retrait ou protection d'une zone, refus de mobilisation, attitude figée…" },
   { id: "comportement", label: "Comportement", desc: "Agitation, agressivité, agrippement…" }
 ];
@@ -5054,6 +5099,28 @@ const GENERIC_SCORES = {
                     : { color: "teal", txt: "Score dans les limites de la normale (27 à 30)" }))),
     note: "Le seuil classique de 24/30 doit être ajusté au niveau socio-culturel, à l'âge et aux déficits sensoriels : un score normal n'élimine pas un trouble cognitif débutant chez une personne à haut niveau d'études, et l'inverse est vrai. Un MMSE isolé ne pose aucun diagnostic.<br><strong>Pour faire passer le test :</strong> <a href=\"https://demenceclic.fr/les-tests.html\" target=\"_blank\" rel=\"noopener\">DemenceClic</a> propose le MMSE version GRECO en ligne et en PDF imprimable, ainsi que le CODEX, le test de l'horloge, les 5 mots de Dubois, la fluence verbale et la BREF.",
     source: "MMSE (Folstein et al., 1975) — test sous copyright (PAR Inc.), non reproduit ici. Découpage des sous-scores selon la version française consensuelle GRECO (total sur 30)."
+  }  ,
+
+  "ecpa": {
+    title: "Échelle ECPA",
+    subtitle: "Évaluation comportementale de la douleur chez la personne âgée",
+    intro: "8 items cotés de 0 à 4. Les items 1 à 4 s'observent AVANT les soins, les items 5 à 8 PENDANT les soins. Coter la première dimension réellement avant le soin, jamais de mémoire après.",
+    items: [
+      { id: "e1", label: "1 · Avant les soins — Expression du visage : regard et mimique", type: "select", options: [["Visage détendu", 0], ["Visage soucieux", 1], ["Le sujet grimace de temps en temps", 2], ["Regard effrayé et/ou visage crispé", 3], ["Expression complètement figée", 4]] },
+      { id: "e2", label: "2 · Avant les soins — Position spontanée au repos (recherche d'une attitude antalgique)", type: "select", options: [["Aucune position antalgique", 0], ["Le sujet évite une position", 1], ["Le sujet choisit une position antalgique", 2], ["Le sujet recherche sans succès une position antalgique", 3], ["Le sujet reste immobile, comme cloué par la douleur", 4]] },
+      { id: "e3", label: "3 · Avant les soins — Mouvements (ou mobilité) du patient, hors et/ou dans le lit", type: "select", options: [["Bouge ou ne bouge pas comme d'habitude", 0], ["Bouge comme d'habitude mais évite certains mouvements", 1], ["Lenteur, rareté des mouvements contrairement à son habitude", 2], ["Immobilité contrairement à son habitude", 3], ["Absence de mouvement ou forte agitation contrairement à son habitude", 4]] },
+      { id: "e4", label: "4 · Avant les soins — Relation à autrui (regard, geste, expression…)", type: "select", options: [["Même type de contact que d'habitude", 0], ["Contact plus difficile à établir que d'habitude", 1], ["Évite la relation contrairement à l'habitude", 2], ["Absence de tout contact contrairement à l'habitude", 3], ["Indifférence totale contrairement à l'habitude", 4]] },
+      { id: "e5", label: "5 · Pendant les soins — Anticipation anxieuse aux soins", type: "select", options: [["Le sujet ne montre pas d'anxiété", 0], ["Angoisse du regard, impression de peur", 1], ["Sujet agité", 2], ["Sujet agressif", 3], ["Cris, soupirs, gémissements", 4]] },
+      { id: "e6", label: "6 · Pendant les soins — Réactions pendant la mobilisation", type: "select", options: [["Se laisse mobiliser ou se mobilise sans y accorder d'attention particulière", 0], ["Regard attentif, semble craindre la mobilisation et les soins", 1], ["Retient de la main ou guide les gestes lors de la mobilisation ou des soins", 2], ["Adopte une position antalgique lors de la mobilisation ou des soins", 3], ["S'oppose à la mobilisation ou aux soins", 4]] },
+      { id: "e7", label: "7 · Pendant les soins — Réactions pendant les soins des zones douloureuses", type: "select", options: [["Aucune réaction pendant les soins", 0], ["Réaction pendant les soins, sans plus", 1], ["Réaction au toucher des zones douloureuses", 2], ["Réaction à l'effleurement des zones douloureuses", 3], ["L'approche des zones est impossible", 4]] },
+      { id: "e8", label: "8 · Pendant les soins — Plaintes exprimées pendant le soin", type: "select", options: [["Le sujet ne se plaint pas", 0], ["Se plaint si le soignant s'adresse à lui", 1], ["Se plaint dès la présence du soignant", 2], ["Gémit ou pleure silencieusement de façon spontanée", 3], ["Crie ou se plaint violemment de façon spontanée", 4]] }
+    ],
+    interpret: t => t === 0
+      ? { color: "teal", txt: "Aucun signe comportemental de douleur relevé (0 / 32)" }
+      : (t <= 10 ? { color: "amber", txt: "Signes comportementaux présents — à comparer aux cotations précédentes" }
+                 : { color: "red", txt: "Signes comportementaux marqués — réévaluer la prise en charge antalgique" }),
+    note: "Le score va de 0 (absence de douleur) à 32 (douleur totale). <strong>L'ECPA n'a pas de seuil consensuel de mise sous traitement</strong> : sa valeur tient à la répétition des cotations chez un même patient — c'est l'évolution du score qui oriente, pas sa valeur isolée. La cotation est réalisée par une seule personne, en 1 à 5 minutes, et peut être répétée autant que nécessaire. Les états végétatifs ne relèvent pas de cette échelle.",
+    source: "Échelle ECPA — vocabulaire issu des soignants, 8 items en 2 dimensions (avant / pendant les soins)."
   }
 
 };
