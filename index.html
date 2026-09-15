@@ -374,6 +374,7 @@
   }
 
   .card{
+    min-height:112px;
     background:rgba(255,255,255,.86);
     backdrop-filter:blur(6px);
     -webkit-backdrop-filter:blur(6px);
@@ -429,9 +430,11 @@
     gap:12px;
     animation:cardIn .25s ease both;
   }
-  .card-wrap{position:relative;}
+  .card-wrap{position:relative; display:flex;}
   .card-wrap-featured{grid-column:span 2;}
-  .card-wrap .card, .card-wrap .card-featured{width:100%;}
+  /* La carte remplit toute la hauteur de sa cellule de grille : sans cela,
+     deux cartes d'une meme ligne n'ont pas la meme hauteur. */
+  .card-wrap .card, .card-wrap .card-featured{width:100%; height:100%;}
   .card-select{
     position:absolute;
     top:10px;
@@ -1078,8 +1081,12 @@
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
     gap:12px;
+    /* Toutes les lignes a la meme hauteur : les cartes Ressources sont
+       toutes du meme type, l'uniformite stricte est donc sans risque. */
+    grid-auto-rows:1fr;
   }
   .res-card{
+    min-height:132px;
     background:var(--card-bg);
     border:1px solid var(--border);
     border-left:3px solid var(--pill,var(--border));
@@ -1125,20 +1132,40 @@
   }
   .partner-links a:hover, .partner-links button:hover{background:rgba(255,255,255,.22);}
 
-  .subcat-block{margin-top:22px;}
+  .subcat-block{margin-top:30px;}
   .subcat-block:first-child{margin-top:0;}
+  /* Sous-titre de sous-categorie : bandeau plein, pour qu'on voie d'un coup
+     d'oeil qu'il chapeaute tous les documents situes en dessous. */
   .subcat-heading{
     font-family:'Space Grotesk','IBM Plex Sans',sans-serif;
-    font-size:18px;
+    font-size:16.5px;
     font-weight:700;
-    color:var(--navy);
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:#fff;
+    background:var(--pill,var(--navy));
     display:flex;
     align-items:center;
-    gap:8px;
-    margin-bottom:12px;
-    padding-bottom:8px;
-    border-bottom:1px solid var(--border);
+    gap:10px;
+    margin-bottom:14px;
+    padding:11px 16px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(11,37,69,.16);
   }
+  .subcat-heading .nav-count{
+    background:rgba(255,255,255,.22);
+    color:#fff;
+    font-size:12.5px;
+    padding:2px 9px;
+  }
+  /* Grille dediee aux outils interactifs : 2 par ligne quand la largeur le
+     permet, pleine largeur s'il n'y en a qu'un (auto-fit replie les colonnes
+     vides). Le span 2 par defaut des bandeaux est neutralise ici. */
+  .grid-featured{
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    margin-bottom:12px;
+  }
+  .grid-featured .card-wrap-featured{grid-column:auto;}
 
   .theme-block{margin-top:18px; padding-left:14px; border-left:3px solid var(--pill, var(--border));}
   .theme-block:first-child{margin-top:0;}
@@ -3355,6 +3382,29 @@ async function downloadSelectedZip(scopeId){
 }
 window.downloadSelectedZip = downloadSelectedZip;
 
+// Rend un ensemble de documents : les outils interactifs sont regroupes dans
+// leur propre grille (2 par ligne, pleine largeur s'il n'y en a qu'un), puis
+// les documents classiques en dessous. `subId` permet un ordre specifique.
+function renderCardsGroup(list, cat, subId){
+  const featured = list.filter(it => it.interactive);
+  const plain = list.filter(it => !it.interactive);
+
+  const gridFeatured = items => items.length
+    ? `<div class="grid grid-featured">${items.map(it => cardHTML(it, cat)).join("")}</div>` : "";
+  const gridPlain = items => items.length
+    ? `<div class="grid">${items.map(it => cardHTML(it, cat)).join("")}</div>` : "";
+
+  // Administratifs : les CERFA et la prescription de transport d'abord, puis le
+  // certificat Handisport (outil interactif), puis le trombinoscope.
+  if(subId === "admin"){
+    const trombino = plain.filter(it => it.id === "trombinoscope-vms");
+    const autres = plain.filter(it => it.id !== "trombinoscope-vms");
+    return gridPlain(autres) + gridFeatured(featured) + gridPlain(trombino);
+  }
+
+  return gridFeatured(featured) + gridPlain(plain);
+}
+
 function renderCategoryPanel(cat){
   const c = colorVars(cat.color);
   const items = protocolsFor(cat.id);
@@ -3374,7 +3424,7 @@ function renderCategoryPanel(cat){
       .sort((a, b) => (b.interactive ? 1 : 0) - (a.interactive ? 1 : 0));
     const subIds = [...new Set(items.filter(it => it.subcategory).map(it => it.subcategory))];
 
-    const directHTML = direct.length ? `<div class="grid">${direct.map(it => cardHTML(it, cat)).join("")}</div>` : "";
+    const directHTML = direct.length ? renderCardsGroup(direct, cat) : "";
 
     const subHTML = subIds.map(subId => {
       const subItems = items.filter(it => it.subcategory === subId);
@@ -3387,7 +3437,7 @@ function renderCategoryPanel(cat){
         .sort((a, b) => a.title.localeCompare(b.title, "fr"));
       const themeIds = [...new Set(subItems.filter(it => it.theme).map(it => it.theme))];
 
-      const directSubHTML = directSub.length ? `<div class="grid">${directSub.map(it => cardHTML(it, cat)).join("")}</div>` : "";
+      const directSubHTML = directSub.length ? renderCardsGroup(directSub, cat, subId) : "";
 
       const themeHTML = themeIds.map(themeId => {
         const themeItems = subItems
@@ -3409,7 +3459,7 @@ function renderCategoryPanel(cat){
 
       return `
         <div class="subcat-block">
-          <h3 class="subcat-heading">${label} <span class="nav-count">${subItems.length}</span></h3>
+          <h3 class="subcat-heading" style="--pill:${c.pill};--pillbg:${c.pillbg}">${label} <span class="nav-count">${subItems.length}</span></h3>
           ${directSubHTML}
           ${themeHTML}
         </div>
