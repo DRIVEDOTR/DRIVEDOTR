@@ -1116,6 +1116,26 @@
   .partner-row{display:flex; gap:20px; flex-wrap:wrap; margin-bottom:24px;}
   .partner-row .partner-card{margin-bottom:0;}
   .partner-card h3{color:#fff; font-size:17px; margin-bottom:6px;}
+  .partner-logo-tile{
+    display:inline-flex;
+    align-items:center;
+    background:#fff;
+    border-radius:8px;
+    padding:6px 10px;
+    margin-bottom:10px;
+  }
+  .partner-logo-tile img{display:block; height:22px; width:auto;}
+  .calc-pulselife-card{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+    padding:14px 18px;
+    margin:4px 0 18px;
+  }
+  .calc-pulselife-card .partner-logo-tile{margin:0; flex:none;}
+  .calc-pulselife-card p{color:#fff; font-size:13.5px; margin:0; flex:1; min-width:220px;}
+  .calc-pulselife-card .partner-links{margin:0;}
   .partner-card p{color:#c7d3e6; font-size:14px; margin:0 0 12px; max-width:62ch;}
   .partner-links{display:flex; gap:10px; flex-wrap:wrap;}
   .partner-links a, .partner-links button{
@@ -3393,7 +3413,9 @@ function renderSidebar(){
     const cc = colorVars(cat.color);
     btn.style.setProperty("--pill", cc.pill);
     btn.style.setProperty("--pillbg", cc.pillbg);
-    const count = cat.id === "medicaments-ecrasables" ? MEDICAMENTS_ECRASABLES.length : protocolsFor(cat.id).length;
+    const count = cat.id === "medicaments-ecrasables" ? MEDICAMENTS_ECRASABLES.length
+      : cat.id === "calculateurs" ? CALC_TOOLS.length
+      : protocolsFor(cat.id).length;
     btn.innerHTML = `
       ${categoryIconHTML(cat.icon, cat.color, "sm")}
       <span class="nav-label">${cat.label}</span>
@@ -4559,6 +4581,14 @@ function renderCalcPanel(){
             <span class="tool-hero-stat">Calcul local, rien n'est transmis</span>
             <span class="tool-hero-stat">Export PDF</span>
           </div>
+        </div>
+      </div>
+
+      <div class="partner-card calc-pulselife-card">
+        <div class="partner-logo-tile"><img src="https://images.prismic.io/pulselife-institutional-website/65d710533a605798c18c139a_PulseLife-logo.png?auto=format,compress" alt="PulseLife" /></div>
+        <p>Besoin d'un score qui n'est pas encore ici ? <strong>PulseLife</strong> en propose plus de 400 autres, toutes spécialités confondues — gratuit pour tous les professionnels de santé.</p>
+        <div class="partner-links">
+          <a href="https://pulselife.com/fr-fr" target="_blank" rel="noopener">pulselife.com</a>
         </div>
       </div>
 
@@ -8790,6 +8820,15 @@ function renderResourcesPanel(){
         <p>Plateforme nationale de référence pour demander l'avis tracé d'un spécialiste sur un patient, sans déplacement — acte reconnu et rémunéré par l'Assurance Maladie. Très largement utilisée en EHPAD et structures médico-sociales.</p>
         <div class="partner-links">
           <a href="https://omnidoc.fr" target="_blank" rel="noopener">omnidoc.fr</a>
+        </div>
+      </div>
+
+      <div class="partner-card">
+        <div class="partner-logo-tile"><img src="https://images.prismic.io/pulselife-institutional-website/65d710533a605798c18c139a_PulseLife-logo.png?auto=format,compress" alt="PulseLife" /></div>
+        <h3>PulseLife — Moteur médical & apps cliniques</h3>
+        <p>Recherche médicale et chatbot IA sécurisé (sources exclusivement médicales, références cliquables), 300+ applications cliniques et plus de 400 scores et algorithmes de décision. Gratuit pour tous les professionnels de santé.</p>
+        <div class="partner-links">
+          <a href="https://pulselife.com/fr-fr" target="_blank" rel="noopener">pulselife.com</a>
         </div>
       </div>
     </div>
