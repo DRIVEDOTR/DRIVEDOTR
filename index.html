@@ -8103,105 +8103,104 @@ async function generateChariotChecklistPdf(dot, sec, items){
     const logo = await pdfDoc.embedJpg(base64ToBytes(VMS_DOTR_LOGO_B64));
 
     const pageW = 595.28, pageH = 841.89, margin = 34;
-    const navy   = rgb(0.043, 0.145, 0.271);
-    const muted  = rgb(0.42, 0.45, 0.50);
-    const hairline = rgb(0.82, 0.85, 0.89);
-    const zebra  = rgb(0.965, 0.974, 0.984);
-    const white  = rgb(1, 1, 1);
-    // Couleur d'accent = couleur de la dotation (rouge = vitale, ambre = relative)
-    const accent = dot.color === "red" ? rgb(0.753, 0.227, 0.169) : rgb(0.706, 0.475, 0.059);
+    const navy     = rgb(0.043, 0.145, 0.271);
+    const muted    = rgb(0.42, 0.45, 0.50);
+    const hairline = rgb(0.80, 0.84, 0.89);
+    const zebra    = rgb(0.960, 0.971, 0.984);
+    const white    = rgb(1, 1, 1);
+    // Couleur d'accent selon la dotation : rouge = vitale, ambre = relative.
+    const isVitale   = dot.color === "red";
+    const accent     = isVitale ? rgb(0.753, 0.227, 0.169) : rgb(0.706, 0.475, 0.059);
+    const accentSoft = isVitale ? rgb(0.976, 0.914, 0.902) : rgb(0.984, 0.945, 0.867);
 
     const etab = (state.chariotEtab || "").trim();
-    const today = new Date().toLocaleDateString("fr-FR");
-    const sectionLabel = sec.label;
 
-    // ---- Géométrie des colonnes ----
-    const colGap   = 18;
-    const colWidth = (pageW - 2 * margin - colGap) / 2;
-    const boxSize  = 16;
-    const nameX    = 8;                       // retrait du libellé dans la colonne
-    const qtyW     = 44;                      // largeur de la colonne "attendu"
-    const boxOffX  = colWidth - boxSize - 8;  // position de la case à cocher
-    const qtyOffX  = boxOffX - qtyW;
-    const nameMaxW = qtyOffX - nameX - 6;
-    const colX     = [margin, margin + colWidth + colGap];
-
-    const bandH      = 60;
-    const bottomLimit = 104;  // zone réservée à la signature
+    // ---- Géométrie ----
+    const colGap    = 18;
+    const colWidth  = (pageW - 2 * margin - colGap) / 2;
+    const boxSize   = 15;
+    const nameX     = 9;
+    const qtyW      = 40;
+    const boxOffX   = colWidth - boxSize - 14;
+    const qtyOffX   = boxOffX - qtyW;
+    const nameMaxW  = qtyOffX - nameX - 8;
+    const colX      = [margin, margin + colWidth + colGap];
+    const bandH     = 64;
+    const bottomLimit = 106;
+    const lineH     = 10;
 
     function drawBand(page){
-      // Bandeau de titre pleine largeur, couleur de la dotation
       page.drawRectangle({ x: 0, y: pageH - bandH, width: pageW, height: bandH, color: accent });
+      // Filet plus sombre en bas de bandeau, pour asseoir le bloc
+      page.drawRectangle({ x: 0, y: pageH - bandH, width: pageW, height: 3, color: navy, opacity: 0.25 });
 
-      // Pastille blanche + logo VMS/DOTR, à droite du bandeau
-      const logoW = 74, logoH = logoW * (logo.height / logo.width);
+      const logoW = 70, logoH = logoW * (logo.height / logo.width);
       const tileW = logoW + 12, tileH = logoH + 10;
       const tileX = pageW - margin - tileW;
-      const tileY = pageH - bandH + (bandH - tileH) / 2;
+      const tileY = pageH - bandH + (bandH - tileH) / 2 + 1;
       page.drawRectangle({ x: tileX, y: tileY, width: tileW, height: tileH, color: white });
       page.drawImage(logo, { x: tileX + 6, y: tileY + 5, width: logoW, height: logoH });
 
-      const textMaxW = tileX - margin - 14;
-      let y = pageH - 26;
-      page.drawText("CHARIOT D'URGENCE — DOCUMENT DE CONTRÔLE", { x: margin, y, size: 8.5, font: bold, color: white });
-      y -= 16;
-      const t = `Dotation ${dot.label.replace("Urgence ", "").toUpperCase()} — ${sectionLabel}`;
-      page.drawText(t, { x: margin, y, size: 15, font: bold, color: white, maxWidth: textMaxW });
-      y -= 14;
-      page.drawText(`${items.length} élément${items.length > 1 ? "s" : ""} à vérifier`, { x: margin, y, size: 9, font, color: white });
+      let y = pageH - 24;
+      page.drawText("CHARIOT D'URGENCE — DOCUMENT DE CONTRÔLE", { x: margin, y, size: 8, font: bold, color: white, opacity: 0.85 });
+      y -= 19;
+      // Titre court : garantit qu'il ne touche jamais la pastille du logo.
+      page.drawText("Dotation " + dot.label.replace("Urgence ", ""), { x: margin, y, size: 17, font: bold, color: white });
+      y -= 15;
+      page.drawText(`${sec.label}  ·  ${items.length} élément${items.length > 1 ? "s" : ""}`, { x: margin, y, size: 9.5, font, color: white, opacity: 0.92 });
     }
 
     function drawIdentityBox(page, yTop){
-      // Encadré Établissement / Date, sur fond très clair
-      const h = 34;
+      const h = 32;
       const y = yTop - h;
       page.drawRectangle({ x: margin, y, width: pageW - 2 * margin, height: h, color: zebra, borderColor: hairline, borderWidth: 0.7 });
-      const midX = margin + (pageW - 2 * margin) / 2;
-      page.drawText("ÉTABLISSEMENT", { x: margin + 10, y: y + 20, size: 7.5, font: bold, color: muted });
-      page.drawText(etab || "................................................", { x: margin + 10, y: y + 8, size: 10.5, font: bold, color: navy });
-      page.drawText("DATE DU CONTRÔLE", { x: midX + 10, y: y + 20, size: 7.5, font: bold, color: muted });
-      page.drawText(today, { x: midX + 10, y: y + 8, size: 10.5, font: bold, color: navy });
-      page.drawLine({ start: { x: midX, y }, end: { x: midX, y: y + h }, thickness: 0.7, color: hairline });
+      page.drawRectangle({ x: margin, y, width: 3.5, height: h, color: accent });
+      page.drawText("ÉTABLISSEMENT", { x: margin + 14, y: y + 19, size: 7.5, font: bold, color: muted });
+      page.drawText(etab || "..............................................................", { x: margin + 14, y: y + 7, size: 11, font: bold, color: navy });
       return y;
     }
 
     function drawColumnHeaders(page, yTop){
-      const y = yTop - 13;
+      const y = yTop - 12;
       colX.forEach(cx => {
-        page.drawText("ÉLÉMENT", { x: cx + nameX, y, size: 7.5, font: bold, color: muted });
-        page.drawText("ATTENDU", { x: cx + qtyOffX, y, size: 7.5, font: bold, color: muted });
-        page.drawText("PRÉSENT", { x: cx + boxOffX - 12, y, size: 7.5, font: bold, color: muted });
-        page.drawLine({ start: { x: cx, y: y - 5 }, end: { x: cx + colWidth, y: y - 5 }, thickness: 1, color: accent });
+        // En-têtes positionnés à partir de la largeur réelle mesurée dans la
+        // police : évite tout chevauchement entre « ATTENDU » et « PRÉSENT ».
+        const wAtt = bold.widthOfTextAtSize("QTÉ", 7.5);
+        const wPre = bold.widthOfTextAtSize("PRÉSENT", 7.5);
+        page.drawText("ÉLÉMENT", { x: cx + nameX, y, size: 7.5, font: bold, color: accent });
+        page.drawText("QTÉ", { x: cx + qtyOffX + 4 + (26 - wAtt) / 2, y, size: 7.5, font: bold, color: accent });
+        page.drawText("PRÉSENT", { x: cx + boxOffX + boxSize / 2 - wPre / 2, y, size: 7.5, font: bold, color: accent });
+        page.drawLine({ start: { x: cx, y: y - 6 }, end: { x: cx + colWidth, y: y - 6 }, thickness: 1.2, color: accent });
       });
-      return y - 11;
+      return y - 6;
     }
 
     function drawFooter(page, pageNum){
-      const y = 52;
-      page.drawLine({ start: { x: margin, y: y + 30 }, end: { x: pageW - margin, y: y + 30 }, thickness: 0.7, color: hairline });
-      page.drawText("Vérifié par (nom, fonction)", { x: margin, y: y + 16, size: 7.5, font: bold, color: muted });
-      page.drawLine({ start: { x: margin, y: y + 2 }, end: { x: margin + 190, y: y + 2 }, thickness: 0.7, color: hairline });
-      page.drawText("Signature", { x: margin + 210, y: y + 16, size: 7.5, font: bold, color: muted });
-      page.drawLine({ start: { x: margin + 210, y: y + 2 }, end: { x: margin + 360, y: y + 2 }, thickness: 0.7, color: hairline });
-      page.drawText("Page " + pageNum, { x: pageW - margin - 38, y: y + 16, size: 8, font, color: muted });
-      page.drawText("Toute anomalie doit être signalée sans délai à l'IDEC et au médecin coordonnateur.",
+      const y = 54;
+      page.drawLine({ start: { x: margin, y: y + 32 }, end: { x: pageW - margin, y: y + 32 }, thickness: 1.2, color: accent });
+      page.drawText("Vérifié par (nom, fonction)", { x: margin, y: y + 18, size: 7.5, font: bold, color: muted });
+      page.drawLine({ start: { x: margin, y: y + 3 }, end: { x: margin + 200, y: y + 3 }, thickness: 0.7, color: hairline });
+      page.drawText("Date", { x: margin + 218, y: y + 18, size: 7.5, font: bold, color: muted });
+      page.drawText("......  /  ......  /  ..........", { x: margin + 218, y: y + 5, size: 9, font, color: navy });
+      page.drawText("Signature", { x: margin + 360, y: y + 18, size: 7.5, font: bold, color: muted });
+      page.drawLine({ start: { x: margin + 360, y: y + 3 }, end: { x: pageW - margin, y: y + 3 }, thickness: 0.7, color: hairline });
+      page.drawText("Toute anomalie est signalée sans délai à l'IDEC et au médecin coordonnateur.",
         { x: margin, y: y - 14, size: 7.5, font, color: muted });
+      page.drawText("Page " + pageNum, { x: pageW - margin - 34, y: y - 14, size: 7.5, font, color: muted });
     }
 
     function rowHeightFor(it){
       const lines = wrapPdfText(it.n, font, 8.5, nameMaxW).slice(0, 2);
-      return { lines, height: Math.max(19, lines.length * 10 + 9) };
+      return { lines, height: Math.max(21, lines.length * lineH + 11) };
     }
 
-    // ---- Construction des pages ----
+    // ---- Pages ----
     let pageNum = 1;
     let page = pdfDoc.addPage([pageW, pageH]);
     drawBand(page);
-    let yAfterId = drawIdentityBox(page, pageH - bandH - 12);
-    let top = drawColumnHeaders(page, yAfterId - 10);
+    let top = drawColumnHeaders(page, drawIdentityBox(page, pageH - bandH - 14) - 12);
     let colY = [top, top];
-    let col = 0;
-    let zebraIdx = 0;
+    let col = 0, zebraIdx = 0;
 
     items.forEach(it => {
       const { lines, height } = rowHeightFor(it);
@@ -8214,33 +8213,44 @@ async function generateChariotChecklistPdf(dot, sec, items){
           pageNum++;
           page = pdfDoc.addPage([pageW, pageH]);
           drawBand(page);
-          const yId = drawIdentityBox(page, pageH - bandH - 12);
-          top = drawColumnHeaders(page, yId - 10);
+          top = drawColumnHeaders(page, drawIdentityBox(page, pageH - bandH - 14) - 12);
           colY = [top, top];
-          col = 0;
-          zebraIdx = 0;
+          col = 0; zebraIdx = 0;
         }
       }
 
       const cx = colX[col];
-      const y  = colY[col];
+      // Tout est désormais positionné par rapport au BLOC de ligne (haut / bas),
+      // et non plus par rapport à la première ligne de texte : la case et la
+      // quantité restent centrées, que le libellé tienne sur 1 ou 2 lignes.
+      const rowTop = colY[col];
+      const rowBottom = rowTop - height;
+      const rowMid = rowBottom + height / 2;
 
-      // Fond alterné : aide l'œil à suivre la ligne jusqu'à sa case
       if(zebraIdx % 2 === 0){
-        page.drawRectangle({ x: cx, y: y - height + 14, width: colWidth, height, color: zebra });
+        page.drawRectangle({ x: cx, y: rowBottom, width: colWidth, height, color: zebra });
       }
 
+      // Bloc de texte centré verticalement dans la ligne
+      // Centrage optique exact : on centre sur la hauteur de capitale (~6,1 pt
+      // à 8,5 pt), pas sur la boîte de la police — sinon le texte paraît
+      // systématiquement trop haut par rapport à la case.
+      const firstBaseline = rowMid + (lines.length - 1) * lineH / 2 - 3.05;
       lines.forEach((ln, i) => {
-        page.drawText(ln, { x: cx + nameX, y: y - i * 10, size: 8.5, font, color: navy });
+        page.drawText(ln, { x: cx + nameX, y: firstBaseline - i * lineH, size: 8.5, font, color: navy });
       });
 
-      // Quantité attendue, en gras et en couleur d'accent
-      page.drawText(String(chariotGetQty(it)), { x: cx + qtyOffX + 14, y, size: 10, font: bold, color: accent });
+      // Quantité attendue dans une pastille teintée, centrée sur la ligne
+      const pillW = 26, pillH = 14;
+      page.drawRectangle({ x: cx + qtyOffX + 4, y: rowMid - pillH / 2, width: pillW, height: pillH, color: accentSoft });
+      const qty = String(chariotGetQty(it));
+      const qtyTextW = bold.widthOfTextAtSize(qty, 9.5);
+      page.drawText(qty, { x: cx + qtyOffX + 4 + (pillW - qtyTextW) / 2, y: rowMid - 3.4, size: 9.5, font: bold, color: accent });
 
-      // Case à réponse, alignée sur la première ligne du libellé
-      page.drawRectangle({ x: cx + boxOffX, y: y - 4, width: boxSize, height: boxSize, borderColor: navy, borderWidth: 1, color: white });
+      // Case à remplir, centrée sur la ligne
+      page.drawRectangle({ x: cx + boxOffX, y: rowMid - boxSize / 2, width: boxSize, height: boxSize, borderColor: navy, borderWidth: 1, color: white });
 
-      colY[col] = y - height;
+      colY[col] = rowBottom;
       zebraIdx++;
     });
 
