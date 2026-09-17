@@ -738,6 +738,8 @@
   .acb-score-2{background:var(--amber);}
   .acb-score-3{background:var(--red);}
   .chariot-head{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;}
+  .chariot-head > .neurolep-label{flex:1 1 100%; min-width:0; overflow-wrap:anywhere;}
+  .chariot-head-count{display:block; font-size:13px; font-weight:600; line-height:18px; margin-top:1px;}
   .chariot-sub{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--text-muted); margin:12px 0 4px;}
 
   /* ---------- Onglets de catégorie du chariot (Médicaments / DM / Équipement) ---------- */
@@ -8207,7 +8209,7 @@ function renderChariotPanel(){
         <div class="bio-layout-left">
           <div class="bio-options-wrap">
             <div class="chariot-head">
-              <span class="neurolep-label">${dot.label} — ${sec.label} — ${keptCount} / ${items.length} éléments retenus</span>
+              <span class="neurolep-label">${dot.label} — ${sec.label}<span class="chariot-head-count">${keptCount} / ${items.length} éléments retenus</span></span>
               <div class="bio-result-actions">
                 <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(true)">Quantités recommandées</button>
                 <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(false)">Tout mettre à 0</button>
