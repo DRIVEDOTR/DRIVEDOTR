@@ -400,6 +400,61 @@
     font-weight:600;
     line-height:1.35;
   }
+  /* ---------- Téléconsultation assistée : formulaire du médecin ---------- */
+  .tc-idbar{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px;}
+  .tc-idbar label{flex:1 1 220px; display:flex; flex-direction:column; gap:4px;
+    font-size:12px; font-weight:700; color:var(--text-muted);}
+  .tc-in{
+    border:1px solid var(--line); border-radius:8px; padding:6px 9px;
+    font-size:13px; font-family:inherit; color:var(--text); background:#fff;
+    width:100%; min-width:0;
+  }
+  .tc-in:focus{outline:2px solid var(--blue); outline-offset:-1px;}
+  .tc-in-inline{flex:1 1 90px; padding:3px 7px; font-size:12px; margin-left:8px;}
+  .tc-card{
+    border:1px solid var(--line); border-left-width:4px; border-radius:10px;
+    padding:12px 14px 13px; margin-bottom:12px; background:#fff;
+  }
+  .tc-card-title{font-size:14px; font-weight:700; color:var(--text); margin:0 0 9px;}
+  .tc-head{font-size:11.5px; font-weight:700; color:var(--text-muted);
+    text-transform:uppercase; letter-spacing:.03em; margin:9px 0 3px;}
+  .tc-note{font-size:12px; color:var(--text-muted); margin:3px 0 5px; line-height:1.45;}
+  .tc-foot{font-size:11.5px; color:var(--text-muted); margin:9px 0 0; line-height:1.45; font-style:italic;}
+  .tc-gap{height:5px;}
+  .tc-line{display:flex; align-items:center; gap:2px; border-radius:6px; padding:1px 4px; margin:1px 0;}
+  .tc-line.tc-on{background:var(--sky-bg);}
+  .tc-chk{display:flex; align-items:flex-start; gap:7px; cursor:pointer; font-size:12.5px;
+    line-height:1.35; color:var(--text); flex:1 1 auto; min-width:0;}
+  .tc-chk input{margin-top:2px; flex:none; width:14px; height:14px; cursor:pointer; accent-color:var(--blue);}
+  .tc-line.tc-on .tc-chk{font-weight:600;}
+  .tc-field{display:flex; align-items:center; gap:8px; margin:3px 0; font-size:12.5px; color:var(--text);}
+  .tc-field > span{flex:none; color:var(--text-muted);}
+  .tc-avis{border-left-color:var(--blue); background:var(--sky-bg);}
+  .tc-avis-area{
+    width:100%; border:1px solid var(--line); border-radius:8px; padding:9px 11px;
+    font-size:13.5px; font-family:inherit; line-height:1.5; color:var(--text);
+    background:#fff; resize:vertical; min-height:120px;
+  }
+  .tc-avis-area:focus{outline:2px solid var(--blue); outline-offset:-1px;}
+  .tc-alert{border-color:var(--red); border-left-color:var(--red); background:#fff;}
+  .tc-alert .tc-card-title{color:var(--red);}
+  .tc-alert-hot{background:var(--red-bg); box-shadow:0 0 0 2px var(--red) inset;}
+  .tc-purple{border-left-color:var(--purple);}
+  .tc-cyan, .tc-cyan_b{border-left-color:var(--teal);}
+  .tc-cyan_b{background:#F4FBFD;}
+  .tc-amber, .tc-amber_b{border-left-color:var(--amber);}
+  .tc-amber_b{background:#FFFBF4;}
+  .tc-green{border-left-color:var(--emerald);}
+  .tc-slate{border-left-color:var(--slate);}
+  .tc-blue{border-left-color:var(--blue);}
+  .tc-preview{
+    font-size:12.5px; line-height:1.5; color:var(--text);
+    max-height:none; overflow:visible;
+  }
+  .tc-preview p{margin:7px 0 3px;}
+  .tc-preview ul{margin:2px 0 8px; padding-left:19px;}
+  .tc-preview li{margin:1px 0;}
+
   /* Bandeau des documents encore en cours de rédaction */
   .card-wip{
     display:inline-block;
@@ -2771,6 +2826,14 @@ const DOCUMENTS = {
     filename: "Benzodiazepines_equivalences_RESPADD.pdf",
     path: "medicaments-securite/Benzodiazepines_equivalences_RESPADD.pdf"
   },
+  "teleconsultation-assistee": {
+    title: "Téléconsultation assistée — formulaire du médecin",
+    openLabel: "Ouvrir l'outil",
+    category: "telemedecine",
+    subcategory: "checklists",
+    meta: "Les 4 check-lists en version interactive, à remplir pendant le créneau : compte rendu structuré à copier dans le dossier, PDF de synthèse ou check-list remplie",
+    interactive: true
+  },
   "chk-lesion-cutanee": {
     wip: true,
     title: "Check-list — Lésion cutanée",
@@ -3397,6 +3460,11 @@ const state = {
   deprescSituation: null,
   acbSelected: [],
   acbQuery: "",
+  tcMotif: null,
+  tcVals: {},
+  tcAvis: "",
+  tcResident: "",
+  tcEtab: "",
   chariotDotation: "vitale",
   chariotQty: {},
   chariotEtab: "",
@@ -9354,6 +9422,475 @@ function renderSearchPanel(){
   `;
 }
 
+const TC_FORMS = {"cutanee":{"label":"Lésion cutanée","sub":"Plaie, escarre, rougeur, macération","color":"purple","icon":"🩹","ref":"DOTR-CHK-CUT","alert":{"title":"Appeler sans attendre le créneau si l'un de ces signes est présent","items":[{"k":"c","t":"Fièvre ≥ 38,5 °C, frissons, ou état général qui se dégrade en quelques heures"},{"k":"c","t":"Rougeur qui s'étend à vue d'œil, chaude et douloureuse, avec ou sans fièvre"},{"k":"c","t":"Crépitation sous la peau, bulles, zone noire qui progresse rapidement"},{"k":"c","t":"Plaie laissant voir l'os, un tendon ou du matériel"},{"k":"c","t":"Saignement qui persiste après 10 minutes de compression"},{"k":"c","t":"Morsure, plaie souillée ou corps étranger dans la plaie"},{"k":"c","t":"Confusion récente, marbrures, tension basse"}],"foot":"Appel du médecin DOTR sans attendre le créneau. Appel du 15 en cas de signes de choc, de fièvre élevée avec confusion, ou d'extension rapide de la rougeur."},"sections":[{"id":"s1-1-le-resident-et-la-question","title":"1. Le résident et la question","theme":"blue","wide":false,"foot":"","items":[{"k":"f","t":"Nom et prénom du résident","i":0},{"k":"g"},{"k":"h","t":"Question posée au médecin"},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"g"},{"k":"h","t":"Pièces à joindre — seulement si nécessaire"},{"k":"n","t":"Si nous avons accès au logiciel de l'établissement, ne rien joindre : tout y est déjà consultable."},{"k":"c","t":"Établissement sans logiciel accessible — joindre ordonnance, antécédents, allergies, bilans"},{"k":"cf","t":"Information importante pas encore saisie dans le logiciel — laquelle"},{"k":"cf","t":"Niveau de soin ou directives anticipées à signaler"},{"k":"c","t":"Photos et vidéos — dans tous les cas"}]},{"id":"s2-2-type-de-lesion-une-seule-c","title":"2. Type de lésion — une seule case","theme":"purple","wide":false,"foot":"","items":[{"k":"c","t":"Plaie"},{"k":"cf","t":"Origine","i":11},{"k":"c","t":"Escarre"},{"k":"c","t":"Stade 1 — rougeur qui ne blanchit pas","i":11},{"k":"c","t":"Stade 2 — peau ouverte ou phlyctène","i":11},{"k":"c","t":"Stade 3 — atteinte profonde, cratère","i":11},{"k":"c","t":"Stade 4 — muscle, tendon ou os visible","i":11},{"k":"c","t":"Indéterminé — fond noir ou couvert","i":11},{"k":"c","t":"Rougeur, mycose ou macération"},{"k":"cf","t":"Pli concerné","i":11},{"k":"g"},{"k":"f","t":"Localisation précise","i":0},{"k":"f","t":"Apparue le","i":0},{"k":"g"},{"k":"h","t":"Ancienneté"},{"k":"c","t":"Nouvelle (moins de 7 jours)"},{"k":"c","t":"Connue et stable"},{"k":"c","t":"Connue et en aggravation"},{"k":"f","t":"Protocole déjà utilisé","i":10},{"k":"f","t":"Date du dernier pansement","i":10}]},{"id":"s3-3-le-terrain-tout-profession","title":"3. Le terrain — tout professionnel","theme":"cyan","wide":false,"foot":"","items":[{"k":"h","t":"État général"},{"k":"c","t":"Conservé"},{"k":"c","t":"Altéré"},{"k":"c","t":"Dégradation depuis moins de 7 jours"},{"k":"g"},{"k":"h","t":"Poids"},{"k":"f","t":"Aujourd'hui","i":0},{"k":"f","t":"Le mois dernier","i":0},{"k":"g"},{"k":"h","t":"Alimentation"},{"k":"c","t":"Habituelle"},{"k":"c","t":"Insuffisante"},{"k":"c","t":"Quasi nulle"},{"k":"f","t":"Régime particulier","i":10},{"k":"g"},{"k":"h","t":"Hydratation"},{"k":"c","t":"Environ 1,5 L par jour ou plus"},{"k":"c","t":"Insuffisante"}]},{"id":"s4-3-bis-mobilite-continence-et","title":"3 bis. Mobilité, continence et matériel","theme":"cyan_b","wide":false,"foot":"","items":[{"k":"h","t":"Mobilité"},{"k":"cf","t":"Alité — heures par jour"},{"k":"cf","t":"Au fauteuil — heures par jour"},{"k":"c","t":"Marche — déambulation importante"},{"k":"c","t":"Marche — déambulation faible"},{"k":"g"},{"k":"h","t":"Continence"},{"k":"c","t":"Protections le jour"},{"k":"c","t":"Protections la nuit"},{"k":"f","t":"Changes par 24 h","i":10},{"k":"c","t":"Diarrhée en cours"},{"k":"g"},{"k":"h","t":"Matériel en place"},{"k":"c","t":"Matelas à air ou anti-escarre"},{"k":"c","t":"Lit médicalisé"},{"k":"c","t":"Coussin à air ou anti-escarre"},{"k":"c","t":"Coussin ou orthèse de positionnement"},{"k":"c","t":"Aucun"}]},{"id":"s5-4-description-de-la-lesion","title":"4. Description de la lésion","theme":"amber","wide":false,"foot":"","items":[{"k":"h","t":"Dimensions"},{"k":"f","t":"Longueur (cm)","i":0},{"k":"f","t":"Largeur (cm)","i":0},{"k":"f","t":"Profondeur (cm)","i":0},{"k":"g"},{"k":"h","t":"Peau autour de la lésion"},{"k":"c","t":"Saine"},{"k":"c","t":"Rouge et chaude"},{"k":"c","t":"Macérée — blanche et humide"},{"k":"c","t":"Sèche, qui pèle"},{"k":"g"},{"k":"h","t":"Berges"},{"k":"c","t":"Propres ou sèches"},{"k":"c","t":"Bourgeonnantes ou qui saignent"},{"k":"c","t":"Inflammatoires"},{"k":"g"},{"k":"h","t":"Fond de la lésion"},{"k":"c","t":"Rouge — bourgeon"},{"k":"c","t":"Jaune — fibrine"},{"k":"c","t":"Noir — nécrose"},{"k":"c","t":"Non visible"},{"k":"g"},{"k":"h","t":"Écoulement"},{"k":"c","t":"Absent"},{"k":"c","t":"Clair et liquide"},{"k":"c","t":"Épais, jaune ou vert"},{"k":"c","t":"Odeur présente"},{"k":"g"},{"k":"h","t":"Douleur"},{"k":"c","t":"Au repos"},{"k":"c","t":"Pendant les soins seulement"},{"k":"c","t":"Absente"},{"k":"f","t":"Évaluation (EVA ou Algoplus)","i":10}]},{"id":"s6-4-bis-selon-la-case-cochee-e","title":"4 bis. Selon la case cochée en 2","theme":"amber_b","wide":false,"foot":"","items":[{"k":"h","t":"Si escarre"},{"k":"c","t":"Position principale la nuit — dos"},{"k":"c","t":"Position principale la nuit — sur le côté"},{"k":"c","t":"Position principale la nuit — ventre"},{"k":"c","t":"Se retourne seul la nuit"},{"k":"f","t":"Changements de position par nuit","i":10},{"k":"c","t":"Appui persistant sur la zone malgré le matériel"},{"k":"g"},{"k":"h","t":"Si rougeur, mycose ou macération"},{"k":"cf","t":"D'autres plis sont atteints — lesquels"},{"k":"cf","t":"Traitement local déjà appliqué — lequel"},{"k":"c","t":"Bandelette urinaire faite (atteinte périnéale)"},{"k":"c","t":"Positive","i":11},{"k":"c","t":"Négative","i":11},{"k":"g"},{"k":"h","t":"Si plaie"},{"k":"cf","t":"Plaie traumatique — mécanisme"},{"k":"c","t":"Morsure ou plaie souillée"},{"k":"c","t":"Vaccination antitétanique à jour"},{"k":"c","t":"Statut antitétanique inconnu"}]},{"id":"s7-5-elements-infirmiers","title":"5. Éléments infirmiers","theme":"green","wide":false,"foot":"","items":[{"k":"n","t":"À remplir par l'IDE ou l'IDEC. En l'absence d'infirmier au moment du recueil, cocher la case ci-dessous et laisser la suite vide."},{"k":"c","t":"Aucun infirmier présent au moment du recueil"},{"k":"g"},{"k":"h","t":"Paramètres"},{"k":"f","t":"Tension artérielle","i":0},{"k":"f","t":"Pouls","i":0},{"k":"f","t":"Température","i":0},{"k":"f","t":"Saturation","i":0},{"k":"g"},{"k":"h","t":"Biologie déjà disponible dans le dossier"},{"k":"f","t":"Albumine — valeur et date","i":0},{"k":"f","t":"Protidémie — valeur et date","i":0},{"k":"f","t":"CRP — valeur et date","i":0},{"k":"c","t":"Aucun bilan récent disponible"},{"k":"g"},{"k":"h","t":"Gestes déjà réalisés"},{"k":"c","t":"Pansement refait ce jour"},{"k":"c","t":"Prélèvement bactériologique"},{"k":"c","t":"Détersion"}]},{"id":"s8-6-photos-et-videos-a-deposer","title":"6. Photos et vidéos à déposer dans Healphi","theme":"slate","wide":false,"foot":"","items":[{"k":"c","t":"Plan large, environ 30 s — le résident dans son ensemble"},{"k":"c","t":"Plan de la zone autour de la lésion, environ 30 s"},{"k":"c","t":"Gros plan sur la lésion, environ 30 s, avec une règle ou un repère de taille visible dans le champ"},{"k":"c","t":"Si rougeur : une vue d'un pli sain, pour comparaison"},{"k":"g"},{"k":"n","t":"Lumière du jour ou éclairage direct, à 20-30 cm, sans flash sur une peau humide. Reprendre le même angle que la fois précédente pour permettre la comparaison."},{"k":"g"},{"k":"h","t":"Où déposer — canal unique"},{"k":"c","t":"Dossier du résident dans Healphi"},{"k":"c","t":"Messagerie Healphi"},{"k":"c","t":"Partage d'écran pendant la visio"},{"k":"g"},{"k":"n","t":"Aucun envoi par WhatsApp, SMS ou messagerie personnelle."}]}]},"respi":{"label":"Troubles respiratoires","sub":"Toux, encombrement, essoufflement","color":"sky","icon":"🫁","ref":"DOTR-CHK-RESP","alert":{"title":"Appeler sans attendre le créneau si l'un de ces signes est présent","items":[{"k":"c","t":"Dyspnée au repos"},{"k":"c","t":"Saturation < 92 % sur un contrôle répété"},{"k":"c","t":"Fréquence respiratoire > 20 ou < 10 par minute"},{"k":"c","t":"Vigilance altérée — peu ou non réveillable"},{"k":"c","t":"Tension systolique < 80 mmHg contrôlée, avec marbrures"},{"k":"c","t":"Température ≥ 40 °C ne descendant pas sous 39 °C malgré les antipyrétiques"},{"k":"c","t":"Fièvre persistante malgré les antipyrétiques depuis 48 h"},{"k":"c","t":"Alimentation ou hydratation insuffisante ou nulle depuis 48 h"},{"k":"c","t":"Aggravation ou persistance de l'altération de l'état général depuis 24-48 h"},{"k":"c","t":"Troubles du comportement inhabituels — agitation, agressivité"}],"foot":"Appel du médecin DOTR sans attendre le créneau. Appel du 15 en cas de détresse respiratoire, de trouble de la conscience ou de signes de choc."},"sections":[{"id":"s1-1-le-resident-et-la-question","title":"1. Le résident et la question","theme":"blue","wide":false,"foot":"","items":[{"k":"f","t":"Nom et prénom du résident","i":0},{"k":"g"},{"k":"h","t":"Question posée au médecin"},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"g"},{"k":"h","t":"Pièces à joindre — seulement si nécessaire"},{"k":"n","t":"Si nous avons accès au logiciel de l'établissement, ne rien joindre : tout y est déjà consultable."},{"k":"c","t":"Établissement sans logiciel accessible — joindre ordonnance, antécédents, allergies, bilans"},{"k":"cf","t":"Information importante pas encore saisie dans le logiciel — laquelle"},{"k":"cf","t":"Niveau de soin ou directives anticipées à signaler"},{"k":"c","t":"Photos et vidéos — dans tous les cas"}]},{"id":"s2-2-etat-general-vigilance-com","title":"2. État général, vigilance, comportement","theme":"purple","wide":false,"foot":"","items":[{"k":"h","t":"État général"},{"k":"c","t":"Conservé"},{"k":"c","t":"Altéré — asthénie modérée"},{"k":"c","t":"Altéré — asthénie marquée"},{"k":"c","t":"Altéré — asthénie majeure, reste au lit"},{"k":"f","t":"Depuis quand","i":10},{"k":"g"},{"k":"h","t":"Vigilance"},{"k":"c","t":"Normale, habituelle"},{"k":"c","t":"Somnolent mais réveillable"},{"k":"c","t":"Peu stimulable"},{"k":"g"},{"k":"h","t":"Comportement"},{"k":"c","t":"Habituel"},{"k":"c","t":"Troubles inhabituels — agitation, agressivité, prostration"},{"k":"g"},{"k":"h","t":"Douleur"},{"k":"c","t":"Absente"},{"k":"cf","t":"Présente — localisation"}]},{"id":"s3-3-signes-respiratoires","title":"3. Signes respiratoires","theme":"cyan","wide":false,"foot":"","items":[{"k":"h","t":"Toux"},{"k":"c","t":"Absente"},{"k":"c","t":"Grasse"},{"k":"c","t":"Sèche"},{"k":"f","t":"Depuis quand","i":10},{"k":"g"},{"k":"h","t":"Expectorations"},{"k":"c","t":"Absentes"},{"k":"c","t":"Claires ou transparentes"},{"k":"c","t":"Jaunes ou vertes"},{"k":"c","t":"Mousseuses"},{"k":"c","t":"Rosées ou sanglantes"},{"k":"g"},{"k":"h","t":"Écoulement nasal"},{"k":"c","t":"Clair"},{"k":"c","t":"Épais, jaune ou vert"},{"k":"g"},{"k":"h","t":"Essoufflement"},{"k":"c","t":"Absent"},{"k":"c","t":"À l'effort"},{"k":"c","t":"Au repos"}]},{"id":"s4-3-bis-signes-de-lutte-et-bru","title":"3 bis. Signes de lutte et bruits","theme":"cyan_b","wide":false,"foot":"","items":[{"k":"h","t":"Signes visibles de lutte"},{"k":"c","t":"Aucun"},{"k":"c","t":"Tirage — creux au-dessus des clavicules"},{"k":"c","t":"Tirage — entre les côtes"},{"k":"c","t":"Battement des ailes du nez"},{"k":"c","t":"Ventre et thorax qui se creusent en alternance"},{"k":"c","t":"Grimaces, visage crispé"},{"k":"g"},{"k":"h","t":"Coloration"},{"k":"c","t":"Normale"},{"k":"c","t":"Lèvres ou ongles bleutés"},{"k":"c","t":"Marbrures aux genoux"},{"k":"g"},{"k":"h","t":"Bruits entendus sans stéthoscope"},{"k":"c","t":"Aucun"},{"k":"c","t":"Sifflements"},{"k":"c","t":"Encombrement, gargouillis"},{"k":"g"},{"k":"h","t":"Oxygène"},{"k":"c","t":"Pas d'oxygène"},{"k":"cf","t":"Oxygène en place — litres par minute"}]},{"id":"s5-4-fievre-et-tests-rapides","title":"4. Fièvre et tests rapides","theme":"amber","wide":false,"foot":"","items":[{"k":"h","t":"Température"},{"k":"f","t":"Valeur la plus haute","i":0},{"k":"f","t":"Depuis quand","i":0},{"k":"c","t":"Frissons"},{"k":"g"},{"k":"h","t":"Antipyrétique"},{"k":"c","t":"Non administré"},{"k":"c","t":"Administré — efficace"},{"k":"c","t":"Administré — sans effet"},{"k":"f","t":"Dernière prise, heure","i":10},{"k":"g"},{"k":"h","t":"Tests rapides réalisés"},{"k":"c","t":"Covid — positif"},{"k":"c","t":"Covid — négatif"},{"k":"c","t":"Grippe — positif"},{"k":"c","t":"Grippe — négatif"},{"k":"c","t":"VRS — positif"},{"k":"c","t":"VRS — négatif"},{"k":"c","t":"Streptotest si mal de gorge — positif"},{"k":"c","t":"Streptotest si mal de gorge — négatif"},{"k":"c","t":"Aucun test disponible"}]},{"id":"s6-4-bis-terrain-et-facteurs-fa","title":"4 bis. Terrain et facteurs favorisants","theme":"amber_b","wide":false,"foot":"","items":[{"k":"h","t":"Antécédents respiratoires"},{"k":"c","t":"BPCO"},{"k":"c","t":"Asthme"},{"k":"c","t":"Oxygénothérapie au long cours"},{"k":"c","t":"Antécédent d'œdème pulmonaire ou d'embolie"},{"k":"c","t":"Insuffisance cardiaque"},{"k":"g"},{"k":"h","t":"Déglutition"},{"k":"c","t":"Habituelle"},{"k":"c","t":"Difficile — douloureuse, fait tousser"},{"k":"c","t":"Fausse route constatée"},{"k":"f","t":"Date de la dernière fausse route","i":10},{"k":"c","t":"Texture modifiée en place"},{"k":"g"},{"k":"h","t":"Alimentation et hydratation"},{"k":"c","t":"Habituelles"},{"k":"c","t":"Insuffisantes"},{"k":"c","t":"Quasi nulles"},{"k":"f","t":"Depuis quand","i":10},{"k":"g"},{"k":"h","t":"Vaccinations"},{"k":"c","t":"Grippe de la saison"},{"k":"c","t":"Covid à jour"},{"k":"c","t":"Pneumocoque"},{"k":"c","t":"Non à jour ou inconnu"}]},{"id":"s7-5-elements-infirmiers","title":"5. Éléments infirmiers","theme":"green","wide":false,"foot":"","items":[{"k":"n","t":"À remplir par l'IDE ou l'IDEC. En l'absence d'infirmier au moment du recueil, cocher la case ci-dessous et laisser la suite vide."},{"k":"c","t":"Aucun infirmier présent au moment du recueil"},{"k":"g"},{"k":"h","t":"Paramètres"},{"k":"f","t":"Tension artérielle","i":0},{"k":"f","t":"Pouls","i":0},{"k":"f","t":"Température","i":0},{"k":"f","t":"Fréquence respiratoire","i":0},{"k":"g"},{"k":"h","t":"Saturation"},{"k":"f","t":"Valeur","i":0},{"k":"c","t":"Mesurée à l'air ambiant"},{"k":"cf","t":"Mesurée sous oxygène — L/min"},{"k":"c","t":"Contrôlée une seconde fois"},{"k":"g"},{"k":"h","t":"Gestes déjà réalisés"},{"k":"c","t":"Aérosol"},{"k":"c","t":"Aspiration"},{"k":"c","t":"Oxygène mis en route ou augmenté"},{"k":"c","t":"Position demi-assise"}]},{"id":"s8-6-photos-et-videos-a-deposer","title":"6. Photos et vidéos à déposer dans Healphi","theme":"slate","wide":false,"foot":"","items":[{"k":"c","t":"Plan large, environ 30 s — état général et respiration au repos, torse dégagé si possible"},{"k":"c","t":"Gros plan sur les lèvres et les ongles, à la recherche d'une coloration bleutée"},{"k":"c","t":"Plan sur les genoux, à la recherche de marbrures"},{"k":"c","t":"Gorge, environ 30 s, avec un abaisse-langue et un bon éclairage"},{"k":"c","t":"Langue — préciser si elle est humide, sèche, ou pâteuse et blanchâtre"},{"k":"g"},{"k":"h","t":"Stéthoscope connecté"},{"k":"c","t":"Enregistrement cardio-pulmonaire aux points bleus"},{"k":"n","t":"Pièce calme, résident assis ou demi-assis, stéthoscope à même la peau."},{"k":"g"},{"k":"h","t":"Où déposer — canal unique"},{"k":"c","t":"Dossier du résident dans Healphi"},{"k":"c","t":"Messagerie Healphi"},{"k":"c","t":"Partage d'écran pendant la visio"},{"k":"g"},{"k":"n","t":"Aucun envoi par WhatsApp, SMS ou messagerie personnelle."}]}]},"transit":{"label":"Troubles du transit","sub":"Constipation, diarrhée, ventre","color":"amber","icon":"🌀","ref":"DOTR-CHK-DIG","alert":{"title":"Appeler sans attendre le créneau si l'un de ces signes est présent","items":[{"k":"c","t":"Arrêt des selles ET des gaz"},{"k":"c","t":"Vomissements, a fortiori d'aspect ou d'odeur fécaloïde"},{"k":"c","t":"Ventre tendu, dur, douloureux à la simple pression"},{"k":"c","t":"Douleur abdominale intense ou d'apparition brutale"},{"k":"c","t":"Sang rouge abondant dans les selles, ou selles noires"},{"k":"c","t":"Diarrhée avec signes de déshydratation — langue sèche, confusion, urines rares"},{"k":"c","t":"Fièvre ≥ 38,5 °C associée à une douleur abdominale"},{"k":"c","t":"Aucune selle depuis plus de 5 jours, a fortiori avec des fuites liquides"}],"foot":"Appel du médecin DOTR sans attendre le créneau. Appel du 15 en cas de douleur abdominale aiguë avec ventre dur, de vomissements fécaloïdes ou de signes de choc. Des fuites liquides chez un résident constipé évoquent un fécalome, pas une diarrhée : aucun laxatif ni ralentisseur du transit sans avis médical."},"sections":[{"id":"s1-1-le-resident-et-la-question","title":"1. Le résident et la question","theme":"blue","wide":false,"foot":"","items":[{"k":"f","t":"Nom et prénom du résident","i":0},{"k":"g"},{"k":"h","t":"Question posée au médecin"},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"g"},{"k":"h","t":"Pièces à joindre — seulement si nécessaire"},{"k":"n","t":"Si nous avons accès au logiciel de l'établissement, ne rien joindre : tout y est déjà consultable."},{"k":"c","t":"Établissement sans logiciel accessible — joindre ordonnance, antécédents, allergies, bilans"},{"k":"cf","t":"Information importante pas encore saisie dans le logiciel — laquelle"},{"k":"cf","t":"Niveau de soin ou directives anticipées à signaler"},{"k":"c","t":"Photos et vidéos — dans tous les cas"}]},{"id":"s2-2-nature-du-trouble-une-seul","title":"2. Nature du trouble — une seule case","theme":"purple","wide":false,"foot":"","items":[{"k":"c","t":"Constipation"},{"k":"c","t":"Diarrhée"},{"k":"c","t":"Alternance des deux"},{"k":"g"},{"k":"f","t":"Date des dernières selles","i":0},{"k":"f","t":"Nombre de selles sur 24 h","i":0},{"k":"g"},{"k":"h","t":"Gaz"},{"k":"c","t":"Émis normalement"},{"k":"c","t":"Diminués"},{"k":"c","t":"Aucun gaz"},{"k":"g"},{"k":"h","t":"Aspect des selles"},{"k":"c","t":"Moulées"},{"k":"c","t":"Dures, en petits morceaux"},{"k":"c","t":"Liquides avec matières"},{"k":"c","t":"Liquides sans matières, comme de l'eau de riz"},{"k":"c","t":"Glaires"},{"k":"c","t":"Sang rouge"},{"k":"c","t":"Noires"}]},{"id":"s3-3-ventre-et-douleurs","title":"3. Ventre et douleurs","theme":"cyan","wide":false,"foot":"","items":[{"k":"h","t":"Aspect du ventre"},{"k":"c","t":"Souple"},{"k":"c","t":"Ballonné, gonflé"},{"k":"c","t":"Tendu"},{"k":"g"},{"k":"h","t":"Douleur du ventre"},{"k":"c","t":"Absente"},{"k":"c","t":"À la pression seulement"},{"k":"c","t":"Spontanée, permanente"},{"k":"cf","t":"Localisation"},{"k":"g"},{"k":"h","t":"Zones des reins (fosses lombaires)"},{"k":"c","t":"Souples et indolores"},{"k":"c","t":"Douloureuses à droite"},{"k":"c","t":"Douloureuses à gauche"},{"k":"g"},{"k":"h","t":"Signes associés"},{"k":"c","t":"Nausées"},{"k":"c","t":"Vomissements"},{"k":"c","t":"Agitation ou plaintes inhabituelles"}]},{"id":"s4-3-bis-alimentation-hydratati","title":"3 bis. Alimentation, hydratation, mobilité","theme":"cyan_b","wide":false,"foot":"","items":[{"k":"h","t":"Alimentation"},{"k":"c","t":"Habituelle"},{"k":"c","t":"Insuffisante"},{"k":"c","t":"Quasi nulle"},{"k":"f","t":"Depuis quand","i":10},{"k":"c","t":"Alimentation par sonde ou gastrostomie"},{"k":"cf","t":"Régime particulier"},{"k":"g"},{"k":"h","t":"Fibres et hydratation"},{"k":"c","t":"Environ 1,5 L de boisson par jour ou plus"},{"k":"c","t":"Hydratation insuffisante"},{"k":"g"},{"k":"h","t":"Mobilité"},{"k":"c","t":"Marche"},{"k":"c","t":"Fauteuil"},{"k":"c","t":"Alité"},{"k":"c","t":"Kinésithérapie ou activité physique adaptée en cours"},{"k":"g"},{"k":"h","t":"Toilettes"},{"k":"c","t":"Va aux toilettes"},{"k":"c","t":"Protections uniquement"}]},{"id":"s5-4-traitements-en-cours","title":"4. Traitements en cours","theme":"amber","wide":false,"foot":"","items":[{"k":"h","t":"Si constipation — traitements déjà donnés"},{"k":"cf","t":"Laxatif — lequel"},{"k":"f","t":"Depuis quand, à quelle dose","i":10},{"k":"c","t":"Efficace"},{"k":"c","t":"Sans effet"},{"k":"c","t":"Suppositoire ou lavement donné"},{"k":"c","t":"Aucun traitement donné"},{"k":"g"},{"k":"h","t":"Si diarrhée — traitements déjà donnés"},{"k":"cf","t":"Ralentisseur du transit — lequel"},{"k":"c","t":"Réhydratation orale mise en place"},{"k":"c","t":"Aucun traitement donné"},{"k":"g"},{"k":"h","t":"Protocole DOTR appliqué"},{"k":"c","t":"Protocole Constipation"},{"k":"c","t":"Protocole Diarrhée"},{"k":"c","t":"Aucun protocole appliqué"},{"k":"f","t":"Effet observé","i":10}]},{"id":"s6-4-bis-terrain-digestif-et-me","title":"4 bis. Terrain digestif et médicaments en cause","theme":"amber_b","wide":false,"foot":"","items":[{"k":"h","t":"Antécédents digestifs"},{"k":"c","t":"Constipation chronique connue"},{"k":"c","t":"Fécalome déjà survenu"},{"k":"cf","t":"Stomie — type"},{"k":"cf","t":"Chirurgie digestive — laquelle"},{"k":"c","t":"Dolichocôlon ou mégacôlon connu"},{"k":"c","t":"Troubles neurologiques du transit"},{"k":"g"},{"k":"h","t":"Médicaments qui constipent"},{"k":"c","t":"Morphine ou dérivés"},{"k":"c","t":"Neuroleptiques"},{"k":"c","t":"Antiépileptiques"},{"k":"c","t":"Fer"},{"k":"c","t":"Anticholinergiques"},{"k":"g"},{"k":"h","t":"Médicaments qui donnent la diarrhée"},{"k":"c","t":"Antibiotique en cours ou récent"},{"k":"f","t":"Date de fin","i":10},{"k":"c","t":"Laxatif encore en cours"},{"k":"c","t":"Alimentation hyperprotéinée"},{"k":"c","t":"Magnésium"}]},{"id":"s7-5-elements-infirmiers","title":"5. Éléments infirmiers","theme":"green","wide":false,"foot":"","items":[{"k":"n","t":"À remplir par l'IDE ou l'IDEC. En l'absence d'infirmier au moment du recueil, cocher la case ci-dessous et laisser la suite vide."},{"k":"c","t":"Aucun infirmier présent au moment du recueil"},{"k":"g"},{"k":"h","t":"Paramètres"},{"k":"f","t":"Tension artérielle","i":0},{"k":"f","t":"Pouls","i":0},{"k":"f","t":"Température","i":0},{"k":"f","t":"Saturation","i":0},{"k":"g"},{"k":"h","t":"Poids"},{"k":"f","t":"Aujourd'hui","i":0},{"k":"f","t":"Le mois dernier","i":0},{"k":"g"},{"k":"h","t":"Examens disponibles"},{"k":"cf","t":"Bladder scan réalisé — volume en mL"},{"k":"c","t":"Globe vésical palpé"},{"k":"c","t":"Bandelette urinaire faite"},{"k":"c","t":"Coproculture demandée"},{"k":"c","t":"Aucun examen réalisé"}]},{"id":"s8-6-photos-et-videos-a-deposer","title":"6. Photos et vidéos à déposer dans Healphi","theme":"slate","wide":false,"foot":"","items":[{"k":"c","t":"Plan large, environ 30 s — état général et aspect du ventre découvert"},{"k":"c","t":"Ventre, environ 30 s — palpation successive des quatre zones : au-dessus du pubis, autour du nombril, sur le cadre du côlon, sur les fosses lombaires"},{"k":"c","t":"Filmer le visage du résident pendant la palpation, pour repérer une douleur chez un résident non communicant"},{"k":"c","t":"Photo des selles si leur aspect est un élément de la question posée"},{"k":"g"},{"k":"h","t":"Stéthoscope connecté"},{"k":"c","t":"Enregistrement des bruits du ventre — cadre du côlon, nombril, au-dessus du pubis"},{"k":"n","t":"Un enregistrement distinct par position, pièce silencieuse."},{"k":"g"},{"k":"h","t":"Où déposer — canal unique"},{"k":"c","t":"Dossier du résident dans Healphi"},{"k":"c","t":"Messagerie Healphi"},{"k":"c","t":"Partage d'écran pendant la visio"},{"k":"g"},{"k":"n","t":"Aucun envoi par WhatsApp, SMS ou messagerie personnelle."}]}]},"urinaire":{"label":"Troubles urinaires","sub":"Brûlures, urines troubles, fuites","color":"teal","icon":"💧","ref":"DOTR-CHK-URO","alert":{"title":"Appeler sans attendre le créneau si l'un de ces signes est présent","items":[{"k":"c","t":"Fièvre ≥ 38,5 °C ou frissons"},{"k":"c","t":"Douleur d'un rein, sur le côté ou dans le dos"},{"k":"c","t":"Confusion d'apparition récente, chute inhabituelle"},{"k":"c","t":"Vomissements"},{"k":"c","t":"Tension systolique < 90 mmHg, marbrures, extrémités froides"},{"k":"c","t":"Aucune urine émise depuis plus de 8 à 12 heures"},{"k":"c","t":"Envie d'uriner impérieuse sans y parvenir, ventre dur au-dessus du pubis"},{"k":"c","t":"Urines très rouges, avec caillots"}],"foot":"Appel du médecin DOTR sans attendre le créneau. Appel du 15 en cas de sepsis suspecté — fièvre avec frissons et confusion, tension basse, marbrures. Une rétention aiguë d'urine est une urgence : ne pas attendre le créneau."},"sections":[{"id":"s1-1-le-resident-et-la-question","title":"1. Le résident et la question","theme":"blue","wide":false,"foot":"","items":[{"k":"f","t":"Nom et prénom du résident","i":0},{"k":"g"},{"k":"h","t":"Question posée au médecin"},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"g"},{"k":"h","t":"Pièces à joindre — seulement si nécessaire"},{"k":"n","t":"Si nous avons accès au logiciel de l'établissement, ne rien joindre : tout y est déjà consultable."},{"k":"c","t":"Établissement sans logiciel accessible — joindre ordonnance, antécédents, allergies, bilans"},{"k":"cf","t":"Information importante pas encore saisie dans le logiciel — laquelle"},{"k":"cf","t":"Niveau de soin ou directives anticipées à signaler"},{"k":"c","t":"Photos et vidéos — dans tous les cas"}]},{"id":"s2-2-signes-urinaires","title":"2. Signes urinaires","theme":"purple","wide":false,"foot":"","items":[{"k":"h","t":"Fréquence des mictions"},{"k":"c","t":"Habituelle"},{"k":"c","t":"Augmentée"},{"k":"c","t":"Diminuée"},{"k":"f","t":"Depuis quand","i":10},{"k":"g"},{"k":"h","t":"Signes ressentis ou observés"},{"k":"c","t":"Brûlures en urinant"},{"k":"c","t":"Envies pressantes"},{"k":"c","t":"Douleur au-dessus du pubis"},{"k":"c","t":"Douleur d'un rein ou du dos"},{"k":"c","t":"Fuites nouvelles ou aggravées"},{"k":"c","t":"Plaintes ou gémissements en urinant"},{"k":"c","t":"Aucun signe exprimé — résident non communicant"},{"k":"g"},{"k":"h","t":"Aspect des urines"},{"k":"c","t":"Foncées, concentrées"},{"k":"c","t":"Troubles"},{"k":"c","t":"Malodorantes"},{"k":"c","t":"Sang visible"}]},{"id":"s3-3-terrain-et-facteurs-favori","title":"3. Terrain et facteurs favorisants","theme":"cyan","wide":false,"foot":"","items":[{"k":"h","t":"Sonde urinaire"},{"k":"c","t":"Pas de sonde"},{"k":"c","t":"Sonde à demeure"},{"k":"c","t":"Sondages répétés"},{"k":"f","t":"Date de la dernière pose","i":10},{"k":"f","t":"Motif de la sonde","i":10},{"k":"g"},{"k":"h","t":"Antécédents urinaires"},{"k":"c","t":"Infections urinaires documentées et répétées"},{"k":"c","t":"Hypertrophie de la prostate"},{"k":"c","t":"Vessie neurologique connue"},{"k":"c","t":"Lithiase ou colique néphrétique"},{"k":"c","t":"Insuffisance rénale connue"},{"k":"g"},{"k":"h","t":"Antibiotique récent"},{"k":"c","t":"Aucun"},{"k":"cf","t":"Oui — lequel"},{"k":"f","t":"Date de fin","i":10},{"k":"g"},{"k":"h","t":"Chez la femme en âge de procréer"},{"k":"c","t":"Grossesse possible"}]},{"id":"s4-3-bis-hydratation-transit-au","title":"3 bis. Hydratation, transit, autonomie","theme":"cyan_b","wide":false,"foot":"","items":[{"k":"h","t":"Hydratation"},{"k":"c","t":"Environ 1,5 L par jour ou plus"},{"k":"c","t":"Insuffisante"},{"k":"g"},{"k":"h","t":"Transit"},{"k":"f","t":"Date des dernières selles","i":0},{"k":"c","t":"Constipation en cours"},{"k":"c","t":"Diarrhée en cours"},{"k":"g"},{"k":"h","t":"Continence et hygiène"},{"k":"c","t":"Continent"},{"k":"c","t":"Incontinent le jour"},{"k":"c","t":"Incontinent la nuit"},{"k":"c","t":"Port de protections"},{"k":"f","t":"Changes par 24 h","i":10},{"k":"c","t":"Toilette intime autonome"},{"k":"c","t":"Toilette intime avec aide"},{"k":"g"},{"k":"h","t":"Mobilité"},{"k":"c","t":"Va aux toilettes seul"},{"k":"c","t":"Accompagné aux toilettes"},{"k":"c","t":"Alité"}]},{"id":"s5-4-fievre-et-retentissement-g","title":"4. Fièvre et retentissement général","theme":"amber","wide":false,"foot":"","items":[{"k":"h","t":"Température"},{"k":"f","t":"Valeur la plus haute","i":0},{"k":"f","t":"Depuis quand","i":0},{"k":"c","t":"Frissons"},{"k":"g"},{"k":"h","t":"Antipyrétique"},{"k":"c","t":"Non administré"},{"k":"c","t":"Administré — efficace"},{"k":"c","t":"Administré — sans effet"},{"k":"g"},{"k":"h","t":"État général"},{"k":"c","t":"Conservé"},{"k":"c","t":"Altéré"},{"k":"g"},{"k":"h","t":"Signes qui, chez la personne âgée, peuvent être les seuls"},{"k":"c","t":"Confusion récente"},{"k":"c","t":"Chute inhabituelle"},{"k":"c","t":"Refus alimentaire"},{"k":"c","t":"Agitation ou agressivité nouvelles"},{"k":"c","t":"Aggravation d'une incontinence"}]},{"id":"s6-4-bis-bandelette-urinaire","title":"4 bis. Bandelette urinaire","theme":"amber_b","wide":false,"foot":"","items":[{"k":"n","t":"La bandelette ne se lit que chez un résident qui a des signes. Une bandelette positive sans symptôme ne veut pas dire infection et ne justifie pas d'antibiotique."},{"k":"g"},{"k":"h","t":"Chez un résident porteur de sonde"},{"k":"c","t":"Résident sondé — bandelette non contributive, ne pas la réaliser"},{"k":"n","t":"Chez un porteur de sonde, la présence de germes est constante : ni la bandelette ni l'ECBU ne permettent d'affirmer une infection. Seuls les signes cliniques comptent."},{"k":"g"},{"k":"h","t":"Résultat — résident non sondé"},{"k":"c","t":"Non réalisée"},{"k":"c","t":"Leucocytes positifs"},{"k":"c","t":"Nitrites positifs"},{"k":"c","t":"Sang"},{"k":"c","t":"Bandelette négative sur leucocytes et nitrites"},{"k":"f","t":"Date et heure du test","i":10},{"k":"g"},{"k":"h","t":"ECBU"},{"k":"c","t":"Non réalisé"},{"k":"c","t":"Prélevé, en attente"},{"k":"f","t":"Date du prélèvement","i":10}]},{"id":"s7-5-elements-infirmiers","title":"5. Éléments infirmiers","theme":"green","wide":false,"foot":"","items":[{"k":"n","t":"À remplir par l'IDE ou l'IDEC. En l'absence d'infirmier au moment du recueil, cocher la case ci-dessous et laisser la suite vide."},{"k":"c","t":"Aucun infirmier présent au moment du recueil"},{"k":"g"},{"k":"h","t":"Paramètres"},{"k":"f","t":"Tension artérielle","i":0},{"k":"f","t":"Pouls","i":0},{"k":"f","t":"Température","i":0},{"k":"f","t":"Saturation","i":0},{"k":"g"},{"k":"h","t":"Examen"},{"k":"c","t":"Douleur à la palpation au-dessus du pubis"},{"k":"c","t":"Douleur à la palpation d'une fosse lombaire"},{"k":"c","t":"Globe vésical palpé"},{"k":"cf","t":"Bladder scan réalisé — volume en mL"},{"k":"g"},{"k":"h","t":"Biologie déjà disponible dans le dossier"},{"k":"f","t":"Créatinine — valeur et date","i":0},{"k":"f","t":"CRP — valeur et date","i":0},{"k":"c","t":"Aucun bilan récent disponible"}]},{"id":"s8-6-photos-et-videos-a-deposer","title":"6. Photos et vidéos à déposer dans Healphi","theme":"slate","wide":false,"foot":"","items":[{"k":"c","t":"Plan large, environ 30 s — état général, comportement, niveau de vigilance"},{"k":"c","t":"Palpation au-dessus du pubis, environ 30 s, en filmant le visage du résident pour repérer la douleur"},{"k":"c","t":"Palpation des fosses lombaires, environ 30 s, à droite puis à gauche"},{"k":"c","t":"Photo du recueil d'urines, pour l'aspect et la couleur"},{"k":"c","t":"Photo de la bandelette, prise dans le délai de lecture, à côté de son étiquette de référence"},{"k":"g"},{"k":"h","t":"Où déposer — canal unique"},{"k":"c","t":"Dossier du résident dans Healphi"},{"k":"c","t":"Messagerie Healphi"},{"k":"c","t":"Partage d'écran pendant la visio"},{"k":"g"},{"k":"n","t":"Aucun envoi par WhatsApp, SMS ou messagerie personnelle."}]}]}};
+
+/* =====================================================================
+   TÉLÉCONSULTATION ASSISTÉE — outil interactif du médecin DOTR
+   Le médecin choisit le motif, coche au fil de ce que l'IDE rapporte,
+   rédige son avis, puis copie un compte rendu structuré ou édite un PDF.
+   Les données des formulaires sont générées depuis les check-lists PDF
+   (voir TC_FORMS plus haut) : les deux ne peuvent pas diverger.
+   ===================================================================== */
+
+const TC_MOTIF_ORDER = ["cutanee", "respi", "transit", "urinaire"];
+
+function tcKey(sec, idx){ return sec + "|" + idx; }
+
+function tcVal(key){
+  return state.tcVals[key];
+}
+
+function tcSetField(key, value){
+  if(value === "") delete state.tcVals[key];
+  else state.tcVals[key] = value;
+  renderTcResult();
+}
+window.tcSetField = tcSetField;
+
+function tcToggle(key, el){
+  if(el.checked) state.tcVals[key] = true;
+  else delete state.tcVals[key];
+  const wrap = el.closest(".tc-line");
+  if(wrap) wrap.classList.toggle("tc-on", el.checked);
+  const card = el.closest(".tc-alert");
+  if(card) card.classList.toggle("tc-alert-hot", tcAlertCount() > 0);
+  renderTcResult();
+}
+window.tcToggle = tcToggle;
+
+function tcToggleField(key, el){
+  const cur = state.tcVals[key] || {};
+  cur.on = el.checked;
+  if(!cur.on && !cur.v) delete state.tcVals[key];
+  else state.tcVals[key] = cur;
+  const wrap = el.closest(".tc-line");
+  if(wrap) wrap.classList.toggle("tc-on", el.checked);
+  renderTcResult();
+}
+window.tcToggleField = tcToggleField;
+
+function tcSetSubField(key, value){
+  const cur = state.tcVals[key] || {};
+  cur.v = value;
+  if(!cur.on && !cur.v) delete state.tcVals[key];
+  else state.tcVals[key] = cur;
+  renderTcResult();
+}
+window.tcSetSubField = tcSetSubField;
+
+function setTcMotif(id){
+  state.tcMotif = id;
+  renderTeleconsultPanel();
+}
+window.setTcMotif = setTcMotif;
+
+function tcResetAll(){
+  state.tcVals = {};
+  state.tcAvis = "";
+  state.tcResident = "";
+  state.tcEtab = "";
+  renderTeleconsultPanel();
+}
+window.tcResetAll = tcResetAll;
+
+function tcSetIdent(field, value){
+  state[field] = value;
+  renderTcResult();
+}
+window.tcSetIdent = tcSetIdent;
+
+function tcAlertCount(){
+  const f = TC_FORMS[state.tcMotif];
+  if(!f) return 0;
+  return f.alert.items.filter((it, i) => it.k !== "g" && state.tcVals[tcKey("alert", i)]).length;
+}
+
+/* ---------------------------------------------------------- rendu */
+function renderTeleconsultPanel(){
+  const cat = CATEGORIES.find(c => c.id === "telemedecine");
+  const c = colorVars(cat.color);
+  const mId = state.tcMotif;
+  const f = mId ? TC_FORMS[mId] : null;
+
+  contentEl.innerHTML = `
+    <button type="button" class="back-btn" onclick="closeDoc()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <div class="tool-hero" style="--pill:${c.pill}">
+        <span class="tool-hero-icon">🖥️</span>
+        <div class="tool-hero-body">
+          <p class="tool-hero-title">Téléconsultation assistée</p>
+          <p class="tool-hero-sub">Choisis le motif, coche au fil de ce que l'équipe te rapporte, écris ton avis : le compte rendu se construit à droite, prêt à coller dans le dossier ou à éditer en PDF.</p>
+          <div class="tool-hero-stats">
+            <span class="tool-hero-stat">4 motifs</span>
+            <span class="tool-hero-stat">Compte rendu structuré</span>
+            <span class="tool-hero-stat">Copier / PDF</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="doc-meta">Utilisable que l'établissement ait rempli la check-list en amont ou non : dans le second cas, elle se remplit en direct pendant le créneau. Rien n'est envoyé sur Internet, tout reste sur ce poste.</p>
+
+      <div class="neurolep-grid">
+        ${TC_MOTIF_ORDER.map(id => {
+          const x = TC_FORMS[id];
+          const xc = colorVars(x.color);
+          return `<button type="button" class="neurolep-bubble bio-bubble ${mId === id ? "bio-bubble-active" : ""}" style="--pill:${xc.pill};--pillbg:${xc.pillbg}" onclick="setTcMotif('${id}')">
+            <span class="neurolep-dci">${x.icon} ${x.label}</span>
+            <span class="neurolep-brand">${x.sub}</span>
+          </button>`;
+        }).join("")}
+      </div>
+
+      ${f ? tcFormHTML(f) : `<div class="empty-state" style="margin-top:14px;">Choisis un motif pour ouvrir le formulaire.</div>`}
+    </div>
+  `;
+  if(f) renderTcResult();
+}
+
+function tcFormHTML(f){
+  const alertOn = tcAlertCount() > 0;
+  return `
+    <div class="bio-layout chariot-layout">
+      <div class="bio-layout-left">
+        <div class="tc-idbar">
+          <label>Résident<input type="text" class="tc-in" value="${(state.tcResident || "").replace(/"/g, "&quot;")}" oninput="tcSetIdent('tcResident', this.value)" placeholder="Nom et prénom" /></label>
+          <label>Établissement<input type="text" class="tc-in" value="${(state.tcEtab || "").replace(/"/g, "&quot;")}" oninput="tcSetIdent('tcEtab', this.value)" placeholder="Nom de l'établissement" /></label>
+        </div>
+
+        <div class="tc-card tc-alert ${alertOn ? "tc-alert-hot" : ""}">
+          <p class="tc-card-title">${f.alert.title}</p>
+          ${f.alert.items.map((it, i) => tcItemHTML(it, "alert", i)).join("")}
+          ${f.alert.foot ? `<p class="tc-foot">${f.alert.foot}</p>` : ""}
+        </div>
+
+        ${f.sections.map(sec => `
+          <div class="tc-card tc-${sec.theme}">
+            <p class="tc-card-title">${sec.title}</p>
+            ${sec.items.map((it, i) => tcItemHTML(it, sec.id, i)).join("")}
+            ${sec.foot ? `<p class="tc-foot">${sec.foot}</p>` : ""}
+          </div>
+        `).join("")}
+
+        <div class="tc-card tc-avis">
+          <p class="tc-card-title">Avis, préconisations et prescriptions du médecin</p>
+          <textarea class="tc-avis-area" rows="7" placeholder="Analyse, conduite à tenir, prescriptions, surveillance demandée, délai de réévaluation…" oninput="tcSetIdent('tcAvis', this.value)">${(state.tcAvis || "").replace(/</g, "&lt;")}</textarea>
+        </div>
+      </div>
+
+      <div class="bio-layout-right">
+        <div id="tcResult"></div>
+      </div>
+    </div>
+  `;
+}
+
+function tcItemHTML(it, sec, i){
+  const key = tcKey(sec, i);
+  const v = state.tcVals[key];
+  const pad = it.i ? ` style="margin-left:${Math.round(it.i)}px"` : "";
+  switch(it.k){
+    case "g": return `<div class="tc-gap"></div>`;
+    case "h": return `<p class="tc-head">${it.t}</p>`;
+    case "n": return `<p class="tc-note">${it.t}</p>`;
+    case "f": return `<label class="tc-field"${pad}>${it.t ? `<span>${it.t}</span>` : ""}<input type="text" class="tc-in" value="${typeof v === "string" ? v.replace(/"/g, "&quot;") : ""}" oninput="tcSetField('${key}', this.value)" /></label>`;
+    case "cf": return `<div class="tc-line ${v && v.on ? "tc-on" : ""}"${pad}>
+        <label class="tc-chk"><input type="checkbox" ${v && v.on ? "checked" : ""} onchange="tcToggleField('${key}', this)" /><span>${it.t}</span></label>
+        <input type="text" class="tc-in tc-in-inline" value="${v && v.v ? String(v.v).replace(/"/g, "&quot;") : ""}" oninput="tcSetSubField('${key}', this.value)" />
+      </div>`;
+    default: return `<div class="tc-line ${v ? "tc-on" : ""}"${pad}>
+        <label class="tc-chk"><input type="checkbox" ${v ? "checked" : ""} onchange="tcToggle('${key}', this)" /><span>${it.t}</span></label>
+      </div>`;
+  }
+}
+
+/* ------------------------------------------------- compte rendu */
+/* Ne retient que ce qui est renseigné : les rubriques vides disparaissent. */
+function tcCollect(){
+  const f = TC_FORMS[state.tcMotif];
+  const out = { alert: [], sections: [] };
+
+  f.alert.items.forEach((it, i) => {
+    if(it.k !== "g" && state.tcVals[tcKey("alert", i)]) out.alert.push(it.t);
+  });
+
+  f.sections.forEach(sec => {
+    const lines = [];
+    let head = null;
+    sec.items.forEach((it, i) => {
+      if(it.k === "h"){ head = it.t; return; }
+      if(it.k === "g" || it.k === "n") return;
+      const key = tcKey(sec.id, i);
+      const v = state.tcVals[key];
+      if(v === undefined) return;
+      let txt = null;
+      if(it.k === "f"){
+        if(typeof v === "string" && v.trim()) txt = (it.t ? it.t + " : " : "") + v.trim();
+      }else if(it.k === "cf"){
+        if(v.on || (v.v && v.v.trim())) txt = it.t + (v.v && v.v.trim() ? " : " + v.v.trim() : "");
+      }else if(v === true){
+        txt = it.t;
+      }
+      if(txt) lines.push({ head: head, t: txt });
+    });
+    if(lines.length) out.sections.push({ title: sec.title, lines: lines });
+  });
+  return out;
+}
+
+function tcStamp(){
+  const d = new Date();
+  return d.toLocaleDateString("fr-FR") + " à " + d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+}
+
+function tcBuild(){
+  const f = TC_FORMS[state.tcMotif];
+  const data = tcCollect();
+  const res = (state.tcResident || "").trim();
+  const etab = (state.tcEtab || "").trim();
+  const avis = (state.tcAvis || "").trim();
+
+  const P = [], H = [];
+  P.push("TÉLÉCONSULTATION DOTR — " + f.label);
+  H.push(`<p><strong><u>TÉLÉCONSULTATION DOTR — ${esc(f.label)}</u></strong></p>`);
+
+  const ident = [res ? "Résident : " + res : null, etab ? "Établissement : " + etab : null,
+                 "Date : " + tcStamp()].filter(Boolean);
+  P.push(ident.join(" — "));
+  H.push(`<p>${ident.map(esc).join(" — ")}</p>`);
+
+  if(data.alert.length){
+    P.push("");
+    P.push("⚠ SIGNES D'ALERTE RELEVÉS");
+    data.alert.forEach(t => P.push("- " + t));
+    H.push(`<p><strong style="color:#B42318">⚠ SIGNES D'ALERTE RELEVÉS</strong></p><ul>${data.alert.map(t => `<li><strong>${esc(t)}</strong></li>`).join("")}</ul>`);
+  }
+
+  if(data.sections.length){
+    P.push("");
+    P.push("RECUEIL");
+    H.push(`<p><strong><u>RECUEIL</u></strong></p>`);
+    data.sections.forEach(sec => {
+      P.push("");
+      P.push(sec.title);
+      H.push(`<p><strong>${esc(sec.title)}</strong></p><ul>`);
+      let last = null;
+      sec.lines.forEach(l => {
+        if(l.head && l.head !== last){
+          P.push("  " + l.head + " :");
+          H.push(`<li><em>${esc(l.head)}</em></li>`);
+          last = l.head;
+        }
+        P.push("  - " + l.t);
+        H.push(`<li>${esc(l.t)}</li>`);
+      });
+      H.push("</ul>");
+    });
+  }
+
+  P.push("");
+  P.push("AVIS, PRÉCONISATIONS ET PRESCRIPTIONS DU MÉDECIN");
+  P.push(avis || "—");
+  H.push(`<p><strong><u>AVIS, PRÉCONISATIONS ET PRESCRIPTIONS DU MÉDECIN</u></strong></p>`);
+  H.push(`<p>${avis ? esc(avis).replace(/\n/g, "<br>") : "—"}</p>`);
+
+  P.push("");
+  P.push("Compte rendu établi pendant la téléconsultation — Docs On The Road / VMS");
+  H.push(`<p><em>Compte rendu établi pendant la téléconsultation — Docs On The Road / VMS</em></p>`);
+
+  return { plain: P.join("\n"), html: H.join(""), data: data };
+}
+
+function esc(s){
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function renderTcResult(){
+  const out = document.getElementById("tcResult");
+  if(!out) return;
+  const built = tcBuild();
+  const nb = built.data.sections.reduce((s, x) => s + x.lines.length, 0);
+  const alerts = built.data.alert.length;
+
+  out.innerHTML = `
+    <div class="bio-result-box">
+      <div class="bio-result-head">
+        <strong>${nb} élément${nb > 1 ? "s" : ""} renseigné${nb > 1 ? "s" : ""}${alerts ? ` · ${alerts} alerte${alerts > 1 ? "s" : ""}` : ""}</strong>
+        <div class="bio-result-actions">
+          <button type="button" class="bio-copy-btn" id="tcCopyBtn">Copier</button>
+          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="tcPdfSynth">📄 Compte rendu</button>
+          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="tcPdfFull">📋 Check-list remplie</button>
+          <button type="button" class="bio-reset-btn" onclick="tcResetAll()">Réinitialiser</button>
+        </div>
+      </div>
+      <div class="tc-preview">${built.html}</div>
+    </div>
+  `;
+
+  document.getElementById("tcCopyBtn").addEventListener("click", async function(){
+    const btn = this;
+    const done = () => { btn.textContent = "Copié ✓"; setTimeout(() => { btn.textContent = "Copier"; }, 1800); };
+    try{
+      if(navigator.clipboard && window.ClipboardItem){
+        await navigator.clipboard.write([new ClipboardItem({
+          "text/plain": new Blob([built.plain], { type: "text/plain" }),
+          "text/html": new Blob([built.html], { type: "text/html" })
+        })]);
+        done(); return;
+      }
+      await navigator.clipboard.writeText(built.plain); done();
+    }catch(e){
+      const ta = document.createElement("textarea");
+      ta.value = built.plain; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); }catch(err){}
+      document.body.removeChild(ta); done();
+    }
+  });
+  document.getElementById("tcPdfSynth").addEventListener("click", () => tcPdf(false));
+  document.getElementById("tcPdfFull").addEventListener("click", () => tcPdf(true));
+}
+
+/* ------------------------------------------------------------ PDF */
+/* Helvetica n'a pas tous les caractères : on remplace les manquants. */
+const WINANSI_EXTRA = "\u20AC\u201A\u0192\u201E\u2026\u2020\u2021\u02C6\u2030\u0160\u2039\u0152\u017D\u2018\u2019\u201C\u201D\u2022\u2013\u2014\u02DC\u2122\u0161\u203A\u0153\u017E\u0178";
+function pdfSafe(s){
+  return String(s)
+    .replace(/[≥]/g, ">=").replace(/[≤]/g, "<=")
+    .replace(/⚠️?/g, "/!\\").replace(/[☑☒]/g, "[X]").replace(/☐/g, "[ ]")
+    .replace(/×/g, "x")
+    .split("").filter(ch => {
+      const c = ch.charCodeAt(0);
+      return c === 10 || (c >= 32 && c <= 126) || (c >= 160 && c <= 255) || WINANSI_EXTRA.indexOf(ch) >= 0;
+    }).join("");
+}
+
+async function tcPdf(full){
+  const btnId = full ? "tcPdfFull" : "tcPdfSynth";
+  const btn = document.getElementById(btnId);
+  const original = btn.textContent;
+  btn.textContent = "Génération…";
+  try{
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const f = TC_FORMS[state.tcMotif];
+    const pdfDoc = await PDFDocument.create();
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const ital = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
+    const W = 595.28, H = 841.89, M = 48;
+    const navy = rgb(0.043, 0.145, 0.271);
+    const muted = rgb(0.40, 0.42, 0.46);
+    const red = rgb(0.706, 0.145, 0.094);
+
+    let page = pdfDoc.addPage([W, H]);
+    let y = H - 56;
+    const need = h => { if(y - h < 60){ page = pdfDoc.addPage([W, H]); y = H - 56; } };
+    const line = (t, o) => {
+      o = o || {};
+      const size = o.size || 9.5;
+      const fnt = o.font || font;
+      const col = o.color || navy;
+      const x = M + (o.indent || 0);
+      pdfSafe(t).split("\n").forEach(par => {
+        const lns = wrapPdfText(par, fnt, size, W - 2 * M - (o.indent || 0));
+        (lns.length ? lns : [""]).forEach(ln => {
+          need(size + 4);
+          page.drawText(ln, { x: x, y: y, size: size, font: fnt, color: col });
+          y -= size + 3.4;
+        });
+      });
+    };
+    const rule = () => { need(10); page.drawLine({ start: { x: M, y: y + 4 }, end: { x: W - M, y: y + 4 }, thickness: 0.6, color: muted }); y -= 8; };
+
+    line(full ? "CHECK-LIST REMPLIE — TÉLÉCONSULTATION DOTR" : "COMPTE RENDU DE TÉLÉCONSULTATION — DOTR", { size: 13, font: bold });
+    y -= 4;
+    line(f.label, { size: 15, font: bold });
+    y -= 2;
+    const ident = [(state.tcResident || "").trim() ? "Résident : " + state.tcResident.trim() : null,
+                   (state.tcEtab || "").trim() ? "Établissement : " + state.tcEtab.trim() : null,
+                   "Date : " + tcStamp()].filter(Boolean).join("   |   ");
+    line(ident, { size: 9, font: ital, color: muted });
+    y -= 6; rule();
+
+    const alerts = f.alert.items.map((it, i) => (it.k !== "g" && state.tcVals[tcKey("alert", i)]) ? it.t : null).filter(Boolean);
+    if(alerts.length){
+      line("SIGNES D'ALERTE RELEVÉS", { size: 10.5, font: bold, color: red });
+      alerts.forEach(t => line("• " + t, { size: 9.5, font: bold, color: red, indent: 6 }));
+      y -= 4; rule();
+    }
+
+    if(full){
+      // Fac-similé : toutes les lignes, cochées ou non.
+      f.sections.forEach(sec => {
+        need(26);
+        line(sec.title, { size: 10.5, font: bold });
+        sec.items.forEach((it, i) => {
+          const key = tcKey(sec.id, i);
+          const v = state.tcVals[key];
+          if(it.k === "g"){ y -= 3; return; }
+          if(it.k === "n") return;
+          if(it.k === "h"){ line(it.t, { size: 9, font: bold, color: muted, indent: 6 }); return; }
+          if(it.k === "f"){
+            line((it.t ? it.t + " : " : "") + (typeof v === "string" && v ? v : "…"), { size: 9, indent: 12 });
+            return;
+          }
+          const on = it.k === "cf" ? !!(v && v.on) : v === true;
+          const extra = it.k === "cf" && v && v.v ? " : " + v.v : "";
+          line((on ? "[X] " : "[ ] ") + it.t + extra, { size: 9, indent: 12, font: on ? bold : font, color: on ? navy : muted });
+        });
+        y -= 6;
+      });
+    }else{
+      const data = tcCollect();
+      data.sections.forEach(sec => {
+        need(26);
+        line(sec.title, { size: 10.5, font: bold });
+        let last = null;
+        sec.lines.forEach(l => {
+          if(l.head && l.head !== last){ line(l.head, { size: 9, font: ital, color: muted, indent: 6 }); last = l.head; }
+          line("• " + l.t, { size: 9.5, indent: 12 });
+        });
+        y -= 6;
+      });
+    }
+
+    y -= 4; rule();
+    line("AVIS, PRÉCONISATIONS ET PRESCRIPTIONS DU MÉDECIN", { size: 10.5, font: bold });
+    line((state.tcAvis || "").trim() || "—", { size: 10, indent: 6 });
+    y -= 14;
+    need(52);
+    line("Médecin DOTR : ..................................................        Signature :", { size: 9.5, color: muted });
+    y -= 6;
+    line("Document établi pendant la téléconsultation et destiné au dossier du résident. " + f.ref, { size: 7.5, font: ital, color: muted });
+
+    const bytes = await pdfDoc.save();
+    const name = (full ? "Checklist_remplie_" : "Compte_rendu_") + state.tcMotif + "_" +
+                 new Date().toISOString().slice(0, 10) + ".pdf";
+    triggerDownload(new Blob([bytes], { type: "application/pdf" }), name);
+    btn.textContent = "Fait ✓";
+    setTimeout(() => { btn.textContent = original; }, 1800);
+  }catch(e){
+    console.error(e);
+    btn.textContent = "Erreur";
+    setTimeout(() => { btn.textContent = original; }, 2200);
+  }
+}
+
+function triggerDownload(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+
 function render(){
   renderSidebar();
   if(state.activeDoc === "neuroleptiques-classiques" && state.explorerMode){
@@ -9376,6 +9913,8 @@ function render(){
     renderDeprescSituationPanel();
   }else if(state.activeDoc === "charge-anticholinergique" && state.explorerMode){
     renderAcbPanel();
+  }else if(state.activeDoc === "teleconsultation-assistee" && state.explorerMode){
+    renderTeleconsultPanel();
   }else if(state.activeDoc === "chariot-urgence" && state.explorerMode){
     renderChariotPanel();
   }else if(state.activeDoc === "medicaments-sensibles" && state.explorerMode){
