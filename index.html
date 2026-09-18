@@ -400,6 +400,19 @@
     font-weight:600;
     line-height:1.35;
   }
+  /* Bandeau des documents encore en cours de rédaction */
+  .card-wip{
+    display:inline-block;
+    margin-top:8px;
+    padding:3px 8px;
+    border-radius:7px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.01em;
+    color:#9A4A12;
+    background:#FFF1DF;
+    border:1px solid #F1C48C;
+  }
   .card-tag{
     align-self:flex-start;
     font-size:11.5px;
@@ -2085,6 +2098,13 @@ const CATEGORIES = [
     description: "Trames prêtes à remplir puis à copier : adressage à un spécialiste, téléexpertise structurée, demande d'hospitalisation, transmission à l'équipe."
   },
   {
+    id: "telemedecine",
+    label: "<em>Télémédecine</em>&nbsp;(En construction)",
+    icon: "telemedecine",
+    color: "slate",
+    description: "Préparer et réussir un créneau à distance : check-lists à faire remplir par l'établissement avant la téléconsultation ou la téléexpertise, et outils pratiques de la consultation à distance."
+  },
+  {
     id: "vaccination",
     label: "Vaccination",
     icon: "vaccin",
@@ -2114,6 +2134,8 @@ const CATEGORY_ICONS = {
   courrier: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
   /* Calculatrice : scores et formules cliniques */
   calculateur: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8"/><path d="M8.5 12h.01"/><path d="M12 12h.01"/><path d="M15.5 12h.01"/><path d="M8.5 16h.01"/><path d="M12 16h.01"/><path d="M15.5 16h.01"/>',
+  /* Écran de visio avec un stéthoscope : consultation à distance */
+  telemedecine: '<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M9 8v2.2a2.8 2.8 0 0 0 5.6 0V8"/><path d="M9 8h.01"/><path d="M14.6 8h.01"/><circle cx="16.8" cy="12.4" r="1.2"/>',
   /* Maillon de chaîne : liens et ressources externes */
   ressources: '<path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1-1"/>'
 };
@@ -2134,7 +2156,9 @@ const SUBCATEGORIES = {
   "as-educ": "Protocoles AS / Éduc",
   "ide": "Protocoles IDE",
   "admin": "Administratifs",
-  "tutos": "Tutos"
+  "tutos": "Tutos",
+  "checklists": "Check-lists de préparation",
+  "tele-outils": "Outils et tutoriels de la consultation à distance"
 };
 
 /* Thèmes cliniques affichés comme sous-sections à l'intérieur d'une
@@ -2747,11 +2771,51 @@ const DOCUMENTS = {
     filename: "Benzodiazepines_equivalences_RESPADD.pdf",
     path: "medicaments-securite/Benzodiazepines_equivalences_RESPADD.pdf"
   },
+  "chk-lesion-cutanee": {
+    wip: true,
+    title: "Check-list — Lésion cutanée",
+    openLabel: "Ouvrir la check-list",
+    category: "telemedecine",
+    subcategory: "checklists",
+    meta: "Plaie, escarre, rougeur ou macération — à faire remplir par l'établissement avant le créneau · remplace les check-lists n°4, n°5 et n°6",
+    filename: "Checklist_Lesion_cutanee_DOTR.pdf",
+    path: "checklists/Checklist_Lesion_cutanee_DOTR.pdf"
+  },
+  "chk-respiratoire": {
+    wip: true,
+    title: "Check-list — Troubles respiratoires",
+    openLabel: "Ouvrir la check-list",
+    category: "telemedecine",
+    subcategory: "checklists",
+    meta: "Toux, encombrement, essoufflement, fièvre respiratoire — critères d'appel au 15 en tête de fiche",
+    filename: "Checklist_Troubles_respiratoires_DOTR.pdf",
+    path: "checklists/Checklist_Troubles_respiratoires_DOTR.pdf"
+  },
+  "chk-transit": {
+    wip: true,
+    title: "Check-list — Troubles du transit",
+    openLabel: "Ouvrir la check-list",
+    category: "telemedecine",
+    subcategory: "checklists",
+    meta: "Constipation, diarrhée, ventre ballonné — repérage de l'occlusion et du fécalome, articulée avec les protocoles Constipation et Diarrhée",
+    filename: "Checklist_Troubles_transit_DOTR.pdf",
+    path: "checklists/Checklist_Troubles_transit_DOTR.pdf"
+  },
+  "chk-urinaire": {
+    wip: true,
+    title: "Check-list — Troubles urinaires",
+    openLabel: "Ouvrir la check-list",
+    category: "telemedecine",
+    subcategory: "checklists",
+    meta: "Suspicion d'infection urinaire — critères de sepsis, bandelette non contributive chez le résident sondé, articulée avec les protocoles Cystite",
+    filename: "Checklist_Troubles_urinaires_DOTR.pdf",
+    path: "checklists/Checklist_Troubles_urinaires_DOTR.pdf"
+  },
   "tuto-tampon-numerique": {
     title: "Tuto — Utiliser votre tampon numérique sur un PDF",
     openLabel: "Ouvrir le tuto",
-    category: "administratif",
-    subcategory: "tutos",
+    category: "telemedecine",
+    subcategory: "tele-outils",
     meta: "Tuto rapide PC (Adobe Acrobat Reader) — signer un PDF sans imprimer, en 6 étapes",
     filename: "Tuto_Tampon_Numerique_PDF.jpeg",
     path: "administratif/Tuto_Tampon_Numerique_PDF.jpeg"
@@ -2777,8 +2841,8 @@ const DOCUMENTS = {
   "tuto-healphi-ordoclic": {
     title: "Healphi / Ordoclic — Complément pratique",
     openLabel: "Ouvrir le tuto",
-    category: "administratif",
-    subcategory: "tutos",
+    category: "telemedecine",
+    subcategory: "tele-outils",
     meta: "En attendant le module d'ordonnances libres : ce qui passe par Ordoclic, ce qui passe par un document Word tamponné",
     filename: "Tuto_Healphi_Ordoclic.jpeg",
     path: "administratif/Tuto_Healphi_Ordoclic.jpeg"
@@ -3106,7 +3170,7 @@ const BIO_TESTS = {
   "probnp": "NT-proBNP",
   "ammoniemie": "Ammoniémie",
   "psa-total": "PSA total",
-  "psa-libre": "PSA libre (+ rapport PSA libre/total)"
+  "psa-libre": "± PSA libre / PSA total (à réaliser uniquement si PSA total entre 4 et 10 ng/mL)"
 };
 
 const BIO_SITUATIONS = [
@@ -3155,9 +3219,9 @@ const BIO_OPTIONS = [
   { id: "phosphocalcique", label: "Bilan phosphocalcique (Calcémie, phosphorémie, PTH, PAL)", indication: "MRC stade G3b-G5, anomalie antérieure", addIds: ["calcemie", "phosphoremie", "pth", "pal"] },
   { id: "afp-opt", label: "AFP (alpha-fœtoprotéine)", indication: "surveillance du CHC en complément de l'échographie (cirrhose, EASL 2024)", addIds: ["afp"] },
   { id: "inr-avk", label: "TP / INR", indication: "surveillance sous AVK", addIds: ["tp-inr"] },
-  { id: "depakinemie-opt", label: "Dépakinémie (valproate)", indication: "", addIds: ["depakinemie"], group: "antiepi-dosages" },
-  { id: "carbamazepinemie-opt", label: "Carbamazépinémie", indication: "", addIds: ["carbamazepinemie"], group: "antiepi-dosages" },
-  { id: "phenobarbitalemie-opt", label: "Phénobarbitalémie", indication: "", addIds: ["phenobarbitalemie"], group: "antiepi-dosages" },
+  { id: "depakinemie-opt", label: "Dépakinémie (valproate)", indication: "ajoute automatiquement le bilan hépatique (valproate hépatotoxique) — sans doublon si le bilan hépatique est déjà coché", addIds: ["depakinemie", "asat-alat", "ggt", "pal", "bilirubine"], group: "antiepi-dosages" },
+  { id: "carbamazepinemie-opt", label: "Carbamazépinémie", indication: "ajoute automatiquement le bilan hépatique (inducteur enzymatique, hépatotoxicité possible), la NFS (neutropénie, aplasie médullaire) et l'ionogramme (hyponatrémie par SIADH, fréquente chez le sujet âgé) — sans doublon si ces examens sont déjà cochés", addIds: ["carbamazepinemie", "nfs-plaquettes", "ionogramme", "asat-alat", "ggt", "pal", "bilirubine"], group: "antiepi-dosages" },
+  { id: "phenobarbitalemie-opt", label: "Phénobarbitalémie", indication: "ajoute automatiquement le bilan hépatique (inducteur enzymatique) — sans doublon si le bilan hépatique est déjà coché", addIds: ["phenobarbitalemie", "asat-alat", "ggt", "pal", "bilirubine"], group: "antiepi-dosages" },
   { id: "probnp-opt", label: "NT-proBNP", indication: "suspicion ou suivi d'insuffisance cardiaque, dyspnée inexpliquée", addIds: ["probnp"] },
   { id: "ammoniemie-opt", label: "Ammoniémie", indication: "confusion ou trouble de la conscience inexpliqué sous valproate (hyperammoniémie possible même avec valproatémie et bilan hépatique normaux), ou suspicion d'encéphalopathie hépatique (hépatopathie connue) — prélèvement à acheminer immédiatement au laboratoire sur glace, un délai fausse le résultat à la hausse", addIds: ["ammoniemie"] },
   { id: "psa-opt", label: "PSA total", indication: "homme symptomatique (signes urinaires évocateurs) ou suivi d'un cancer de la prostate connu — pas de dépistage systématique (HAS), à éviter si espérance de vie < 10 ans (AFU)", addIds: ["psa-total"], pairWith: "psa-libre-opt" },
@@ -3526,6 +3590,10 @@ function cardHTML(protocolItem, cat){
   // explicite) — les autres rubriques n'affichent pas la case à cocher.
   const hasPdf = cat.id === "protocoles-generaux" && doc && doc.path && /\.pdf$/i.test(doc.path);
   const openLabel = (doc && doc.openLabel) || "Ouvrir le PDF";
+  // Document en cours de rédaction : bandeau d'avertissement sur la carte.
+  const wipHTML = doc && doc.wip
+    ? `<span class="card-wip">⚠︎ En construction — ne pas télécharger</span>`
+    : "";
   const selected = !!state.selectedDocs[protocolItem.id];
   const checkboxHTML = hasPdf ? `
     <label class="card-select">
@@ -3561,6 +3629,7 @@ function cardHTML(protocolItem, cat){
       <button class="card" style="text-align:left;cursor:pointer" onclick="openDoc('${protocolItem.id}')">
         <span class="card-tag" style="--pill:${c.pill};--pillbg:${c.pillbg}">${cat.label}</span>
         <div class="card-title">${protocolItem.title}</div>
+        ${wipHTML}
         <span class="card-open">
           ${openLabel}
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
