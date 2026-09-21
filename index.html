@@ -400,6 +400,57 @@
     font-weight:600;
     line-height:1.35;
   }
+  /* ---------- Benzodiazépines : l'étoile des effets ---------- */
+  .bstar-wrap{
+    margin:16px 0 6px; padding:18px 16px 16px;
+    display:flex; flex-direction:column; align-items:center;
+    background:#fff; border:1px solid var(--line); border-radius:16px;
+    box-shadow:0 2px 14px rgba(15,35,70,.07);
+  }
+  .bstar-svg{
+    width:100%; max-width:460px; height:auto; touch-action:none;
+    cursor:crosshair; user-select:none; -webkit-user-select:none;
+  }
+  .bstar-svg.bstar-dragging{cursor:grabbing;}
+  .bstar-ring{fill:none; stroke:#E3E9F0; stroke-width:1;}
+  .bstar-ring-out{stroke:#BFCAD8; stroke-width:1.4;}
+  .bstar-spoke{stroke:#DDE4EC; stroke-width:1;}
+  .bstar-shape{
+    fill:var(--blue); fill-opacity:.20;
+    stroke:var(--blue); stroke-width:2.6; stroke-linejoin:round;
+    filter:drop-shadow(0 3px 10px rgba(30,142,241,.30));
+  }
+  .bstar-ghost{
+    fill:var(--teal); fill-opacity:.10;
+    stroke:var(--teal); stroke-width:2; stroke-dasharray:6 5; stroke-linejoin:round;
+  }
+  .bstar-handle{
+    fill:#fff; stroke:var(--blue); stroke-width:2.6; cursor:grab;
+    transition:r .14s ease, stroke-width .14s ease;
+  }
+  .bstar-handle:hover{r:10;}
+  .bstar-handle:focus{outline:none; r:10; stroke-width:3.4;}
+  .bstar-handle:focus-visible{stroke:var(--navy);}
+  .bstar-handle-zero{stroke:#A9B6C6;}
+  .bstar-svg.bstar-dragging .bstar-handle{cursor:grabbing;}
+  .bstar-label{
+    font-family:inherit; font-size:11.5px; font-weight:700;
+    fill:var(--text-muted); pointer-events:none;
+  }
+  .bstar-val{font-size:15px; font-weight:800; fill:var(--blue);}
+  .bstar-hint{
+    font-size:12px; color:var(--text-muted); text-align:center;
+    margin:2px 0 0; max-width:460px; line-height:1.45;
+  }
+  .bstar-legend{display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-top:9px;}
+  .bstar-key{font-size:12px; font-weight:700; color:var(--text-muted); display:flex; align-items:center; gap:6px;}
+  .bstar-key::before{content:""; width:16px; height:3px; border-radius:2px; background:var(--blue);}
+  .bstar-key-ghost::before{background:repeating-linear-gradient(90deg, var(--teal) 0 5px, transparent 5px 9px);}
+  @media (max-width: 560px){
+    .bstar-label{font-size:10.5px;}
+    .bstar-val{font-size:13px;}
+  }
+
   /* ---------- Téléconsultation assistée : formulaire du médecin ---------- */
   .tc-idbar{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px;}
   .tc-idbar label{flex:1 1 220px; display:flex; flex-direction:column; gap:4px;
@@ -2756,76 +2807,6 @@ const DOCUMENTS = {
     filename: "Bilan_annuel_synthese_ESMS.pdf",
     path: "suivis-biologiques/Bilan_annuel_synthese_ESMS.pdf"
   },
-  "liste-1-vs-2": {
-    title: "Liste I vs Liste II",
-    category: "medicaments-securite",
-    meta: "Mémo pratique — prescription et renouvellement",
-    filename: "Liste_I_vs_Liste_II.pdf",
-    path: "medicaments-securite/Liste_I_vs_Liste_II.pdf"
-  },
-  "clozapine": {
-    title: "Clozapine — règles de surveillance",
-    category: "medicaments-securite",
-    meta: "Mémo pratique — France — règles actualisées en 2025",
-    filename: "Clozapine_surveillance_2026.pdf",
-    path: "medicaments-securite/Clozapine_surveillance_2026.pdf"
-  },
-  "deprescription-classes": {
-    title: "Déprescription par classe",
-    category: "medicaments-securite",
-    meta: "Sept classes à réévaluer en priorité chez la personne âgée — Laroche, STOPP/START, Beers",
-    interactive: true
-  },
-  "deprescription-situations": {
-    title: "Déprescription — par situation clinique",
-    category: "medicaments-securite",
-    meta: "Patient chuteur, confus, polymédiqué, insuffisant rénal, dénutri, fin de vie — les classes à revoir en priorité",
-    interactive: true
-  },
-  "charge-anticholinergique": {
-    title: "Charge anticholinergique",
-    category: "medicaments-securite",
-    meta: "Calcul du score ACB à partir des molécules de l'ordonnance — seuil de significativité clinique à 3",
-    interactive: true
-  },
-  "neuroleptiques-classiques": {
-    title: "Neuroleptiques classiques — Guide des posologies",
-    category: "medicaments-securite",
-    meta: "OMéDIT Pays de la Loire — 14 molécules : galénique, posologies usuelles et maximales, populations particulières",
-    interactive: true,
-    filename: "Neuroleptiques_classiques_posologies_OMEDIT.pdf",
-    path: "medicaments-securite/Neuroleptiques_classiques_posologies_OMEDIT.pdf"
-  },
-  "medicaments-sensibles": {
-    title: "Médicaments « sensibles » — règles pratiques de prescription",
-    category: "medicaments-securite",
-    meta: "Sources : ANSM, base de données publique des médicaments, EMA, Légifrance — consultées le 20/03/2026",
-    interactive: true,
-    filename: "Medicaments_sensibles_DOTR.pdf",
-    path: "medicaments-securite/Medicaments_sensibles_DOTR.pdf"
-  },
-  "nebulisations-prescription": {
-    title: "Nébulisations en ESMS — Prescription par les MG & médecins gériatres",
-    category: "medicaments-securite",
-    meta: "Fiche réglementaire DOTR — France — version du 25/08/2026",
-    filename: "Prescription_Nebulisations_MG_Geriatre_2026.pdf",
-    path: "medicaments-securite/Prescription_Nebulisations_MG_Geriatre_2026.pdf"
-  },
-  "surveillance-plaquettaire-hbpm": {
-    title: "HBPM : quelle surveillance plaquettaire ?",
-    category: "medicaments-securite",
-    meta: "Fiche pratique DOTR — repères pour le dépistage d'une TIH sous HBPM — mise à jour : août 2026",
-    filename: "Surveillance_plaquettaire_HBPM.pdf",
-    path: "medicaments-securite/Surveillance_plaquettaire_HBPM.pdf"
-  },
-  "benzodiazepines": {
-    title: "Les benzodiazépines et leurs étoiles",
-    category: "medicaments-securite",
-    meta: "RESPADD — Pr. Marc Ansseau, Service de psychiatrie, Université de Liège · avril 2022",
-    interactive: true,
-    filename: "Benzodiazepines_equivalences_RESPADD.pdf",
-    path: "medicaments-securite/Benzodiazepines_equivalences_RESPADD.pdf"
-  },
   "teleconsultation-assistee": {
     title: "Téléconsultation assistée — formulaire du médecin",
     openLabel: "Ouvrir l'outil",
@@ -2925,6 +2906,76 @@ const DOCUMENTS = {
     meta: "Formulaire officiel Cerfa n° 15695*01 — certificat médical à joindre à une demande à la Maison Départementale des Personnes Handicapées (MDPH) — articles R.146-26 et D.245-25 du code de l'action sociale et des familles",
     filename: "CERFA_15695_Certificat_medical_MDPH.pdf",
     path: "administratif/CERFA_15695_Certificat_medical_MDPH.pdf"
+  },
+  "medicaments-sensibles": {
+    title: "Médicaments « sensibles » — règles pratiques de prescription",
+    category: "medicaments-securite",
+    meta: "Sources : ANSM, base de données publique des médicaments, EMA, Légifrance — consultées le 20/03/2026",
+    interactive: true,
+    filename: "Medicaments_sensibles_DOTR.pdf",
+    path: "medicaments-securite/Medicaments_sensibles_DOTR.pdf"
+  },
+  "charge-anticholinergique": {
+    title: "Charge anticholinergique",
+    category: "medicaments-securite",
+    meta: "Calcul du score ACB à partir des molécules de l'ordonnance — seuil de significativité clinique à 3",
+    interactive: true
+  },
+  "deprescription-classes": {
+    title: "Déprescription par classe",
+    category: "medicaments-securite",
+    meta: "Sept classes à réévaluer en priorité chez la personne âgée — Laroche, STOPP/START, Beers",
+    interactive: true
+  },
+  "deprescription-situations": {
+    title: "Déprescription — par situation clinique",
+    category: "medicaments-securite",
+    meta: "Patient chuteur, confus, polymédiqué, insuffisant rénal, dénutri, fin de vie — les classes à revoir en priorité",
+    interactive: true
+  },
+  "benzodiazepines": {
+    title: "Les benzodiazépines et leurs étoiles",
+    category: "medicaments-securite",
+    meta: "RESPADD — Pr. Marc Ansseau, Service de psychiatrie, Université de Liège · avril 2022",
+    interactive: true,
+    filename: "Benzodiazepines_equivalences_RESPADD.pdf",
+    path: "medicaments-securite/Benzodiazepines_equivalences_RESPADD.pdf"
+  },
+  "neuroleptiques-classiques": {
+    title: "Neuroleptiques classiques — Guide des posologies",
+    category: "medicaments-securite",
+    meta: "OMéDIT Pays de la Loire — 14 molécules : galénique, posologies usuelles et maximales, populations particulières",
+    interactive: true,
+    filename: "Neuroleptiques_classiques_posologies_OMEDIT.pdf",
+    path: "medicaments-securite/Neuroleptiques_classiques_posologies_OMEDIT.pdf"
+  },
+  "liste-1-vs-2": {
+    title: "Liste I vs Liste II",
+    category: "medicaments-securite",
+    meta: "Mémo pratique — prescription et renouvellement",
+    filename: "Liste_I_vs_Liste_II.pdf",
+    path: "medicaments-securite/Liste_I_vs_Liste_II.pdf"
+  },
+  "clozapine": {
+    title: "Clozapine — règles de surveillance",
+    category: "medicaments-securite",
+    meta: "Mémo pratique — France — règles actualisées en 2025",
+    filename: "Clozapine_surveillance_2026.pdf",
+    path: "medicaments-securite/Clozapine_surveillance_2026.pdf"
+  },
+  "nebulisations-prescription": {
+    title: "Nébulisations en ESMS — Prescription par les MG & médecins gériatres",
+    category: "medicaments-securite",
+    meta: "Fiche réglementaire DOTR — France — version du 25/08/2026",
+    filename: "Prescription_Nebulisations_MG_Geriatre_2026.pdf",
+    path: "medicaments-securite/Prescription_Nebulisations_MG_Geriatre_2026.pdf"
+  },
+  "surveillance-plaquettaire-hbpm": {
+    title: "HBPM : quelle surveillance plaquettaire ?",
+    category: "medicaments-securite",
+    meta: "Fiche pratique DOTR — repères pour le dépistage d'une TIH sous HBPM — mise à jour : août 2026",
+    filename: "Surveillance_plaquettaire_HBPM.pdf",
+    path: "medicaments-securite/Surveillance_plaquettaire_HBPM.pdf"
   },
   "certif-handisport": {
     title: "Certificat médical Handisport",
@@ -3109,11 +3160,11 @@ const NEUROLEPTIQUES_DATA = [
    hypno-sédative]. Alimente le moteur d'aide à la prescription.
    ===================================================================== */
 const BENZO_AXES = [
-  { key: "somatique", label: "Anxiété somatique (angoisse)" },
-  { key: "psychique", label: "Anxiété psychique" },
-  { key: "epileptique", label: "Action anti-épileptique" },
-  { key: "myorelaxante", label: "Action myo-relaxante" },
-  { key: "hypnosedative", label: "Action hypno-sédative" }
+  { key: "somatique",    label: "Anxiété somatique (angoisse)", short: "Anxiété\nsomatique" },
+  { key: "psychique",    label: "Anxiété psychique",            short: "Anxiété\npsychique" },
+  { key: "epileptique",  label: "Action anti-épileptique",      short: "Anti-\népileptique" },
+  { key: "myorelaxante", label: "Action myo-relaxante",         short: "Myo-\nrelaxant" },
+  { key: "hypnosedative",label: "Action hypno-sédative",        short: "Hypno-\nsédatif" }
 ];
 
 /* Profils types : preremplissent les 5 curseurs dans l'ordre de BENZO_AXES
@@ -3130,7 +3181,12 @@ function applyBenzoPreset(i){
   const p = BENZO_PRESETS[i];
   if(!p) return;
   state.benzoSliders = p.v.slice();
-  renderBenzoExplorerPanel();
+  if(document.getElementById("benzoStar")){
+    benzoKick();
+    renderBenzoResults();
+  }else{
+    renderBenzoExplorerPanel();
+  }
 }
 window.applyBenzoPreset = applyBenzoPreset;
 
@@ -4284,46 +4340,29 @@ function renderBenzoExplorerPanel(){
     <div class="doc-page">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}Benzodiazépines</span>
       <div class="tool-hero" style="--pill:${c.pill}">
-        <span class="tool-hero-icon">🎚️</span>
+        <span class="tool-hero-icon">✦</span>
         <div class="tool-hero-body">
           <p class="tool-hero-title">Quelle benzodiazépine pour quel profil ?</p>
-          <p class="tool-hero-sub">Anxiolyse, sédation, myorelaxation… Règle le profil recherché : les molécules les plus proches se classent instantanément, demi-vie à l'appui.</p>
+          <p class="tool-hero-sub">Anxiolyse, sédation, myorelaxation… Tire les cinq pointes de l'étoile vers le profil recherché : les molécules les plus proches se classent instantanément, demi-vie à l'appui.</p>
           <div class="tool-hero-stats">
             <span class="tool-hero-stat">25 molécules profilées</span>
-            <span class="tool-hero-stat">5 axes d'effet</span>
+            <span class="tool-hero-stat">5 branches d'effet</span>
             <span class="tool-hero-stat">Classement en direct</span>
           </div>
         </div>
       </div>
-      <p class="doc-meta">Règle les 5 curseurs selon le profil recherché (0 = effet nul, 5 = effet très puissant) : les molécules les plus proches s'affichent instantanément.</p>
+      <p class="doc-meta">Déforme l'étoile selon le profil recherché — chaque branche va de 0 (effet nul) à 5 (effet très puissant). Les molécules les plus proches s'affichent instantanément, et l'étoile de la première vient se superposer à la tienne.</p>
       <p class="neurolep-label" style="margin-top:14px;">Profils types — un clic pour préremplir</p>
       <div class="quick-chips">
         ${BENZO_PRESETS.map((p, i) => `<button type="button" class="quick-chip" onclick="applyBenzoPreset(${i})">${p.icon} ${p.label}</button>`).join("")}
       </div>
-      <div class="benzo-sliders">
-        ${BENZO_AXES.map((ax, i) => `
-          <div class="benzo-slider-row">
-            <div class="benzo-slider-head">
-              <label for="benzoSlider${i}">${ax.label}</label>
-              <span class="benzo-slider-value" id="benzoVal${i}">${state.benzoSliders[i]}</span>
-            </div>
-            <input type="range" min="0" max="5" step="1" value="${state.benzoSliders[i]}" id="benzoSlider${i}" style="--pill:${c.pill}" />
-          </div>
-        `).join("")}
-      </div>
+      ${benzoStarSVG()}
       <div id="benzoResults"></div>
       <p class="doc-meta">Profils issus du poster RESPADD (Pr. Marc Ansseau, Université de Liège) déjà disponible en PDF ci-dessus — outil indicatif, ne remplace pas le jugement clinique ni le RCP.</p>
     </div>
   `;
 
-  BENZO_AXES.forEach((ax, i) => {
-    const el = document.getElementById(`benzoSlider${i}`);
-    el.addEventListener("input", e => {
-      state.benzoSliders[i] = Number(e.target.value);
-      document.getElementById(`benzoVal${i}`).textContent = e.target.value;
-      renderBenzoResults();
-    });
-  });
+  benzoStarInit();
   renderBenzoResults();
 }
 
@@ -4339,6 +4378,10 @@ function renderBenzoResults(){
 
   const top = scored.slice(0, 5);
   const colorsCycle = ["teal", "blue", "purple", "amber", "sky"];
+  // L'étoile de la molécule en tête vient se superposer au profil recherché.
+  if(typeof benzoSetGhost === "function"){
+    benzoSetGhost(state.benzoSliders.some(v => v > 0) ? top[0] : null);
+  }
 
   resultsEl.innerHTML = `
     <p class="medoc-count">Molécules les plus proches du profil recherché</p>
@@ -9888,6 +9931,211 @@ function triggerDownload(blob, filename){
   a.click();
   document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+
+/* =====================================================================
+   BENZODIAZÉPINES — l'étoile des effets
+   Les 5 axes du poster RESPADD deviennent les 5 branches d'une étoile.
+   On tire chaque poignée de 0 à 5 : le profil recherché se déforme en
+   direct, et l'étoile de la molécule la plus proche vient se superposer.
+   ===================================================================== */
+
+const BENZO_STAR = { cx: 230, cy: 212, r: 136, max: 5 };
+
+/* Valeurs affichées : elles rejoignent les valeurs réelles en glissant,
+   c'est ce qui donne le mouvement. */
+let benzoDisp = [0, 0, 0, 0, 0];
+let benzoGhost = [0, 0, 0, 0, 0];
+let benzoGhostTarget = null;
+let benzoRaf = null;
+let benzoDragAxis = null;
+
+function benzoAngle(i){
+  return -Math.PI / 2 + i * 2 * Math.PI / BENZO_AXES.length;
+}
+
+function benzoPt(i, val){
+  const a = benzoAngle(i);
+  const rr = BENZO_STAR.r * Math.max(0, Math.min(BENZO_STAR.max, val)) / BENZO_STAR.max;
+  return [BENZO_STAR.cx + rr * Math.cos(a), BENZO_STAR.cy + rr * Math.sin(a)];
+}
+
+function benzoPoly(vals){
+  return vals.map((v, i) => benzoPt(i, v).map(n => n.toFixed(1)).join(",")).join(" ");
+}
+
+/* Squelette : anneaux, branches, étiquettes. Dessiné une seule fois. */
+function benzoStarSVG(){
+  const n = BENZO_AXES.length;
+  let grid = "";
+  for(let ring = 1; ring <= BENZO_STAR.max; ring++){
+    const pts = [];
+    for(let i = 0; i < n; i++) pts.push(benzoPt(i, ring).map(v => v.toFixed(1)).join(","));
+    grid += `<polygon class="bstar-ring ${ring === BENZO_STAR.max ? "bstar-ring-out" : ""}" points="${pts.join(" ")}" />`;
+  }
+  let spokes = "", labels = "", handles = "";
+  for(let i = 0; i < n; i++){
+    const [ex, ey] = benzoPt(i, BENZO_STAR.max);
+    spokes += `<line class="bstar-spoke" x1="${BENZO_STAR.cx}" y1="${BENZO_STAR.cy}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" />`;
+
+    const a = benzoAngle(i);
+    const lx = BENZO_STAR.cx + (BENZO_STAR.r + 30) * Math.cos(a);
+    const ly = BENZO_STAR.cy + (BENZO_STAR.r + 30) * Math.sin(a);
+    const anchor = Math.abs(Math.cos(a)) < 0.25 ? "middle" : (Math.cos(a) > 0 ? "start" : "end");
+    const words = BENZO_AXES[i].short.split("\n");
+    labels += `<text class="bstar-label" x="${lx.toFixed(1)}" y="${(ly + (ly < BENZO_STAR.cy ? -2 : 10)).toFixed(1)}" text-anchor="${anchor}">
+      ${words.map((w, k) => `<tspan x="${lx.toFixed(1)}" dy="${k === 0 ? 0 : 12}">${w}</tspan>`).join("")}
+      <tspan class="bstar-val" id="bstarVal${i}" x="${lx.toFixed(1)}" dy="13">0</tspan>
+    </text>`;
+
+    handles += `<circle class="bstar-handle" id="bstarH${i}" data-axis="${i}" r="8" cx="${BENZO_STAR.cx}" cy="${BENZO_STAR.cy}"
+        tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"
+        aria-label="${BENZO_AXES[i].label}"></circle>`;
+  }
+
+  return `
+    <div class="bstar-wrap">
+      <svg id="benzoStar" class="bstar-svg" viewBox="0 0 460 424" role="group" aria-label="Profil d'effet recherché">
+        <g class="bstar-grid">${grid}${spokes}</g>
+        <polygon id="bstarGhost" class="bstar-ghost" points="" />
+        <polygon id="bstarShape" class="bstar-shape" points="" />
+        <g class="bstar-handles">${handles}</g>
+        <g class="bstar-labels">${labels}</g>
+      </svg>
+      <p class="bstar-hint">Attrape une pointe et tire-la vers l'extérieur — ou clique directement sur une branche. Au clavier : Tab puis les flèches.</p>
+      <div class="bstar-legend">
+        <span class="bstar-key bstar-key-shape">Profil recherché</span>
+        <span class="bstar-key bstar-key-ghost" id="bstarGhostLabel">Molécule la plus proche</span>
+      </div>
+    </div>
+  `;
+}
+
+function benzoDraw(){
+  const shape = document.getElementById("bstarShape");
+  if(!shape) return;
+  shape.setAttribute("points", benzoPoly(benzoDisp));
+  const ghost = document.getElementById("bstarGhost");
+  if(ghost) ghost.setAttribute("points", benzoGhostTarget ? benzoPoly(benzoGhost) : "");
+  BENZO_AXES.forEach((ax, i) => {
+    // À 0 la poignée est décalée du centre : les cinq restent visibles et saisissables.
+    const [x, y] = benzoPt(i, Math.max(benzoDisp[i], 0.42));
+    const h = document.getElementById("bstarH" + i);
+    if(h){
+      h.setAttribute("cx", x.toFixed(1));
+      h.setAttribute("cy", y.toFixed(1));
+      h.setAttribute("aria-valuenow", String(state.benzoSliders[i]));
+      h.classList.toggle("bstar-handle-zero", state.benzoSliders[i] === 0);
+    }
+    const v = document.getElementById("bstarVal" + i);
+    if(v) v.textContent = state.benzoSliders[i];
+  });
+}
+
+/* Les valeurs affichées rattrapent les valeurs réelles, image par image. */
+function benzoAnimate(){
+  let moving = false;
+  for(let i = 0; i < benzoDisp.length; i++){
+    const d = state.benzoSliders[i] - benzoDisp[i];
+    if(Math.abs(d) > 0.004){ benzoDisp[i] += d * 0.24; moving = true; }
+    else benzoDisp[i] = state.benzoSliders[i];
+    if(benzoGhostTarget){
+      const g = benzoGhostTarget[i] - benzoGhost[i];
+      if(Math.abs(g) > 0.004){ benzoGhost[i] += g * 0.18; moving = true; }
+      else benzoGhost[i] = benzoGhostTarget[i];
+    }
+  }
+  benzoDraw();
+  benzoRaf = moving ? requestAnimationFrame(benzoAnimate) : null;
+}
+
+function benzoKick(){
+  if(!benzoRaf) benzoRaf = requestAnimationFrame(benzoAnimate);
+}
+
+function benzoSetAxis(i, val){
+  val = Math.max(0, Math.min(BENZO_STAR.max, Math.round(val)));
+  if(state.benzoSliders[i] === val) return;
+  state.benzoSliders[i] = val;
+  benzoKick();
+  renderBenzoResults();
+}
+
+/* L'étoile fantôme : celle de la molécule arrivée en tête. */
+function benzoSetGhost(mol){
+  if(!mol){ benzoGhostTarget = null; benzoDraw(); return; }
+  if(!benzoGhostTarget) benzoGhost = mol.v.slice();
+  benzoGhostTarget = mol.v.slice();
+  const lab = document.getElementById("bstarGhostLabel");
+  if(lab) lab.textContent = mol.dci + (mol.dose ? " " + mol.dose : "");
+  benzoKick();
+}
+
+function benzoAxisFromPoint(x, y){
+  const dx = x - BENZO_STAR.cx, dy = y - BENZO_STAR.cy;
+  let a = Math.atan2(dy, dx) + Math.PI / 2;
+  while(a < 0) a += 2 * Math.PI;
+  const step = 2 * Math.PI / BENZO_AXES.length;
+  return Math.round(a / step) % BENZO_AXES.length;
+}
+
+function benzoValueFromPoint(x, y){
+  const d = Math.hypot(x - BENZO_STAR.cx, y - BENZO_STAR.cy);
+  return d / BENZO_STAR.r * BENZO_STAR.max;
+}
+
+function benzoStarInit(){
+  const svg = document.getElementById("benzoStar");
+  if(!svg) return;
+  benzoDisp = state.benzoSliders.slice();
+  benzoGhostTarget = null;
+
+  const local = evt => {
+    const pt = svg.createSVGPoint();
+    pt.x = evt.clientX; pt.y = evt.clientY;
+    const m = svg.getScreenCTM();
+    return m ? pt.matrixTransform(m.inverse()) : { x: 0, y: 0 };
+  };
+
+  svg.addEventListener("pointerdown", e => {
+    const p = local(e);
+    const handle = e.target.closest && e.target.closest(".bstar-handle");
+    benzoDragAxis = handle ? Number(handle.dataset.axis) : benzoAxisFromPoint(p.x, p.y);
+    svg.setPointerCapture(e.pointerId);
+    svg.classList.add("bstar-dragging");
+    benzoSetAxis(benzoDragAxis, benzoValueFromPoint(p.x, p.y));
+    e.preventDefault();
+  });
+  svg.addEventListener("pointermove", e => {
+    if(benzoDragAxis === null) return;
+    const p = local(e);
+    benzoSetAxis(benzoDragAxis, benzoValueFromPoint(p.x, p.y));
+  });
+  const stop = e => {
+    benzoDragAxis = null;
+    svg.classList.remove("bstar-dragging");
+    if(e && e.pointerId !== undefined && svg.hasPointerCapture && svg.hasPointerCapture(e.pointerId)){
+      svg.releasePointerCapture(e.pointerId);
+    }
+  };
+  svg.addEventListener("pointerup", stop);
+  svg.addEventListener("pointercancel", stop);
+
+  BENZO_AXES.forEach((ax, i) => {
+    const h = document.getElementById("bstarH" + i);
+    if(!h) return;
+    h.addEventListener("keydown", e => {
+      const up = ["ArrowUp", "ArrowRight", "+"].includes(e.key);
+      const down = ["ArrowDown", "ArrowLeft", "-"].includes(e.key);
+      if(!up && !down) return;
+      e.preventDefault();
+      benzoSetAxis(i, state.benzoSliders[i] + (up ? 1 : -1));
+    });
+  });
+
+  benzoDraw();
+  benzoKick();
 }
 
 
