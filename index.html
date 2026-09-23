@@ -9091,39 +9091,56 @@ async function generateChariotChecklistPdf(dot, sec, items){
     const qtyOffX   = boxOffX - qtyW;
     const nameMaxW  = qtyOffX - nameX - 8;
     const colX      = [margin, margin + colWidth + colGap];
-    const bandH     = 64;
+    const headH     = 78;   // zone blanche : le carrousel y respire
+    const stripH    = 26;   // filet couleur : identité de l'établissement
     const bottomLimit = 106;
     const lineH     = 10;
 
-    function drawBand(page){
-      page.drawRectangle({ x: 0, y: pageH - bandH, width: pageW, height: bandH, color: accent });
-      // Filet plus sombre en bas de bandeau, pour asseoir le bloc
-      page.drawRectangle({ x: 0, y: pageH - bandH, width: pageW, height: 3, color: navy, opacity: 0.25 });
+    // En-tête en deux zones : le carrousel VMS/DOTR est posé sur du blanc,
+    // jamais sur de la couleur — le JPEG n'a pas de transparence et la
+    // pastille blanche qu'il fallait lui donner salissait le bandeau.
+    // Le filet couleur qui suit porte l'identité de l'établissement, ce qui
+    // remplace l'ancien cartouche et ne coûte aucune hauteur supplémentaire.
+    function drawHeader(page){
+      const logoW = 132, logoH = logoW * (logo.height / logo.width);
+      page.drawImage(logo, {
+        x: pageW - margin - logoW,
+        y: pageH - headH + (headH - logoH) / 2,
+        width: logoW, height: logoH
+      });
 
-      const logoW = 70, logoH = logoW * (logo.height / logo.width);
-      const tileW = logoW + 12, tileH = logoH + 10;
-      const tileX = pageW - margin - tileW;
-      const tileY = pageH - bandH + (bandH - tileH) / 2 + 1;
-      page.drawRectangle({ x: tileX, y: tileY, width: tileW, height: tileH, color: white });
-      page.drawImage(logo, { x: tileX + 6, y: tileY + 5, width: logoW, height: logoH });
-
-      let y = pageH - 24;
-      page.drawText("CHARIOT D'URGENCE — DOCUMENT DE CONTRÔLE", { x: margin, y, size: 8, font: bold, color: white, opacity: 0.85 });
-      y -= 19;
-      // Titre court : garantit qu'il ne touche jamais la pastille du logo.
-      page.drawText("Dotation " + dot.label.replace("Urgence ", ""), { x: margin, y, size: 17, font: bold, color: white });
+      let y = pageH - 30;
+      page.drawText("CHARIOT D'URGENCE  ·  DOCUMENT DE CONTRÔLE", { x: margin, y, size: 7.6, font: bold, color: accent });
+      y -= 21;
+      page.drawText("Dotation " + dot.label.replace("Urgence ", ""), { x: margin, y, size: 19, font: bold, color: navy });
       y -= 15;
-      page.drawText(`${sec.label}  ·  ${items.length} élément${items.length > 1 ? "s" : ""}`, { x: margin, y, size: 9.5, font, color: white, opacity: 0.92 });
-    }
+      page.drawText(`${sec.label}  ·  ${items.length} élément${items.length > 1 ? "s" : ""}`, { x: margin, y, size: 9.5, font, color: muted });
 
-    function drawIdentityBox(page, yTop){
-      const h = 32;
-      const y = yTop - h;
-      page.drawRectangle({ x: margin, y, width: pageW - 2 * margin, height: h, color: zebra, borderColor: hairline, borderWidth: 0.7 });
-      page.drawRectangle({ x: margin, y, width: 3.5, height: h, color: accent });
-      page.drawText("ÉTABLISSEMENT", { x: margin + 14, y: y + 19, size: 7.5, font: bold, color: muted });
-      page.drawText(etab || "..............................................................", { x: margin + 14, y: y + 7, size: 11, font: bold, color: navy });
-      return y;
+      const stripY = pageH - headH - stripH;
+      page.drawRectangle({ x: 0, y: stripY, width: pageW, height: stripH, color: accent });
+      const base = stripY + stripH / 2 - 3.6;
+      page.drawText("ÉTABLISSEMENT", { x: margin, y: base + 0.6, size: 7.6, font: bold, color: white, opacity: 0.82 });
+      const dateTxt = "Contrôle du  ......  /  ......  /  ..........";
+      const dateW = font.widthOfTextAtSize(dateTxt, 8.5);
+      page.drawText(dateTxt, { x: pageW - margin - dateW, y: base + 0.4, size: 8.5, font, color: white, opacity: 0.88 });
+      // Le nom est tronqué s'il devait toucher la date : jamais de chevauchement.
+      const nameX = margin + 72;
+      const nameMax = (pageW - margin - dateW - 16) - nameX;
+      let nom;
+      if(etab){
+        nom = etab;
+        if(bold.widthOfTextAtSize(nom, 11) > nameMax){
+          while(nom.length > 4 && bold.widthOfTextAtSize(nom + "…", 11) > nameMax) nom = nom.slice(0, -1);
+          nom = nom.replace(/[\s,;]+\S*$/, "") + "…";
+        }
+      }else{
+        // Ligne pointillée ajustée à la place réellement disponible.
+        nom = "";
+        while(bold.widthOfTextAtSize(nom + ".", 11) <= nameMax) nom += ".";
+      }
+      page.drawText(nom, { x: nameX, y: base, size: 11, font: bold, color: white });
+
+      return stripY;
     }
 
     function drawColumnHeaders(page, yTop){
@@ -9163,8 +9180,7 @@ async function generateChariotChecklistPdf(dot, sec, items){
     // ---- Pages ----
     let pageNum = 1;
     let page = pdfDoc.addPage([pageW, pageH]);
-    drawBand(page);
-    let top = drawColumnHeaders(page, drawIdentityBox(page, pageH - bandH - 14) - 12);
+    let top = drawColumnHeaders(page, drawHeader(page) - 16);
     let colY = [top, top];
     let col = 0, zebraIdx = 0;
 
@@ -9178,8 +9194,7 @@ async function generateChariotChecklistPdf(dot, sec, items){
           drawFooter(page, pageNum);
           pageNum++;
           page = pdfDoc.addPage([pageW, pageH]);
-          drawBand(page);
-          top = drawColumnHeaders(page, drawIdentityBox(page, pageH - bandH - 14) - 12);
+          top = drawColumnHeaders(page, drawHeader(page) - 16);
           colY = [top, top];
           col = 0; zebraIdx = 0;
         }
