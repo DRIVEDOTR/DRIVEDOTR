@@ -590,7 +590,63 @@
   .tc-preview ul{margin:2px 0 8px; padding-left:19px;}
   .tc-preview li{margin:1px 0;}
 
+  /* ---------- Certificats médicaux : rédaction guidée ---------- */
+  .cert-searchbar{margin:14px 0 8px;}
+  .cert-search{font-size:15px; padding:11px 14px; border:2px solid var(--border) !important; border-radius:12px;}
+  .cert-search:focus{border-color:var(--blue) !important;}
+  .cert-famgrid{margin-top:12px;}
+  .cert-count{margin:6px 0 8px; font-size:12.5px; font-weight:700; color:var(--text-muted);}
+  .cert-group{margin-top:18px;}
+  .cert-cards{display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px; margin:6px 0 10px;}
+  .cert-card{
+    background:#fff; border:1px solid var(--border); border-left:4px solid var(--pill);
+    border-radius:10px; padding:11px 13px 8px;
+  }
+  .cert-card-head{display:flex; flex-direction:column; align-items:flex-start; gap:5px; margin-bottom:5px;}
+  .cert-card-head strong{font-size:13.5px; line-height:1.35; color:var(--text);}
+  .cert-card-head .cont-pill{margin-left:0;}
+  .cert-card-t{margin:0 0 5px; font-size:12.5px; line-height:1.45; color:var(--text);}
+  .cert-card-meta{margin:0 0 3px; font-size:12px; line-height:1.4; color:var(--text-muted);}
+  .cert-links{display:flex; flex-wrap:wrap; gap:6px; margin:7px 0 2px;}
+  .cert-link{
+    display:inline-flex; align-items:center; padding:4px 10px; border-radius:8px;
+    border:1px solid var(--border); background:#fff; cursor:pointer; text-decoration:none;
+    font-family:inherit; font-size:12px; font-weight:600; color:var(--blue);
+  }
+  .cert-link:hover{background:var(--sky-bg);}
+  .cert-link-main{background:var(--emerald); border-color:var(--emerald); color:#fff;}
+  .cert-link-main:hover{background:#155a3e;}
+  .cert-model-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:18px 0 6px;}
+  .cert-model-title{margin:0; font-size:17px; color:var(--emerald);}
+  .cert-preview p{margin:0 0 9px; line-height:1.55;}
+
   /* ---------- Rubriques en construction : bandeau d'alerte ---------- */
+  .wip-lock{
+    max-width:560px; margin:28px auto; padding:30px 28px 24px; text-align:center;
+    background:#FFF7ED; border:3px solid #EA580C; border-radius:18px;
+    box-shadow:0 8px 24px rgba(154,52,18,.12);
+  }
+  .wip-lock-icon{font-size:48px; line-height:1;}
+  .wip-lock-title{margin:12px 0 4px; font-size:22px; font-weight:800; color:#9A3412; line-height:1.25;}
+  .wip-lock-name{margin:0 0 10px; font-size:15px; font-weight:700; color:#7C2D12;}
+  .wip-lock-text{margin:0 auto 18px; max-width:440px; font-size:14.5px; color:#7C2D12; line-height:1.45;}
+  .wip-lock-form{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+  .wip-lock-form input{
+    flex:1 1 220px; max-width:280px; padding:11px 14px; font-size:15px;
+    border:1.5px solid #FDBA74; border-radius:10px; background:#fff; color:#1F2A37;
+  }
+  .wip-lock-form input:focus{outline:none; border-color:#EA580C; box-shadow:0 0 0 3px rgba(234,88,12,.18);}
+  .wip-lock-form button{
+    padding:11px 20px; font-size:15px; font-weight:700; color:#fff; background:#EA580C;
+    border:none; border-radius:10px; cursor:pointer;
+  }
+  .wip-lock-form button:hover{background:#C2410C;}
+  .wip-lock-error{min-height:18px; margin:10px 0 0; font-size:13.5px; font-weight:700; color:#B91C1C;}
+  .wip-lock-note{margin:6px 0 0; font-size:12px; color:#9A6B4F;}
+  @media (max-width:640px){
+    .wip-lock{margin:16px 0; padding:22px 16px 18px;}
+    .wip-lock-title{font-size:19px;}
+  }
   .wip-banner{
     display:flex; align-items:center; gap:18px;
     margin:0 0 20px; padding:18px 22px;
@@ -2364,10 +2420,10 @@ const CATEGORIES = [
   },
   {
     id: "administratif",
-    label: "Administratifs et Tutos",
+    label: "Administratifs, Certificats & Tutos",
     icon: "administratif",
     color: "amber",
-    description: "CERFA, certificats et formulaires officiels utilisés dans le cadre du suivi médical des résidents."
+    description: "Certificats médicaux (rédaction guidée et référentiel : qui peut signer, quel support), formulaires officiels (CERFA) et tutoriels pratiques."
   },
   {
     id: "materiel",
@@ -2452,6 +2508,7 @@ function categoryIconHTML(iconKey, color, size){
 const SUBCATEGORIES = {
   "as-educ": "Protocoles AS / Éduc",
   "ide": "Protocoles IDE",
+  "certificats": "Certificats médicaux",
   "admin": "Administratifs",
   "tutos": "Tutos",
   "checklists": "Check-lists de préparation",
@@ -3055,6 +3112,26 @@ const DOCUMENTS = {
     filename: "Tuto_Tampon_Numerique_PDF.jpeg",
     path: "administratif/Tuto_Tampon_Numerique_PDF.jpeg"
   },
+  "certificat-redaction": {
+    wip: true,
+    title: "Certificat médical — rédaction guidée",
+    category: "administratif",
+    subcategory: "certificats",
+    meta: "Que vous demande-t-on ? Attestation, formulaire officiel, procédure encadrée ou refus — puis rédaction d'une attestation DOTR (7 modèles) : PDF d'une page, texte à copier, note de traçabilité",
+    openLabel: "Voir le référentiel",
+    filename: "Certificats_medicaux_ESMS_DOTR.pdf",
+    path: "certificats/Certificats_medicaux_ESMS_DOTR.pdf",
+    interactive: true
+  },
+  "certificats-referentiel": {
+    wip: true,
+    title: "Certificats médicaux en ESMS — référentiel DOTR",
+    category: "administratif",
+    subcategory: "certificats",
+    meta: "Référentiel V2, 6 pages — 6 réflexes, 38 demandes fréquentes et la bonne réponse, majeurs protégés, qui peut signer, télémédecine, 7 modèles, checklist, sources (CNOM, CSP, Code civil, CASF)",
+    filename: "Certificats_medicaux_ESMS_DOTR.pdf",
+    path: "certificats/Certificats_medicaux_ESMS_DOTR.pdf"
+  },
   "trombinoscope-vms": {
     title: "Trombinoscope — Équipe médicale et paramédicale VMS",
     category: "administratif",
@@ -3171,7 +3248,7 @@ const DOCUMENTS = {
   "certif-handisport": {
     title: "Certificat médical Handisport",
     category: "administratif",
-    subcategory: "admin",
+    subcategory: "certificats",
     meta: "Fédération Française Handisport — Annexe 2. Remplissage guidé : infos patient, sexe, compétition/loisir et toutes les activités, avec décompte automatique et date du jour.",
     interactive: true,
     filename: "Certificat_medical_Handisport_vierge.pdf",
@@ -3940,6 +4017,7 @@ function cardHTML(protocolItem, cat){
         <div class="card card-featured" style="--pill:${c.pill};--pillbg:${c.pillbg}">
           <span class="card-badge">🔎 Outil interactif</span>
           <div class="card-title">${protocolItem.title}</div>
+          ${wipHTML}
           <div class="card-dual-actions">
             <button type="button" onclick="openExplorer('${protocolItem.id}')">
               Explorer
@@ -11550,6 +11628,565 @@ async function contPdf(){
 window.contPdf = contPdf;
 
 
+/* Référentiel certificats — généré par build/gen_certif_js.py depuis certif_ref.py */
+const CERT_REF = {"maj":"septembre 2026","version":"V2 — 24/09/2026","sources":{"CNOM_REDIGER":{"c":"CNOM, rédiger un certificat","l":"CNOM, « Rédiger un certificat médical », mis à jour le 20/03/2024.","u":"https://www.conseil-national.medecin.fr/medecin/exercice/rediger-certificat-medical"},"R4127_76":{"c":"CSP R.4127-76","l":"Code de la santé publique, art. R.4127-76 (certificats, attestations, documents ; commentaire CNOM de l'article 76).","u":null},"R4127_28":{"c":"CSP R.4127-28","l":"Code de la santé publique, art. R.4127-28 (rapport tendancieux, certificat de complaisance).","u":null},"CNOM_MAJ":{"c":"CNOM, certificats majeurs 2025","l":"CNOM, « Les certificats médicaux pour majeurs », tableau, avril 2025.","u":"https://www.conseil-national.medecin.fr/sites/default/files/2025-06/cnom_tableau_certificats_medicaux_majeurs.pdf"},"CNOM_MIN":{"c":"CNOM, certificats mineurs 2025","l":"CNOM, « Les certificats médicaux pour mineurs », fiche pratique, avril 2025.","u":"https://www.conseil-national.medecin.fr/publications/documentation/fiches-pratiques/certificats-medicaux-mineurs"},"CNOM_MODELES":{"c":"CNOM, modèles","l":"CNOM, modèles de certificats médicaux : violences sur personne majeure, soins psychiatriques sans consentement.","u":"https://www.conseil-national.medecin.fr/documents-demarches/documents-types-medecins/pratique/modeles-certificats-medicaux"},"D312_158":{"c":"CASF D.312-158","l":"Code de l'action sociale et des familles, art. D.312-158 (missions du médecin coordonnateur d'EHPAD).","u":null},"MDPH":{"c":"Cerfa 15695*01","l":"Certificat médical MDPH, cerfa n° 15695*01 — Mon Parcours Handicap, page mise à jour le 10/08/2026 (validité 12 mois, volets auditif et visuel).","u":"https://www.monparcourshandicap.gouv.fr/demarches/certificat-medical-formulaire-cerfa-ndeg-1569501"},"EHPAD":{"c":"Cerfa 14732*03","l":"Dossier de demande d'admission en EHPAD, cerfa n° 14732*03 (volet médical) — pour-les-personnes-agees.gouv.fr ; ViaTrajectoire.","u":"https://www.pour-les-personnes-agees.gouv.fr/assets/pdf/cerfa_14732-03.pdf"},"LOI89":{"c":"Loi 89-462, art. 15","l":"Loi n° 89-462 du 6 juillet 1989, art. 15, I : préavis d'un mois, 3° (état de santé constaté par certificat médical) et 4° (bénéficiaires du RSA ou de l'AAH).","u":"https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000042193498/"},"CC431":{"c":"C. civ. 431","l":"Code civil, art. 431 (certificat circonstancié d'un médecin inscrit sur la liste du procureur).","u":null},"CC442":{"c":"C. civ. 442","l":"Code civil, art. 442 (renouvellement, modification, renforcement d'une mesure de protection).","u":null},"CC426":{"c":"C. civ. 426","l":"Code civil, art. 426 (logement du majeur protégé ; avis d'un médecin n'exerçant pas dans l'établissement d'accueil).","u":null},"CC481":{"c":"C. civ. 481","l":"Code civil, art. 481 (prise d'effet du mandat de protection future).","u":null},"L3212_1":{"c":"CSP L.3212-1","l":"Code de la santé publique, art. L.3212-1 (soins psychiatriques à la demande d'un tiers ; péril imminent).","u":null},"L3212_3":{"c":"CSP L.3212-3","l":"Code de la santé publique, art. L.3212-3 (demande d'un tiers en urgence : un seul certificat).","u":"https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000041721203"},"L3213_1":{"c":"CSP L.3213-1","l":"Code de la santé publique, art. L.3213-1 (soins sur décision du représentant de l'État).","u":null},"TRANSPORT":{"c":"Cerfa 11574*06 (S3138)","l":"Prescription médicale de transport, cerfa n° 11574*06 (notice S3138) ou service électronique — Assurance Maladie.","u":null},"DECES":{"c":"Certificat de décès","l":"Certificat de décès : modèle réglementaire, électronique ou papier (CGCT) ; CNOM, tableau majeurs 2025.","u":null}},"verdicts":{"attestation":{"label":"Attestation DOTR","color":"green","action":"Rédiger si médicalement justifié, après examen suffisant."},"officiel":{"label":"Formulaire officiel","color":"blue","action":"Utiliser le support officiel, pas d'attestation libre."},"convertir":{"label":"Autre document","color":"amber","action":"La bonne réponse est une prescription, une ordonnance ou un volet médical."},"facultatif":{"label":"Pas de certificat obligatoire","color":"slate","action":"Ne pas systématiser ; attester seulement un motif médical réel."},"encadre":{"label":"Procédure encadrée","color":"purple","action":"Signataire ou modèle imposé par un texte : vérifier avant de rédiger."},"refuser":{"label":"Ne pas signer","color":"red","action":"Rediriger vers le bon signataire, ou refuser."}},"tlc":{"oui":"Téléconsultation possible si l'examen est suffisant ; présentiel au moindre doute.","pref":"Présentiel souvent préférable (examen corporel, valeur médico-légale).","non":"Présentiel ou procédure spécifique : pas de certification à distance.","na":""},"groupes":["Logement et autonomie","Accompagnement et vie quotidienne","Handicap, EHPAD, social","Mineurs et IME","Psychiatrie, violences, décès","Majeurs protégés","Autre document que le certificat","Ne pas signer"],"demandes":[{"id":"log_acces","g":"Logement et autonomie","v":"attestation","m":"LOG-01","label":"Logement accessible : ascenseur, plain-pied, fauteuil roulant","k":"logement ascenseur marches escalier plain-pied fauteuil accessibilité bailleur hlm","t":"Décrire les limitations constatées et le besoin fonctionnel (plain-pied, ascenseur, circulation en fauteuil, sanitaires) sans attribuer de logement ni de droit.","qui":"Tout médecin ayant évalué la situation.","tlc":"oui","s":["R4127_76","CNOM_REDIGER"]},{"id":"log_retour","g":"Logement et autonomie","v":"attestation","m":"LOG-02","label":"Retour au domicile médicalement inadapté","k":"retour domicile incompatible inadapté logement actuel sortie","t":"Écrire l'incompatibilité « en l'absence de » ce qui manque (ascenseur, aide humaine, adaptations). Majeur protégé et acte sur le logement : voir « Majeurs protégés ».","qui":"Médecin ayant évalué la situation.","tlc":"pref","s":["R4127_76","CC426"]},{"id":"log_preavis","g":"Logement et autonomie","v":"attestation","m":"LOG-03","label":"Préavis de location réduit à un mois (raison de santé)","k":"préavis bail location résiliation loyer un mois propriétaire","t":"Certificat prévu par la loi : l'état de santé justifie un changement de domicile, sans diagnostic. Un bénéficiaire de l'AAH ou du RSA a droit au préavis d'un mois sans certificat.","qui":"Médecin ayant examiné le locataire.","tlc":"oui","s":["LOI89","CNOM_MAJ"]},{"id":"env_chambre","g":"Logement et autonomie","v":"attestation","m":"ENV-01","label":"Chambre individuelle, environnement calme ou adapté","k":"chambre individuelle seule calme environnement stimulation bruit","t":"Préciser l'indication médicale ou fonctionnelle et la durée ; ne jamais garantir la disponibilité d'une chambre.","qui":"Médecin ayant évalué la situation.","tlc":"oui","s":["R4127_76"]},{"id":"aide_humaine","g":"Accompagnement et vie quotidienne","v":"attestation","m":"AID-01","label":"Aide humaine, accompagnateur pour un déplacement ou une consultation","k":"accompagnateur accompagnement aide humaine tierce personne consultation rendez-vous sortie","t":"Attester la nécessité d'un accompagnement (limitations motrices, cognitives, de communication). Ne pas fixer de nombre d'heures ni certifier une prise en charge financière.","qui":"Médecin ayant évalué la situation.","tlc":"oui","s":["R4127_76"]},{"id":"deplacement","g":"Accompagnement et vie quotidienne","v":"attestation","m":"MOB-01","label":"Contre-indication temporaire à un déplacement ou à un trajet long","k":"voyage trajet déplacement vacances séjour contre-indication transport collectif avion","t":"Limiter à une période et à un type de déplacement. Si c'est un transport remboursé : prescription médicale de transport, pas de certificat.","qui":"Médecin ayant examiné le patient.","tlc":"oui","s":["R4127_76","TRANSPORT"]},{"id":"regime","g":"Accompagnement et vie quotidienne","v":"attestation","label":"Régime alimentaire, éviction liée à une allergie ou une pathologie","k":"régime alimentaire allergie éviction repas cantine texture sans gluten","t":"Décrire le besoin sans dévoiler plus de diagnostic que nécessaire ; utiliser la prescription ou le protocole si le dispositif l'exige. Le PAI ne prévoit pas de certificat médical.","qui":"Médecin ayant évalué la situation.","tlc":"oui","s":["R4127_76","CNOM_MIN"]},{"id":"absence","g":"Accompagnement et vie quotidienne","v":"facultatif","label":"Absence à une activité, à l'accueil de jour ou à l'atelier","k":"absence activité accueil de jour atelier justificatif","t":"Pas de certificat systématique : une règle interne d'établissement ne crée pas à elle seule une obligation médicale.","qui":"—","tlc":"na","s":["CNOM_REDIGER"]},{"id":"reintegration","g":"Accompagnement et vie quotidienne","v":"facultatif","label":"Retour dans l'établissement ou en activité après une maladie","k":"apte reprise retour réintégration guéri contagion","t":"Éviter le certificat générique « apte à revenir ». Maladie contagieuse, notamment chez l'enfant : cadre réglementé particulier.","qui":"—","tlc":"na","s":["CNOM_MIN"]},{"id":"mdph","g":"Handicap, EHPAD, social","v":"officiel","label":"MDPH : AAH, PCH, CMI, orientation en MAS, FAM, EAM ou IME","k":"mdph aah pch cmi carte mobilité inclusion orientation mas fam eam ime cdaph handicap renouvellement","t":"Cerfa 15695*01 : déficiences, limitations d'activité, traitements, évolutivité, retentissement. Validité 12 mois. Volets auditif et visuel à part.","qui":"Tout médecin, après examen ; numéro RPPS obligatoire.","tlc":"pref","doc":"cerfa-15695-mdph","url":"https://www.monparcourshandicap.gouv.fr/demarches/certificat-medical-formulaire-cerfa-ndeg-1569501","s":["MDPH","CNOM_MAJ"]},{"id":"ehpad_admission","g":"Handicap, EHPAD, social","v":"officiel","label":"Admission en EHPAD : volet médical","k":"ehpad admission entrée dossier viatrajectoire volet médical","t":"Cerfa 14732*03 ou ViaTrajectoire, volet médical par le médecin traitant ou un autre médecin ; le médecin coordonnateur de l'EHPAD rend ensuite l'avis d'admission.","qui":"Médecin traitant ou autre médecin ; avis d'admission : médecin coordonnateur.","tlc":"oui","url":"https://www.pour-les-personnes-agees.gouv.fr/assets/pdf/cerfa_14732-03.pdf","s":["EHPAD","D312_158"]},{"id":"apa","g":"Handicap, EHPAD, social","v":"facultatif","label":"APA (allocation personnalisée d'autonomie)","k":"apa allocation personnalisée autonomie gir département","t":"Aucun certificat prévu : la demande est instruite par une équipe comprenant au moins un médecin et un travailleur social.","qui":"—","tlc":"na","s":["CNOM_MAJ"]},{"id":"vaccin","g":"Handicap, EHPAD, social","v":"attestation","m":"VACC-01","label":"Contre-indication à une vaccination","k":"vaccin vaccination contre-indication dispense","t":"Seulement une contre-indication médicale reconnue, ciblée sur le vaccin concerné. Jamais de dispense vaccinale générale.","qui":"Médecin ayant examiné le patient.","tlc":"oui","s":["CNOM_MAJ","CNOM_MIN"]},{"id":"arret","g":"Handicap, EHPAD, social","v":"officiel","label":"Arrêt de travail, accident du travail, maladie professionnelle","k":"arrêt de travail at mp accident du travail maladie professionnelle esat","t":"Avis d'arrêt de travail ou téléservice AT/MP de l'Assurance Maladie ; jamais d'attestation libre. Téléconsultation : règles spécifiques de l'arrêt de travail.","qui":"Médecin ayant examiné le patient.","tlc":"pref","s":["CNOM_MAJ"]},{"id":"sport","g":"Mineurs et IME","v":"officiel","label":"Sport, handisport, EPS","k":"sport handisport licence eps inaptitude fédération compétition","t":"Selon la fédération et la discipline. EPS : le certificat d'inaptitude précise son caractère total ou partiel. Handisport : outil de remplissage dans cette rubrique.","qui":"Médecin ayant examiné le patient.","tlc":"pref","doc":"certif-handisport","s":["CNOM_MIN","CNOM_MAJ"],"pub":"ae"},{"id":"creche","g":"Mineurs et IME","v":"officiel","label":"Admission en crèche","k":"crèche admission collectivité petite enfance","t":"Certificat prévu pour l'admission en crèche. Vérifier le texte et l'âge ; pas de certificat générique non demandé par un texte.","qui":"Médecin ayant examiné l'enfant.","tlc":"pref","s":["CNOM_MIN"],"pub":"e"},{"id":"ecole","g":"Mineurs et IME","v":"facultatif","label":"Absence scolaire, cantine, PAI","k":"école absence scolaire cantine pai projet d'accueil individualisé","t":"Aucun texte ne prévoit de certificat, sauf maladie contagieuse. Le PAI ne prévoit pas de certificat médical.","qui":"—","tlc":"na","s":["CNOM_MIN"],"pub":"e"},{"id":"garde","g":"Mineurs et IME","v":"encadre","label":"Conflit parental, garde, droit de visite","k":"garde parent conflit divorce droit de visite hébergement","t":"Décrire uniquement des faits médicaux concernant l'enfant ; ne pas attribuer de responsabilité ni recommander une décision de garde.","qui":"Médecin ayant examiné l'enfant.","tlc":"pref","s":["CNOM_REDIGER"],"pub":"e"},{"id":"violences","g":"Psychiatrie, violences, décès","v":"encadre","label":"Violences sur une personne majeure","k":"violences coups blessures itt plainte agression maltraitance","t":"Modèle CNOM. Décrire lésions et retentissement ; rapporter les dires au conditionnel et entre guillemets. L'ITT pénale mesure la gêne dans les actes de la vie courante, pas l'arrêt de travail.","qui":"Médecin ayant examiné la victime.","tlc":"pref","url":"https://www.conseil-national.medecin.fr/sites/default/files/cnom_modele_certificat_en_cas_de_violence_sur_personne_majeure.pdf","s":["CNOM_MODELES","CNOM_REDIGER"]},{"id":"psy_sdt","g":"Psychiatrie, violences, décès","v":"encadre","label":"Soins psychiatriques à la demande d'un tiers","k":"hospitalisation psychiatrique tiers sdt hdt contrainte sans consentement","t":"Deux certificats circonstanciés de moins de 15 jours ; le premier par un médecin n'exerçant pas dans l'établissement d'accueil. Modèle CNOM.","qui":"Tout médecin, sous ces conditions d'indépendance.","tlc":"non","url":"https://www.conseil-national.medecin.fr/sites/default/files/certificat_adt.pdf","s":["L3212_1","CNOM_MODELES"]},{"id":"psy_sdtu","g":"Psychiatrie, violences, décès","v":"encadre","label":"Soins psychiatriques à la demande d'un tiers, en urgence","k":"urgence psychiatrie tiers risque grave un seul certificat","t":"Risque grave d'atteinte à l'intégrité du malade : un seul certificat, qui peut émaner d'un médecin exerçant dans l'établissement d'accueil. Modèle CNOM.","qui":"Tout médecin.","tlc":"non","url":"https://www.conseil-national.medecin.fr/sites/default/files/certificat_adt_urgence.pdf","s":["L3212_3","CNOM_MODELES"]},{"id":"psy_pi","g":"Psychiatrie, violences, décès","v":"encadre","label":"Soins psychiatriques en cas de péril imminent","k":"péril imminent psychiatrie sans tiers spi","t":"Pas de tiers joignable et péril imminent : certificat répondant strictement à l'article L.3212-1, avec règles d'indépendance. Modèle CNOM.","qui":"Médecin n'exerçant pas dans l'établissement d'accueil.","tlc":"non","url":"https://www.conseil-national.medecin.fr/sites/default/files/certificat_sans_consentement_peril_imminent.pdf","s":["L3212_1","CNOM_MODELES"]},{"id":"psy_sdre","g":"Psychiatrie, violences, décès","v":"encadre","label":"Soins psychiatriques sur décision du représentant de l'État","k":"préfet sdre hospitalisation d'office ordre public sûreté","t":"Certificat circonstancié ne pouvant émaner d'un psychiatre exerçant dans l'établissement d'accueil. Modèle CNOM.","qui":"Tout médecin, sauf psychiatre de l'établissement d'accueil.","tlc":"non","url":"https://www.conseil-national.medecin.fr/sites/default/files/certificat_spdre.pdf","s":["L3213_1","CNOM_MODELES"]},{"id":"deces","g":"Psychiatrie, violences, décès","v":"officiel","label":"Certificat de décès","k":"décès mort certificat constat","t":"Suppose le constat du décès ; certificat réglementaire électronique ou papier. Jamais d'attestation libre, jamais à distance.","qui":"Médecin ayant constaté le décès.","tlc":"non","s":["DECES","CNOM_MAJ"]},{"id":"gav","g":"Psychiatrie, violences, décès","v":"encadre","label":"Compatibilité avec une garde à vue","k":"garde à vue police gendarmerie réquisition compatibilité","t":"Certificat de compatibilité prévu par le code de procédure pénale, sur réquisition : appliquer le circuit prévu.","qui":"Médecin requis.","tlc":"non","s":["CNOM_MAJ"]},{"id":"prot_ouverture","g":"Majeurs protégés","v":"refuser","label":"Ouverture d'une tutelle, curatelle, sauvegarde, habilitation familiale","k":"tutelle curatelle sauvegarde habilitation familiale protection juge mandataire","t":"Certificat circonstancié réservé à un médecin inscrit sur la liste du procureur. Être psychiatre ne suffit pas ; être généraliste ne l'interdit pas si le médecin est inscrit.","qui":"Médecin inscrit sur la liste du procureur.","tlc":"non","s":["CC431","CNOM_MAJ"]},{"id":"prot_renouv","g":"Majeurs protégés","v":"encadre","label":"Renouvellement ou modification d'une mesure de protection","k":"renouvellement tutelle curatelle aggravation renforcement allègement juge","t":"Lire la demande du juge : un renouvellement long ou un renforcement de la mesure exigent le certificat d'un médecin inscrit sur la liste.","qui":"Selon la demande du juge.","tlc":"pref","s":["CC442","CC431"]},{"id":"prot_logement","g":"Majeurs protégés","v":"refuser","label":"Vente du logement ou résiliation du bail pour entrée en établissement","k":"vente logement résiliation bail maison appartement entrée établissement majeur protégé tuteur","t":"Avis d'un médecin n'exerçant pas de fonction et n'occupant pas d'emploi dans l'établissement d'accueil. Par prudence, le médecin DOTR qui intervient dans cet établissement s'abstient.","qui":"Médecin extérieur à l'établissement d'accueil.","tlc":"pref","s":["CC426"]},{"id":"mandat","g":"Majeurs protégés","v":"refuser","label":"Prise d'effet d'un mandat de protection future","k":"mandat de protection future prise d'effet","t":"Certificat d'un médecin choisi sur la liste du procureur ; ne pas le remplacer par un certificat du médecin traitant ou du médecin coordonnateur.","qui":"Médecin inscrit sur la liste du procureur.","tlc":"non","s":["CC481","CNOM_MAJ"]},{"id":"transport","g":"Autre document que le certificat","v":"convertir","label":"« Certificat » pour ambulance, VSL ou taxi","k":"ambulance vsl taxi transport bon de transport véhicule sanitaire","t":"Prescription médicale de transport (cerfa 11574*06, S3138) ou service électronique quand la prise en charge Assurance Maladie est demandée.","qui":"Médecin prescripteur.","tlc":"oui","doc":"bon-transport-vierge","s":["TRANSPORT"]},{"id":"materiel","g":"Autre document que le certificat","v":"convertir","label":"« Certificat » pour fauteuil roulant, lit médicalisé, matériel","k":"fauteuil roulant lit médicalisé matériel dispositif médical déambulateur verticalisateur","t":"Prescrire le dispositif médical et ses caractéristiques utiles, pas un certificat de nécessité. Fauteuils : voir la fiche VPH.","qui":"Médecin prescripteur.","tlc":"oui","doc":"fauteuils-vph","s":["R4127_76"]},{"id":"travail","g":"Ne pas signer","v":"refuser","label":"Aptitude ou inaptitude au poste de travail","k":"aptitude inaptitude travail poste emploi esat médecine du travail","t":"Relève de la médecine du travail.","qui":"Médecin du travail.","tlc":"na","s":["CNOM_MAJ"]},{"id":"conduite","g":"Ne pas signer","v":"refuser","label":"Aptitude à la conduite, permis de conduire","k":"permis conduite voiture aptitude conduire","t":"Médecin agréé par la préfecture. Le médecin traitant informe du risque mais ne délivre pas le certificat réglementaire.","qui":"Médecin agréé (préfecture).","tlc":"na","s":["CNOM_MAJ"]},{"id":"ceinture","g":"Ne pas signer","v":"refuser","label":"Dispense du port de la ceinture de sécurité","k":"ceinture sécurité dispense voiture","t":"Médecin agréé ; le certificat du médecin traitant n'a aucune valeur légale.","qui":"Médecin agréé (préfecture).","tlc":"na","s":["CNOM_MAJ"]},{"id":"capacite","g":"Ne pas signer","v":"refuser","label":"« Capacité » à signer un testament, à vendre un bien","k":"testament notaire vente capacité signer donation","t":"Aucun certificat standard ne remplace l'appréciation juridique ou notariale ; ne décrire une situation clinique que si un cadre précis le justifie.","qui":"—","tlc":"na","s":["CNOM_REDIGER"]},{"id":"assureur","g":"Ne pas signer","v":"refuser","label":"Demande directe d'un assureur","k":"assurance assureur mutuelle prêt questionnaire","t":"Aucun certificat prévu à la demande de l'assureur ; ne rien transmettre directement. Le patient reste maître des documents qu'il produit.","qui":"—","tlc":"na","s":["CNOM_MAJ"]},{"id":"tiers","g":"Ne pas signer","v":"refuser","label":"Certificat demandé par un tiers, sans examen du patient","k":"tiers famille établissement sans examen dossier seulement","t":"Un certificat repose sur des constatations personnelles, après interrogatoire et examen ; il est remis en main propre au patient, jamais à un tiers hors exceptions légales.","qui":"—","tlc":"na","s":["CNOM_REDIGER","R4127_76"]},{"id":"complaisance","g":"Ne pas signer","v":"refuser","label":"Certificat de complaisance ou de virginité","k":"complaisance faux arrangement virginité","t":"Complaisance interdite ; le certificat de virginité est interdit par la loi.","qui":"—","tlc":"na","s":["R4127_28","CNOM_MAJ"]}],"modeles":{"LOG-01":{"titre":"Besoins d'accessibilité du logement","champs":[{"id":"lim","type":"ch","label":"Limitations constatées","opts":["une difficulté à utiliser les escaliers","une impossibilité d'utiliser les escaliers","la nécessité d'utiliser un fauteuil roulant","une difficulté de transferts"],"autre":true},{"id":"bes","type":"ch","label":"Le logement doit offrir","opts":["un accès de plain-pied ou desservi par un ascenseur","l'absence de marches","une circulation compatible avec un fauteuil roulant","des sanitaires adaptés"],"autre":true}],"corps":["Au regard des éléments cliniques et fonctionnels personnellement constatés, son état de santé entraîne {lim}.","Ces limitations justifient, sur le plan médical, un logement comportant {bes}.","Cette attestation décrit un besoin fonctionnel et ne préjuge ni de l'attribution d'un logement ni d'un droit administratif."]},"LOG-02":{"titre":"Incompatibilité médicale avec le domicile actuel","champs":[{"id":"lim","type":"tx","label":"Limitations fonctionnelles constatées (à préciser)"},{"id":"manque","type":"ch","label":"En l'absence de","opts":["ascenseur","logement de plain-pied","aide humaine","adaptations du logement","sécurisation du logement"],"autre":true},{"id":"val","type":"du","label":"Conclusion valable","perm":"à ce jour"}],"corps":["Au regard des limitations fonctionnelles constatées ({lim}), son état de santé est actuellement incompatible avec un retour dans son logement dans ses conditions actuelles, en l'absence de : {manque}.","Conclusion valable {val}.","Ce document constitue une appréciation médicale des besoins fonctionnels ; il ne vaut pas décision relative au maintien, à la résiliation ou à la vente du logement."]},"LOG-03":{"titre":"Préavis locatif réduit : changement de domicile","champs":[],"corps":["L'état de santé de l'intéressé(e), constaté lors de mon examen, justifie un changement de domicile.","Le présent certificat est établi afin de justifier le motif médical prévu à l'article 15, I, 3° de la loi n° 89-462 du 6 juillet 1989 relatif au délai de préavis du locataire.","Aucun diagnostic n'est mentionné, celui-ci n'étant pas nécessaire à la finalité du document."]},"AID-01":{"titre":"Nécessité d'un accompagnement humain","champs":[{"id":"mot","type":"ch","label":"En raison de","opts":["limitations motrices","troubles cognitifs","troubles de l'orientation","difficultés de communication","un risque médical spécifique"],"autre":true},{"id":"pour","type":"ch","label":"Accompagnateur nécessaire pour","opts":["ses déplacements extérieurs","ses consultations médicales","ses démarches"],"autre":true},{"id":"dur","type":"du","label":"Cette nécessité est","perm":"permanente"}],"corps":["Au regard de {mot}, personnellement constatés, l'intéressé(e) nécessite la présence d'un accompagnateur pour {pour}.","Cette nécessité est {dur}.","La présente attestation ne préjuge pas des modalités de financement ou d'attribution d'une aide humaine."]},"ENV-01":{"titre":"Environnement ou chambre adaptés","champs":[{"id":"env","type":"ch","label":"L'hébergement doit comporter","opts":["une chambre individuelle","un environnement calme","une limitation des stimulations","la proximité des sanitaires"],"autre":true},{"id":"dur","type":"du","label":"Recommandation","perm":"permanente"}],"corps":["Son état de santé justifie, sur le plan médical, un environnement d'hébergement comportant {env}.","Cette recommandation est {dur} et ne préjuge pas de la disponibilité de l'établissement."]},"MOB-01":{"titre":"Contre-indication temporaire à un déplacement","champs":[{"id":"type","type":"ra","label":"Déplacement concerné","opts":["tout trajet long","tout transport collectif","le déplacement prévu le {date_dep}"],"autre":true},{"id":"date_dep","type":"dt","label":"Date du déplacement prévu (si concerné)"},{"id":"niv","type":"ra","label":"Niveau","opts":["médicalement déconseillé","contre-indiqué"]},{"id":"fin","type":"dt","label":"Jusqu'au (inclus)"}],"corps":["Au regard de son état de santé actuel, {type} est {niv} jusqu'au {fin} inclus, sous réserve de réévaluation clinique.","Ce document ne constitue pas une prescription médicale de transport."]},"VACC-01":{"titre":"Contre-indication vaccinale spécifique","champs":[{"id":"vac","type":"tx","label":"Vaccin ou composant (nom exact)"},{"id":"mot","type":"tx","label":"Motif médical (strict nécessaire)"},{"id":"dur","type":"ra","label":"Contre-indication","opts":["temporaire jusqu'au {fin}","définitive"]},{"id":"fin","type":"dt","label":"Jusqu'au (si temporaire)"}],"corps":["Il existe une contre-indication médicale à l'administration du vaccin suivant : {vac}, pour le motif médical suivant : {mot}.","Cette contre-indication est {dur} et doit être appréciée au regard des textes applicables au vaccin concerné."]}},"reflexes":[["Finalité","À quoi servira le document, à qui sera-t-il remis, quel organisme le demande ?"],["Examen","Interrogatoire et examen préalables ; la conclusion repose sur un examen suffisant, en présentiel ou en téléconsultation si adaptée."],["Bon signataire","Aucun texte ne réserve le document à un médecin du travail, agréé, inscrit sur une liste ou indépendant."],["Bon support","Cerfa, prescription, téléservice ou modèle CNOM : s'il existe, l'utiliser."],["Écrire juste","Faits et limitations constatés ; dires du patient au conditionnel et entre guillemets ; diagnostic seulement s'il est utile."],["Remise et trace","Daté du jour de rédaction, signé, remis en main propre à l'intéressé (ou à son représentant légal), mention de la remise, copie conservée."]],"checklist":["Je connais la finalité exacte et le destinataire.","J'ai interrogé et examiné le patient ; l'examen est suffisant.","Je n'atteste que ce que je peux personnellement soutenir.","Je suis le bon signataire : aucun texte ne réserve le document à un autre médecin.","J'ai vérifié qu'un formulaire officiel n'est pas requis.","Je limite les données médicales au strict nécessaire.","Je n'écris pas une décision juridique ou administrative à la place d'un tiers.","Je date du jour, signe, remets en main propre et conserve une copie."],"alerteProtege":"Dès que la demande mentionne tuteur, curateur, juge, vente du logement, résiliation du bail ou entrée définitive en établissement : interrompre la rédaction et vérifier le fondement juridique."};
+
+/* =====================================================================
+   CERTIFICATS MÉDICAUX — rédaction guidée
+   Données : CERT_REF (généré depuis certif_ref.py, la même source que le
+   référentiel PDF « Certificats médicaux en ESMS » V2).
+   Deux usages : 1) « Que vous demande-t-on ? » — recherche ou bulles, pour
+   savoir s'il faut une attestation, un formulaire officiel, une procédure
+   encadrée ou un refus ; 2) rédaction d'une attestation DOTR à partir d'un
+   des 7 modèles : PDF d'une page, texte à copier, note de traçabilité.
+   Rien n'est conservé : les données disparaissent au rechargement de la page.
+   ===================================================================== */
+
+const CERT_FAMILLES = [
+  { id: "rediger", icon: "✍️", label: "Rédiger une attestation", sub: "7 modèles DOTR", color: "emerald", v: ["attestation"] },
+  { id: "officiel", icon: "📄", label: "Formulaire officiel ou autre document", sub: "Cerfa, prescription, pas de certificat obligatoire", color: "blue", v: ["officiel", "convertir", "facultatif"] },
+  { id: "encadre", icon: "⚠️", label: "Procédure encadrée", sub: "Psychiatrie, violences, majeurs protégés", color: "purple", v: ["encadre"] },
+  { id: "refuser", icon: "⛔", label: "Ne pas signer", sub: "Rediriger ou refuser", color: "red", v: ["refuser"] }
+];
+const CERT_VCOLOR = { attestation: "emerald", officiel: "blue", convertir: "amber", facultatif: "slate", encadre: "purple", refuser: "red" };
+const CERT_QUALIF = ["Médecin généraliste", "Médecin coordonnateur", "Psychiatre", "Gériatre", "Médecin de médecine physique et de réadaptation"];
+
+function certToday(){
+  const d = new Date();
+  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0, 10);
+}
+
+function certDefault(){
+  return {
+    famille: null, q: "", model: null,
+    medNom: "", medQualif: "Médecin généraliste", medQualifAutre: "", rpps: "", lieu: "",
+    civ: "Mme", patient: "", naissance: "", dateExam: certToday(), mode: "presentiel",
+    protection: "aucune", demandePar: "interesse", remisA: "interesse", representant: "",
+    v: {},              // valeurs des champs du modèle
+    traceDemandeur: "", traceFinalite: "", traceElements: "",
+    check: {}
+  };
+}
+function certS(){ if(!state.cert) state.cert = certDefault(); return state.cert; }
+
+function certSrcHTML(keys){
+  const seen = [];
+  (keys || []).forEach(k => { if(CERT_REF.sources[k] && seen.indexOf(k) < 0) seen.push(k); });
+  if(!seen.length) return "";
+  return `<p class="cont-src">Sources : ${seen.map(k => {
+    const s = CERT_REF.sources[k];
+    return s.u ? `<a href="${s.u}" target="_blank" rel="noopener" title="${escapeHtml(s.l)}">${escapeHtml(s.c)}</a>`
+               : `<span title="${escapeHtml(s.l)}">${escapeHtml(s.c)}</span>`;
+  }).join(" · ")}</p>`;
+}
+
+/* ------------------------------------------------------------ mises à jour */
+function certSet(field, value, full){
+  const s = certS();
+  s[field] = value;
+  if(field === "famille"){ s.q = ""; if(value !== "rediger") s.model = null; }
+  if(field === "model"){ s.famille = "rediger"; s.q = ""; }
+  if(field === "protection"){
+    if(value === "representation"){ s.demandePar = "representant"; s.remisA = "representant"; }
+  }
+  if(full) renderCertifPanel(); else if(field === "q") renderCertifSearch(); else renderCertifResult();
+}
+function certSetV(id, value, full){
+  certS().v[id] = value;
+  if(full) renderCertifPanel(); else renderCertifResult();
+}
+function certToggleOpt(id, opt){
+  const s = certS();
+  const cur = Array.isArray(s.v[id]) ? s.v[id].slice() : [];
+  const i = cur.indexOf(opt);
+  if(i >= 0) cur.splice(i, 1); else cur.push(opt);
+  s.v[id] = cur;
+  renderCertifPanel();
+}
+function certToggleCheck(i){
+  const s = certS();
+  s.check[i] = !s.check[i];
+  renderCertifResult();
+}
+function certReset(){ state.cert = certDefault(); renderCertifPanel(); }
+function certOpenModel(code){
+  const s = certS();
+  s.model = code; s.famille = "rediger"; s.q = ""; s.v = {};
+  renderCertifPanel();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+window.certSet = certSet; window.certSetV = certSetV; window.certToggleOpt = certToggleOpt;
+window.certToggleCheck = certToggleCheck; window.certReset = certReset; window.certOpenModel = certOpenModel;
+
+/* ------------------------------------------------------------ recherche */
+function certNorm(t){ return (t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+function certSearch(q){
+  const words = certNorm(q).split(/[\s,;']+/).filter(w => w.length > 1);
+  if(!words.length) return [];
+  return CERT_REF.demandes.map(d => {
+    const hay = certNorm(d.label + " " + d.k + " " + d.t + " " + (d.m || ""));
+    const score = words.reduce((n, w) => n + (hay.indexOf(w) >= 0 ? 1 : 0), 0);
+    return { d, score };
+  }).filter(x => x.score === words.length || (words.length > 2 && x.score >= words.length - 1))
+    .sort((a, b) => b.score - a.score).map(x => x.d);
+}
+
+/* ------------------------------------------------------------ cartes « demande » */
+function certDemandeHTML(d){
+  const v = CERT_REF.verdicts[d.v];
+  const vc = colorVars(CERT_VCOLOR[d.v]);
+  const tlc = CERT_REF.tlc[d.tlc] || "";
+  let support = "";
+  if(d.doc && DOCUMENTS[d.doc]){
+    const inter = DOCUMENTS[d.doc].interactive;
+    support += `<button type="button" class="cert-link" onclick="${inter ? `openExplorer('${d.doc}')` : `openDoc('${d.doc}')`}">${inter ? "Ouvrir l'outil" : "Ouvrir le document"} : ${escapeHtml(DOCUMENTS[d.doc].title)}</button>`;
+  }
+  if(d.url) support += `<a class="cert-link" href="${d.url}" target="_blank" rel="noopener">Support officiel ↗</a>`;
+  if(d.m) support += `<button type="button" class="cert-link cert-link-main" onclick="certOpenModel('${d.m}')">Rédiger avec le modèle ${d.m} →</button>`;
+  return `<div class="cert-card" style="--pill:${vc.pill};--pillbg:${vc.pillbg}">
+      <div class="cert-card-head">
+        <span class="cont-pill" style="--pill:${vc.pill};--pillbg:${vc.pillbg}">${v.label}</span>
+        <strong>${escapeHtml(d.label)}</strong>
+      </div>
+      <p class="cert-card-t">${escapeHtml(d.t)}</p>
+      ${d.qui && d.qui !== "—" ? `<p class="cert-card-meta"><strong>Signataire :</strong> ${escapeHtml(d.qui)}</p>` : ""}
+      ${tlc ? `<p class="cert-card-meta">${escapeHtml(tlc)}</p>` : ""}
+      ${support ? `<div class="cert-links">${support}</div>` : ""}
+      ${certSrcHTML(d.s)}
+    </div>`;
+}
+
+function renderCertifSearch(){
+  const out = document.getElementById("certSearchOut");
+  if(!out) return;
+  const s = certS();
+  if(!s.q.trim()){ out.innerHTML = ""; return; }
+  const res = certSearch(s.q);
+  out.innerHTML = res.length
+    ? `<p class="cert-count">${res.length} demande${res.length > 1 ? "s" : ""} correspondante${res.length > 1 ? "s" : ""}</p><div class="cert-cards">${res.map(certDemandeHTML).join("")}</div>`
+    : `<div class="empty-state">Aucune demande correspondante. Essaie un autre mot (ex. : logement, ambulance, tutelle, MDPH, vaccin), ou choisis une famille ci-dessous.</div>`;
+}
+
+/* ------------------------------------------------------------ rendu du panneau */
+function renderCertifPanel(){
+  const cat = CATEGORIES.find(c => c.id === "administratif");
+  const c = colorVars(cat.color);
+  const s = certS();
+  const fam = CERT_FAMILLES.find(f => f.id === s.famille);
+
+  let body = "";
+  if(s.model){
+    body = certModelHTML(s);
+  }else if(fam && fam.id === "rediger"){
+    body = `<div class="neurolep-grid">${Object.keys(CERT_REF.modeles).map(code => {
+      const m = CERT_REF.modeles[code];
+      const dem = CERT_REF.demandes.find(d => d.m === code);
+      return `<button type="button" class="neurolep-bubble bio-bubble" style="--pill:var(--emerald);--pillbg:var(--emerald-bg)" onclick="certOpenModel('${code}')">
+        <span class="neurolep-dci">${code}</span><span class="neurolep-brand">${escapeHtml(m.titre)}</span></button>`;
+    }).join("")}</div>`;
+  }else if(fam){
+    const groups = CERT_REF.groupes.map(g => {
+      const items = CERT_REF.demandes.filter(d => d.g === g && fam.v.indexOf(d.v) >= 0);
+      return items.length ? `<p class="tc-head cert-group">${g}</p><div class="cert-cards">${items.map(certDemandeHTML).join("")}</div>` : "";
+    }).join("");
+    body = groups;
+  }
+
+  contentEl.innerHTML = `
+    <button type="button" class="back-btn" onclick="closeDoc()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <div class="tool-hero" style="--pill:${c.pill}">
+        <span class="tool-hero-icon">🩺</span>
+        <div class="tool-hero-body">
+          <p class="tool-hero-title">Certificat médical — rédaction guidée</p>
+          <p class="tool-hero-sub">D'abord savoir si la demande appelle une attestation, un formulaire officiel, une procédure encadrée ou un refus. Puis, si c'est une attestation, la rédiger en une minute : PDF d'une page, texte à copier, note de traçabilité.</p>
+          <div class="tool-hero-stats">
+            <span class="tool-hero-stat">${CERT_REF.demandes.length} demandes</span>
+            <span class="tool-hero-stat">${Object.keys(CERT_REF.modeles).length} modèles</span>
+            <span class="tool-hero-stat">PDF 1 page</span>
+            <span class="tool-hero-stat">Rien n'est conservé</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cert-searchbar">
+        <input type="search" class="tc-in cert-search" value="${escapeHtml(s.q)}" oninput="certSet('q', this.value)" placeholder="Que vous demande-t-on ? ex. : ambulance, logement, tutelle, MDPH, vaccin, préavis…" />
+      </div>
+      <div id="certSearchOut"></div>
+
+      <div class="neurolep-grid cert-famgrid">
+        ${CERT_FAMILLES.map(f => {
+          const fc = colorVars(f.color);
+          const on = s.famille === f.id;
+          return `<button type="button" class="neurolep-bubble bio-bubble ${on ? "bio-bubble-active" : ""}" style="--pill:${fc.pill};--pillbg:${fc.pillbg}" onclick="certSet('famille', '${f.id}', true)">
+            <span class="neurolep-dci">${f.icon} ${f.label}</span><span class="neurolep-brand">${f.sub}</span></button>`;
+        }).join("")}
+      </div>
+
+      ${body || `<p class="doc-meta">Tape la demande dans la barre de recherche, ou choisis une famille. Données issues du référentiel « Certificats médicaux en ESMS » (${CERT_REF.version}).</p>`}
+    </div>
+  `;
+  renderCertifSearch();
+  if(s.model) renderCertifResult();
+}
+
+function certOpt(value, label, cur){ return `<option value="${value}" ${String(cur) === String(value) ? "selected" : ""}>${label}</option>`; }
+
+function certFieldHTML(ch, s){
+  const val = s.v[ch.id];
+  if(ch.type === "ch"){
+    const cur = Array.isArray(val) ? val : [];
+    return `<p class="tc-head">${ch.label}</p>
+      <div class="cont-chips">${ch.opts.map(o => `<label class="cont-chip ${cur.indexOf(o) >= 0 ? "cont-chip-on" : ""}"><input type="checkbox" ${cur.indexOf(o) >= 0 ? "checked" : ""} onchange="certToggleOpt('${ch.id}', ${escapeHtml(JSON.stringify(o))})" />${escapeHtml(o)}</label>`).join("")}</div>
+      ${ch.autre ? `<label class="tc-field cont-field-full"><span>Autre</span><input type="text" class="tc-in" value="${escapeHtml(s.v[ch.id + "_autre"] || "")}" oninput="certSetV('${ch.id}_autre', this.value)" /></label>` : ""}`;
+  }
+  if(ch.type === "ra"){
+    return `<p class="tc-head">${ch.label}</p>
+      <div class="cont-chips">${ch.opts.map(o => {
+        const lab = o.replace("{date_dep}", "…").replace("{fin}", "…");
+        return `<label class="cont-chip ${val === o ? "cont-chip-on" : ""}"><input type="radio" name="cert_${ch.id}" ${val === o ? "checked" : ""} onchange="certSetV('${ch.id}', ${escapeHtml(JSON.stringify(o))}, true)" />${escapeHtml(lab)}</label>`;
+      }).join("")}
+      ${ch.autre ? `<label class="cont-chip ${val === "__autre" ? "cont-chip-on" : ""}"><input type="radio" name="cert_${ch.id}" ${val === "__autre" ? "checked" : ""} onchange="certSetV('${ch.id}', '__autre', true)" />autre</label>` : ""}</div>
+      ${ch.autre && val === "__autre" ? `<label class="tc-field cont-field-full"><span>Préciser</span><input type="text" class="tc-in" value="${escapeHtml(s.v[ch.id + "_autre"] || "")}" oninput="certSetV('${ch.id}_autre', this.value)" /></label>` : ""}`;
+  }
+  if(ch.type === "du"){
+    const k = s.v[ch.id] || "perm";
+    return `<p class="tc-head">${ch.label}</p>
+      <div class="cont-chips">
+        ${[["perm", ch.perm], ["jusqu", "temporaire, jusqu'au…"], ["reeval", "à réévaluer dans…"]].map(([key, lab]) =>
+          `<label class="cont-chip ${k === key ? "cont-chip-on" : ""}"><input type="radio" name="cert_${ch.id}" ${k === key ? "checked" : ""} onchange="certSetV('${ch.id}', '${key}', true)" />${lab}</label>`).join("")}
+      </div>
+      ${k === "jusqu" ? `<label class="tc-field cont-field-full"><span>Jusqu'au</span><input type="date" class="tc-in" value="${escapeHtml(s.v[ch.id + "_date"] || "")}" onchange="certSetV('${ch.id}_date', this.value)" /></label>` : ""}
+      ${k === "reeval" ? `<label class="tc-field cont-field-full"><span>Délai</span><input type="text" class="tc-in" value="${escapeHtml(s.v[ch.id + "_delai"] || "")}" oninput="certSetV('${ch.id}_delai', this.value)" placeholder="3 mois, 6 mois…" /></label>` : ""}`;
+  }
+  if(ch.type === "dt"){
+    return `<label class="tc-field cont-field-full"><span>${ch.label}</span><input type="date" class="tc-in" value="${escapeHtml(val || "")}" onchange="certSetV('${ch.id}', this.value)" /></label>`;
+  }
+  return `<label class="tc-field cont-field-col"><span>${ch.label}</span><input type="text" class="tc-in" value="${escapeHtml(val || "")}" oninput="certSetV('${ch.id}', this.value)" /></label>`;
+}
+
+function certModelHTML(s){
+  const m = CERT_REF.modeles[s.model];
+  const dem = CERT_REF.demandes.find(d => d.m === s.model);
+  const repLab = s.protection === "aucune" ? "Représentant légal (parent, tuteur)" : "Personne chargée de la mesure de protection";
+  return `
+    <div class="cert-model-head">
+      <button type="button" class="cert-link" onclick="certSet('model', null, true); certSet('famille', 'rediger', true)">← Autres modèles</button>
+      <h3 class="cert-model-title">${s.model} — ${escapeHtml(m.titre)}</h3>
+    </div>
+    ${dem ? `<p class="tc-note">${escapeHtml(dem.t)}</p>${certSrcHTML(dem.s)}` : ""}
+    <div class="bio-layout chariot-layout">
+      <div class="bio-layout-left cont-form">
+        <div class="tc-card tc-blue">
+          <p class="tc-card-title">1. Médecin</p>
+          <div class="tc-idbar">
+            <label>Nom et prénom<input type="text" class="tc-in" value="${escapeHtml(s.medNom)}" oninput="certSet('medNom', this.value)" placeholder="NOM Prénom" /></label>
+            <label>N° RPPS<input type="text" class="tc-in" value="${escapeHtml(s.rpps)}" oninput="certSet('rpps', this.value)" /></label>
+          </div>
+          <div class="tc-idbar">
+            <label>Qualification<select class="tc-in" onchange="certSet('medQualif', this.value, true)">
+              ${CERT_QUALIF.map(q => certOpt(q, q, s.medQualif)).join("")}${certOpt("autre", "Autre…", s.medQualif)}
+            </select></label>
+            ${s.medQualif === "autre" ? `<label>Préciser<input type="text" class="tc-in" value="${escapeHtml(s.medQualifAutre)}" oninput="certSet('medQualifAutre', this.value)" /></label>` : ""}
+            <label>Fait à<input type="text" class="tc-in" value="${escapeHtml(s.lieu)}" oninput="certSet('lieu', this.value)" placeholder="Ville" /></label>
+          </div>
+        </div>
+
+        <div class="tc-card tc-purple">
+          <p class="tc-card-title">2. Patient et examen</p>
+          <div class="tc-idbar">
+            <label>Civilité<select class="tc-in" onchange="certSet('civ', this.value)">${certOpt("Mme", "Mme", s.civ)}${certOpt("M.", "M.", s.civ)}</select></label>
+            <label>Nom et prénom<input type="text" class="tc-in" value="${escapeHtml(s.patient)}" oninput="certSet('patient', this.value)" placeholder="NOM Prénom" /></label>
+            <label>Né(e) le<input type="text" class="tc-in" value="${escapeHtml(s.naissance)}" oninput="certSet('naissance', this.value)" placeholder="jj/mm/aaaa" /></label>
+          </div>
+          <div class="tc-idbar">
+            <label>Date de l'examen<input type="date" class="tc-in" value="${escapeHtml(s.dateExam)}" onchange="certSet('dateExam', this.value)" /></label>
+            <label>Mode d'examen<select class="tc-in" onchange="certSet('mode', this.value, true)">${certOpt("presentiel", "Présentiel", s.mode)}${certOpt("tlc", "Téléconsultation", s.mode)}</select></label>
+          </div>
+          <div class="tc-idbar">
+            <label>Mesure de protection<select class="tc-in" onchange="certSet('protection', this.value, true)">
+              ${certOpt("aucune", "Aucune", s.protection)}${certOpt("assistance", "Avec assistance (curatelle…)", s.protection)}${certOpt("representation", "Avec représentation (tutelle…)", s.protection)}
+            </select></label>
+          </div>
+          <div class="tc-idbar">
+            <label>Établi à la demande de<select class="tc-in" onchange="certSet('demandePar', this.value, true)">${certOpt("interesse", "l'intéressé(e)", s.demandePar)}${certOpt("representant", "son représentant légal", s.demandePar)}${certOpt("parents", "ses parents (autorité parentale)", s.demandePar)}</select></label>
+            <label>Remis en main propre à<select class="tc-in" onchange="certSet('remisA', this.value, true)">${certOpt("interesse", "l'intéressé(e)", s.remisA)}${certOpt("representant", "son représentant légal", s.remisA)}${certOpt("parents", "ses parents (autorité parentale)", s.remisA)}</select></label>
+          </div>
+          ${s.demandePar !== "interesse" || s.remisA !== "interesse" ? `<label class="tc-field cont-field-full"><span>${repLab}</span><input type="text" class="tc-in" value="${escapeHtml(s.representant)}" oninput="certSet('representant', this.value)" placeholder="Nom, qualité" /></label>` : ""}
+        </div>
+
+        <div class="tc-card tc-green">
+          <p class="tc-card-title">3. Contenu du certificat</p>
+          ${m.champs.length ? m.champs.map(ch => certFieldHTML(ch, s)).join("") : `<p class="tc-note">Texte fixe prévu par le modèle : rien à compléter, aucun diagnostic.</p>`}
+        </div>
+
+        <div class="tc-card tc-slate">
+          <p class="tc-card-title">4. Traçabilité — pour le dossier, non imprimée</p>
+          <label class="tc-field cont-field-col"><span>Demande et finalité annoncée</span><input type="text" class="tc-in" value="${escapeHtml(s.traceFinalite)}" oninput="certSet('traceFinalite', this.value)" placeholder="Demandé par … pour …" /></label>
+          <label class="tc-field cont-field-col"><span>Éléments objectifs ayant fondé la conclusion</span><textarea class="tc-avis-area cont-area" rows="3" oninput="certSet('traceElements', this.value)">${escapeHtml(s.traceElements)}</textarea></label>
+        </div>
+
+        <div class="tc-card tc-amber">
+          <p class="tc-card-title">5. Checklist avant de signer</p>
+          ${CERT_REF.checklist.map((t, i) => `<div class="tc-line ${s.check[i] ? "tc-on" : ""}"><label class="tc-chk"><input type="checkbox" ${s.check[i] ? "checked" : ""} onchange="certToggleCheck(${i}); this.closest('.tc-line').classList.toggle('tc-on', this.checked)" /><span>${escapeHtml(t)}</span></label></div>`).join("")}
+          ${certSrcHTML(["CNOM_REDIGER", "R4127_76"])}
+        </div>
+      </div>
+      <div class="bio-layout-right"><div id="certResult"></div></div>
+    </div>`;
+}
+
+/* ------------------------------------------------------------ texte du certificat */
+function certFmtDate(iso){
+  if(!iso) return "";
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : iso;
+}
+function certList(arr){
+  const a = arr.filter(Boolean);
+  if(a.length <= 1) return a[0] || "";
+  return a.slice(0, -1).join(", ") + " et " + a[a.length - 1];
+}
+const CERT_VIDE = "[…]";
+
+function certValue(code, ch){
+  const s = certS();
+  const v = s.v[ch.id];
+  if(ch.type === "ch"){
+    const arr = (Array.isArray(v) ? v.slice() : []);
+    const autre = (s.v[ch.id + "_autre"] || "").trim();
+    if(autre) arr.push(autre);
+    return arr.length ? certList(arr) : CERT_VIDE;
+  }
+  if(ch.type === "ra"){
+    if(!v) return CERT_VIDE;
+    if(v === "__autre") return (s.v[ch.id + "_autre"] || "").trim() || CERT_VIDE;
+    return v.replace("{date_dep}", certFmtDate(s.v.date_dep) || CERT_VIDE).replace("{fin}", certFmtDate(s.v.fin) || CERT_VIDE);
+  }
+  if(ch.type === "du"){
+    const k = v || "perm";
+    if(k === "jusqu"){
+      const d = certFmtDate(s.v[ch.id + "_date"]) || CERT_VIDE;
+      return code === "LOG-02" ? "jusqu'au " + d : "temporaire jusqu'au " + d;
+    }
+    if(k === "reeval"){
+      const dl = (s.v[ch.id + "_delai"] || "").trim() || CERT_VIDE;
+      return code === "LOG-02" ? "à ce jour, à réévaluer dans " + dl : "à réévaluer dans " + dl;
+    }
+    return ch.perm;
+  }
+  if(ch.type === "dt") return certFmtDate(v) || CERT_VIDE;
+  return (v || "").trim() || CERT_VIDE;
+}
+
+function certGenre(s){
+  const f = s.civ === "Mme";
+  return { ne: f ? "née" : "né", interesse: f ? "l'intéressée" : "l'intéressé" };
+}
+function certPersonneLabel(key, s){
+  const g = certGenre(s);
+  const rep = s.representant.trim();
+  if(key === "representant") return "son représentant légal" + (rep ? " (" + rep + ")" : "");
+  if(key === "parents") return "ses parents, titulaires de l'autorité parentale" + (rep ? " (" + rep + ")" : "");
+  return g.interesse;
+}
+
+function certBuild(){
+  const s = certS();
+  const code = s.model;
+  const m = CERT_REF.modeles[code];
+  const g = certGenre(s);
+  const qualif = s.medQualif === "autre" ? (s.medQualifAutre.trim() || CERT_VIDE) : s.medQualif;
+  const vals = {};
+  m.champs.forEach(ch => { vals[ch.id] = certValue(code, ch); });
+
+  const head = `Je soussigné(e), Dr ${s.medNom.trim() || CERT_VIDE}, ${qualif.charAt(0).toLowerCase() + qualif.slice(1)}${s.rpps.trim() ? ", RPPS " + s.rpps.trim() : ""}, certifie avoir examiné ${s.civ} ${s.patient.trim() || CERT_VIDE}, ${g.ne} le ${s.naissance.trim() || CERT_VIDE}, le ${certFmtDate(s.dateExam) || CERT_VIDE}${s.mode === "tlc" ? ", en téléconsultation" : ""}.`;
+  const body = m.corps.map(p => p.replace(/\{(\w+)\}/g, (x, id) => vals[id] !== undefined ? vals[id] : CERT_VIDE)
+                                 .replace(/l'intéressé\(e\)/g, g.interesse));
+  const close = s.demandePar === s.remisA
+    ? `Certificat établi à la demande de ${certPersonneLabel(s.demandePar, s)}, à qui il est remis en main propre.`
+    : `Certificat établi à la demande de ${certPersonneLabel(s.demandePar, s)} et remis en main propre à ${certPersonneLabel(s.remisA, s)}.`;
+  const fait = `Fait à ${s.lieu.trim() || CERT_VIDE}, le ${certFmtDate(certToday())}.`;
+  const sign = `Dr ${s.medNom.trim() || CERT_VIDE}${s.rpps.trim() ? " — RPPS " + s.rpps.trim() : ""}`;
+
+  const paras = [head].concat(body, [close]);
+  const plain = ["CERTIFICAT MÉDICAL", ""].concat(paras.map(p => p + "\n"), [fait, sign, "Signature :"]).join("\n");
+  const html = `<p><strong><u>CERTIFICAT MÉDICAL</u></strong></p>${paras.map(p => `<p>${esc(p)}</p>`).join("")}<p>${esc(fait)}<br><strong>${esc(sign)}</strong><br>Signature :</p>`;
+
+  const trace = [
+    `CERTIFICAT MÉDICAL DÉLIVRÉ — modèle DOTR ${code} (${m.titre})`,
+    `Date de rédaction : ${certFmtDate(certToday())} — examen du ${certFmtDate(s.dateExam) || "…"} (${s.mode === "tlc" ? "téléconsultation" : "présentiel"})`,
+    `Demande et finalité : ${s.traceFinalite.trim() || "non renseigné"}`,
+    `Éléments objectifs : ${s.traceElements.trim() || "non renseigné"}`,
+    `Remis en main propre à : ${certPersonneLabel(s.remisA, s)}`,
+    `Copie conservée au dossier.`
+  ];
+  const traceHtml = `<p><strong><u>${esc(trace[0])}</u></strong></p><ul>${trace.slice(1).map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
+  const vides = (paras.join(" ") + fait + sign).split(CERT_VIDE).length - 1;
+  return { plain, html, paras, fait, sign, trace: trace.join("\n"), traceHtml, vides, titre: m.titre, code };
+}
+
+function certAlerts(){
+  const s = certS();
+  const out = [];
+  const code = s.model;
+  const dem = CERT_REF.demandes.find(d => d.m === code);
+  const nCheck = CERT_REF.checklist.filter((t, i) => s.check[i]).length;
+  if(nCheck < CERT_REF.checklist.length){
+    out.push({ lvl: "warn", t: `Checklist : ${nCheck} / ${CERT_REF.checklist.length} points validés.`, s: ["CNOM_REDIGER"] });
+  }
+  if(s.mode === "tlc" && dem && dem.tlc !== "oui"){
+    out.push({ lvl: "hot", t: CERT_REF.tlc[dem.tlc] || "Téléconsultation : vérifier que l'examen est suffisant.", s: dem.s });
+  }else if(s.mode === "tlc"){
+    out.push({ lvl: "info", t: CERT_REF.tlc.oui, s: ["CNOM_REDIGER"] });
+  }
+  if(s.protection !== "aucune" && (code === "LOG-02" || code === "LOG-03")){
+    out.push({ lvl: "hot", t: CERT_REF.alerteProtege + " Logement du majeur protégé pour une entrée en établissement : avis d'un médecin extérieur à l'établissement d'accueil ; l'acte relève du juge.", s: ["CC426"] });
+  }
+  if(code === "LOG-03"){
+    out.push({ lvl: "info", t: "Si l'intéressé(e) perçoit l'AAH ou le RSA, le préavis d'un mois s'applique sans certificat médical.", s: ["LOI89"] });
+  }
+  if(code === "VACC-01"){
+    out.push({ lvl: "info", t: "Contre-indication médicale reconnue et ciblée sur un vaccin : jamais de dispense vaccinale générale.", s: ["CNOM_MAJ", "CNOM_MIN"] });
+  }
+  if(s.remisA !== "interesse" && s.protection === "aucune" && s.remisA === "representant"){
+    out.push({ lvl: "warn", t: "Remise à un tiers : seulement dans les cas prévus par la loi (représentant légal). Sinon, remettre le certificat en main propre à l'intéressé(e).", s: ["CNOM_REDIGER"] });
+  }
+  return out;
+}
+
+function renderCertifResult(){
+  const out = document.getElementById("certResult");
+  if(!out) return;
+  const b = certBuild();
+  const al = certAlerts();
+  out.innerHTML = `
+    <div class="bio-result-box">
+      <div class="bio-result-head">
+        <strong>Certificat — ${b.code}</strong>
+        <div class="bio-result-actions">
+          <button type="button" class="bio-copy-btn" id="certCopyBtn">Copier le certificat</button>
+          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="certPdfBtn">📄 PDF 1 page</button>
+          <button type="button" class="bio-copy-btn" id="certTraceBtn">Copier la note pour le dossier</button>
+          <button type="button" class="bio-reset-btn" onclick="certReset()">Réinitialiser</button>
+        </div>
+      </div>
+      ${b.vides ? `<div class="cont-alert cont-alert-warn">${b.vides} champ${b.vides > 1 ? "s" : ""} encore vide${b.vides > 1 ? "s" : ""} : ils apparaissent en « […] ».</div>` : ""}
+      ${al.map(a => `<div class="cont-alert cont-alert-${a.lvl}">${escapeHtml(a.t)}${certSrcHTML(a.s)}</div>`).join("")}
+      <div class="tc-preview cert-preview">${b.html}</div>
+      <p class="tc-head">Note de traçabilité (dossier du résident)</p>
+      <div class="tc-preview">${b.traceHtml}</div>
+    </div>`;
+  const copy = async (btn, plain, html, label) => {
+    const done = () => { btn.textContent = "Copié ✓"; setTimeout(() => { btn.textContent = label; }, 1800); };
+    try{
+      if(navigator.clipboard && window.ClipboardItem){
+        await navigator.clipboard.write([new ClipboardItem({
+          "text/plain": new Blob([plain], { type: "text/plain" }),
+          "text/html": new Blob([html], { type: "text/html" })
+        })]);
+        done(); return;
+      }
+      await navigator.clipboard.writeText(plain); done();
+    }catch(e){
+      const ta = document.createElement("textarea");
+      ta.value = plain; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); }catch(err){}
+      document.body.removeChild(ta); done();
+    }
+  };
+  document.getElementById("certCopyBtn").addEventListener("click", function(){ copy(this, b.plain, b.html, "Copier le certificat"); });
+  document.getElementById("certTraceBtn").addEventListener("click", function(){ copy(this, b.trace, b.traceHtml, "Copier la note pour le dossier"); });
+  document.getElementById("certPdfBtn").addEventListener("click", certPdf);
+}
+
+/* ------------------------------------------------------------ PDF 1 page */
+async function certPdf(){
+  const btn = document.getElementById("certPdfBtn");
+  const original = btn.textContent;
+  btn.textContent = "Génération…";
+  try{
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const pdfDoc = await PDFDocument.create();
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const ital = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
+    const logo = await pdfDoc.embedJpg(base64ToBytes(VMS_DOTR_LOGO_B64));
+    const s = certS();
+    const b = certBuild();
+    const W = 595.28, H = 841.89, M = 62, FW = W - 2 * M;
+    const hex = h => rgb(parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255);
+    const NAVY = hex("#113A6E"), INK = hex("#1F2A37"), MUTED = hex("#5C6670"), SRC = hex("#A6B1BF"), BLUE = hex("#0B74D0");
+    const Y = t => H - t;
+    const qualif = s.medQualif === "autre" ? (s.medQualifAutre.trim() || "") : s.medQualif;
+
+    function layout(size, page){
+      const lead = size * 1.55;
+      let top = 58;
+      // en-tête du médecin
+      const hdr = [
+        [bold, 12.5, INK, "Dr " + (s.medNom.trim() || "…")],
+        [font, 9.5, MUTED, qualif],
+        [font, 9.5, MUTED, s.rpps.trim() ? "RPPS : " + s.rpps.trim() : ""],
+        [font, 9.5, MUTED, "Docs On The Road — VMS"]
+      ].filter(x => x[3]);
+      if(page){
+        page.drawRectangle({ x: 0, y: H - 7, width: W, height: 7, color: BLUE });
+        hdr.forEach((h, i) => page.drawText(pdfSafe(h[3]), { x: M, y: Y(top + i * 13), size: h[1], font: h[0], color: h[2] }));
+      }
+      top += hdr.length * 13 + 40;
+      if(page){
+        const t1 = "CERTIFICAT MÉDICAL";
+        page.drawText(t1, { x: (W - bold.widthOfTextAtSize(t1, 17)) / 2, y: Y(top), size: 17, font: bold, color: NAVY });
+        page.drawLine({ start: { x: W / 2 - 40, y: Y(top + 10) }, end: { x: W / 2 + 40, y: Y(top + 10) }, thickness: 1.2, color: BLUE });
+      }
+      top += 42;
+      b.paras.forEach(p => {
+        const lines = wrapPdfText(pdfSafe(p), font, size, FW);
+        if(page) lines.forEach((ln, i) => page.drawText(ln, { x: M, y: Y(top + i * lead), size: size, font: font, color: INK }));
+        top += lines.length * lead + size * 0.9;
+      });
+      top += 14;
+      const faitW = font.widthOfTextAtSize(pdfSafe(b.fait), size);
+      if(page){
+        page.drawText(pdfSafe(b.fait), { x: W - M - faitW, y: Y(top), size: size, font: font, color: INK });
+        const sg = pdfSafe(b.sign);
+        page.drawText(sg, { x: W - M - bold.widthOfTextAtSize(sg, size), y: Y(top + lead), size: size, font: bold, color: INK });
+        page.drawText("Signature", { x: W - M - 190, y: Y(top + lead * 2 + 6), size: 8, font: ital, color: MUTED });
+        page.drawRectangle({ x: W - M - 190, y: Y(top + lead * 2 + 84), width: 190, height: 72, borderColor: SRC, borderWidth: 0.7 });
+      }
+      top += lead * 2 + 90;
+      if(page){
+        page.drawText(pdfSafe("Réf. modèle DOTR " + b.code + " — référentiel « Certificats médicaux en ESMS » " + CERT_REF.version + ". Copie conservée au dossier."), { x: M, y: Y(812), size: 6.6, font: ital, color: SRC });
+        const lw = 84, lh = lw * logo.height / logo.width;
+        page.drawImage(logo, { x: W - 34 - lw, y: Y(832), width: lw, height: lh });
+      }
+      return top;
+    }
+    let size = 11;
+    while(size > 8.6 && layout(size, null) > 780) size -= 0.2;
+    const page = pdfDoc.addPage([W, H]);
+    layout(size, page);
+    const bytes = await pdfDoc.save();
+    const nom = (s.patient.trim() || "patient").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-zA-Z0-9]+/g, "_");
+    triggerDownload(new Blob([bytes], { type: "application/pdf" }), "Certificat_" + b.code + "_" + nom + "_" + certToday() + ".pdf");
+    btn.textContent = "Fait ✓";
+    setTimeout(() => { btn.textContent = original; }, 1800);
+  }catch(e){
+    console.error(e);
+    btn.textContent = "Erreur";
+    setTimeout(() => { btn.textContent = original; }, 2200);
+  }
+}
+window.certPdf = certPdf;
+
+
 /* Rubriques marquées « wip » : grand bandeau d'alerte en tête de page, dans la
    rubrique comme dans ses outils et documents. Appelé après chaque rendu, y
    compris les rendus internes des outils (voir les enveloppes plus bas). */
@@ -11560,11 +12197,15 @@ function wipCategoryId(){
 }
 function applyWipBanner(){
   const cat = CATEGORIES.find(c => c.id === wipCategoryId());
-  if(!cat || !cat.wip || !contentEl || contentEl.querySelector(".wip-banner")) return;
+  const doc = state.activeDoc && DOCUMENTS[state.activeDoc];
+  const catWip = !!(cat && cat.wip);
+  const docWip = !!(doc && doc.wip);
+  if(!(catWip || docWip) || !contentEl || contentEl.querySelector(".wip-banner")) return;
+  const quoi = catWip ? "RUBRIQUE" : (doc.interactive ? "OUTIL" : "DOCUMENT");
   const html = `<div class="wip-banner" role="alert">
       <span class="wip-banner-icon" aria-hidden="true">⚠️</span>
       <div>
-        <p class="wip-banner-title">🚧 RUBRIQUE EN CONSTRUCTION 🚧</p>
+        <p class="wip-banner-title">🚧 ${quoi} EN CONSTRUCTION 🚧</p>
         <p class="wip-banner-text">Ne pas utiliser tant que ce message s'affiche, merci !</p>
       </div>
     </div>`;
@@ -11572,15 +12213,121 @@ function applyWipBanner(){
   if(back) back.insertAdjacentHTML("afterend", html);
   else contentEl.insertAdjacentHTML("afterbegin", html);
 }
-["renderContentionPanel", "renderTeleconsultPanel", "renderCourrierPanel"].forEach(name => {
+["renderContentionPanel", "renderTeleconsultPanel", "renderCourrierPanel", "renderCertifPanel"].forEach(name => {
   const fn = window[name];
   if(typeof fn !== "function") return;
   const wrapped = function(){ const r = fn.apply(this, arguments); applyWipBanner(); return r; };
   window[name] = wrapped;
 });
 
+/* Verrou des rubriques et documents « en construction » (option 1 : verrou
+   simple). Objectif : éviter qu'un outil non validé soit utilisé en pratique,
+   pas protéger un secret — le contenu reste dans ce fichier public. Le mot de
+   passe n'est pas écrit en clair : seule son empreinte SHA-256 est comparée.
+   L'accès reste ouvert jusqu'à la fermeture de l'onglet (sessionStorage),
+   rien d'autre n'est conservé. */
+const WIP_PASS_SHA256 = "79ef687007a5be12ea69379b38e6334f8f771da2a31516dcbde1897d7be90764";
+const WIP_UNLOCK_KEY = "dotrWipUnlocked";
+let wipUnlocked = false;
+try{ wipUnlocked = sessionStorage.getItem(WIP_UNLOCK_KEY) === "1"; }catch(e){}
+
+function sha256Hex(str){
+  const K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  const bytes = Array.from(new TextEncoder().encode(str));
+  const bitLen = bytes.length * 8;
+  bytes.push(0x80);
+  while(bytes.length % 64 !== 56) bytes.push(0);
+  for(let i = 7; i >= 0; i--) bytes.push(Math.floor(bitLen / Math.pow(2, 8 * i)) & 0xff);
+  const H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const rotr = (x, n) => (x >>> n) | (x << (32 - n));
+  const W = new Array(64);
+  for(let off = 0; off < bytes.length; off += 64){
+    for(let t = 0; t < 16; t++){
+      W[t] = (bytes[off + 4*t] << 24) | (bytes[off + 4*t + 1] << 16) | (bytes[off + 4*t + 2] << 8) | bytes[off + 4*t + 3];
+    }
+    for(let t = 16; t < 64; t++){
+      const s0 = rotr(W[t-15], 7) ^ rotr(W[t-15], 18) ^ (W[t-15] >>> 3);
+      const s1 = rotr(W[t-2], 17) ^ rotr(W[t-2], 19) ^ (W[t-2] >>> 10);
+      W[t] = (W[t-16] + s0 + W[t-7] + s1) | 0;
+    }
+    let [a, b, c, d, e, f, g, h] = H;
+    for(let t = 0; t < 64; t++){
+      const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+      const ch = (e & f) ^ (~e & g);
+      const t1 = (h + S1 + ch + K[t] + W[t]) | 0;
+      const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+      const maj = (a & b) ^ (a & c) ^ (b & c);
+      const t2 = (S0 + maj) | 0;
+      h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = b; b = a; a = (t1 + t2) | 0;
+    }
+    H[0] = (H[0] + a) | 0; H[1] = (H[1] + b) | 0; H[2] = (H[2] + c) | 0; H[3] = (H[3] + d) | 0;
+    H[4] = (H[4] + e) | 0; H[5] = (H[5] + f) | 0; H[6] = (H[6] + g) | 0; H[7] = (H[7] + h) | 0;
+  }
+  return H.map(x => (x >>> 0).toString(16).padStart(8, "0")).join("");
+}
+
+function wipLocked(){
+  if(wipUnlocked) return false;
+  const doc = state.activeDoc && DOCUMENTS[state.activeDoc];
+  if(doc && doc.wip) return true;
+  const cat = CATEGORIES.find(c => c.id === wipCategoryId());
+  return !!(cat && cat.wip);
+}
+
+function renderWipLock(){
+  const doc = state.activeDoc && DOCUMENTS[state.activeDoc];
+  const cat = CATEGORIES.find(c => c.id === (doc ? doc.category : state.activeId));
+  const quoi = doc ? (doc.interactive ? "Outil" : "Document") : "Rubrique";
+  const back = doc ? `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat ? cat.label : ""}
+    </button>` : "";
+  contentEl.innerHTML = `${back}
+    <div class="wip-lock">
+      <div class="wip-lock-icon" aria-hidden="true">🔒</div>
+      <h2 class="wip-lock-title">${quoi} en construction — accès réservé</h2>
+      ${doc ? `<p class="wip-lock-name">${doc.title}</p>` : (cat ? `<p class="wip-lock-name">${cat.label}</p>` : "")}
+      <p class="wip-lock-text">Ce contenu est en cours de validation par la co-direction médicale DOTR.
+        Il n'est accessible qu'aux relecteurs, avec le mot de passe.</p>
+      <form class="wip-lock-form" onsubmit="return wipTryUnlock(event)">
+        <input type="password" id="wipPass" autocomplete="off" placeholder="Mot de passe" aria-label="Mot de passe" />
+        <button type="submit">Déverrouiller</button>
+      </form>
+      <p class="wip-lock-error" id="wipPassError" role="alert"></p>
+      <p class="wip-lock-note">L'accès reste ouvert jusqu'à la fermeture de l'onglet.</p>
+    </div>`;
+  const input = document.getElementById("wipPass");
+  if(input) input.focus({ preventScroll: true });
+}
+
+function wipTryUnlock(evt){
+  if(evt) evt.preventDefault();
+  const input = document.getElementById("wipPass");
+  const err = document.getElementById("wipPassError");
+  const val = input ? input.value : "";
+  if(sha256Hex(val) === WIP_PASS_SHA256){
+    wipUnlocked = true;
+    try{ sessionStorage.setItem(WIP_UNLOCK_KEY, "1"); }catch(e){}
+    render();
+  }else{
+    if(err) err.textContent = "Mot de passe incorrect.";
+    if(input){ input.value = ""; input.focus(); }
+  }
+  return false;
+}
+window.wipTryUnlock = wipTryUnlock;
+
 function render(){
   renderSidebar();
+  if(wipLocked()){ renderWipLock(); return; }
   if(state.activeDoc === "neuroleptiques-classiques" && state.explorerMode){
     renderNeurolepPanel();
   }else if(state.activeDoc === "benzodiazepines" && state.explorerMode){
@@ -11611,6 +12358,8 @@ function render(){
     renderHandisportPanel();
   }else if(state.activeDoc === "contention-outil" && state.explorerMode){
     renderContentionPanel();
+  }else if(state.activeDoc === "certificat-redaction" && state.explorerMode){
+    renderCertifPanel();
   }else if(state.activeDoc){
     renderEmbedPage(state.activeDoc);
   }else if(state.query){
