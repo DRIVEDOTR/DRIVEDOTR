@@ -9066,6 +9066,7 @@ async function generateChariotChecklistPdf(dot, sec, items){
     const pdfDoc = await PDFDocument.create();
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const boldIt = await pdfDoc.embedFont(StandardFonts.HelveticaBoldOblique);
     const logo = await pdfDoc.embedJpg(base64ToBytes(VMS_DOTR_LOGO_B64));
 
     const pageW = 595.28, pageH = 841.89, margin = 34;
@@ -9109,10 +9110,12 @@ async function generateChariotChecklistPdf(dot, sec, items){
         width: logoW, height: logoH
       });
 
-      let y = pageH - 30;
-      page.drawText("CHARIOT D'URGENCE  ·  DOCUMENT DE CONTRÔLE", { x: margin, y, size: 7.6, font: bold, color: accent });
-      y -= 21;
-      page.drawText("Dotation " + dot.label.replace("Urgence ", ""), { x: margin, y, size: 19, font: bold, color: navy });
+      // Les deux lignes de titre sont au même corps (13 pt) : la hiérarchie
+      // passe par la couleur, les capitales et l'italique, pas par la taille.
+      let y = pageH - 28;
+      page.drawText("CHARIOT D'URGENCE  ·  DOCUMENT DE CONTRÔLE", { x: margin, y, size: 13, font: bold, color: accent });
+      y -= 20;
+      page.drawText("Dotation " + dot.label.replace("Urgence ", ""), { x: margin, y, size: 13, font: boldIt, color: navy });
       y -= 15;
       page.drawText(`${sec.label}  ·  ${items.length} élément${items.length > 1 ? "s" : ""}`, { x: margin, y, size: 9.5, font, color: muted });
 
