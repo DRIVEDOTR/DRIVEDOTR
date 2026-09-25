@@ -664,6 +664,9 @@
     .wip-banner-text{font-size:14.5px;}
   }
 
+
+
+
   /* ---------- Contention : outil de prescription ---------- */
   .cont-select{font-size:13.5px; font-weight:600; padding:8px 10px;}
   .cont-nature{
@@ -725,6 +728,68 @@
   .cont-help{margin:0 0 10px; padding:9px 12px 9px 28px; border-radius:8px; background:var(--sky-bg);
     font-size:12px; line-height:1.5; color:var(--text);}
   .cont-help li{margin:3px 0;}
+  /* ---------- Contention : situations types + étapes ---------- */
+  .cont-q{margin:18px 0 10px; font-size:16px; font-weight:800; color:var(--text);}
+  .cont-presets{display:grid; grid-template-columns:repeat(auto-fill, minmax(230px, 1fr)); gap:12px; margin-bottom:14px;}
+  .cont-preset{
+    display:flex; flex-direction:column; align-items:flex-start; gap:4px; text-align:left;
+    padding:14px 14px 12px; border-radius:14px; border:1.5px solid var(--border); background:#fff;
+    cursor:pointer; font-family:inherit; transition:transform .12s, box-shadow .12s, border-color .12s;
+  }
+  .cont-preset:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(17,58,110,.12); border-color:var(--wine, #8B2346);}
+  .cont-preset-icon{font-size:26px; line-height:1;}
+  .cont-preset-title{font-size:14.5px; font-weight:800; color:var(--text); margin-top:4px;}
+  .cont-preset-sub{font-size:12.5px; color:var(--text-muted); line-height:1.35;}
+  .cont-preset-nat{margin-top:6px; font-size:10.5px; font-weight:700; padding:1px 8px; border-radius:9px; border:1px solid;}
+  .cont-nat-passive{color:#B8231D; background:#FCECEC; border-color:#E8B4B1;}
+  .cont-nat-lav{color:#6B4C9A; background:#F3EEF9; border-color:#CDBEE3;}
+  .cont-nat-prevention{color:#188754; background:#EAF6F2; border-color:#A8D8C2;}
+  .cont-preset-hot{border-color:#E8B4B1; background:#FFF8F7;}
+  .cont-preset-free{border-style:dashed;}
+  .bio-layout.cont-layout{grid-template-columns:minmax(0, 1.3fr) minmax(320px, 1fr); gap:22px;}
+  .bio-layout.cont-layout > *{min-width:0;}
+  .cont-ident .tc-idbar{margin-bottom:8px; gap:10px;}
+  .cont-ident .tc-idbar label{flex:1 1 130px;}
+  .cont-form .tc-idbar label{flex-basis:130px;}
+  .cont-ident .cont-idbar-last{margin-bottom:0;}
+  .cont-ident-head{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:6px;}
+  .cont-ident-head .tc-card-title{margin:0;}
+  .cont-link{border:none; background:none; padding:0; cursor:pointer; font-family:inherit; font-size:12.5px; font-weight:700; color:var(--blue); text-decoration:underline; text-underline-offset:2px;}
+  .cont-tabs{display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin:4px 0 12px; scroll-margin-top:12px;}
+  .cont-tab{
+    display:flex; align-items:center; gap:7px; padding:9px 10px; border-radius:10px; cursor:pointer;
+    border:1.5px solid var(--border); background:#fff; font-family:inherit; font-size:12.5px; font-weight:700; color:var(--text-muted); text-align:left;
+  }
+  .cont-tab-num{flex:none; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:var(--slate-bg); color:var(--text-muted); font-size:12px;}
+  .cont-tab-done .cont-tab-num{background:#188754; color:#fff;}
+  .cont-tab-on{border-color:var(--blue); color:var(--blue); background:var(--sky-bg);}
+  .cont-tab-on .cont-tab-num{background:var(--blue); color:#fff;}
+  .cont-nav{display:flex; justify-content:space-between; align-items:center; gap:10px; margin:6px 0 4px;}
+  .cont-nav-btn{padding:10px 16px; border-radius:10px; border:none; cursor:pointer; font-family:inherit; font-size:13.5px; font-weight:700; color:#fff; background:var(--blue);}
+  .cont-nav-btn:disabled{opacity:.45; cursor:not-allowed;}
+  .cont-nav-prev{background:#fff; color:var(--blue); border:1.5px solid var(--blue);}
+  .cont-nav-end{font-size:12.5px; color:var(--text-muted);}
+  .cont-chip-lg{font-size:12.5px; padding:5px 10px;}
+  .cont-chip-lg .cont-pill{margin-left:4px;}
+  button.cont-chip{font-family:inherit;}
+  .cont-chip-sugg{border-color:#E7B75F; background:#FFF9EC; color:#8A5A00;}
+  .cont-suggest{display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px 12px; align-items:center; margin:0 0 8px; font-size:12px; color:var(--text-muted);}
+  .cont-select-todo{border:2px solid #E7B75F !important; background:#FFF9EC;}
+  .cont-details{margin:8px 0 2px;}
+  .cont-details > summary{cursor:pointer; font-size:12px; font-weight:700; color:var(--blue); list-style:none;}
+  .cont-details > summary::before{content:"▸ ";}
+  .cont-details[open] > summary::before{content:"▾ ";}
+  .cont-resume{margin:0 0 10px; padding:8px 11px; border-radius:9px; background:#EAF6F2; border-left:4px solid #188754; font-size:12.5px; line-height:1.5; color:var(--text);}
+  .cont-result-scroll{max-height:calc(100vh - 32px); overflow:auto; border-radius:14px;}
+  .cont-meta{margin-top:14px;}
+  @media (max-width:900px){
+    .bio-layout.cont-layout{grid-template-columns:minmax(0, 1fr);}
+    .cont-result-scroll{max-height:none; overflow:visible;}
+  }
+  @media (max-width:640px){
+    .cont-tabs{grid-template-columns:1fr;}
+  }
   /* Champs bordés dans cet outil (la variable --line des autres outils n'est pas définie) */
   .cont-form .tc-in{border:1px solid var(--border);}
   .cont-form .tc-card{border-top:1px solid var(--border); border-right:1px solid var(--border); border-bottom:1px solid var(--border);}
@@ -3056,11 +3121,11 @@ const DOCUMENTS = {
     path: "suivis-biologiques/Bilan_annuel_synthese_ESMS.pdf"
   },
   "teleconsultation-assistee": {
-    title: "Téléconsultation assistée — formulaire du médecin",
+    title: "Check-lists de téléconsultation — remplissage interactif (IDE ou médecin)",
     openLabel: "Ouvrir l'outil",
     category: "telemedecine",
     subcategory: "checklists",
-    meta: "Les 4 check-lists en version interactive, à remplir pendant le créneau : compte rendu structuré à copier dans le dossier, PDF de synthèse ou check-list remplie",
+    meta: "Les 4 check-lists en version interactive : l'IDE la remplit avant le créneau, ou le médecin en direct — résumé automatique, PDF de la check-list remplie, compte rendu à copier dans le dossier",
     interactive: true
   },
   "chk-lesion-cutanee": {
@@ -3253,6 +3318,17 @@ const DOCUMENTS = {
     interactive: true,
     filename: "Certificat_medical_Handisport_vierge.pdf",
     path: "administratif/Certificat_medical_Handisport_vierge.pdf"
+  },
+  "bon-transport-outil": {
+    wip: true,
+    title: "Prescription médicale de transport — remplissage guidé",
+    openLabel: "Ouvrir le Cerfa vierge",
+    category: "administratif",
+    subcategory: "admin",
+    meta: "Cases à cocher : situation de prise en charge, état du patient, mode justifié par le référentiel, trajet — remplit le Cerfa officiel (volets 1 à 3) et une note pour le dossier",
+    filename: "Bon_de_Transport_Vierge.pdf",
+    path: "administratif/Bon_de_Transport_Vierge.pdf",
+    interactive: true
   },
   "bon-transport-vierge": {
     title: "Prescription médicale de transport (CERFA)",
@@ -10127,20 +10203,24 @@ function renderSearchPanel(){
 const TC_FORMS = {"cutanee":{"label":"Lésion cutanée","sub":"Plaie, escarre, rougeur, macération","color":"purple","icon":"🩹","ref":"DOTR-CHK-CUT","alert":{"title":"Appeler sans attendre le créneau si l'un de ces signes est présent","items":[{"k":"c","t":"Fièvre ≥ 38,5 °C, frissons, ou état général qui se dégrade en quelques heures"},{"k":"c","t":"Rougeur qui s'étend à vue d'œil, chaude et douloureuse, avec ou sans fièvre"},{"k":"c","t":"Crépitation sous la peau, bulles, zone noire qui progresse rapidement"},{"k":"c","t":"Plaie laissant voir l'os, un tendon ou du matériel"},{"k":"c","t":"Saignement qui persiste après 10 minutes de compression"},{"k":"c","t":"Morsure, plaie souillée ou corps étranger dans la plaie"},{"k":"c","t":"Confusion récente, marbrures, tension basse"}],"foot":"Appel du médecin DOTR sans attendre le créneau. Appel du 15 en cas de signes de choc, de fièvre élevée avec confusion, ou d'extension rapide de la rougeur."},"sections":[{"id":"s1-1-le-resident-et-la-question","title":"1. Le résident et la question","theme":"blue","wide":false,"foot":"","items":[{"k":"f","t":"Nom et prénom du résident","i":0},{"k":"g"},{"k":"h","t":"Question posée au médecin"},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"g"},{"k":"h","t":"Pièces à joindre — seulement si nécessaire"},{"k":"n","t":"Si nous avons accès au logiciel de l'établissement, ne rien joindre : tout y est déjà consultable."},{"k":"c","t":"Établissement sans logiciel accessible — joindre ordonnance, antécédents, allergies, bilans"},{"k":"cf","t":"Information importante pas encore saisie dans le logiciel — laquelle"},{"k":"cf","t":"Niveau de soin ou directives anticipées à signaler"},{"k":"c","t":"Photos et vidéos — dans tous les cas"}]},{"id":"s2-2-type-de-lesion-une-seule-c","title":"2. Type de lésion — une seule case","theme":"purple","wide":false,"foot":"","items":[{"k":"c","t":"Plaie"},{"k":"cf","t":"Origine","i":11},{"k":"c","t":"Escarre"},{"k":"c","t":"Stade 1 — rougeur qui ne blanchit pas","i":11},{"k":"c","t":"Stade 2 — peau ouverte ou phlyctène","i":11},{"k":"c","t":"Stade 3 — atteinte profonde, cratère","i":11},{"k":"c","t":"Stade 4 — muscle, tendon ou os visible","i":11},{"k":"c","t":"Indéterminé — fond noir ou couvert","i":11},{"k":"c","t":"Rougeur, mycose ou macération"},{"k":"cf","t":"Pli concerné","i":11},{"k":"g"},{"k":"f","t":"Localisation précise","i":0},{"k":"f","t":"Apparue le","i":0},{"k":"g"},{"k":"h","t":"Ancienneté"},{"k":"c","t":"Nouvelle (moins de 7 jours)"},{"k":"c","t":"Connue et stable"},{"k":"c","t":"Connue et en aggravation"},{"k":"f","t":"Protocole déjà utilisé","i":10},{"k":"f","t":"Date du dernier pansement","i":10}]},{"id":"s3-3-le-terrain-tout-profession","title":"3. Le terrain — tout professionnel","theme":"cyan","wide":false,"foot":"","items":[{"k":"h","t":"État général"},{"k":"c","t":"Conservé"},{"k":"c","t":"Altéré"},{"k":"c","t":"Dégradation depuis moins de 7 jours"},{"k":"g"},{"k":"h","t":"Poids"},{"k":"f","t":"Aujourd'hui","i":0},{"k":"f","t":"Le mois dernier","i":0},{"k":"g"},{"k":"h","t":"Alimentation"},{"k":"c","t":"Habituelle"},{"k":"c","t":"Insuffisante"},{"k":"c","t":"Quasi nulle"},{"k":"f","t":"Régime particulier","i":10},{"k":"g"},{"k":"h","t":"Hydratation"},{"k":"c","t":"Environ 1,5 L par jour ou plus"},{"k":"c","t":"Insuffisante"}]},{"id":"s4-3-bis-mobilite-continence-et","title":"3 bis. Mobilité, continence et matériel","theme":"cyan_b","wide":false,"foot":"","items":[{"k":"h","t":"Mobilité"},{"k":"cf","t":"Alité — heures par jour"},{"k":"cf","t":"Au fauteuil — heures par jour"},{"k":"c","t":"Marche — déambulation importante"},{"k":"c","t":"Marche — déambulation faible"},{"k":"g"},{"k":"h","t":"Continence"},{"k":"c","t":"Protections le jour"},{"k":"c","t":"Protections la nuit"},{"k":"f","t":"Changes par 24 h","i":10},{"k":"c","t":"Diarrhée en cours"},{"k":"g"},{"k":"h","t":"Matériel en place"},{"k":"c","t":"Matelas à air ou anti-escarre"},{"k":"c","t":"Lit médicalisé"},{"k":"c","t":"Coussin à air ou anti-escarre"},{"k":"c","t":"Coussin ou orthèse de positionnement"},{"k":"c","t":"Aucun"}]},{"id":"s5-4-description-de-la-lesion","title":"4. Description de la lésion","theme":"amber","wide":false,"foot":"","items":[{"k":"h","t":"Dimensions"},{"k":"f","t":"Longueur (cm)","i":0},{"k":"f","t":"Largeur (cm)","i":0},{"k":"f","t":"Profondeur (cm)","i":0},{"k":"g"},{"k":"h","t":"Peau autour de la lésion"},{"k":"c","t":"Saine"},{"k":"c","t":"Rouge et chaude"},{"k":"c","t":"Macérée — blanche et humide"},{"k":"c","t":"Sèche, qui pèle"},{"k":"g"},{"k":"h","t":"Berges"},{"k":"c","t":"Propres ou sèches"},{"k":"c","t":"Bourgeonnantes ou qui saignent"},{"k":"c","t":"Inflammatoires"},{"k":"g"},{"k":"h","t":"Fond de la lésion"},{"k":"c","t":"Rouge — bourgeon"},{"k":"c","t":"Jaune — fibrine"},{"k":"c","t":"Noir — nécrose"},{"k":"c","t":"Non visible"},{"k":"g"},{"k":"h","t":"Écoulement"},{"k":"c","t":"Absent"},{"k":"c","t":"Clair et liquide"},{"k":"c","t":"Épais, jaune ou vert"},{"k":"c","t":"Odeur présente"},{"k":"g"},{"k":"h","t":"Douleur"},{"k":"c","t":"Au repos"},{"k":"c","t":"Pendant les soins seulement"},{"k":"c","t":"Absente"},{"k":"f","t":"Évaluation (EVA ou Algoplus)","i":10}]},{"id":"s6-4-bis-selon-la-case-cochee-e","title":"4 bis. Selon la case cochée en 2","theme":"amber_b","wide":false,"foot":"","items":[{"k":"h","t":"Si escarre"},{"k":"c","t":"Position principale la nuit — dos"},{"k":"c","t":"Position principale la nuit — sur le côté"},{"k":"c","t":"Position principale la nuit — ventre"},{"k":"c","t":"Se retourne seul la nuit"},{"k":"f","t":"Changements de position par nuit","i":10},{"k":"c","t":"Appui persistant sur la zone malgré le matériel"},{"k":"g"},{"k":"h","t":"Si rougeur, mycose ou macération"},{"k":"cf","t":"D'autres plis sont atteints — lesquels"},{"k":"cf","t":"Traitement local déjà appliqué — lequel"},{"k":"c","t":"Bandelette urinaire faite (atteinte périnéale)"},{"k":"c","t":"Positive","i":11},{"k":"c","t":"Négative","i":11},{"k":"g"},{"k":"h","t":"Si plaie"},{"k":"cf","t":"Plaie traumatique — mécanisme"},{"k":"c","t":"Morsure ou plaie souillée"},{"k":"c","t":"Vaccination antitétanique à jour"},{"k":"c","t":"Statut antitétanique inconnu"}]},{"id":"s7-5-elements-infirmiers","title":"5. Éléments infirmiers","theme":"green","wide":false,"foot":"","items":[{"k":"n","t":"À remplir par l'IDE ou l'IDEC. En l'absence d'infirmier au moment du recueil, cocher la case ci-dessous et laisser la suite vide."},{"k":"c","t":"Aucun infirmier présent au moment du recueil"},{"k":"g"},{"k":"h","t":"Paramètres"},{"k":"f","t":"Tension artérielle","i":0},{"k":"f","t":"Pouls","i":0},{"k":"f","t":"Température","i":0},{"k":"f","t":"Saturation","i":0},{"k":"g"},{"k":"h","t":"Biologie déjà disponible dans le dossier"},{"k":"f","t":"Albumine — valeur et date","i":0},{"k":"f","t":"Protidémie — valeur et date","i":0},{"k":"f","t":"CRP — valeur et date","i":0},{"k":"c","t":"Aucun bilan récent disponible"},{"k":"g"},{"k":"h","t":"Gestes déjà réalisés"},{"k":"c","t":"Pansement refait ce jour"},{"k":"c","t":"Prélèvement bactériologique"},{"k":"c","t":"Détersion"}]},{"id":"s8-6-photos-et-videos-a-deposer","title":"6. Photos et vidéos à déposer dans Healphi","theme":"slate","wide":false,"foot":"","items":[{"k":"c","t":"Plan large, environ 30 s — le résident dans son ensemble"},{"k":"c","t":"Plan de la zone autour de la lésion, environ 30 s"},{"k":"c","t":"Gros plan sur la lésion, environ 30 s, avec une règle ou un repère de taille visible dans le champ"},{"k":"c","t":"Si rougeur : une vue d'un pli sain, pour comparaison"},{"k":"g"},{"k":"n","t":"Lumière du jour ou éclairage direct, à 20-30 cm, sans flash sur une peau humide. Reprendre le même angle que la fois précédente pour permettre la comparaison."},{"k":"g"},{"k":"h","t":"Où déposer — canal unique"},{"k":"c","t":"Dossier du résident dans Healphi"},{"k":"c","t":"Messagerie Healphi"},{"k":"c","t":"Partage d'écran pendant la visio"},{"k":"g"},{"k":"n","t":"Aucun envoi par WhatsApp, SMS ou messagerie personnelle."}]}]},"respi":{"label":"Troubles respiratoires","sub":"Toux, encombrement, essoufflement","color":"sky","icon":"🫁","ref":"DOTR-CHK-RESP","alert":{"title":"Appeler sans attendre le créneau si l'un de ces signes est présent","items":[{"k":"c","t":"Dyspnée au repos"},{"k":"c","t":"Saturation < 92 % sur un contrôle répété"},{"k":"c","t":"Fréquence respiratoire > 20 ou < 10 par minute"},{"k":"c","t":"Vigilance altérée — peu ou non réveillable"},{"k":"c","t":"Tension systolique < 80 mmHg contrôlée, avec marbrures"},{"k":"c","t":"Température ≥ 40 °C ne descendant pas sous 39 °C malgré les antipyrétiques"},{"k":"c","t":"Fièvre persistante malgré les antipyrétiques depuis 48 h"},{"k":"c","t":"Alimentation ou hydratation insuffisante ou nulle depuis 48 h"},{"k":"c","t":"Aggravation ou persistance de l'altération de l'état général depuis 24-48 h"},{"k":"c","t":"Troubles du comportement inhabituels — agitation, agressivité"}],"foot":"Appel du médecin DOTR sans attendre le créneau. Appel du 15 en cas de détresse respiratoire, de trouble de la conscience ou de signes de choc."},"sections":[{"id":"s1-1-le-resident-et-la-question","title":"1. Le résident et la question","theme":"blue","wide":false,"foot":"","items":[{"k":"f","t":"Nom et prénom du résident","i":0},{"k":"g"},{"k":"h","t":"Question posée au médecin"},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"g"},{"k":"h","t":"Pièces à joindre — seulement si nécessaire"},{"k":"n","t":"Si nous avons accès au logiciel de l'établissement, ne rien joindre : tout y est déjà consultable."},{"k":"c","t":"Établissement sans logiciel accessible — joindre ordonnance, antécédents, allergies, bilans"},{"k":"cf","t":"Information importante pas encore saisie dans le logiciel — laquelle"},{"k":"cf","t":"Niveau de soin ou directives anticipées à signaler"},{"k":"c","t":"Photos et vidéos — dans tous les cas"}]},{"id":"s2-2-etat-general-vigilance-com","title":"2. État général, vigilance, comportement","theme":"purple","wide":false,"foot":"","items":[{"k":"h","t":"État général"},{"k":"c","t":"Conservé"},{"k":"c","t":"Altéré — asthénie modérée"},{"k":"c","t":"Altéré — asthénie marquée"},{"k":"c","t":"Altéré — asthénie majeure, reste au lit"},{"k":"f","t":"Depuis quand","i":10},{"k":"g"},{"k":"h","t":"Vigilance"},{"k":"c","t":"Normale, habituelle"},{"k":"c","t":"Somnolent mais réveillable"},{"k":"c","t":"Peu stimulable"},{"k":"g"},{"k":"h","t":"Comportement"},{"k":"c","t":"Habituel"},{"k":"c","t":"Troubles inhabituels — agitation, agressivité, prostration"},{"k":"g"},{"k":"h","t":"Douleur"},{"k":"c","t":"Absente"},{"k":"cf","t":"Présente — localisation"}]},{"id":"s3-3-signes-respiratoires","title":"3. Signes respiratoires","theme":"cyan","wide":false,"foot":"","items":[{"k":"h","t":"Toux"},{"k":"c","t":"Absente"},{"k":"c","t":"Grasse"},{"k":"c","t":"Sèche"},{"k":"f","t":"Depuis quand","i":10},{"k":"g"},{"k":"h","t":"Expectorations"},{"k":"c","t":"Absentes"},{"k":"c","t":"Claires ou transparentes"},{"k":"c","t":"Jaunes ou vertes"},{"k":"c","t":"Mousseuses"},{"k":"c","t":"Rosées ou sanglantes"},{"k":"g"},{"k":"h","t":"Écoulement nasal"},{"k":"c","t":"Clair"},{"k":"c","t":"Épais, jaune ou vert"},{"k":"g"},{"k":"h","t":"Essoufflement"},{"k":"c","t":"Absent"},{"k":"c","t":"À l'effort"},{"k":"c","t":"Au repos"}]},{"id":"s4-3-bis-signes-de-lutte-et-bru","title":"3 bis. Signes de lutte et bruits","theme":"cyan_b","wide":false,"foot":"","items":[{"k":"h","t":"Signes visibles de lutte"},{"k":"c","t":"Aucun"},{"k":"c","t":"Tirage — creux au-dessus des clavicules"},{"k":"c","t":"Tirage — entre les côtes"},{"k":"c","t":"Battement des ailes du nez"},{"k":"c","t":"Ventre et thorax qui se creusent en alternance"},{"k":"c","t":"Grimaces, visage crispé"},{"k":"g"},{"k":"h","t":"Coloration"},{"k":"c","t":"Normale"},{"k":"c","t":"Lèvres ou ongles bleutés"},{"k":"c","t":"Marbrures aux genoux"},{"k":"g"},{"k":"h","t":"Bruits entendus sans stéthoscope"},{"k":"c","t":"Aucun"},{"k":"c","t":"Sifflements"},{"k":"c","t":"Encombrement, gargouillis"},{"k":"g"},{"k":"h","t":"Oxygène"},{"k":"c","t":"Pas d'oxygène"},{"k":"cf","t":"Oxygène en place — litres par minute"}]},{"id":"s5-4-fievre-et-tests-rapides","title":"4. Fièvre et tests rapides","theme":"amber","wide":false,"foot":"","items":[{"k":"h","t":"Température"},{"k":"f","t":"Valeur la plus haute","i":0},{"k":"f","t":"Depuis quand","i":0},{"k":"c","t":"Frissons"},{"k":"g"},{"k":"h","t":"Antipyrétique"},{"k":"c","t":"Non administré"},{"k":"c","t":"Administré — efficace"},{"k":"c","t":"Administré — sans effet"},{"k":"f","t":"Dernière prise, heure","i":10},{"k":"g"},{"k":"h","t":"Tests rapides réalisés"},{"k":"c","t":"Covid — positif"},{"k":"c","t":"Covid — négatif"},{"k":"c","t":"Grippe — positif"},{"k":"c","t":"Grippe — négatif"},{"k":"c","t":"VRS — positif"},{"k":"c","t":"VRS — négatif"},{"k":"c","t":"Streptotest si mal de gorge — positif"},{"k":"c","t":"Streptotest si mal de gorge — négatif"},{"k":"c","t":"Aucun test disponible"}]},{"id":"s6-4-bis-terrain-et-facteurs-fa","title":"4 bis. Terrain et facteurs favorisants","theme":"amber_b","wide":false,"foot":"","items":[{"k":"h","t":"Antécédents respiratoires"},{"k":"c","t":"BPCO"},{"k":"c","t":"Asthme"},{"k":"c","t":"Oxygénothérapie au long cours"},{"k":"c","t":"Antécédent d'œdème pulmonaire ou d'embolie"},{"k":"c","t":"Insuffisance cardiaque"},{"k":"g"},{"k":"h","t":"Déglutition"},{"k":"c","t":"Habituelle"},{"k":"c","t":"Difficile — douloureuse, fait tousser"},{"k":"c","t":"Fausse route constatée"},{"k":"f","t":"Date de la dernière fausse route","i":10},{"k":"c","t":"Texture modifiée en place"},{"k":"g"},{"k":"h","t":"Alimentation et hydratation"},{"k":"c","t":"Habituelles"},{"k":"c","t":"Insuffisantes"},{"k":"c","t":"Quasi nulles"},{"k":"f","t":"Depuis quand","i":10},{"k":"g"},{"k":"h","t":"Vaccinations"},{"k":"c","t":"Grippe de la saison"},{"k":"c","t":"Covid à jour"},{"k":"c","t":"Pneumocoque"},{"k":"c","t":"Non à jour ou inconnu"}]},{"id":"s7-5-elements-infirmiers","title":"5. Éléments infirmiers","theme":"green","wide":false,"foot":"","items":[{"k":"n","t":"À remplir par l'IDE ou l'IDEC. En l'absence d'infirmier au moment du recueil, cocher la case ci-dessous et laisser la suite vide."},{"k":"c","t":"Aucun infirmier présent au moment du recueil"},{"k":"g"},{"k":"h","t":"Paramètres"},{"k":"f","t":"Tension artérielle","i":0},{"k":"f","t":"Pouls","i":0},{"k":"f","t":"Température","i":0},{"k":"f","t":"Fréquence respiratoire","i":0},{"k":"g"},{"k":"h","t":"Saturation"},{"k":"f","t":"Valeur","i":0},{"k":"c","t":"Mesurée à l'air ambiant"},{"k":"cf","t":"Mesurée sous oxygène — L/min"},{"k":"c","t":"Contrôlée une seconde fois"},{"k":"g"},{"k":"h","t":"Gestes déjà réalisés"},{"k":"c","t":"Aérosol"},{"k":"c","t":"Aspiration"},{"k":"c","t":"Oxygène mis en route ou augmenté"},{"k":"c","t":"Position demi-assise"}]},{"id":"s8-6-photos-et-videos-a-deposer","title":"6. Photos et vidéos à déposer dans Healphi","theme":"slate","wide":false,"foot":"","items":[{"k":"c","t":"Plan large, environ 30 s — état général et respiration au repos, torse dégagé si possible"},{"k":"c","t":"Gros plan sur les lèvres et les ongles, à la recherche d'une coloration bleutée"},{"k":"c","t":"Plan sur les genoux, à la recherche de marbrures"},{"k":"c","t":"Gorge, environ 30 s, avec un abaisse-langue et un bon éclairage"},{"k":"c","t":"Langue — préciser si elle est humide, sèche, ou pâteuse et blanchâtre"},{"k":"g"},{"k":"h","t":"Stéthoscope connecté"},{"k":"c","t":"Enregistrement cardio-pulmonaire aux points bleus"},{"k":"n","t":"Pièce calme, résident assis ou demi-assis, stéthoscope à même la peau."},{"k":"g"},{"k":"h","t":"Où déposer — canal unique"},{"k":"c","t":"Dossier du résident dans Healphi"},{"k":"c","t":"Messagerie Healphi"},{"k":"c","t":"Partage d'écran pendant la visio"},{"k":"g"},{"k":"n","t":"Aucun envoi par WhatsApp, SMS ou messagerie personnelle."}]}]},"transit":{"label":"Troubles du transit","sub":"Constipation, diarrhée, ventre","color":"amber","icon":"🌀","ref":"DOTR-CHK-DIG","alert":{"title":"Appeler sans attendre le créneau si l'un de ces signes est présent","items":[{"k":"c","t":"Arrêt des selles ET des gaz"},{"k":"c","t":"Vomissements, a fortiori d'aspect ou d'odeur fécaloïde"},{"k":"c","t":"Ventre tendu, dur, douloureux à la simple pression"},{"k":"c","t":"Douleur abdominale intense ou d'apparition brutale"},{"k":"c","t":"Sang rouge abondant dans les selles, ou selles noires"},{"k":"c","t":"Diarrhée avec signes de déshydratation — langue sèche, confusion, urines rares"},{"k":"c","t":"Fièvre ≥ 38,5 °C associée à une douleur abdominale"},{"k":"c","t":"Aucune selle depuis plus de 5 jours, a fortiori avec des fuites liquides"}],"foot":"Appel du médecin DOTR sans attendre le créneau. Appel du 15 en cas de douleur abdominale aiguë avec ventre dur, de vomissements fécaloïdes ou de signes de choc. Des fuites liquides chez un résident constipé évoquent un fécalome, pas une diarrhée : aucun laxatif ni ralentisseur du transit sans avis médical."},"sections":[{"id":"s1-1-le-resident-et-la-question","title":"1. Le résident et la question","theme":"blue","wide":false,"foot":"","items":[{"k":"f","t":"Nom et prénom du résident","i":0},{"k":"g"},{"k":"h","t":"Question posée au médecin"},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"g"},{"k":"h","t":"Pièces à joindre — seulement si nécessaire"},{"k":"n","t":"Si nous avons accès au logiciel de l'établissement, ne rien joindre : tout y est déjà consultable."},{"k":"c","t":"Établissement sans logiciel accessible — joindre ordonnance, antécédents, allergies, bilans"},{"k":"cf","t":"Information importante pas encore saisie dans le logiciel — laquelle"},{"k":"cf","t":"Niveau de soin ou directives anticipées à signaler"},{"k":"c","t":"Photos et vidéos — dans tous les cas"}]},{"id":"s2-2-nature-du-trouble-une-seul","title":"2. Nature du trouble — une seule case","theme":"purple","wide":false,"foot":"","items":[{"k":"c","t":"Constipation"},{"k":"c","t":"Diarrhée"},{"k":"c","t":"Alternance des deux"},{"k":"g"},{"k":"f","t":"Date des dernières selles","i":0},{"k":"f","t":"Nombre de selles sur 24 h","i":0},{"k":"g"},{"k":"h","t":"Gaz"},{"k":"c","t":"Émis normalement"},{"k":"c","t":"Diminués"},{"k":"c","t":"Aucun gaz"},{"k":"g"},{"k":"h","t":"Aspect des selles"},{"k":"c","t":"Moulées"},{"k":"c","t":"Dures, en petits morceaux"},{"k":"c","t":"Liquides avec matières"},{"k":"c","t":"Liquides sans matières, comme de l'eau de riz"},{"k":"c","t":"Glaires"},{"k":"c","t":"Sang rouge"},{"k":"c","t":"Noires"}]},{"id":"s3-3-ventre-et-douleurs","title":"3. Ventre et douleurs","theme":"cyan","wide":false,"foot":"","items":[{"k":"h","t":"Aspect du ventre"},{"k":"c","t":"Souple"},{"k":"c","t":"Ballonné, gonflé"},{"k":"c","t":"Tendu"},{"k":"g"},{"k":"h","t":"Douleur du ventre"},{"k":"c","t":"Absente"},{"k":"c","t":"À la pression seulement"},{"k":"c","t":"Spontanée, permanente"},{"k":"cf","t":"Localisation"},{"k":"g"},{"k":"h","t":"Zones des reins (fosses lombaires)"},{"k":"c","t":"Souples et indolores"},{"k":"c","t":"Douloureuses à droite"},{"k":"c","t":"Douloureuses à gauche"},{"k":"g"},{"k":"h","t":"Signes associés"},{"k":"c","t":"Nausées"},{"k":"c","t":"Vomissements"},{"k":"c","t":"Agitation ou plaintes inhabituelles"}]},{"id":"s4-3-bis-alimentation-hydratati","title":"3 bis. Alimentation, hydratation, mobilité","theme":"cyan_b","wide":false,"foot":"","items":[{"k":"h","t":"Alimentation"},{"k":"c","t":"Habituelle"},{"k":"c","t":"Insuffisante"},{"k":"c","t":"Quasi nulle"},{"k":"f","t":"Depuis quand","i":10},{"k":"c","t":"Alimentation par sonde ou gastrostomie"},{"k":"cf","t":"Régime particulier"},{"k":"g"},{"k":"h","t":"Fibres et hydratation"},{"k":"c","t":"Environ 1,5 L de boisson par jour ou plus"},{"k":"c","t":"Hydratation insuffisante"},{"k":"g"},{"k":"h","t":"Mobilité"},{"k":"c","t":"Marche"},{"k":"c","t":"Fauteuil"},{"k":"c","t":"Alité"},{"k":"c","t":"Kinésithérapie ou activité physique adaptée en cours"},{"k":"g"},{"k":"h","t":"Toilettes"},{"k":"c","t":"Va aux toilettes"},{"k":"c","t":"Protections uniquement"}]},{"id":"s5-4-traitements-en-cours","title":"4. Traitements en cours","theme":"amber","wide":false,"foot":"","items":[{"k":"h","t":"Si constipation — traitements déjà donnés"},{"k":"cf","t":"Laxatif — lequel"},{"k":"f","t":"Depuis quand, à quelle dose","i":10},{"k":"c","t":"Efficace"},{"k":"c","t":"Sans effet"},{"k":"c","t":"Suppositoire ou lavement donné"},{"k":"c","t":"Aucun traitement donné"},{"k":"g"},{"k":"h","t":"Si diarrhée — traitements déjà donnés"},{"k":"cf","t":"Ralentisseur du transit — lequel"},{"k":"c","t":"Réhydratation orale mise en place"},{"k":"c","t":"Aucun traitement donné"},{"k":"g"},{"k":"h","t":"Protocole DOTR appliqué"},{"k":"c","t":"Protocole Constipation"},{"k":"c","t":"Protocole Diarrhée"},{"k":"c","t":"Aucun protocole appliqué"},{"k":"f","t":"Effet observé","i":10}]},{"id":"s6-4-bis-terrain-digestif-et-me","title":"4 bis. Terrain digestif et médicaments en cause","theme":"amber_b","wide":false,"foot":"","items":[{"k":"h","t":"Antécédents digestifs"},{"k":"c","t":"Constipation chronique connue"},{"k":"c","t":"Fécalome déjà survenu"},{"k":"cf","t":"Stomie — type"},{"k":"cf","t":"Chirurgie digestive — laquelle"},{"k":"c","t":"Dolichocôlon ou mégacôlon connu"},{"k":"c","t":"Troubles neurologiques du transit"},{"k":"g"},{"k":"h","t":"Médicaments qui constipent"},{"k":"c","t":"Morphine ou dérivés"},{"k":"c","t":"Neuroleptiques"},{"k":"c","t":"Antiépileptiques"},{"k":"c","t":"Fer"},{"k":"c","t":"Anticholinergiques"},{"k":"g"},{"k":"h","t":"Médicaments qui donnent la diarrhée"},{"k":"c","t":"Antibiotique en cours ou récent"},{"k":"f","t":"Date de fin","i":10},{"k":"c","t":"Laxatif encore en cours"},{"k":"c","t":"Alimentation hyperprotéinée"},{"k":"c","t":"Magnésium"}]},{"id":"s7-5-elements-infirmiers","title":"5. Éléments infirmiers","theme":"green","wide":false,"foot":"","items":[{"k":"n","t":"À remplir par l'IDE ou l'IDEC. En l'absence d'infirmier au moment du recueil, cocher la case ci-dessous et laisser la suite vide."},{"k":"c","t":"Aucun infirmier présent au moment du recueil"},{"k":"g"},{"k":"h","t":"Paramètres"},{"k":"f","t":"Tension artérielle","i":0},{"k":"f","t":"Pouls","i":0},{"k":"f","t":"Température","i":0},{"k":"f","t":"Saturation","i":0},{"k":"g"},{"k":"h","t":"Poids"},{"k":"f","t":"Aujourd'hui","i":0},{"k":"f","t":"Le mois dernier","i":0},{"k":"g"},{"k":"h","t":"Examens disponibles"},{"k":"cf","t":"Bladder scan réalisé — volume en mL"},{"k":"c","t":"Globe vésical palpé"},{"k":"c","t":"Bandelette urinaire faite"},{"k":"c","t":"Coproculture demandée"},{"k":"c","t":"Aucun examen réalisé"}]},{"id":"s8-6-photos-et-videos-a-deposer","title":"6. Photos et vidéos à déposer dans Healphi","theme":"slate","wide":false,"foot":"","items":[{"k":"c","t":"Plan large, environ 30 s — état général et aspect du ventre découvert"},{"k":"c","t":"Ventre, environ 30 s — palpation successive des quatre zones : au-dessus du pubis, autour du nombril, sur le cadre du côlon, sur les fosses lombaires"},{"k":"c","t":"Filmer le visage du résident pendant la palpation, pour repérer une douleur chez un résident non communicant"},{"k":"c","t":"Photo des selles si leur aspect est un élément de la question posée"},{"k":"g"},{"k":"h","t":"Stéthoscope connecté"},{"k":"c","t":"Enregistrement des bruits du ventre — cadre du côlon, nombril, au-dessus du pubis"},{"k":"n","t":"Un enregistrement distinct par position, pièce silencieuse."},{"k":"g"},{"k":"h","t":"Où déposer — canal unique"},{"k":"c","t":"Dossier du résident dans Healphi"},{"k":"c","t":"Messagerie Healphi"},{"k":"c","t":"Partage d'écran pendant la visio"},{"k":"g"},{"k":"n","t":"Aucun envoi par WhatsApp, SMS ou messagerie personnelle."}]}]},"urinaire":{"label":"Troubles urinaires","sub":"Brûlures, urines troubles, fuites","color":"teal","icon":"💧","ref":"DOTR-CHK-URO","alert":{"title":"Appeler sans attendre le créneau si l'un de ces signes est présent","items":[{"k":"c","t":"Fièvre ≥ 38,5 °C ou frissons"},{"k":"c","t":"Douleur d'un rein, sur le côté ou dans le dos"},{"k":"c","t":"Confusion d'apparition récente, chute inhabituelle"},{"k":"c","t":"Vomissements"},{"k":"c","t":"Tension systolique < 90 mmHg, marbrures, extrémités froides"},{"k":"c","t":"Aucune urine émise depuis plus de 8 à 12 heures"},{"k":"c","t":"Envie d'uriner impérieuse sans y parvenir, ventre dur au-dessus du pubis"},{"k":"c","t":"Urines très rouges, avec caillots"}],"foot":"Appel du médecin DOTR sans attendre le créneau. Appel du 15 en cas de sepsis suspecté — fièvre avec frissons et confusion, tension basse, marbrures. Une rétention aiguë d'urine est une urgence : ne pas attendre le créneau."},"sections":[{"id":"s1-1-le-resident-et-la-question","title":"1. Le résident et la question","theme":"blue","wide":false,"foot":"","items":[{"k":"f","t":"Nom et prénom du résident","i":0},{"k":"g"},{"k":"h","t":"Question posée au médecin"},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"f","t":"","i":0},{"k":"g"},{"k":"h","t":"Pièces à joindre — seulement si nécessaire"},{"k":"n","t":"Si nous avons accès au logiciel de l'établissement, ne rien joindre : tout y est déjà consultable."},{"k":"c","t":"Établissement sans logiciel accessible — joindre ordonnance, antécédents, allergies, bilans"},{"k":"cf","t":"Information importante pas encore saisie dans le logiciel — laquelle"},{"k":"cf","t":"Niveau de soin ou directives anticipées à signaler"},{"k":"c","t":"Photos et vidéos — dans tous les cas"}]},{"id":"s2-2-signes-urinaires","title":"2. Signes urinaires","theme":"purple","wide":false,"foot":"","items":[{"k":"h","t":"Fréquence des mictions"},{"k":"c","t":"Habituelle"},{"k":"c","t":"Augmentée"},{"k":"c","t":"Diminuée"},{"k":"f","t":"Depuis quand","i":10},{"k":"g"},{"k":"h","t":"Signes ressentis ou observés"},{"k":"c","t":"Brûlures en urinant"},{"k":"c","t":"Envies pressantes"},{"k":"c","t":"Douleur au-dessus du pubis"},{"k":"c","t":"Douleur d'un rein ou du dos"},{"k":"c","t":"Fuites nouvelles ou aggravées"},{"k":"c","t":"Plaintes ou gémissements en urinant"},{"k":"c","t":"Aucun signe exprimé — résident non communicant"},{"k":"g"},{"k":"h","t":"Aspect des urines"},{"k":"c","t":"Foncées, concentrées"},{"k":"c","t":"Troubles"},{"k":"c","t":"Malodorantes"},{"k":"c","t":"Sang visible"}]},{"id":"s3-3-terrain-et-facteurs-favori","title":"3. Terrain et facteurs favorisants","theme":"cyan","wide":false,"foot":"","items":[{"k":"h","t":"Sonde urinaire"},{"k":"c","t":"Pas de sonde"},{"k":"c","t":"Sonde à demeure"},{"k":"c","t":"Sondages répétés"},{"k":"f","t":"Date de la dernière pose","i":10},{"k":"f","t":"Motif de la sonde","i":10},{"k":"g"},{"k":"h","t":"Antécédents urinaires"},{"k":"c","t":"Infections urinaires documentées et répétées"},{"k":"c","t":"Hypertrophie de la prostate"},{"k":"c","t":"Vessie neurologique connue"},{"k":"c","t":"Lithiase ou colique néphrétique"},{"k":"c","t":"Insuffisance rénale connue"},{"k":"g"},{"k":"h","t":"Antibiotique récent"},{"k":"c","t":"Aucun"},{"k":"cf","t":"Oui — lequel"},{"k":"f","t":"Date de fin","i":10},{"k":"g"},{"k":"h","t":"Chez la femme en âge de procréer"},{"k":"c","t":"Grossesse possible"}]},{"id":"s4-3-bis-hydratation-transit-au","title":"3 bis. Hydratation, transit, autonomie","theme":"cyan_b","wide":false,"foot":"","items":[{"k":"h","t":"Hydratation"},{"k":"c","t":"Environ 1,5 L par jour ou plus"},{"k":"c","t":"Insuffisante"},{"k":"g"},{"k":"h","t":"Transit"},{"k":"f","t":"Date des dernières selles","i":0},{"k":"c","t":"Constipation en cours"},{"k":"c","t":"Diarrhée en cours"},{"k":"g"},{"k":"h","t":"Continence et hygiène"},{"k":"c","t":"Continent"},{"k":"c","t":"Incontinent le jour"},{"k":"c","t":"Incontinent la nuit"},{"k":"c","t":"Port de protections"},{"k":"f","t":"Changes par 24 h","i":10},{"k":"c","t":"Toilette intime autonome"},{"k":"c","t":"Toilette intime avec aide"},{"k":"g"},{"k":"h","t":"Mobilité"},{"k":"c","t":"Va aux toilettes seul"},{"k":"c","t":"Accompagné aux toilettes"},{"k":"c","t":"Alité"}]},{"id":"s5-4-fievre-et-retentissement-g","title":"4. Fièvre et retentissement général","theme":"amber","wide":false,"foot":"","items":[{"k":"h","t":"Température"},{"k":"f","t":"Valeur la plus haute","i":0},{"k":"f","t":"Depuis quand","i":0},{"k":"c","t":"Frissons"},{"k":"g"},{"k":"h","t":"Antipyrétique"},{"k":"c","t":"Non administré"},{"k":"c","t":"Administré — efficace"},{"k":"c","t":"Administré — sans effet"},{"k":"g"},{"k":"h","t":"État général"},{"k":"c","t":"Conservé"},{"k":"c","t":"Altéré"},{"k":"g"},{"k":"h","t":"Signes qui, chez la personne âgée, peuvent être les seuls"},{"k":"c","t":"Confusion récente"},{"k":"c","t":"Chute inhabituelle"},{"k":"c","t":"Refus alimentaire"},{"k":"c","t":"Agitation ou agressivité nouvelles"},{"k":"c","t":"Aggravation d'une incontinence"}]},{"id":"s6-4-bis-bandelette-urinaire","title":"4 bis. Bandelette urinaire","theme":"amber_b","wide":false,"foot":"","items":[{"k":"n","t":"La bandelette ne se lit que chez un résident qui a des signes. Une bandelette positive sans symptôme ne veut pas dire infection et ne justifie pas d'antibiotique."},{"k":"g"},{"k":"h","t":"Chez un résident porteur de sonde"},{"k":"c","t":"Résident sondé — bandelette non contributive, ne pas la réaliser"},{"k":"n","t":"Chez un porteur de sonde, la présence de germes est constante : ni la bandelette ni l'ECBU ne permettent d'affirmer une infection. Seuls les signes cliniques comptent."},{"k":"g"},{"k":"h","t":"Résultat — résident non sondé"},{"k":"c","t":"Non réalisée"},{"k":"c","t":"Leucocytes positifs"},{"k":"c","t":"Nitrites positifs"},{"k":"c","t":"Sang"},{"k":"c","t":"Bandelette négative sur leucocytes et nitrites"},{"k":"f","t":"Date et heure du test","i":10},{"k":"g"},{"k":"h","t":"ECBU"},{"k":"c","t":"Non réalisé"},{"k":"c","t":"Prélevé, en attente"},{"k":"f","t":"Date du prélèvement","i":10}]},{"id":"s7-5-elements-infirmiers","title":"5. Éléments infirmiers","theme":"green","wide":false,"foot":"","items":[{"k":"n","t":"À remplir par l'IDE ou l'IDEC. En l'absence d'infirmier au moment du recueil, cocher la case ci-dessous et laisser la suite vide."},{"k":"c","t":"Aucun infirmier présent au moment du recueil"},{"k":"g"},{"k":"h","t":"Paramètres"},{"k":"f","t":"Tension artérielle","i":0},{"k":"f","t":"Pouls","i":0},{"k":"f","t":"Température","i":0},{"k":"f","t":"Saturation","i":0},{"k":"g"},{"k":"h","t":"Examen"},{"k":"c","t":"Douleur à la palpation au-dessus du pubis"},{"k":"c","t":"Douleur à la palpation d'une fosse lombaire"},{"k":"c","t":"Globe vésical palpé"},{"k":"cf","t":"Bladder scan réalisé — volume en mL"},{"k":"g"},{"k":"h","t":"Biologie déjà disponible dans le dossier"},{"k":"f","t":"Créatinine — valeur et date","i":0},{"k":"f","t":"CRP — valeur et date","i":0},{"k":"c","t":"Aucun bilan récent disponible"}]},{"id":"s8-6-photos-et-videos-a-deposer","title":"6. Photos et vidéos à déposer dans Healphi","theme":"slate","wide":false,"foot":"","items":[{"k":"c","t":"Plan large, environ 30 s — état général, comportement, niveau de vigilance"},{"k":"c","t":"Palpation au-dessus du pubis, environ 30 s, en filmant le visage du résident pour repérer la douleur"},{"k":"c","t":"Palpation des fosses lombaires, environ 30 s, à droite puis à gauche"},{"k":"c","t":"Photo du recueil d'urines, pour l'aspect et la couleur"},{"k":"c","t":"Photo de la bandelette, prise dans le délai de lecture, à côté de son étiquette de référence"},{"k":"g"},{"k":"h","t":"Où déposer — canal unique"},{"k":"c","t":"Dossier du résident dans Healphi"},{"k":"c","t":"Messagerie Healphi"},{"k":"c","t":"Partage d'écran pendant la visio"},{"k":"g"},{"k":"n","t":"Aucun envoi par WhatsApp, SMS ou messagerie personnelle."}]}]}};
 
 /* =====================================================================
-   TÉLÉCONSULTATION ASSISTÉE — outil interactif du médecin DOTR
-   Le médecin choisit le motif, coche au fil de ce que l'IDE rapporte,
-   rédige son avis, puis copie un compte rendu structuré ou édite un PDF.
+   TÉLÉCONSULTATION ASSISTÉE — outil interactif des check-lists
+   Deux usages :
+   · IDE, avant le créneau : remplit la check-list, obtient un résumé
+     succinct (modifiable) et un PDF « check-list remplie + résumé » à
+     transmettre au médecin DOTR et à archiver dans le dossier ;
+   · médecin, en direct : coche au fil de ce que l'équipe rapporte, écrit
+     son avis, copie un compte rendu structuré ou édite un PDF.
    Les données des formulaires sont générées depuis les check-lists PDF
    (voir TC_FORMS plus haut) : les deux ne peuvent pas diverger.
+   Rien n'est enregistré ni envoyé sur Internet.
    ===================================================================== */
 
 const TC_MOTIF_ORDER = ["cutanee", "respi", "transit", "urinaire"];
 
 function tcKey(sec, idx){ return sec + "|" + idx; }
-
-function tcVal(key){
-  return state.tcVals[key];
-}
+const TC_RES_RE = /nom et prénom du résident/i;
+function tcVal(key){ return state.tcVals[key]; }
+function tcMode(){ return state.tcMode || ""; }
 
 function tcSetField(key, value){
   if(value === "") delete state.tcVals[key];
@@ -10149,11 +10229,12 @@ function tcSetField(key, value){
 }
 window.tcSetField = tcSetField;
 
+/* case simple (puce) : pas de re-rendu du formulaire, on garde la position */
 function tcToggle(key, el){
   if(el.checked) state.tcVals[key] = true;
   else delete state.tcVals[key];
-  const wrap = el.closest(".tc-line");
-  if(wrap) wrap.classList.toggle("tc-on", el.checked);
+  const wrap = el.closest(".tc-line, .tc-chip");
+  if(wrap) wrap.classList.toggle(wrap.classList.contains("tc-chip") ? "tc-chip-on" : "tc-on", el.checked);
   const card = el.closest(".tc-alert");
   if(card) card.classList.toggle("tc-alert-hot", tcAlertCount() > 0);
   renderTcResult();
@@ -10165,8 +10246,10 @@ function tcToggleField(key, el){
   cur.on = el.checked;
   if(!cur.on && !cur.v) delete state.tcVals[key];
   else state.tcVals[key] = cur;
-  const wrap = el.closest(".tc-line");
-  if(wrap) wrap.classList.toggle("tc-on", el.checked);
+  const wrap = el.closest(".tc-line, .tc-chip");
+  if(wrap) wrap.classList.toggle(wrap.classList.contains("tc-chip") ? "tc-chip-on" : "tc-on", el.checked);
+  const inp = wrap && wrap.parentNode.querySelector(`[data-sub="${key}"]`);
+  if(inp){ inp.hidden = !el.checked && !(cur.v || "").trim(); if(el.checked) inp.focus(); }
   renderTcResult();
 }
 window.tcToggleField = tcToggleField;
@@ -10174,6 +10257,11 @@ window.tcToggleField = tcToggleField;
 function tcSetSubField(key, value){
   const cur = state.tcVals[key] || {};
   cur.v = value;
+  if(value && !cur.on){
+    cur.on = true;
+    const chip = document.querySelector(`[data-chip="${key}"]`);
+    if(chip){ chip.classList.add("tc-chip-on"); const cb = chip.querySelector("input"); if(cb) cb.checked = true; }
+  }
   if(!cur.on && !cur.v) delete state.tcVals[key];
   else state.tcVals[key] = cur;
   renderTcResult();
@@ -10181,16 +10269,28 @@ function tcSetSubField(key, value){
 window.tcSetSubField = tcSetSubField;
 
 function setTcMotif(id){
+  if(state.tcMotif !== id){ state.tcVals = {}; state.tcResume = ""; state.tcResumeEdited = false; }
   state.tcMotif = id;
   renderTeleconsultPanel();
 }
 window.setTcMotif = setTcMotif;
+
+function setTcMode(m){
+  state.tcMode = m;
+  renderTeleconsultPanel();
+}
+window.setTcMode = setTcMode;
 
 function tcResetAll(){
   state.tcVals = {};
   state.tcAvis = "";
   state.tcResident = "";
   state.tcEtab = "";
+  state.tcIde = "";
+  state.tcMedecin = "";
+  state.tcCreneau = "";
+  state.tcResume = "";
+  state.tcResumeEdited = false;
   renderTeleconsultPanel();
 }
 window.tcResetAll = tcResetAll;
@@ -10201,10 +10301,43 @@ function tcSetIdent(field, value){
 }
 window.tcSetIdent = tcSetIdent;
 
+function tcSetResume(value){
+  state.tcResume = value;
+  state.tcResumeEdited = true;
+  renderTcResult(true);
+}
+function tcResumeAuto(){
+  state.tcResumeEdited = false;
+  state.tcResume = "";
+  const ta = document.getElementById("tcResumeArea");
+  if(ta) ta.value = tcAutoResume();
+  renderTcResult();
+}
+window.tcSetResume = tcSetResume;
+window.tcResumeAuto = tcResumeAuto;
+
+function tcGoto(id){
+  const el = document.getElementById("tcsec-" + id);
+  if(el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+window.tcGoto = tcGoto;
+
 function tcAlertCount(){
   const f = TC_FORMS[state.tcMotif];
   if(!f) return 0;
   return f.alert.items.filter((it, i) => it.k !== "g" && state.tcVals[tcKey("alert", i)]).length;
+}
+
+function tcSectionCount(sec){
+  let n = 0;
+  sec.items.forEach((it, i) => {
+    const v = state.tcVals[tcKey(sec.id, i)];
+    if(v === undefined) return;
+    if(it.k === "f" && typeof v === "string" && v.trim()) n++;
+    else if(it.k === "cf" && (v.on || (v.v || "").trim())) n++;
+    else if(v === true) n++;
+  });
+  return n;
 }
 
 /* ---------------------------------------------------------- rendu */
@@ -10213,6 +10346,8 @@ function renderTeleconsultPanel(){
   const c = colorVars(cat.color);
   const mId = state.tcMotif;
   const f = mId ? TC_FORMS[mId] : null;
+  const mode = tcMode();
+  if(!state.tcVals) state.tcVals = {};
 
   contentEl.innerHTML = `
     <button type="button" class="back-btn" onclick="closeDoc()">
@@ -10224,18 +10359,29 @@ function renderTeleconsultPanel(){
       <div class="tool-hero" style="--pill:${c.pill}">
         <span class="tool-hero-icon">🖥️</span>
         <div class="tool-hero-body">
-          <p class="tool-hero-title">Téléconsultation assistée</p>
-          <p class="tool-hero-sub">Choisis le motif, coche au fil de ce que l'équipe te rapporte, écris ton avis : le compte rendu se construit à droite, prêt à coller dans le dossier ou à éditer en PDF.</p>
+          <p class="tool-hero-title">Check-lists de téléconsultation</p>
+          <p class="tool-hero-sub">L'IDE la remplit avant le créneau, ou le médecin en direct. Le résumé se rédige tout seul ; PDF de la check-list remplie à transmettre et à archiver dans le dossier.</p>
           <div class="tool-hero-stats">
             <span class="tool-hero-stat">4 motifs</span>
-            <span class="tool-hero-stat">Compte rendu structuré</span>
-            <span class="tool-hero-stat">Copier / PDF</span>
+            <span class="tool-hero-stat">Mode IDE / mode médecin</span>
+            <span class="tool-hero-stat">Résumé automatique</span>
+            <span class="tool-hero-stat">PDF</span>
           </div>
         </div>
       </div>
 
-      <p class="doc-meta">Utilisable que l'établissement ait rempli la check-list en amont ou non : dans le second cas, elle se remplit en direct pendant le créneau. Rien n'est envoyé sur Internet, tout reste sur ce poste.</p>
+      <p class="cont-q">Qui remplit ?</p>
+      <div class="tc-modes">
+        <button type="button" class="tc-mode ${mode === "ide" ? "tc-mode-on" : ""}" onclick="setTcMode('ide')">
+          <span class="tc-mode-icon">👩‍⚕️</span><span class="tc-mode-title">IDE de l'établissement</span>
+          <span class="tc-mode-sub">Avant le créneau : check-list + résumé à transmettre au médecin</span></button>
+        <button type="button" class="tc-mode ${mode === "medecin" ? "tc-mode-on" : ""}" onclick="setTcMode('medecin')">
+          <span class="tc-mode-icon">🩺</span><span class="tc-mode-title">Médecin DOTR</span>
+          <span class="tc-mode-sub">En direct pendant la téléconsultation : recueil + avis → compte rendu</span></button>
+      </div>
 
+      ${mode ? `
+      <p class="cont-q">Motif</p>
       <div class="neurolep-grid">
         ${TC_MOTIF_ORDER.map(id => {
           const x = TC_FORMS[id];
@@ -10246,8 +10392,8 @@ function renderTeleconsultPanel(){
           </button>`;
         }).join("")}
       </div>
-
-      ${f ? tcFormHTML(f) : `<div class="empty-state" style="margin-top:14px;">Choisis un motif pour ouvrir le formulaire.</div>`}
+      ${f ? tcFormHTML(f) : ""}` : ""}
+      <p class="doc-meta cont-meta">Rien n'est enregistré ni envoyé sur Internet : les réponses disparaissent à la fermeture de la page. Photos et vidéos : à déposer dans Healphi, jamais par WhatsApp, SMS ou messagerie personnelle.</p>
     </div>
   `;
   if(f) renderTcResult();
@@ -10255,154 +10401,252 @@ function renderTeleconsultPanel(){
 
 function tcFormHTML(f){
   const alertOn = tcAlertCount() > 0;
+  const mode = tcMode();
+  const q = s => (s || "").replace(/"/g, "&quot;");
+  const nav = f.sections.map(sec => {
+    const n = tcSectionCount(sec);
+    const num = (sec.title.match(/^[0-9]+( bis)?/) || [""])[0];
+    const lab = sec.title.replace(/^[0-9]+( bis)?\.\s*/, "").replace(/ — .*$/, "");
+    return `<button type="button" class="tc-nav-btn ${n ? "tc-nav-done" : ""}" id="tcnav-${sec.id}" onclick="tcGoto('${sec.id}')" title="${escapeHtml(sec.title)}">
+      <span class="tc-nav-num">${num}</span><span class="tc-nav-lab">${lab}</span>${n ? `<span class="tc-nav-n">${n}</span>` : ""}</button>`;
+  }).join("");
   return `
-    <div class="bio-layout chariot-layout">
-      <div class="bio-layout-left">
-        <div class="tc-idbar">
-          <label>Résident<input type="text" class="tc-in" value="${(state.tcResident || "").replace(/"/g, "&quot;")}" oninput="tcSetIdent('tcResident', this.value)" placeholder="Nom et prénom" /></label>
-          <label>Établissement<input type="text" class="tc-in" value="${(state.tcEtab || "").replace(/"/g, "&quot;")}" oninput="tcSetIdent('tcEtab', this.value)" placeholder="Nom de l'établissement" /></label>
+    <div class="bio-layout cont-layout tc-layout">
+      <div class="bio-layout-left cont-form">
+        <div class="tc-card tc-blue">
+          <div class="tc-idbar">
+            <label>Résident<input type="text" class="tc-in" value="${q(state.tcResident)}" oninput="tcSetIdent('tcResident', this.value)" placeholder="Nom et prénom" /></label>
+            <label>Établissement<input type="text" class="tc-in" value="${q(state.tcEtab)}" oninput="tcSetIdent('tcEtab', this.value)" placeholder="Nom de l'établissement" /></label>
+          </div>
+          <div class="tc-idbar tc-idbar-last">
+            ${mode === "ide" ? `<label>IDE qui remplit<input type="text" class="tc-in" value="${q(state.tcIde)}" oninput="tcSetIdent('tcIde', this.value)" placeholder="Nom, fonction" /></label>` : ""}
+            <label>Médecin DOTR${mode === "ide" ? " destinataire" : ""}<input type="text" class="tc-in" value="${q(state.tcMedecin)}" oninput="tcSetIdent('tcMedecin', this.value)" placeholder="Dr …" /></label>
+            ${mode === "ide" ? `<label>Créneau prévu<input type="datetime-local" class="tc-in" value="${q(state.tcCreneau)}" onchange="tcSetIdent('tcCreneau', this.value)" /></label>` : ""}
+          </div>
         </div>
 
         <div class="tc-card tc-alert ${alertOn ? "tc-alert-hot" : ""}">
-          <p class="tc-card-title">${f.alert.title}</p>
-          ${f.alert.items.map((it, i) => tcItemHTML(it, "alert", i)).join("")}
+          <p class="tc-card-title">🚨 ${f.alert.title}</p>
+          <div class="tc-chips tc-chips-col">
+            ${f.alert.items.map((it, i) => it.k === "g" ? "" : tcChipHTML(it, "alert", i)).join("")}
+          </div>
           ${f.alert.foot ? `<p class="tc-foot">${f.alert.foot}</p>` : ""}
         </div>
 
+        <div class="tc-nav" id="tcNav">${nav}</div>
+
         ${f.sections.map(sec => `
-          <div class="tc-card tc-${sec.theme}">
+          <div class="tc-card tc-${sec.theme} tc-sec" id="tcsec-${sec.id}">
             <p class="tc-card-title">${sec.title}</p>
-            ${sec.items.map((it, i) => tcItemHTML(it, sec.id, i)).join("")}
+            ${tcSectionBody(sec)}
             ${sec.foot ? `<p class="tc-foot">${sec.foot}</p>` : ""}
           </div>
         `).join("")}
 
+        ${mode === "medecin" ? `
         <div class="tc-card tc-avis">
           <p class="tc-card-title">Avis, préconisations et prescriptions du médecin</p>
-          <textarea class="tc-avis-area" rows="7" placeholder="Analyse, conduite à tenir, prescriptions, surveillance demandée, délai de réévaluation…" oninput="tcSetIdent('tcAvis', this.value)">${(state.tcAvis || "").replace(/</g, "&lt;")}</textarea>
-        </div>
+          <textarea class="tc-avis-area" rows="6" placeholder="Analyse, conduite à tenir, prescriptions, surveillance demandée, délai de réévaluation…" oninput="tcSetIdent('tcAvis', this.value)">${escapeHtml(state.tcAvis || "")}</textarea>
+        </div>` : ""}
       </div>
 
       <div class="bio-layout-right">
-        <div id="tcResult"></div>
+        <div id="tcResult" class="cont-result-scroll"></div>
       </div>
     </div>
   `;
 }
 
-function tcItemHTML(it, sec, i){
-  const key = tcKey(sec, i);
-  const v = state.tcVals[key];
-  const pad = it.i ? ` style="margin-left:${Math.round(it.i)}px"` : "";
-  switch(it.k){
-    case "g": return `<div class="tc-gap"></div>`;
-    case "h": return `<p class="tc-head">${it.t}</p>`;
-    case "n": return `<p class="tc-note">${it.t}</p>`;
-    case "f": return `<label class="tc-field"${pad}>${it.t ? `<span>${it.t}</span>` : ""}<input type="text" class="tc-in" value="${typeof v === "string" ? v.replace(/"/g, "&quot;") : ""}" oninput="tcSetField('${key}', this.value)" /></label>`;
-    case "cf": return `<div class="tc-line ${v && v.on ? "tc-on" : ""}"${pad}>
-        <label class="tc-chk"><input type="checkbox" ${v && v.on ? "checked" : ""} onchange="tcToggleField('${key}', this)" /><span>${it.t}</span></label>
-        <input type="text" class="tc-in tc-in-inline" value="${v && v.v ? String(v.v).replace(/"/g, "&quot;") : ""}" oninput="tcSetSubField('${key}', this.value)" />
-      </div>`;
-    default: return `<div class="tc-line ${v ? "tc-on" : ""}"${pad}>
-        <label class="tc-chk"><input type="checkbox" ${v ? "checked" : ""} onchange="tcToggle('${key}', this)" /><span>${it.t}</span></label>
-      </div>`;
-  }
+/* Les cases consécutives d'un même niveau deviennent des puces côte à côte
+   (beaucoup moins de défilement) ; intertitres, notes et champs gardent leur
+   place. Plusieurs lignes vides de suite (question libre) = un seul champ. */
+function tcSectionBody(sec){
+  const out = [];
+  let chips = [], chipIndent = 0;
+  const flush = () => {
+    if(!chips.length) return;
+    out.push(`<div class="tc-chips"${chipIndent ? ` style="margin-left:${Math.min(22, Math.round(chipIndent * 1.2))}px"` : ""}>${chips.join("")}</div>`);
+    chips = [];
+  };
+  let prevBlankF = false;
+  sec.items.forEach((it, i) => {
+    const key = tcKey(sec.id, i);
+    const v = state.tcVals[key];
+    if(it.k === "c" || it.k === "cf"){
+      const ind = it.i || 0;
+      if(chips.length && ind !== chipIndent) flush();
+      chipIndent = ind;
+      chips.push(tcChipHTML(it, sec.id, i));
+      prevBlankF = false;
+      return;
+    }
+    flush();
+    if(it.k === "g"){ prevBlankF = false; return; }
+    if(it.k === "h"){ out.push(`<p class="tc-head">${it.t}</p>`); prevBlankF = false; return; }
+    if(it.k === "n"){ out.push(`<p class="tc-note">${it.t}</p>`); prevBlankF = false; return; }
+    if(it.k === "f"){
+      const val = typeof v === "string" ? v : "";
+      if(TC_RES_RE.test(it.t || "")){ prevBlankF = false; return; }   // déjà saisi en tête
+      if(!it.t && prevBlankF && !val) return;          // lignes vides supplémentaires masquées
+      out.push(`<label class="tc-field ${it.t ? "" : "tc-field-free"}">${it.t ? `<span>${it.t}</span>` : ""}<input type="text" class="tc-in" value="${val.replace(/"/g, "&quot;")}" oninput="tcSetField('${key}', this.value)" ${it.t ? "" : `placeholder="…"`} /></label>`);
+      prevBlankF = !it.t;
+    }
+  });
+  flush();
+  return out.join("");
 }
 
-/* ------------------------------------------------- compte rendu */
+function tcChipHTML(it, sec, i){
+  const key = tcKey(sec, i);
+  const v = state.tcVals[key];
+  if(it.k === "cf"){
+    const on = !!(v && v.on);
+    const sub = v && v.v ? String(v.v) : "";
+    return `<span class="tc-chip-wrap">
+      <label class="tc-chip ${on ? "tc-chip-on" : ""}" data-chip="${key}"><input type="checkbox" ${on ? "checked" : ""} onchange="tcToggleField('${key}', this)" />${it.t}</label>
+      <input type="text" class="tc-in tc-chip-sub" data-sub="${key}" ${on || sub ? "" : "hidden"} value="${sub.replace(/"/g, "&quot;")}" oninput="tcSetSubField('${key}', this.value)" placeholder="préciser" />
+    </span>`;
+  }
+  const on = v === true;
+  return `<label class="tc-chip ${on ? "tc-chip-on" : ""}"><input type="checkbox" ${on ? "checked" : ""} onchange="tcToggle('${key}', this)" />${it.t}</label>`;
+}
+
+/* ------------------------------------------------- recueil */
 /* Ne retient que ce qui est renseigné : les rubriques vides disparaissent. */
 function tcCollect(){
   const f = TC_FORMS[state.tcMotif];
   const out = { alert: [], sections: [] };
-
   f.alert.items.forEach((it, i) => {
     if(it.k !== "g" && state.tcVals[tcKey("alert", i)]) out.alert.push(it.t);
   });
-
   f.sections.forEach(sec => {
     const lines = [];
     let head = null;
     sec.items.forEach((it, i) => {
       if(it.k === "h"){ head = it.t; return; }
       if(it.k === "g" || it.k === "n") return;
-      const key = tcKey(sec.id, i);
-      const v = state.tcVals[key];
+      if(it.k === "f" && TC_RES_RE.test(it.t || "")) return;
+      const v = state.tcVals[tcKey(sec.id, i)];
       if(v === undefined) return;
-      let txt = null;
+      let txt = null, val = null;
       if(it.k === "f"){
-        if(typeof v === "string" && v.trim()) txt = (it.t ? it.t + " : " : "") + v.trim();
+        if(typeof v === "string" && v.trim()){ txt = (it.t ? it.t + " : " : "") + v.trim(); val = v.trim(); }
       }else if(it.k === "cf"){
-        if(v.on || (v.v && v.v.trim())) txt = it.t + (v.v && v.v.trim() ? " : " + v.v.trim() : "");
+        if(v.on || (v.v && v.v.trim())){ txt = it.t + (v.v && v.v.trim() ? " : " + v.v.trim() : ""); val = txt; }
       }else if(v === true){
-        txt = it.t;
+        txt = it.t; val = it.t;
       }
-      if(txt) lines.push({ head: head, t: txt });
+      if(txt) lines.push({ head: head, t: txt, label: it.t || "", val: val, k: it.k });
     });
-    if(lines.length) out.sections.push({ title: sec.title, lines: lines });
+    if(lines.length) out.sections.push({ id: sec.id, title: sec.title, lines: lines });
   });
   return out;
 }
+
+/* Résumé succinct : question, alertes, puis les éléments renseignés regroupés
+   par intertitre (« Toux : grasse ; depuis 2 j »). Section photos réduite à
+   la liste de ce qui a été déposé. */
+function tcAutoResume(){
+  const f = TC_FORMS[state.tcMotif];
+  if(!f) return "";
+  const d = tcCollect();
+  const parts = [];
+  let question = "";
+  const rest = [];
+  d.sections.forEach((sec, si) => {
+    if(/photo/i.test(sec.title)){
+      const n = sec.lines.filter(l => l.k !== "f").length;
+      if(n) rest.push("Photos, vidéos et partage : " + sec.lines.map(l => l.t.replace(/ — .*$/, "").replace(/,.*$/, "")).join(", "));
+      return;
+    }
+    const groups = [];
+    sec.lines.forEach(l => {
+      if(si === 0 && /question/i.test(l.head || "")){ question += (question ? " " : "") + l.val; return; }
+      const h = (l.head || "").replace(/\s*[—-].*$/, "").trim();
+      let g = groups.find(x => x.h === h);
+      if(!g){ g = { h, items: [] }; groups.push(g); }
+      g.items.push(h && /^[A-ZÀ-Ý][a-zà-ÿ' ]/.test(l.t) && !/^[A-Z]{2}/.test(l.t) ? l.t.charAt(0).toLowerCase() + l.t.slice(1) : l.t);
+    });
+    groups.forEach(g => rest.push((g.h ? g.h + " : " : "") + g.items.join(", ").replace(/ — /g, " : ")));
+  });
+  parts.push(f.label + (question ? " — " + question : ""));
+  if(d.alert.length) parts.push("⚠ Signes d'alerte : " + d.alert.join(" ; "));
+  if(rest.length) parts.push(rest.join(". ") + ".");
+  return parts.join("\n");
+}
+function tcResume(){ return state.tcResumeEdited ? (state.tcResume || "") : tcAutoResume(); }
 
 function tcStamp(){
   const d = new Date();
   return d.toLocaleDateString("fr-FR") + " à " + d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
 }
+function tcCreneauTxt(){
+  if(!state.tcCreneau) return "";
+  const d = new Date(state.tcCreneau);
+  return isNaN(d) ? "" : d.toLocaleDateString("fr-FR") + " à " + d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+}
+function tcIdent(){
+  const res = (state.tcResident || "").trim(), etab = (state.tcEtab || "").trim();
+  const mode = tcMode();
+  return [res ? "Résident : " + res : null, etab ? "Établissement : " + etab : null,
+          mode === "ide" && (state.tcIde || "").trim() ? "Rempli par : " + state.tcIde.trim() : null,
+          (state.tcMedecin || "").trim() ? (mode === "ide" ? "Pour : " : "Médecin : ") + state.tcMedecin.trim() : null,
+          mode === "ide" && tcCreneauTxt() ? "Créneau : " + tcCreneauTxt() : null,
+          "Date : " + tcStamp()].filter(Boolean);
+}
 
-function tcBuild(){
+function tcBuild(short){
   const f = TC_FORMS[state.tcMotif];
   const data = tcCollect();
-  const res = (state.tcResident || "").trim();
-  const etab = (state.tcEtab || "").trim();
+  const mode = tcMode();
   const avis = (state.tcAvis || "").trim();
-
+  const resume = tcResume().trim();
   const P = [], H = [];
-  P.push("TÉLÉCONSULTATION DOTR — " + f.label);
-  H.push(`<p><strong><u>TÉLÉCONSULTATION DOTR — ${esc(f.label)}</u></strong></p>`);
-
-  const ident = [res ? "Résident : " + res : null, etab ? "Établissement : " + etab : null,
-                 "Date : " + tcStamp()].filter(Boolean);
+  const titre = mode === "ide" ? "CHECK-LIST DE TÉLÉCONSULTATION DOTR — " + f.label : "TÉLÉCONSULTATION DOTR — " + f.label;
+  P.push(titre);
+  H.push(`<p><strong><u>${esc(titre)}</u></strong></p>`);
+  const ident = tcIdent();
   P.push(ident.join(" — "));
   H.push(`<p>${ident.map(esc).join(" — ")}</p>`);
 
+  if(resume){
+    P.push(""); P.push("RÉSUMÉ"); P.push(resume);
+    H.push(`<p><strong><u>RÉSUMÉ</u></strong></p><p>${esc(resume).replace(/\n/g, "<br>")}</p>`);
+  }
+  if(short){
+    const pied0 = "Check-list complète : PDF joint (" + (f.ref || "DOTR") + ") — Docs On The Road / VMS";
+    P.push(""); P.push(pied0);
+    H.push(`<p><em>${esc(pied0)}</em></p>`);
+    return { plain: P.join("\n"), html: H.join(""), data: data };
+  }
   if(data.alert.length){
-    P.push("");
-    P.push("⚠ SIGNES D'ALERTE RELEVÉS");
+    P.push(""); P.push("⚠ SIGNES D'ALERTE RELEVÉS");
     data.alert.forEach(t => P.push("- " + t));
     H.push(`<p><strong style="color:#B42318">⚠ SIGNES D'ALERTE RELEVÉS</strong></p><ul>${data.alert.map(t => `<li><strong>${esc(t)}</strong></li>`).join("")}</ul>`);
   }
-
   if(data.sections.length){
-    P.push("");
-    P.push("RECUEIL");
+    P.push(""); P.push("RECUEIL");
     H.push(`<p><strong><u>RECUEIL</u></strong></p>`);
     data.sections.forEach(sec => {
-      P.push("");
-      P.push(sec.title);
+      P.push(""); P.push(sec.title);
       H.push(`<p><strong>${esc(sec.title)}</strong></p><ul>`);
       let last = null;
       sec.lines.forEach(l => {
-        if(l.head && l.head !== last){
-          P.push("  " + l.head + " :");
-          H.push(`<li><em>${esc(l.head)}</em></li>`);
-          last = l.head;
-        }
+        if(l.head && l.head !== last){ P.push("  " + l.head + " :"); H.push(`<li><em>${esc(l.head)}</em></li>`); last = l.head; }
         P.push("  - " + l.t);
         H.push(`<li>${esc(l.t)}</li>`);
       });
       H.push("</ul>");
     });
   }
-
-  P.push("");
-  P.push("AVIS, PRÉCONISATIONS ET PRESCRIPTIONS DU MÉDECIN");
-  P.push(avis || "—");
-  H.push(`<p><strong><u>AVIS, PRÉCONISATIONS ET PRESCRIPTIONS DU MÉDECIN</u></strong></p>`);
-  H.push(`<p>${avis ? esc(avis).replace(/\n/g, "<br>") : "—"}</p>`);
-
-  P.push("");
-  P.push("Compte rendu établi pendant la téléconsultation — Docs On The Road / VMS");
-  H.push(`<p><em>Compte rendu établi pendant la téléconsultation — Docs On The Road / VMS</em></p>`);
-
+  if(mode === "medecin"){
+    P.push(""); P.push("AVIS, PRÉCONISATIONS ET PRESCRIPTIONS DU MÉDECIN"); P.push(avis || "—");
+    H.push(`<p><strong><u>AVIS, PRÉCONISATIONS ET PRESCRIPTIONS DU MÉDECIN</u></strong></p><p>${avis ? esc(avis).replace(/\n/g, "<br>") : "—"}</p>`);
+  }
+  const pied = mode === "ide" ? "Check-list remplie par l'équipe de l'établissement avant la téléconsultation — Docs On The Road / VMS"
+                              : "Compte rendu établi pendant la téléconsultation — Docs On The Road / VMS";
+  P.push(""); P.push(pied);
+  H.push(`<p><em>${pied}</em></p>`);
   return { plain: P.join("\n"), html: H.join(""), data: data };
 }
 
@@ -10410,55 +10654,87 @@ function esc(s){
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-function renderTcResult(){
+function tcUpdateNav(){
+  const f = TC_FORMS[state.tcMotif];
+  if(!f) return;
+  f.sections.forEach(sec => {
+    const b = document.getElementById("tcnav-" + sec.id);
+    if(!b) return;
+    const n = tcSectionCount(sec);
+    b.classList.toggle("tc-nav-done", n > 0);
+    let badge = b.querySelector(".tc-nav-n");
+    if(n && !badge){ badge = document.createElement("span"); badge.className = "tc-nav-n"; b.appendChild(badge); }
+    if(badge){ if(n) badge.textContent = n; else badge.remove(); }
+  });
+}
+
+function renderTcResult(keepResumeArea){
   const out = document.getElementById("tcResult");
   if(!out) return;
-  const built = tcBuild();
+  tcUpdateNav();
+  const mode = tcMode();
+  const built = tcBuild(mode === "ide");
   const nb = built.data.sections.reduce((s, x) => s + x.lines.length, 0);
   const alerts = built.data.alert.length;
-
+  const resumeArea = document.getElementById("tcResumeArea");
+  if(keepResumeArea && resumeArea){
+    // on ne recrée pas la zone de résumé pendant la frappe : seul l'aperçu change
+    const prev = document.getElementById("tcPreview");
+    if(prev) prev.innerHTML = built.html;
+    return;
+  }
   out.innerHTML = `
     <div class="bio-result-box">
       <div class="bio-result-head">
-        <strong>${nb} élément${nb > 1 ? "s" : ""} renseigné${nb > 1 ? "s" : ""}${alerts ? ` · ${alerts} alerte${alerts > 1 ? "s" : ""}` : ""}</strong>
+        <strong>${nb} élément${nb > 1 ? "s" : ""} renseigné${nb > 1 ? "s" : ""}${alerts ? ` · <span class="tc-count-hot">${alerts} alerte${alerts > 1 ? "s" : ""}</span>` : ""}</strong>
         <div class="bio-result-actions">
-          <button type="button" class="bio-copy-btn" id="tcCopyBtn">Copier</button>
-          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="tcPdfSynth">📄 Compte rendu</button>
-          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="tcPdfFull">📋 Check-list remplie</button>
+          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="tcPdfFull">📋 PDF check-list + résumé</button>
+          ${mode === "medecin" ? `<button type="button" class="bio-copy-btn chariot-pdf-btn" id="tcPdfSynth">📄 Compte rendu</button>` : ""}
+          <button type="button" class="bio-copy-btn" id="tcCopyBtn">${mode === "ide" ? "Copier le résumé" : "Copier"}</button>
           <button type="button" class="bio-reset-btn" onclick="tcResetAll()">Réinitialiser</button>
         </div>
       </div>
-      <div class="tc-preview">${built.html}</div>
+      ${alerts ? `<div class="tc-urgent">🚨 ${mode === "ide" ? "Signe d'alerte coché : <strong>ne pas attendre le créneau</strong>, appeler le médecin DOTR (le 15 si détresse)." : "Signe d'alerte relevé : conduite urgente à envisager."}</div>` : ""}
+      <div class="tc-resume">
+        <div class="tc-resume-head"><strong>Résumé ${state.tcResumeEdited ? "(modifié)" : "(automatique)"}</strong>
+          ${state.tcResumeEdited ? `<button type="button" class="cont-link" onclick="tcResumeAuto()">Revenir au résumé automatique</button>` : `<span class="tc-resume-hint">modifiable</span>`}</div>
+        <textarea id="tcResumeArea" class="tc-avis-area" rows="8" oninput="tcSetResume(this.value)">${escapeHtml(tcResume())}</textarea>
+      </div>
+      <details class="cont-details tc-prev-details" ${mode === "medecin" ? "open" : ""}><summary>Aperçu du ${mode === "ide" ? "texte copié" : "compte rendu"}</summary>
+        <div class="tc-preview" id="tcPreview">${built.html}</div>
+      </details>
     </div>
   `;
-
-  document.getElementById("tcCopyBtn").addEventListener("click", async function(){
-    const btn = this;
-    const done = () => { btn.textContent = "Copié ✓"; setTimeout(() => { btn.textContent = "Copier"; }, 1800); };
+  const copyBtn = document.getElementById("tcCopyBtn");
+  copyBtn.addEventListener("click", async function(){
+    const btn = this, label = btn.textContent;
+    const b2 = tcBuild(mode === "ide");
+    const done = () => { btn.textContent = "Copié ✓"; setTimeout(() => { btn.textContent = label; }, 1800); };
     try{
       if(navigator.clipboard && window.ClipboardItem){
         await navigator.clipboard.write([new ClipboardItem({
-          "text/plain": new Blob([built.plain], { type: "text/plain" }),
-          "text/html": new Blob([built.html], { type: "text/html" })
+          "text/plain": new Blob([b2.plain], { type: "text/plain" }),
+          "text/html": new Blob([b2.html], { type: "text/html" })
         })]);
         done(); return;
       }
-      await navigator.clipboard.writeText(built.plain); done();
+      await navigator.clipboard.writeText(b2.plain); done();
     }catch(e){
       const ta = document.createElement("textarea");
-      ta.value = built.plain; ta.style.position = "fixed"; ta.style.opacity = "0";
+      ta.value = b2.plain; ta.style.position = "fixed"; ta.style.opacity = "0";
       document.body.appendChild(ta); ta.select();
       try{ document.execCommand("copy"); }catch(err){}
       document.body.removeChild(ta); done();
     }
   });
-  document.getElementById("tcPdfSynth").addEventListener("click", () => tcPdf(false));
+  const s = document.getElementById("tcPdfSynth");
+  if(s) s.addEventListener("click", () => tcPdf(false));
   document.getElementById("tcPdfFull").addEventListener("click", () => tcPdf(true));
 }
 
 /* ------------------------------------------------------------ PDF */
 /* Helvetica n'a pas tous les caractères : on remplace les manquants. */
-const WINANSI_EXTRA = "\u20AC\u201A\u0192\u201E\u2026\u2020\u2021\u02C6\u2030\u0160\u2039\u0152\u017D\u2018\u2019\u201C\u201D\u2022\u2013\u2014\u02DC\u2122\u0161\u203A\u0153\u017E\u0178";
+const WINANSI_EXTRA = "€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ";
 function pdfSafe(s){
   return String(s)
     .replace(/[≥]/g, ">=").replace(/[≤]/g, "<=")
@@ -10470,6 +10746,8 @@ function pdfSafe(s){
     }).join("");
 }
 
+/* Charte des fiches DOTR : bandeau bleu, titre navy, encadré « résumé »,
+   carrousel VMS/DOTR en bas à droite de chaque page, pagination. */
 async function tcPdf(full){
   const btnId = full ? "tcPdfFull" : "tcPdfSynth";
   const btn = document.getElementById(btnId);
@@ -10478,100 +10756,186 @@ async function tcPdf(full){
   try{
     const { PDFDocument, StandardFonts, rgb } = PDFLib;
     const f = TC_FORMS[state.tcMotif];
+    const mode = tcMode();
     const pdfDoc = await PDFDocument.create();
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     const ital = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
-    const W = 595.28, H = 841.89, M = 48;
-    const navy = rgb(0.043, 0.145, 0.271);
-    const muted = rgb(0.40, 0.42, 0.46);
-    const red = rgb(0.706, 0.145, 0.094);
+    const logo = await pdfDoc.embedJpg(base64ToBytes(VMS_DOTR_LOGO_B64));
+    const W = 595.28, H = 841.89, M = 40, FW = W - 2 * M, BOTTOM = 78;
+    const hex = h => rgb(parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255);
+    const BLUE = hex("#0B74D0"), NAVY = hex("#1E385D"), TITLE = hex("#113A6E"), INK = hex("#1F2A37");
+    const MUTED = hex("#5C6670"), LIGHT = hex("#A6B1BF"), RED = hex("#B8231D"), REDBG = hex("#FCECEC");
+    const PANEL = hex("#EEF2F7"), CHECK = hex("#188754");
 
-    let page = pdfDoc.addPage([W, H]);
-    let y = H - 56;
-    const need = h => { if(y - h < 60){ page = pdfDoc.addPage([W, H]); y = H - 56; } };
-    const line = (t, o) => {
+    const pages = [];
+    let page, y;
+    const newPage = () => {
+      page = pdfDoc.addPage([W, H]); pages.push(page);
+      page.drawRectangle({ x: 0, y: H - 8, width: W, height: 8, color: BLUE });
+      y = H - 34;
+      if(pages.length > 1){
+        page.drawText(pdfSafe(f.label + " — " + (full ? "check-list remplie" : "compte rendu")), { x: M, y: H - 26, size: 9.5, font: bold, color: TITLE });
+        page.drawText(pdfSafe((state.tcResident || "").trim()), { x: W - M - font.widthOfTextAtSize(pdfSafe((state.tcResident || "").trim()), 8), y: H - 26, size: 8, font: font, color: MUTED });
+        y = H - 46;
+      }
+    };
+    const need = h => { if(y - h < BOTTOM) newPage(); };
+    const text = (t, o) => {
       o = o || {};
-      const size = o.size || 9.5;
-      const fnt = o.font || font;
-      const col = o.color || navy;
-      const x = M + (o.indent || 0);
+      const size = o.size || 9, fnt = o.font || font, x = M + (o.indent || 0), w = (o.width || FW) - (o.indent || 0);
+      const lead = size * 1.3;
       pdfSafe(t).split("\n").forEach(par => {
-        const lns = wrapPdfText(par, fnt, size, W - 2 * M - (o.indent || 0));
+        const lns = wrapPdfText(par, fnt, size, w);
         (lns.length ? lns : [""]).forEach(ln => {
-          need(size + 4);
-          page.drawText(ln, { x: x, y: y, size: size, font: fnt, color: col });
-          y -= size + 3.4;
+          need(lead);
+          page.drawText(ln, { x: x, y: y - size, size: size, font: fnt, color: o.color || INK });
+          y -= lead;
         });
       });
     };
-    const rule = () => { need(10); page.drawLine({ start: { x: M, y: y + 4 }, end: { x: W - M, y: y + 4 }, thickness: 0.6, color: muted }); y -= 8; };
 
-    line(full ? "CHECK-LIST REMPLIE — TÉLÉCONSULTATION DOTR" : "COMPTE RENDU DE TÉLÉCONSULTATION — DOTR", { size: 13, font: bold });
-    y -= 4;
-    line(f.label, { size: 15, font: bold });
-    y -= 2;
-    const ident = [(state.tcResident || "").trim() ? "Résident : " + state.tcResident.trim() : null,
-                   (state.tcEtab || "").trim() ? "Établissement : " + state.tcEtab.trim() : null,
-                   "Date : " + tcStamp()].filter(Boolean).join("   |   ");
-    line(ident, { size: 9, font: ital, color: muted });
-    y -= 6; rule();
+    newPage();
+    // en-tête
+    page.drawText(pdfSafe(full ? "CHECK-LIST DE TÉLÉCONSULTATION — REMPLIE" : "COMPTE RENDU DE TÉLÉCONSULTATION"), { x: M, y: y - 9, size: 8.5, font: bold, color: MUTED });
+    y -= 16;
+    page.drawText(pdfSafe(f.label), { x: M, y: y - 18, size: 19, font: bold, color: TITLE });
+    y -= 28;
+    const idl = tcIdent();
+    text(idl.slice(0, 2).join("   ·   "), { size: 8.5, color: MUTED, width: FW - 120 });
+    text(idl.slice(2).join("   ·   "), { size: 8.5, color: MUTED, width: FW - 120 });
+    page.drawRectangle({ x: W - M - 108, y: H - 84, width: 108, height: 44, color: hex("#EAF4FD") });
+    page.drawText("FICHE DOTR", { x: W - M - 100, y: H - 54, size: 6.9, font: bold, color: MUTED });
+    page.drawText(pdfSafe(f.ref || ""), { x: W - M - 100, y: H - 63, size: 6.9, font: font, color: MUTED });
+    page.drawText(pdfSafe(mode === "ide" ? "Rempli par l'IDE" : "Rempli par le médecin"), { x: W - M - 100, y: H - 72, size: 6.9, font: font, color: MUTED });
+    y -= 8;
 
-    const alerts = f.alert.items.map((it, i) => (it.k !== "g" && state.tcVals[tcKey("alert", i)]) ? it.t : null).filter(Boolean);
-    if(alerts.length){
-      line("SIGNES D'ALERTE RELEVÉS", { size: 10.5, font: bold, color: red });
-      alerts.forEach(t => line("• " + t, { size: 9.5, font: bold, color: red, indent: 6 }));
-      y -= 4; rule();
+    // résumé
+    const resume = tcResume().trim();
+    if(resume){
+      const lines = [];
+      resume.split("\n").forEach(par => wrapPdfText(pdfSafe(par), font, 9.5, FW - 24).forEach(l => lines.push(l)));
+      const h = 26 + lines.length * 12.4 + 6;
+      need(h);
+      page.drawRectangle({ x: M, y: y - h, width: FW, height: h, color: PANEL });
+      page.drawRectangle({ x: M, y: y - h, width: 4, height: h, color: NAVY });
+      page.drawText("RÉSUMÉ", { x: M + 12, y: y - 16, size: 9, font: bold, color: NAVY });
+      lines.forEach((l, i) => page.drawText(l, { x: M + 12, y: y - 30 - i * 12.4, size: 9.5, font: i === 0 ? bold : font, color: INK }));
+      y -= h + 10;
     }
 
+    // alertes
+    const alerts = f.alert.items.map((it, i) => (it.k !== "g" && state.tcVals[tcKey("alert", i)]) ? it.t : null).filter(Boolean);
+    if(alerts.length){
+      const lines = [];
+      alerts.forEach(t => wrapPdfText(pdfSafe("• " + t), bold, 9, FW - 24).forEach(l => lines.push(l)));
+      const h = 24 + lines.length * 11.7 + 4;
+      need(h);
+      page.drawRectangle({ x: M, y: y - h, width: FW, height: h, color: REDBG, borderColor: RED, borderWidth: 0.8 });
+      page.drawText(pdfSafe("SIGNES D'ALERTE RELEVÉS"), { x: M + 12, y: y - 15, size: 9, font: bold, color: RED });
+      lines.forEach((l, i) => page.drawText(l, { x: M + 12, y: y - 28 - i * 11.7, size: 9, font: bold, color: RED }));
+      y -= h + 10;
+    }
+
+    const box = (x0, yy, on) => {
+      page.drawRectangle({ x: x0, y: yy - 1, width: 7.5, height: 7.5, borderColor: on ? CHECK : LIGHT, borderWidth: 0.8, color: on ? hex("#EAF6F2") : rgb(1, 1, 1) });
+      if(on){
+        page.drawLine({ start: { x: x0 + 1.5, y: yy + 2.8 }, end: { x: x0 + 3.2, y: yy + 0.8 }, thickness: 1.2, color: CHECK });
+        page.drawLine({ start: { x: x0 + 3.2, y: yy + 0.8 }, end: { x: x0 + 6.4, y: yy + 5.6 }, thickness: 1.2, color: CHECK });
+      }
+    };
+    const secTitle = t => {
+      need(34);
+      y -= 4;
+      page.drawRectangle({ x: M, y: y - 17, width: FW, height: 17, color: NAVY });
+      page.drawText(pdfSafe(t), { x: M + 8, y: y - 12, size: 9.5, font: bold, color: rgb(1, 1, 1) });
+      y -= 23;
+    };
+
     if(full){
-      // Fac-similé : toutes les lignes, cochées ou non.
+      // fac-similé complet : toutes les lignes, cochées ou non, en deux colonnes de cases
       f.sections.forEach(sec => {
-        need(26);
-        line(sec.title, { size: 10.5, font: bold });
+        secTitle(sec.title);
+        let row = [];
+        const flushRow = () => {
+          if(!row.length) return;
+          const colW = (FW - 12) / 2;
+          for(let i = 0; i < row.length; i += 2){
+            const pair = row.slice(i, i + 2);
+            const hh = Math.max.apply(null, pair.map(r => wrapPdfText(pdfSafe(r.t), r.on ? bold : font, 8.5, colW - 14).length)) * 11 + 1;
+            need(hh);
+            pair.forEach((r, j) => {
+              const x0 = M + 6 + j * (colW + 6) + (r.ind || 0);
+              box(x0, y - 8, r.on);
+              wrapPdfText(pdfSafe(r.t), r.on ? bold : font, 8.5, colW - 14 - (r.ind || 0)).forEach((ln, k) =>
+                page.drawText(ln, { x: x0 + 12, y: y - 8 - k * 11, size: 8.5, font: r.on ? bold : font, color: r.on ? INK : MUTED }));
+            });
+            y -= hh;
+          }
+          row = [];
+        };
+        let prevBlank = false;
         sec.items.forEach((it, i) => {
-          const key = tcKey(sec.id, i);
-          const v = state.tcVals[key];
-          if(it.k === "g"){ y -= 3; return; }
-          if(it.k === "n") return;
-          if(it.k === "h"){ line(it.t, { size: 9, font: bold, color: muted, indent: 6 }); return; }
-          if(it.k === "f"){
-            line((it.t ? it.t + " : " : "") + (typeof v === "string" && v ? v : "…"), { size: 9, indent: 12 });
+          const v = state.tcVals[tcKey(sec.id, i)];
+          if(it.k === "c" || it.k === "cf"){
+            const on = it.k === "cf" ? !!(v && v.on) : v === true;
+            const extra = it.k === "cf" && v && v.v ? " : " + v.v : "";
+            row.push({ t: it.t + extra, on: on, ind: it.i ? 8 : 0 });
+            prevBlank = false;
             return;
           }
-          const on = it.k === "cf" ? !!(v && v.on) : v === true;
-          const extra = it.k === "cf" && v && v.v ? " : " + v.v : "";
-          line((on ? "[X] " : "[ ] ") + it.t + extra, { size: 9, indent: 12, font: on ? bold : font, color: on ? navy : muted });
+          flushRow();
+          if(it.k === "g"){ y -= 2; prevBlank = false; return; }
+          if(it.k === "n"){ prevBlank = false; return; }
+          if(it.k === "h"){ need(16); y -= 3; text(it.t, { size: 8.5, font: bold, color: TITLE, indent: 2 }); prevBlank = false; return; }
+          if(it.k === "f"){
+            const val = TC_RES_RE.test(it.t || "") ? (state.tcResident || "").trim() : (typeof v === "string" ? v.trim() : "");
+            if(!it.t && prevBlank && !val) return;
+            text((it.t ? it.t + " : " : "") + (val || "—"), { size: 8.5, indent: 6, font: val ? bold : font, color: val ? INK : LIGHT });
+            prevBlank = !it.t;
+          }
         });
-        y -= 6;
+        flushRow();
+        y -= 4;
       });
     }else{
       const data = tcCollect();
       data.sections.forEach(sec => {
-        need(26);
-        line(sec.title, { size: 10.5, font: bold });
+        secTitle(sec.title);
         let last = null;
         sec.lines.forEach(l => {
-          if(l.head && l.head !== last){ line(l.head, { size: 9, font: ital, color: muted, indent: 6 }); last = l.head; }
-          line("• " + l.t, { size: 9.5, indent: 12 });
+          if(l.head && l.head !== last){ text(l.head, { size: 8.5, font: bold, color: TITLE, indent: 2 }); last = l.head; }
+          text("• " + l.t, { size: 9, indent: 10 });
         });
-        y -= 6;
+        y -= 4;
       });
     }
 
-    y -= 4; rule();
-    line("AVIS, PRÉCONISATIONS ET PRESCRIPTIONS DU MÉDECIN", { size: 10.5, font: bold });
-    line((state.tcAvis || "").trim() || "—", { size: 10, indent: 6 });
-    y -= 14;
-    need(52);
-    line("Médecin DOTR : ..................................................        Signature :", { size: 9.5, color: muted });
-    y -= 6;
-    line("Document établi pendant la téléconsultation et destiné au dossier du résident. " + f.ref, { size: 7.5, font: ital, color: muted });
+    if(mode === "medecin"){
+      secTitle("AVIS, PRÉCONISATIONS ET PRESCRIPTIONS DU MÉDECIN");
+      text((state.tcAvis || "").trim() || "—", { size: 9.5, indent: 4 });
+      y -= 12;
+      need(30);
+      text("Médecin DOTR : " + ((state.tcMedecin || "").trim() || "..................................................") + "          Signature :", { size: 9, color: MUTED });
+    }else{
+      y -= 8;
+      need(40);
+      text("Transmis au médecin DOTR " + ((state.tcMedecin || "").trim() || "") + " par : " + ((state.tcIde || "").trim() || "......................................") + "          Signature :", { size: 9, color: MUTED });
+      text("Photos et vidéos : dans Healphi uniquement (jamais par WhatsApp, SMS ou messagerie personnelle).", { size: 7.8, font: ital, color: MUTED });
+    }
+
+    // pieds de page : logo en bas à droite, pagination
+    const lw = 92, lh = lw * logo.height / logo.width;
+    pages.forEach((pg, i) => {
+      pg.drawLine({ start: { x: M, y: 66 }, end: { x: W - M, y: 66 }, thickness: 0.8, color: hex("#D5DEE8") });
+      pg.drawText(pdfSafe("Document destiné au dossier du résident — " + (f.ref || "") + " — établi le " + tcStamp()), { x: M, y: 52, size: 6.8, font: ital, color: LIGHT });
+      pg.drawText("Page " + (i + 1) + " / " + pages.length, { x: M, y: 24, size: 6.8, font: font, color: LIGHT });
+      pg.drawImage(logo, { x: W - M - lw, y: 16, width: lw, height: lh });
+    });
 
     const bytes = await pdfDoc.save();
-    const name = (full ? "Checklist_remplie_" : "Compte_rendu_") + state.tcMotif + "_" +
-                 new Date().toISOString().slice(0, 10) + ".pdf";
-    triggerDownload(new Blob([bytes], { type: "application/pdf" }), name);
+    const nom = ((state.tcResident || "").trim() || state.tcMotif).normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-zA-Z0-9]+/g, "_");
+    triggerDownload(new Blob([bytes], { type: "application/pdf" }), (full ? "Checklist_" : "Compte_rendu_") + state.tcMotif + "_" + nom + "_" + new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10) + ".pdf");
     btn.textContent = "Fait ✓";
     setTimeout(() => { btn.textContent = original; }, 1800);
   }catch(e){
@@ -10831,7 +11195,8 @@ function contDefault(){
     infoRes: "", procheRole: "", procheNom: "", procheStatut: "", procheDate: "", procheQui: "",
     procheAvis: "",
     obs: "",
-    aide: false
+    aide: false,
+    preset: "", step: 1
   };
 }
 
@@ -11054,12 +11419,100 @@ function contAlerts(){
   return out;
 }
 
+/* ------------------------------------------------------------ situations types
+   Préremplissage en un clic : mesure, motif, période et intervenants les plus
+   fréquents. Tout reste modifiable. Les alternatives ne sont JAMAIS cochées
+   automatiquement (ce serait attester qu'elles ont été tentées) : elles sont
+   seulement mises en avant, et un bouton permet de les cocher en connaissance
+   de cause. */
+const CONT_PRESETS = [
+  { id: "lit_nuit", icon: "🛏️", titre: "Barrières de lit la nuit", sous: "Risque de chute en sortant du lit",
+    type: "barrieres", motifs: ["chute"], periode: "nuit", de: "21:00", a: "07:00",
+    qui: { veilleur: true, as: true }, alts: [0, 1, 2, 3, 7],
+    danger: "Ex. : sorties de lit nocturnes répétées, chute(s) le …" },
+  { id: "fauteuil", icon: "🪑", titre: "Ceinture au fauteuil", sous: "Lever seul dangereux, risque de chute",
+    type: "ceinture_fauteuil", motifs: ["chute"], periode: "jour", de: "08:00", a: "20:00",
+    qui: { as: true, ide: true }, alts: [0, 1, 5, 7],
+    danger: "Ex. : tente de se lever seul, marche instable, chute(s) le …" },
+  { id: "glissement", icon: "🧍", titre: "Glissement au fauteuil", sous: "Maintien postural (non restrictif)",
+    type: "maintien_postural", motifs: ["posture"], periode: "jour", de: "08:00", a: "20:00",
+    qui: { as: true }, alts: [],
+    danger: "Ex. : glisse vers l'avant ou bascule latéralement au fauteuil" },
+  { id: "dispositif", icon: "🩺", titre: "Protéger un dispositif médical", sous: "Sonde, perfusion, gastrostomie, pansement",
+    type: "vetement", motifs: ["dispositif"], periode: "continu",
+    qui: { ide: true, as: true }, alts: [0, 6],
+    danger: "Ex. : arrachements répétés de la sonde / du pansement le …" },
+  { id: "sortie", icon: "🚪", titre: "Déambulation, risque de sortie", sous: "Accès contrôlé, digicode, alerte de sortie",
+    type: "acces_controle", motifs: ["sortie", "deambulation"], periode: "continu",
+    qui: { as: true, veilleur: true }, alts: [4, 5, 6],
+    danger: "Ex. : sorties non accompagnées de l'unité, retrouvé(e) à l'extérieur le …" },
+  { id: "urgence", icon: "⚡", titre: "Danger immédiat — urgence", sous: "Mise en danger de soi ou d'autrui",
+    type: "", motifs: ["danger_soi"], periode: "continu", contexte: "urgence",
+    qui: { ide: true, as: true }, alts: [0],
+    danger: "Ex. : comportement, heure, personnes exposées, mesures déjà tentées" }
+];
+const CONT_EQUIPE = ["Médecin coordonnateur", "IDEC", "IDE", "AS", "Psychologue", "Ergothérapeute", "Éducateur"];
+
+function contPreset(id){
+  const p = CONT_PRESETS.find(x => x.id === id);
+  const s = contDefault();
+  if(p){
+    s.preset = p.id;
+    s.type = p.type || "";
+    const t = CONT_REF.types.find(x => x.id === s.type);
+    if(t) s.validite = t.validite || 0;
+    p.motifs.forEach(m => { s.motifs[m] = true; });
+    s.periode = p.periode;
+    if(p.de){ s.de = p.de; s.a = p.a; }
+    s.qui = Object.assign({ ide: false, as: false, educ: false, veilleur: false }, p.qui);
+    if(p.contexte) s.contexte = p.contexte;
+  }else{
+    s.preset = "libre";
+  }
+  // l'identité déjà saisie est conservée
+  const old = state.cont;
+  if(old) ["resident", "naissance", "etabNom", "prescripteur", "etab", "protection"].forEach(k => { s[k] = old[k]; });
+  s.step = 1;
+  state.cont = s;
+  renderContentionPanel();
+}
+function contStep(n){
+  contS().step = n;
+  renderContentionPanel();
+  const el = document.getElementById("contSteps");
+  if(el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function contSuggestAlts(){
+  const s = contS();
+  const p = CONT_PRESETS.find(x => x.id === s.preset);
+  (p ? p.alts : []).forEach(i => { s.alts[i] = true; });
+  renderContentionPanel();
+}
+function contAddEquipe(label){
+  const s = contS();
+  const cur = s.equipe.split(",").map(x => x.trim()).filter(Boolean);
+  const i = cur.indexOf(label);
+  if(i >= 0) cur.splice(i, 1); else cur.push(label);
+  s.equipe = cur.join(", ");
+  renderContentionPanel();
+}
+function contBackToPresets(){
+  contS().preset = "";
+  renderContentionPanel();
+}
+window.contPreset = contPreset;
+window.contStep = contStep;
+window.contSuggestAlts = contSuggestAlts;
+window.contAddEquipe = contAddEquipe;
+window.contBackToPresets = contBackToPresets;
+
 /* ------------------------------------------------------------ rendu */
 function renderContentionPanel(){
   const cat = CATEGORIES.find(c => c.id === "contentions");
   const c = colorVars(cat.color);
   const s = contS();
   const t = contType();
+  const choosing = !s.preset;
 
   contentEl.innerHTML = `
     <button type="button" class="back-btn" onclick="closeDoc()">
@@ -11072,24 +11525,46 @@ function renderContentionPanel(){
         <span class="tool-hero-icon">🛡️</span>
         <div class="tool-hero-body">
           <p class="tool-hero-title">Prescription de contention</p>
-          <p class="tool-hero-sub">Choisis la mesure et le motif : l'outil précise la nature de la mesure, préremplit les durées et la surveillance avec les repères des sources, signale les écarts, puis produit un PDF d'une page ou un texte à coller dans le dossier.</p>
+          <p class="tool-hero-sub">Choisis une situation type : la mesure, le motif, les durées et la surveillance se préremplissent avec les repères des sources. Il reste 3 étapes courtes à vérifier, l'aperçu se construit à droite.</p>
           <div class="tool-hero-stats">
-            <span class="tool-hero-stat">${CONT_REF.types.length} mesures</span>
-            <span class="tool-hero-stat">${CONT_REF.motifs.length} motifs</span>
+            <span class="tool-hero-stat">${CONT_PRESETS.length} situations types</span>
+            <span class="tool-hero-stat">3 étapes</span>
             <span class="tool-hero-stat">PDF 1 page</span>
             <span class="tool-hero-stat">Copier-coller</span>
           </div>
         </div>
       </div>
-      <p class="doc-meta">Repères issus de la fiche « Contention physique en ESMS » (mise à jour : ${CONT_REF.maj}). Toutes les valeurs restent modifiables : l'outil ne décide pas à la place du médecin, il trace. Rien n'est envoyé sur Internet.</p>
-
-      <div class="bio-layout chariot-layout">
+      ${choosing ? contPresetsHTML() : `
+      <div class="bio-layout cont-layout">
         <div class="bio-layout-left cont-form">${contFormHTML(s, t)}</div>
-        <div class="bio-layout-right"><div id="contResult"></div></div>
-      </div>
+        <div class="bio-layout-right"><div id="contResult" class="cont-result-scroll"></div></div>
+      </div>`}
+      <p class="doc-meta cont-meta">Repères issus de la fiche « Contention physique en ESMS » (mise à jour : ${CONT_REF.maj}). Toutes les valeurs restent modifiables : l'outil ne décide pas à la place du médecin, il trace. Rien n'est enregistré ni envoyé sur Internet.</p>
     </div>
   `;
-  renderContResult();
+  if(!choosing) renderContResult();
+}
+
+function contPresetsHTML(){
+  return `
+    <p class="cont-q">Quelle situation ?</p>
+    <div class="cont-presets">
+      ${CONT_PRESETS.map(p => {
+        const t = CONT_REF.types.find(x => x.id === p.type);
+        const nat = t ? CONT_REF.natures[t.nature] : null;
+        return `<button type="button" class="cont-preset ${p.contexte === "urgence" ? "cont-preset-hot" : ""}" onclick="contPreset('${p.id}')">
+          <span class="cont-preset-icon">${p.icon}</span>
+          <span class="cont-preset-title">${p.titre}</span>
+          <span class="cont-preset-sub">${p.sous}</span>
+          ${nat ? `<span class="cont-preset-nat cont-nat-${t.nature}">${escapeHtml(nat.label)}</span>` : `<span class="cont-preset-nat cont-nat-passive">Mesure à choisir</span>`}
+        </button>`;
+      }).join("")}
+      <button type="button" class="cont-preset cont-preset-free" onclick="contPreset('libre')">
+        <span class="cont-preset-icon">✏️</span>
+        <span class="cont-preset-title">Autre situation</span>
+        <span class="cont-preset-sub">Choisir librement parmi les ${CONT_REF.types.length} mesures</span>
+      </button>
+    </div>`;
 }
 
 function contOpt(value, label, current){
@@ -11097,181 +11572,221 @@ function contOpt(value, label, current){
 }
 function contVal(v){ return escapeHtml(v == null ? "" : String(v)); }
 
+function contStepDone(n){
+  const s = contS();
+  const t = contType();
+  if(n === 1) return !!t && (Object.keys(s.motifs).length > 0);
+  if(n === 2) return !!t && (t.nature === "prevention" || Object.keys(s.alts).length > 0 || !!s.altAutre.trim()) && !!(s.infoRes || s.procheStatut);
+  if(n === 3) return !!t && !!contValiditeH() || (!!t && t.nature === "prevention");
+  return false;
+}
+
 function contFormHTML(s, t){
+  const step = s.step || 1;
+  const p = CONT_PRESETS.find(x => x.id === s.preset);
+  const labels = ["Mesure et motif", "Justifier et informer", "Durée et surveillance"];
+  const tabs = labels.map((l, i) => {
+    const n = i + 1;
+    const done = contStepDone(n);
+    return `<button type="button" class="cont-tab ${step === n ? "cont-tab-on" : ""} ${done ? "cont-tab-done" : ""}" onclick="contStep(${n})">
+      <span class="cont-tab-num">${done ? "✓" : n}</span><span>${l}</span></button>`;
+  }).join("");
+
+  const ident = `
+    <div class="tc-card tc-blue cont-ident">
+      <div class="cont-ident-head">
+        <p class="tc-card-title">${p ? p.icon + " " + p.titre : "✏️ Situation libre"}</p>
+        <button type="button" class="cont-link" onclick="contBackToPresets()">Changer de situation</button>
+      </div>
+      <div class="tc-idbar">
+        <label>Résident<input type="text" class="tc-in" value="${contVal(s.resident)}" oninput="contSet('resident', this.value)" placeholder="Nom et prénom" /></label>
+        <label>Établissement<input type="text" class="tc-in" value="${contVal(s.etabNom)}" oninput="contSet('etabNom', this.value)" placeholder="Nom" /></label>
+        <label>Prescripteur<input type="text" class="tc-in" value="${contVal(s.prescripteur)}" oninput="contSet('prescripteur', this.value)" placeholder="Dr …" /></label>
+      </div>
+      <div class="tc-idbar cont-idbar-last">
+        <label>Type d'établissement<select class="tc-in" onchange="contSet('etab', this.value, true)">
+          ${Object.keys(CONT_REF.cadres).map(k => contOpt(k, CONT_REF.cadres[k].label, s.etab)).join("")}
+        </select></label>
+        <label>Protection juridique<select class="tc-in" onchange="contSet('protection', this.value, true)">
+          ${Object.keys(CONT_REF.protection).map(k => contOpt(k, CONT_REF.protection[k].label, s.protection)).join("")}
+        </select></label>
+        <label>Né(e) le<input type="text" class="tc-in" value="${contVal(s.naissance)}" oninput="contSet('naissance', this.value)" placeholder="facultatif" /></label>
+      </div>
+    </div>`;
+
+  let body = "";
+  if(step === 1) body = contStep1(s, t);
+  else if(step === 2) body = contStep2(s, t, p);
+  else body = contStep3(s, t);
+
+  const nav = `<div class="cont-nav">
+      ${step > 1 ? `<button type="button" class="cont-nav-btn cont-nav-prev" onclick="contStep(${step - 1})">← ${labels[step - 2]}</button>` : "<span></span>"}
+      ${step < 3 ? `<button type="button" class="cont-nav-btn" onclick="contStep(${step + 1})" ${t ? "" : "disabled"}>${labels[step]} →</button>`
+                 : `<span class="cont-nav-end">Terminé : <strong>Copier</strong> ou <strong>PDF 1 page</strong> à droite.</span>`}
+    </div>`;
+
+  return `${ident}<div class="cont-tabs" id="contSteps">${tabs}</div>${body}${nav}`;
+}
+
+function contStep1(s, t){
   const nat = t ? CONT_REF.natures[t.nature] : null;
   const natColor = { green: "emerald", red: "red", purple: "purple" };
   const nc = nat ? colorVars(natColor[nat.color] || "slate") : null;
-
-  const typeSelect = `<select class="tc-in cont-select" onchange="contSet('type', this.value, true)">
+  const typeSelect = `<select class="tc-in cont-select ${t ? "" : "cont-select-todo"}" onchange="contSet('type', this.value, true)">
       <option value="">— Choisir la mesure —</option>
       ${CONT_REF.groupes.map(g => `<optgroup label="${g}">
         ${CONT_REF.types.filter(x => x.g === g).map(x => contOpt(x.id, x.label, s.type)).join("")}
       </optgroup>`).join("")}
     </select>`;
-
-  const motifsHTML = CONT_REF.motifs.map(m => {
+  const motifs = CONT_REF.motifs.map(m => {
     const st = CONT_REF.statuts[m.statut];
     const sc = colorVars({ amber: "amber", red: "red", slate: "slate", purple: "purple", green: "emerald" }[st.color]);
     const on = !!s.motifs[m.id];
-    return `<div class="tc-line ${on ? "tc-on" : ""}">
-        <label class="tc-chk"><input type="checkbox" ${on ? "checked" : ""} onchange="contToggle('motifs','${m.id}')" />
-          <span>${m.label} <span class="cont-pill" style="--pill:${sc.pill};--pillbg:${sc.pillbg}">${st.label}</span></span></label>
-      </div>
-      ${on ? `<p class="cont-motif-txt">${m.texte}${contSrcHTML(m.src)}</p>` : ""}`;
+    return `<label class="cont-chip cont-chip-lg ${on ? "cont-chip-on" : ""}"><input type="checkbox" ${on ? "checked" : ""} onchange="contToggle('motifs','${m.id}')" />${m.label}
+      <span class="cont-pill" style="--pill:${sc.pill};--pillbg:${sc.pillbg}">${st.label}</span></label>`;
   }).join("");
-
-  const altsHTML = CONT_REF.alternatives.map((a, i) => {
-    const on = !!s.alts[i];
-    return `<div class="tc-line ${on ? "tc-on" : ""}"><label class="tc-chk"><input type="checkbox" ${on ? "checked" : ""} onchange="contToggle('alts','${i}')" /><span>${a.t}</span></label></div>`;
-  }).join("");
-
-  const nature = t ? t.nature : null;
-  const valOpts = nature === "prevention" ? [0, 24, 168, 720]
-                : t && t.id === "acces_controle" ? [4380, 720, 168]
-                : [3, 6, 12, 24, 48, 72];
-  if(s.validite !== -1 && valOpts.indexOf(s.validite) < 0) valOpts.push(s.validite);
-  valOpts.sort((a, b) => a - b);
-
-  const role = s.procheRole || contDefaultRole();
-  const R = CONT_REF.reperes;
-
+  const onMotifs = CONT_REF.motifs.filter(m => s.motifs[m.id]);
+  const p = CONT_PRESETS.find(x => x.id === s.preset);
   return `
-    <div class="tc-card tc-blue">
-      <p class="tc-card-title">1. Le résident et le contexte</p>
-      <div class="tc-idbar">
-        <label>Résident<input type="text" class="tc-in" value="${contVal(s.resident)}" oninput="contSet('resident', this.value)" placeholder="Nom et prénom" /></label>
-        <label>Né(e) le<input type="text" class="tc-in" value="${contVal(s.naissance)}" oninput="contSet('naissance', this.value)" placeholder="jj/mm/aaaa (facultatif)" /></label>
-      </div>
-      <div class="tc-idbar">
-        <label>Établissement<input type="text" class="tc-in" value="${contVal(s.etabNom)}" oninput="contSet('etabNom', this.value)" placeholder="Nom de l'établissement" /></label>
-        <label>Type d'établissement<select class="tc-in" onchange="contSet('etab', this.value, true)">
-          ${Object.keys(CONT_REF.cadres).map(k => contOpt(k, CONT_REF.cadres[k].label, s.etab)).join("")}
-        </select></label>
-      </div>
-      <div class="tc-idbar">
-        <label>Médecin prescripteur<input type="text" class="tc-in" value="${contVal(s.prescripteur)}" oninput="contSet('prescripteur', this.value)" placeholder="Dr …" /></label>
-        <label>Mesure de protection juridique<select class="tc-in" onchange="contSet('protection', this.value, true)">
-          ${Object.keys(CONT_REF.protection).map(k => contOpt(k, CONT_REF.protection[k].label, s.protection)).join("")}
-        </select></label>
-      </div>
+    <div class="tc-card tc-purple">
+      <p class="tc-head">La mesure</p>
+      ${typeSelect}
+      ${t ? `<p class="cont-nature" style="--pill:${nc.pill};--pillbg:${nc.pillbg}"><strong>${nat.label}</strong> — ${nat.regle}</p>
+        ${contSrcHTML(t.nsrc.concat(nat.src))}
+        ${t.note ? `<p class="tc-note">${t.note}</p>` : ""}
+        <label class="tc-field cont-field-full"><span>Matériel (facultatif)</span><input type="text" class="tc-in" value="${contVal(s.materiel)}" oninput="contSet('materiel', this.value)" placeholder="Référence, taille…" /></label>
+        ${t.securite.length ? `<details class="cont-details"><summary>Consignes de sécurité du matériel (${t.securite.length}) — reprises automatiquement dans la prescription</summary>
+          <ul class="cont-ul">${t.securite.map(x => `<li>${x.t}</li>`).join("")}</ul>${contSrcHTML([].concat.apply([], t.securite.map(x => x.s)))}</details>` : ""}`
+       : `<p class="tc-note">Choisis la mesure la moins restrictive possible.</p>`}
+      <p class="tc-head">Contexte</p>
       <div class="cont-radio">
         <label class="${s.contexte === "programme" ? "cont-radio-on" : ""}"><input type="radio" name="contCtx" ${s.contexte === "programme" ? "checked" : ""} onchange="contSet('contexte','programme', true)" /> Décision programmée</label>
         <label class="${s.contexte === "urgence" ? "cont-radio-on cont-radio-hot" : ""}"><input type="radio" name="contCtx" ${s.contexte === "urgence" ? "checked" : ""} onchange="contSet('contexte','urgence', true)" /> Urgence</label>
       </div>
     </div>
-
-    <div class="tc-card tc-purple">
-      <p class="tc-card-title">2. La mesure</p>
-      ${typeSelect}
-      ${t ? `
-        <p class="cont-nature" style="--pill:${nc.pill};--pillbg:${nc.pillbg}"><strong>${nat.label}</strong><br>${nat.regle}</p>
-        ${contSrcHTML(t.nsrc.concat(nat.src))}
-        ${t.note ? `<p class="tc-note">${t.note}</p>${contSrcHTML(t.notesrc)}` : ""}
-        <label class="tc-field cont-field-full"><span>Matériel (référence, taille)</span><input type="text" class="tc-in" value="${contVal(s.materiel)}" oninput="contSet('materiel', this.value)" placeholder="Ex. : ceinture pelvienne taille M, réf. …" /></label>
-        ${t.securite.length ? `<p class="tc-head">Sécurité du matériel</p><ul class="cont-ul">${t.securite.map(x => `<li>${x.t}</li>`).join("")}</ul>${contSrcHTML([].concat.apply([], t.securite.map(x => x.s)))}` : ""}
-      ` : `<p class="tc-note">Le menu regroupe les mesures au lit, au fauteuil, sur les membres, en chambre, de liberté d'aller et venir, et les mesures de positionnement ou de prévention.</p>`}
-    </div>
-
-    ${t ? `
     <div class="tc-card tc-amber">
-      <p class="tc-card-title">3. Motif et danger</p>
-      ${motifsHTML}
-      <label class="tc-field cont-field-col"><span>Danger identifié, situation</span>
-        <textarea class="tc-avis-area cont-area" rows="3" oninput="contSet('danger', this.value)" placeholder="Ce qui s'est passé, pour qui le danger, à quelle fréquence…">${contVal(s.danger)}</textarea></label>
-    </div>
+      <p class="tc-head">Motif</p>
+      <div class="cont-chips">${motifs}</div>
+      ${onMotifs.map(m => `<p class="cont-motif-txt"><strong>${m.label} :</strong> ${m.texte}</p>`).join("")}
+      ${contSrcHTML([].concat.apply([], onMotifs.map(m => m.src)))}
+      <label class="tc-field cont-field-col"><span>Danger constaté (en une phrase)</span>
+        <textarea class="tc-avis-area cont-area" rows="2" oninput="contSet('danger', this.value)" placeholder="${escapeHtml(p && p.danger ? p.danger : "Ce qui s'est passé, pour qui le danger, à quelle fréquence…")}">${contVal(s.danger)}</textarea></label>
+    </div>`;
+}
 
-    ${nature !== "prevention" ? `
+function contStep2(s, t, p){
+  if(!t) return `<div class="tc-card"><p class="tc-note">Choisis d'abord la mesure (étape 1).</p></div>`;
+  const role = s.procheRole || contDefaultRole();
+  const sugg = p ? p.alts : [];
+  const alts = CONT_REF.alternatives.map((a, i) => {
+    const on = !!s.alts[i];
+    return `<label class="cont-chip ${on ? "cont-chip-on" : ""} ${sugg.indexOf(i) >= 0 && !on ? "cont-chip-sugg" : ""}"><input type="checkbox" ${on ? "checked" : ""} onchange="contToggle('alts','${i}')" />${a.t}</label>`;
+  }).join("");
+  const eq = s.equipe.split(",").map(x => x.trim());
+  return `
+    ${t.nature !== "prevention" ? `
     <div class="tc-card tc-green">
-      <p class="tc-card-title">4. Alternatives tentées et évaluation en équipe</p>
-      ${altsHTML}
+      <p class="tc-head">Alternatives tentées</p>
+      ${sugg.length ? `<div class="cont-suggest"><span>Les plus fréquentes pour cette situation sont surlignées.</span>
+        <button type="button" class="cont-link" onclick="contSuggestAlts()">Cocher celles qui ont été tentées ✓</button></div>` : ""}
+      <div class="cont-chips">${alts}</div>
       <label class="tc-field cont-field-full"><span>Autre</span><input type="text" class="tc-in" value="${contVal(s.altAutre)}" oninput="contSet('altAutre', this.value)" /></label>
+      <p class="tc-head">Bénéfice/risque apprécié avec</p>
+      <div class="cont-chips">${CONT_EQUIPE.map(x => `<button type="button" class="cont-chip ${eq.indexOf(x) >= 0 ? "cont-chip-on" : ""}" onclick="contAddEquipe('${x.replace(/'/g, "\\'")}')">${x}</button>`).join("")}</div>
       ${contSrcHTML(["ANAES2000", "AFSSAPS2006", "CC2004"])}
-      <label class="tc-field cont-field-full"><span>Bénéfice/risque apprécié avec</span><input type="text" class="tc-in" value="${contVal(s.equipe)}" oninput="contSet('equipe', this.value)" placeholder="IDEC, IDE, AS, psychologue, ergothérapeute…" /></label>
     </div>` : ""}
-
-    <div class="tc-card tc-blue">
-      <p class="tc-card-title">${nature === "prevention" ? "4" : "5"}. Durée et période</p>
-      <div class="tc-idbar">
-        <label>Début<input type="datetime-local" class="tc-in" value="${contVal(s.debut)}" onchange="contSet('debut', this.value)" /></label>
-        <label>Validité<select class="tc-in" onchange="contSet('validite', this.value, true)">
-          ${valOpts.map(v => contOpt(v, contDureeLabel(v), s.validite)).join("")}
-          ${contOpt(-1, "Autre (en heures)", s.validite)}
-        </select></label>
-      </div>
-      ${s.validite === -1 ? `<label class="tc-field cont-field-full"><span>Validité en heures</span><input type="number" min="1" class="tc-in" value="${contVal(s.validiteAutre)}" oninput="contSet('validiteAutre', this.value)" /></label>` : ""}
-      <p class="tc-note">${nature === "lav" && t.id === "acces_controle" ? R.annexe.texte : nature === "prevention" ? "Durée non fixée par les sources consultées pour ces mesures : préciser la réévaluation." : R.validite.texte}</p>
-      ${contSrcHTML(nature === "lav" && t.id === "acces_controle" ? R.annexe.src : nature === "prevention" ? [] : R.validite.src)}
-      <div class="tc-idbar">
-        <label>Période d'application<select class="tc-in" onchange="contSet('periode', this.value, true)">
-          ${contOpt("continu", "En continu", s.periode)}
-          ${contOpt("nuit", "La nuit", s.periode)}
-          ${contOpt("jour", "En journée", s.periode)}
-          ${contOpt("ponctuel", "Ponctuellement", s.periode)}
-        </select></label>
-        ${s.periode === "nuit" || s.periode === "jour" ? `
-          <label>De<input type="time" class="tc-in" value="${contVal(s.de)}" onchange="contSet('de', this.value)" /></label>
-          <label>À<input type="time" class="tc-in" value="${contVal(s.a)}" onchange="contSet('a', this.value)" /></label>` : ""}
-        ${s.periode === "ponctuel" ? `<label>Lors de<input type="text" class="tc-in" value="${contVal(s.ponctuel)}" oninput="contSet('ponctuel', this.value)" placeholder="la toilette, les repas…" /></label>` : ""}
-      </div>
-    </div>
-
-    <div class="tc-card tc-amber">
-      <p class="tc-card-title">${nature === "prevention" ? "5" : "6"}. Surveillance</p>
-      <div class="tc-idbar">
-        <label>Contrôle toutes les<select class="tc-in" onchange="contSet('controle', this.value, true)">
-          ${[15, 30, 60, 120, 180, 240].map(v => contOpt(v, contFreqLabel(v), s.controle)).join("")}
-        </select></label>
-        <label>Levée / mobilisation toutes les<select class="tc-in" onchange="contSet('levee', this.value, true)">
-          ${[60, 120, 180, 240, 360].map(v => contOpt(v, contFreqLabel(v), s.levee)).join("")}
-        </select></label>
-        <label>Réévaluation médicale<select class="tc-in" onchange="contSet('reeval', this.value, true)">
-          ${[12, 24, 48, 72, 168].map(v => contOpt(v, "toutes les " + contDureeLabel(v), s.reeval)).join("")}
-        </select></label>
-      </div>
-      <p class="tc-head">Réalisée par</p>
-      <div class="cont-chips">
-        ${Object.keys(CONT_QUI).map(k => `<label class="cont-chip ${s.qui[k] ? "cont-chip-on" : ""}"><input type="checkbox" ${s.qui[k] ? "checked" : ""} onchange="contToggle('qui','${k}')" />${CONT_QUI[k]}</label>`).join("")}
-      </div>
-      <p class="tc-note"><strong>Points de contrôle :</strong> ${R.controle.points.join(" · ")}. ${R.soins.texte}</p>
-      ${contSrcHTML(R.controle.src.concat(R.levee.src, R.reevaluation.src, R.soins.src))}
-      ${nature !== "passive" ? `<p class="tc-note">Ces fréquences sont les repères de la contention physique ; pour cette mesure, les sources consultées n'en fixent pas : à adapter.</p>` : ""}
-    </div>
-
     <div class="tc-card tc-slate">
-      <p class="tc-card-title">${nature === "prevention" ? "6" : "7"}. Information et consentement</p>
-      <label class="tc-field cont-field-full"><span>Le résident</span><select class="tc-in" onchange="contSet('infoRes', this.value)">
-        ${contOpt("", "—", s.infoRes)}
-        ${Object.keys(CONT_INFO_RES).map(k => contOpt(k, CONT_INFO_RES[k], s.infoRes)).join("")}
-      </select></label>
+      <p class="tc-head">Information du résident</p>
+      <div class="cont-chips">
+        ${Object.keys(CONT_INFO_RES).map(k => `<label class="cont-chip ${s.infoRes === k ? "cont-chip-on" : ""}"><input type="radio" name="contInfo" ${s.infoRes === k ? "checked" : ""} onchange="contSet('infoRes','${k}', true)" />${CONT_INFO_RES[k]}</label>`).join("")}
+      </div>
+      <p class="tc-head">Proche informé</p>
       <div class="tc-idbar">
         <label>Qui<select class="tc-in" onchange="contSet('procheRole', this.value)">
           ${Object.keys(CONT_ROLES).map(k => contOpt(k, CONT_ROLES[k], role)).join("")}
         </select></label>
         <label>Nom<input type="text" class="tc-in" value="${contVal(s.procheNom)}" oninput="contSet('procheNom', this.value)" /></label>
       </div>
-      <div class="tc-idbar">
-        <label>Information<select class="tc-in" onchange="contSet('procheStatut', this.value, true)">
-          ${contOpt("", "—", s.procheStatut)}
-          ${Object.keys(CONT_STATUT_PROCHE).map(k => contOpt(k, CONT_STATUT_PROCHE[k], s.procheStatut)).join("")}
-        </select></label>
-        ${s.procheStatut === "informe" ? `
-          <label>Le<input type="date" class="tc-in" value="${contVal(s.procheDate)}" onchange="contSet('procheDate', this.value)" /></label>
-          <label>Par<input type="text" class="tc-in" value="${contVal(s.procheQui)}" oninput="contSet('procheQui', this.value)" placeholder="Dr …, IDEC…" /></label>` : ""}
+      <div class="cont-chips">
+        ${Object.keys(CONT_STATUT_PROCHE).map(k => `<label class="cont-chip ${s.procheStatut === k ? "cont-chip-on" : ""}"><input type="radio" name="contProche" ${s.procheStatut === k ? "checked" : ""} onchange="contSet('procheStatut','${k}', true)" />${CONT_STATUT_PROCHE[k]}</label>`).join("")}
       </div>
-      <label class="tc-field cont-field-full"><span>Avis des proches</span><select class="tc-in" onchange="contSet('procheAvis', this.value)">
-        ${contOpt("", "—", s.procheAvis)}
-        ${Object.keys(CONT_AVIS).map(k => contOpt(k, CONT_AVIS[k], s.procheAvis)).join("")}
-      </select></label>
-      <p class="tc-note">${CONT_REF.information.texte} ${CONT_REF.cadres[s.etab].texte}${s.protection !== "aucune" ? " " + CONT_REF.protection[s.protection].texte : ""}</p>
-      ${contSrcHTML(CONT_REF.information.src.concat(CONT_REF.cadres[s.etab].src, s.protection !== "aucune" ? CONT_REF.protection[s.protection].src : []))}
-    </div>
+      ${s.procheStatut === "informe" ? `<div class="tc-idbar">
+          <label>Le<input type="date" class="tc-in" value="${contVal(s.procheDate)}" onchange="contSet('procheDate', this.value)" /></label>
+          <label>Par<input type="text" class="tc-in" value="${contVal(s.procheQui)}" oninput="contSet('procheQui', this.value)" placeholder="Dr …, IDEC…" /></label>
+          <label>Avis<select class="tc-in" onchange="contSet('procheAvis', this.value)">
+            ${contOpt("", "—", s.procheAvis)}
+            ${Object.keys(CONT_AVIS).map(k => contOpt(k, CONT_AVIS[k], s.procheAvis)).join("")}
+          </select></label>
+        </div>` : ""}
+      <details class="cont-details"><summary>Ce que disent les textes pour ce cadre</summary>
+        <p class="tc-note">${CONT_REF.information.texte} ${CONT_REF.cadres[s.etab].texte}${s.protection !== "aucune" ? " " + CONT_REF.protection[s.protection].texte : ""}</p>
+        ${contSrcHTML(CONT_REF.information.src.concat(CONT_REF.cadres[s.etab].src, s.protection !== "aucune" ? CONT_REF.protection[s.protection].src : []))}
+      </details>
+    </div>`;
+}
 
-    <div class="tc-card tc-avis">
-      <p class="tc-card-title">Observations</p>
-      <textarea class="tc-avis-area" rows="4" oninput="contSet('obs', this.value)" placeholder="Précisions, motivation d'un écart aux repères, consignes particulières…">${contVal(s.obs)}</textarea>
+function contStep3(s, t){
+  if(!t) return `<div class="tc-card"><p class="tc-note">Choisis d'abord la mesure (étape 1).</p></div>`;
+  const nature = t.nature;
+  const R = CONT_REF.reperes;
+  const valOpts = nature === "prevention" ? [0, 24, 168, 720]
+                : t.id === "acces_controle" ? [4380, 720, 168]
+                : [3, 6, 12, 24, 48, 72];
+  if(s.validite !== -1 && valOpts.indexOf(s.validite) < 0) valOpts.push(s.validite);
+  valOpts.sort((a, b) => a - b);
+  const qui = Object.keys(CONT_QUI).filter(k => s.qui[k]).map(k => CONT_QUI[k]);
+  const resume = nature === "passive"
+    ? `Validité <strong>${contDureeLabel(contValiditeH())}</strong> · contrôle toutes les <strong>${contFreqLabel(s.controle)}</strong> · levée toutes les <strong>${contFreqLabel(s.levee)}</strong> · réévaluation médicale toutes les <strong>${contDureeLabel(s.reeval)}</strong> · ${contPeriodeLabel()}${qui.length ? " · par " + qui.join(", ") : ""}.`
+    : `${contPeriodeLabel()} · réévaluation : <strong>${contDureeLabel(contValiditeH())}</strong>${qui.length ? " · surveillance par " + qui.join(", ") : ""}.`;
+  return `
+    <div class="tc-card tc-blue">
+      <p class="cont-resume">✓ Repères appliqués : ${resume}</p>
+      <div class="tc-idbar">
+        <label>Début<input type="datetime-local" class="tc-in" value="${contVal(s.debut)}" onchange="contSet('debut', this.value, true)" /></label>
+        <label>${t.id === "acces_controle" ? "Réévaluation" : "Validité"}<select class="tc-in" onchange="contSet('validite', this.value, true)">
+          ${valOpts.map(v => contOpt(v, contDureeLabel(v), s.validite)).join("")}
+          ${contOpt(-1, "Autre (en heures)", s.validite)}
+        </select></label>
+        ${s.validite === -1 ? `<label>En heures<input type="number" min="1" class="tc-in" value="${contVal(s.validiteAutre)}" oninput="contSet('validiteAutre', this.value)" /></label>` : ""}
+      </div>
+      <div class="tc-idbar">
+        <label>Période<select class="tc-in" onchange="contSet('periode', this.value, true)">
+          ${contOpt("continu", "En continu", s.periode)}
+          ${contOpt("nuit", "La nuit", s.periode)}
+          ${contOpt("jour", "En journée", s.periode)}
+          ${contOpt("ponctuel", "Ponctuellement", s.periode)}
+        </select></label>
+        ${s.periode === "nuit" || s.periode === "jour" ? `
+          <label>De<input type="time" class="tc-in" value="${contVal(s.de)}" onchange="contSet('de', this.value, true)" /></label>
+          <label>À<input type="time" class="tc-in" value="${contVal(s.a)}" onchange="contSet('a', this.value, true)" /></label>` : ""}
+        ${s.periode === "ponctuel" ? `<label>Lors de<input type="text" class="tc-in" value="${contVal(s.ponctuel)}" oninput="contSet('ponctuel', this.value)" placeholder="la toilette, les repas…" /></label>` : ""}
+      </div>
+      <div class="tc-idbar">
+        <label>Contrôle toutes les<select class="tc-in" onchange="contSet('controle', this.value, true)">
+          ${[15, 30, 60, 120, 180, 240].map(v => contOpt(v, v === 60 ? "1 h" : contFreqLabel(v), s.controle)).join("")}
+        </select></label>
+        <label>Levée toutes les<select class="tc-in" onchange="contSet('levee', this.value, true)">
+          ${[60, 120, 180, 240, 360].map(v => contOpt(v, v === 60 ? "1 h" : contFreqLabel(v), s.levee)).join("")}
+        </select></label>
+        <label>Réévaluation médicale<select class="tc-in" onchange="contSet('reeval', this.value, true)">
+          ${[12, 24, 48, 72, 168].map(v => contOpt(v, "toutes les " + contDureeLabel(v), s.reeval)).join("")}
+        </select></label>
+      </div>
+      <p class="tc-head">Surveillance réalisée par</p>
+      <div class="cont-chips">
+        ${Object.keys(CONT_QUI).map(k => `<label class="cont-chip ${s.qui[k] ? "cont-chip-on" : ""}"><input type="checkbox" ${s.qui[k] ? "checked" : ""} onchange="contToggle('qui','${k}')" />${CONT_QUI[k]}</label>`).join("")}
+      </div>
+      <details class="cont-details"><summary>Repères et points de contrôle</summary>
+        <p class="tc-note">${nature === "lav" && t.id === "acces_controle" ? R.annexe.texte : nature === "prevention" ? "Durée non fixée par les sources consultées pour ces mesures : préciser la réévaluation." : R.validite.texte}</p>
+        <p class="tc-note"><strong>Points de contrôle :</strong> ${R.controle.points.join(" · ")}. ${R.soins.texte}</p>
+        ${nature !== "passive" ? `<p class="tc-note">Les fréquences de contrôle et de levée sont les repères de la contention physique ; pour cette mesure, les sources consultées n'en fixent pas : à adapter.</p>` : ""}
+        ${contSrcHTML(R.validite.src.concat(R.controle.src, R.levee.src, R.reevaluation.src, R.soins.src))}
+      </details>
     </div>
-    ` : ""}
-  `;
+    <div class="tc-card tc-avis">
+      <p class="tc-head">Observations (facultatif)</p>
+      <textarea class="tc-avis-area" rows="3" oninput="contSet('obs', this.value)" placeholder="Précisions, motivation d'un écart aux repères, consignes particulières…">${contVal(s.obs)}</textarea>
+    </div>`;
 }
 
 /* ------------------------------------------------------------ document */
@@ -11395,7 +11910,7 @@ function renderContResult(){
   const s = contS();
   const t = contType();
   if(!t){
-    out.innerHTML = `<div class="empty-state">Choisis une mesure dans le menu « 2. La mesure » pour construire la prescription.</div>`;
+    out.innerHTML = `<div class="empty-state">Choisis la mesure (étape 1) pour construire la prescription.</div>`;
     return;
   }
   const alerts = contAlerts();
@@ -11616,7 +12131,7 @@ async function contPdf(){
 
     const bytes = await pdfDoc.save();
     const nom = (contS().resident.trim() || "resident").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-zA-Z0-9]+/g, "_");
-    triggerDownload(new Blob([bytes], { type: "application/pdf" }), "Contention_" + contType().id + "_" + nom + "_" + new Date().toISOString().slice(0, 10) + ".pdf");
+    triggerDownload(new Blob([bytes], { type: "application/pdf" }), "Contention_" + contType().id + "_" + nom + "_" + new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10) + ".pdf");
     btn.textContent = "Fait ✓";
     setTimeout(() => { btn.textContent = original; }, 1800);
   }catch(e){
@@ -12187,6 +12702,647 @@ async function certPdf(){
 window.certPdf = certPdf;
 
 
+/* =====================================================================
+   PRESCRIPTION MÉDICALE DE TRANSPORT — outil de remplissage guidé
+   Remplit les champs du formulaire officiel (Cerfa n° 11574, volets 1 à 3,
+   fichier « Bon_de_Transport_Vierge.pdf » du site) et produit une note
+   courte pour le dossier. Règles : notice officielle S3138f (au dos du
+   Cerfa), référentiel de prescription des transports (arrêté du
+   23/12/2006), ameli.fr, décret n° 2026-812 du 21/08/2026.
+   Rien n'est enregistré ni envoyé sur Internet.
+   ===================================================================== */
+const PMT_SRC = {
+  NOTICE: { c: "Notice S3138f", l: "Notice officielle de la prescription médicale de transport (n° 50742#06, S3138f), jointe au Cerfa.", u: "administratif/Bon_de_Transport_Vierge.pdf" },
+  REF2006: { c: "Référentiel 2006", l: "Arrêté du 23 décembre 2006 fixant le référentiel de prescription des transports (JO du 30/12/2006).", u: "https://www.admi.net/jo/20061230/SANS0624760A.html" },
+  AMELI: { c: "ameli, prescription de transport", l: "Assurance Maladie, « Prescription de transport » (médecin), mise à jour du 05/03/2025.", u: "https://www.ameli.fr/medecin/exercice-liberal/presciption-prise-charge/regles-de-prescription-et-formalites/prescription-transports" },
+  PARTAGE: { c: "Transport partagé (décret 2025-202)", l: "LFSS 2024, art. 69 ; décret n° 2025-202 du 28/02/2025 ; ameli : le transport partagé est la règle pour le transport assis professionnalisé.", u: "https://www.ameli.fr/medecin/exercice-liberal/presciption-prise-charge/regles-de-prescription-et-formalites/prescription-transports" },
+  TPMR: { c: "ameli, TPMR", l: "Assurance Maladie, transport de personnes à mobilité réduite (avenant 9 à la convention des transporteurs sanitaires).", u: "https://www.ameli.fr/transporteur-sanitaire/exercice-professionnel/facturation/transport-de-personnes-mobilite-reduite" },
+  D2026: { c: "Décret 2026-812", l: "Décret n° 2026-812 du 21/08/2026 : à compter du 1er octobre 2026, prise en charge des transports liés à une ALD réservée aux ALD exonérantes (texte à relire sur Légifrance).", u: "https://questions.assemblee-nationale.fr/q17/17-18100QE.htm" },
+  DAP: { c: "ameli, accord préalable", l: "Assurance Maladie, accord préalable de transport (mise à jour du 10/12/2024).", u: "https://www.ameli.fr/medecin/exercice-liberal/accord-prealable/accord-prealable-transport" }
+};
+
+const PMT_AMB = [
+  { id: "allonge", t: "Position obligatoirement allongée ou demi-assise", f: "position allongée ou demiassise" },
+  { id: "surv", t: "Surveillance par une personne qualifiée", f: "surveillance par une personne qualifiée" },
+  { id: "o2", t: "Administration d'oxygène", f: "dadministration doxygène" },
+  { id: "brancard", t: "Brancardage ou portage", f: "brancardage ou dun portage" },
+  { id: "asepsie", t: "Conditions d'asepsie", f: "aseptie rigoureuse" }
+];
+const PMT_TAP = [
+  { id: "physique", t: "Déficience physique : aide au déplacement (technique ou humaine), sans brancardage ni portage" },
+  { id: "psychique", t: "Déficience intellectuelle ou psychique : aide d'une tierce personne pour transmettre les informations à l'équipe soignante" },
+  { id: "hygiene", t: "Respect rigoureux des règles d'hygiène" },
+  { id: "infectieux", t: "Prévention du risque infectieux (désinfection rigoureuse du véhicule)" },
+  { id: "effets", t: "Traitement ou affection pouvant occasionner des effets secondaires pendant le transport" }
+];
+const PMT_MODES = {
+  ambulance: "Ambulance",
+  tap: "Transport assis professionnalisé (VSL, taxi conventionné)",
+  individuel: "Moyen de transport individuel",
+  commun: "Transport en commun terrestre"
+};
+const PMT_ETAB = {
+  ehpad: "EHPAD", usld: "USLD", mas: "MAS", fam: "FAM / EAM", ime: "IME / IEM", domicile: "Domicile / autre"
+};
+const PMT_MOTIFS = ["Consultation spécialisée", "Hospitalisation programmée", "Hospitalisation de jour", "Séance de dialyse",
+  "Séance de chimiothérapie", "Séance de radiothérapie", "Examen d'imagerie", "Rééducation"];
+
+function pmtToday(){ const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); }
+
+function pmtDefault(){
+  return {
+    nom: "", nir: "", naissance: "", organisme: "", adresse: "",
+    assureDiff: false, assureNom: "", assureNir: "",
+    tiers: "", tiersDate: "",
+    etab: "ehpad", etabNom: "", etabAdresse: "",
+    hosp: false, ald: "", maternite: false, atmp: false, atmpDate: "",
+    amb: {}, tap: {}, mode: "",
+    partageKo: false, tpmr: false, accompagnant: false,
+    depart: "etab", departAutre: "", departSoins: "",
+    arrivee: "soins", arriveeAutre: "", arriveeSoins: "",
+    ar: true, iteratifs: "", urgence: false, autres: false,
+    motif: "", maladiesRares: false,
+    exo: "", pension: "",
+    km150: false, serie: false, avion: false, camsp: false,
+    prescripteurSoins: "",
+    presNom: "", rpps: "", presStruct: "", presAdresse: "", presNum: "", date: pmtToday(),
+    notice: false, aide: false
+  };
+}
+function pmtS(){ if(!state.pmt) state.pmt = pmtDefault(); return state.pmt; }
+
+function pmtSet(field, value, full){
+  const s = pmtS();
+  s[field] = value;
+  if(field === "etab" && value === "domicile" && s.depart === "etab") s.depart = "domicile";
+  if(full) renderPmtPanel(); else renderPmtResult();
+}
+function pmtToggle(group, key){
+  const s = pmtS();
+  if(group){ s[group][key] = !s[group][key]; if(!s[group][key]) delete s[group][key]; }
+  else s[key] = !s[key];
+  renderPmtPanel();
+}
+function pmtReset(){ state.pmt = pmtDefault(); renderPmtPanel(); }
+function pmtAddMotif(m){
+  const s = pmtS();
+  s.motif = s.motif.trim() ? s.motif.trim().replace(/[.;,]?$/, "") + " ; " + m : m;
+  renderPmtPanel();
+}
+function pmtToggleHelp(){ pmtS().aide = !pmtS().aide; renderPmtResult(); }
+window.pmtSet = pmtSet; window.pmtToggle = pmtToggle; window.pmtReset = pmtReset;
+window.pmtAddMotif = pmtAddMotif; window.pmtToggleHelp = pmtToggleHelp;
+
+/* ------------------------------------------------------------ logique */
+function pmtSuggested(){
+  const s = pmtS();
+  if(Object.keys(s.amb).length) return "ambulance";
+  if(Object.keys(s.tap).length) return "tap";
+  return "individuel";
+}
+function pmtMode(){ return pmtS().mode || pmtSuggested(); }
+function pmtHasSituation(){
+  const s = pmtS();
+  return s.hosp || !!s.ald || s.maternite || s.atmp;
+}
+function pmtDigits(v){ return String(v || "").replace(/\D/g, ""); }
+function pmtDateDigits(v){
+  if(!v) return "";
+  const m = String(v).trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m) return m[3] + m[2] + m[1];
+  const p = String(v).trim().split(/[\/\-. ]/);
+  if(p.length === 3){
+    let y = p[2]; if(y.length === 2) y = (parseInt(y, 10) > 30 ? "19" : "20") + y;
+    return p[0].padStart(2, "0") + p[1].padStart(2, "0") + y;
+  }
+  return pmtDigits(v).slice(0, 8);
+}
+function pmtFmtDate(v){ const d = pmtDateDigits(v); return d.length === 8 ? d.slice(0, 2) + "/" + d.slice(2, 4) + "/" + d.slice(4) : ""; }
+function pmtEtabLieu(){ const s = pmtS(); return [s.etabNom.trim(), s.etabAdresse.trim()].filter(Boolean).join(", "); }
+
+function pmtAlerts(){
+  const s = pmtS();
+  const mode = pmtMode();
+  const out = [];
+  if(s.km150 || s.serie || s.avion || s.camsp){
+    out.push({ lvl: "hot", t: "Ce transport relève de la demande d'accord préalable (formulaire « Demande d'accord préalable — prescription médicale de transport », S3139) et non de ce Cerfa : plus de 150 km, série de plus de 50 km, avion ou bateau de ligne, CAMSP ou CMPP. Sans réponse sous 15 jours, l'accord est réputé acquis.", s: ["NOTICE", "DAP"] });
+  }
+  if(s.prescripteurSoins === "non"){
+    out.push({ lvl: "hot", t: "La prescription est remplie et signée par le prescripteur des soins : le médecin traitant ne doit pas la remplir s'il n'est pas lui-même le prescripteur des soins concernés.", s: ["NOTICE"] });
+  }
+  if(!pmtHasSituation() && mode !== "ambulance"){
+    out.push({ lvl: "hot", t: "Aucune situation de prise en charge cochée : hors de ces situations, le transport n'est pas pris en charge (l'ambulance peut l'être pour ses seuls critères).", s: ["NOTICE", "AMELI"] });
+  }
+  if(!pmtHasSituation() && mode === "ambulance"){
+    out.push({ lvl: "info", t: "Ambulance : prise en charge possible sur ses seuls critères, mais préciser aussi la situation si le patient en relève.", s: ["NOTICE"] });
+  }
+  const today = s.date || pmtToday();
+  if(s.ald === "nonexo"){
+    if(today >= "2026-10-01") out.push({ lvl: "hot", t: "Depuis le 1er octobre 2026, la prise en charge au titre de l'ALD est réservée aux ALD exonérantes : une ALD non exonérante ne suffit plus.", s: ["D2026"] });
+    else out.push({ lvl: "warn", t: "À partir du 1er octobre 2026, la prise en charge au titre de l'ALD sera réservée aux ALD exonérantes.", s: ["D2026"] });
+  }
+  if(s.ald && !Object.keys(s.amb).length && !Object.keys(s.tap).length){
+    out.push({ lvl: "warn", t: "ALD : le transport doit être lié aux soins de l'ALD ET le patient doit présenter une déficience ou une incapacité du référentiel (critères ambulance ou transport assis ci-dessus).", s: ["NOTICE", "REF2006"] });
+  }
+  if(s.mode && s.mode !== pmtSuggested()){
+    const lvl = (s.mode === "ambulance" && !Object.keys(s.amb).length) || (s.mode === "tap" && !Object.keys(s.tap).length && !Object.keys(s.amb).length) ? "hot" : "info";
+    out.push({ lvl, t: "Mode choisi différent du mode suggéré par les critères cochés. Seul le transport le moins onéreux compatible avec l'état du patient est pris en charge.", s: ["NOTICE", "REF2006"] });
+  }
+  if(mode === "tap" && !s.partageKo){
+    out.push({ lvl: "info", t: "Transport partagé : c'est la règle pour le transport assis professionnalisé. Informer le patient ; s'il refuse sans que son état le justifie, le tiers payant ne s'applique plus.", s: ["PARTAGE"] });
+  }
+  if(mode === "tap" && s.partageKo){
+    out.push({ lvl: "info", t: "Case « état incompatible avec un transport partagé » : à cocher seulement si l'état de santé du patient le justifie.", s: ["PARTAGE"] });
+  }
+  if(s.tpmr){
+    out.push({ lvl: "info", t: "TPMR : le patient voyage dans son propre fauteuil roulant ; un transfert vers un siège du véhicule exclut ce mode.", s: ["TPMR"] });
+  }
+  if(!s.motif.trim()){
+    out.push({ lvl: "warn", t: "Éléments d'ordre médical vides : préciser la nature de l'examen ou des soins justifiant le déplacement (destiné au médecin-conseil).", s: ["NOTICE"] });
+  }
+  if(s.urgence){
+    out.push({ lvl: "info", t: "Urgence (centre 15) : la prescription peut être remplie a posteriori par un médecin de la structure de soins où le patient s'est rendu.", s: ["NOTICE", "AMELI"] });
+  }
+  if(s.etab === "ehpad" || s.etab === "usld"){
+    out.push({ lvl: "info", t: (s.etab === "ehpad" ? "EHPAD" : "USLD") + " : les transports depuis ou vers l'établissement sont pris en charge par l'Assurance Maladie dans les conditions ci-dessus (sauf permission de moins de 48 h).", s: ["NOTICE"] });
+  }
+  if(s.etab === "ime"){
+    out.push({ lvl: "warn", t: "IME / IEM : une partie des transports des enfants relève du budget de l'établissement (réponse ministérielle de 2010, non relue) : vérifier avec la direction avant de prescrire.", s: [] });
+  }
+  return out;
+}
+
+function pmtSrcHTML(keys){
+  const seen = [];
+  (keys || []).forEach(k => { if(PMT_SRC[k] && seen.indexOf(k) < 0) seen.push(k); });
+  if(!seen.length) return "";
+  return `<p class="cont-src">Sources : ${seen.map(k => `<a href="${PMT_SRC[k].u}" target="_blank" rel="noopener" title="${escapeHtml(PMT_SRC[k].l)}">${escapeHtml(PMT_SRC[k].c)}</a>`).join(" · ")}</p>`;
+}
+
+/* ------------------------------------------------------------ rendu */
+function renderPmtPanel(){
+  const cat = CATEGORIES.find(c => c.id === "administratif");
+  const c = colorVars(cat.color);
+  contentEl.innerHTML = `
+    <button type="button" class="back-btn" onclick="closeDoc()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <div class="tool-hero" style="--pill:${c.pill}">
+        <span class="tool-hero-icon">🚑</span>
+        <div class="tool-hero-body">
+          <p class="tool-hero-title">Prescription médicale de transport</p>
+          <p class="tool-hero-sub">Coche la situation et l'état du patient : l'outil propose le mode de transport justifié par le référentiel, signale les pièges, puis remplit le Cerfa officiel (volets 1 à 3), prêt à signer.</p>
+          <div class="tool-hero-stats">
+            <span class="tool-hero-stat">Cerfa pré-rempli</span>
+            <span class="tool-hero-stat">Aide au choix du mode</span>
+            <span class="tool-hero-stat">Note pour le dossier</span>
+          </div>
+        </div>
+      </div>
+      <div class="bio-layout cont-layout">
+        <div class="bio-layout-left cont-form">${pmtFormHTML()}</div>
+        <div class="bio-layout-right"><div id="pmtResult" class="cont-result-scroll"></div></div>
+      </div>
+      <p class="doc-meta cont-meta">Formulaire rempli : Cerfa n° 11574*06 (notice S3138f), celui du site. Service-public.fr annonce une version 11574*07 : le fichier sera remplacé dès réception du formulaire officiel à jour. La prescription électronique (amelipro ou logiciel métier) reste possible. Rien n'est enregistré ni envoyé sur Internet.</p>
+    </div>`;
+  renderPmtResult();
+}
+
+function pmtChip(on, onchange, label, type, name){
+  return `<label class="cont-chip ${on ? "cont-chip-on" : ""}"><input type="${type || "checkbox"}" ${name ? `name="${name}"` : ""} ${on ? "checked" : ""} onchange="${onchange}" />${label}</label>`;
+}
+
+function pmtFormHTML(){
+  const s = pmtS();
+  const v = x => escapeHtml(x == null ? "" : String(x));
+  const sugg = pmtSuggested();
+  const mode = pmtMode();
+  const lieuOpts = (field, cur) => `
+    ${pmtChip(cur === "domicile", `pmtSet('${field}','domicile', true)`, "Domicile", "radio", field)}
+    ${s.etab !== "domicile" ? pmtChip(cur === "etab", `pmtSet('${field}','etab', true)`, "L'établissement (" + PMT_ETAB[s.etab] + ")", "radio", field) : ""}
+    ${pmtChip(cur === "soins", `pmtSet('${field}','soins', true)`, "Structure de soins", "radio", field)}
+    ${pmtChip(cur === "autre", `pmtSet('${field}','autre', true)`, "Autre lieu", "radio", field)}`;
+
+  return `
+    <div class="tc-card tc-blue">
+      <p class="tc-card-title">1. Le patient</p>
+      <div class="tc-idbar">
+        <label>Nom et prénom<input type="text" class="tc-in" maxlength="50" value="${v(s.nom)}" oninput="pmtSet('nom', this.value)" placeholder="Nom de naissance, nom d'usage, prénom" /></label>
+        <label>Né(e) le<input type="text" class="tc-in" value="${v(s.naissance)}" oninput="pmtSet('naissance', this.value)" placeholder="jj/mm/aaaa" /></label>
+      </div>
+      <div class="tc-idbar">
+        <label>N° de sécurité sociale (15 chiffres)<input type="text" class="tc-in" inputmode="numeric" value="${v(s.nir)}" oninput="pmtSet('nir', this.value)" placeholder="1 23 45 67 890 123 45" /></label>
+        <label>Organisme (caisse, centre)<input type="text" class="tc-in" value="${v(s.organisme)}" oninput="pmtSet('organisme', this.value)" placeholder="CPAM de …" /></label>
+      </div>
+      <div class="tc-idbar">
+        <label>Lieu de vie<select class="tc-in" onchange="pmtSet('etab', this.value, true)">
+          ${Object.keys(PMT_ETAB).map(k => `<option value="${k}" ${s.etab === k ? "selected" : ""}>${PMT_ETAB[k]}</option>`).join("")}
+        </select></label>
+        ${s.etab !== "domicile" ? `<label>Nom de l'établissement<input type="text" class="tc-in" value="${v(s.etabNom)}" oninput="pmtSet('etabNom', this.value)" /></label>` : ""}
+      </div>
+      <label class="tc-field cont-field-full"><span>Adresse</span><input type="text" class="tc-in" maxlength="100" value="${v(s.etab !== "domicile" ? s.etabAdresse : s.adresse)}" oninput="pmtSet('${s.etab !== "domicile" ? "etabAdresse" : "adresse"}', this.value)" placeholder="${s.etab !== "domicile" ? "Adresse de l'établissement (reprise comme adresse du patient)" : "Adresse du patient"}" /></label>
+      <div class="cont-chips">
+        ${pmtChip(s.assureDiff, "pmtToggle(null,'assureDiff')", "L'assuré est une autre personne")}
+      </div>
+      ${s.assureDiff ? `<div class="tc-idbar">
+        <label>Assuré : nom et prénom<input type="text" class="tc-in" maxlength="50" value="${v(s.assureNom)}" oninput="pmtSet('assureNom', this.value)" /></label>
+        <label>N° de l'assuré<input type="text" class="tc-in" value="${v(s.assureNir)}" oninput="pmtSet('assureNir', this.value)" /></label>
+      </div>` : ""}
+      <p class="tc-head">Accident causé par un tiers ?</p>
+      <div class="cont-chips">
+        ${pmtChip(s.tiers === "non", "pmtSet('tiers','non', true)", "Non", "radio", "pmtTiers")}
+        ${pmtChip(s.tiers === "oui", "pmtSet('tiers','oui', true)", "Oui", "radio", "pmtTiers")}
+        ${s.tiers === "oui" ? `<input type="date" class="tc-in cont-inline-date" value="${v(s.tiersDate)}" onchange="pmtSet('tiersDate', this.value)" />` : ""}
+      </div>
+    </div>
+
+    <div class="tc-card tc-amber">
+      <p class="tc-card-title">2. Situation de prise en charge</p>
+      <div class="cont-chips cont-chips-col">
+        ${pmtChip(s.hosp, "pmtToggle(null,'hosp')", "Entrée ou sortie d'hospitalisation (complète, partielle, ambulatoire), séances de chimiothérapie, radiothérapie, hémodialyse")}
+        ${pmtChip(s.ald === "exo", `pmtSet('ald', ${s.ald === "exo" ? "''" : "'exo'"}, true)`, "Soins en lien avec une ALD exonérante")}
+        ${pmtChip(s.ald === "nonexo", `pmtSet('ald', ${s.ald === "nonexo" ? "''" : "'nonexo'"}, true)`, "Soins en lien avec une ALD non exonérante")}
+        ${pmtChip(s.atmp, "pmtToggle(null,'atmp')", "Accident du travail ou maladie professionnelle")}
+        ${pmtChip(s.maternite, "pmtToggle(null,'maternite')", "Engagement maternité (vers la maternité ou l'hébergement temporaire)")}
+      </div>
+      ${s.atmp ? `<label class="tc-field cont-field-full"><span>Date de l'AT/MP</span><input type="date" class="tc-in" value="${v(s.atmpDate)}" onchange="pmtSet('atmpDate', this.value)" /></label>` : ""}
+      <details class="cont-details"><summary>Accord préalable nécessaire ? (autre formulaire)</summary>
+        <div class="cont-chips cont-chips-col">
+          ${pmtChip(s.km150, "pmtToggle(null,'km150')", "Lieu de soins à plus de 150 km")}
+          ${pmtChip(s.serie, "pmtToggle(null,'serie')", "Série sans ALD : au moins 4 transports de plus de 50 km sur 2 mois")}
+          ${pmtChip(s.avion, "pmtToggle(null,'avion')", "Avion ou bateau de ligne régulière")}
+          ${pmtChip(s.camsp, "pmtToggle(null,'camsp')", "Enfant ou adolescent vers un CAMSP ou un CMPP")}
+        </div>
+      </details>
+      ${pmtSrcHTML(["NOTICE", "AMELI"])}
+    </div>
+
+    <div class="tc-card tc-purple">
+      <p class="tc-card-title">3. État du patient → mode de transport</p>
+      <p class="tc-head">Le transport nécessite…</p>
+      <div class="cont-chips cont-chips-col">
+        ${PMT_AMB.map(x => pmtChip(!!s.amb[x.id], `pmtToggle('amb','${x.id}')`, x.t)).join("")}
+      </div>
+      ${Object.keys(s.amb).length ? "" : `
+      <p class="tc-head">Sinon, le patient présente…</p>
+      <div class="cont-chips cont-chips-col">
+        ${PMT_TAP.map(x => pmtChip(!!s.tap[x.id], `pmtToggle('tap','${x.id}')`, x.t)).join("")}
+      </div>`}
+      <div class="pmt-mode">
+        <span class="pmt-mode-lab">Mode justifié par les critères :</span>
+        <strong>${PMT_MODES[sugg]}</strong>
+      </div>
+      <div class="cont-chips">
+        ${Object.keys(PMT_MODES).map(k => pmtChip(mode === k, `pmtSet('mode','${k === sugg ? "" : k}', true)`, PMT_MODES[k] + (k === sugg ? " ✓" : ""), "radio", "pmtMode")).join("")}
+      </div>
+      ${mode === "tap" ? `<div class="cont-chips cont-chips-col">
+        ${pmtChip(s.partageKo, "pmtToggle(null,'partageKo')", "État de santé incompatible avec un transport partagé")}
+        ${pmtChip(s.tpmr, "pmtToggle(null,'tpmr')", "Transport dans son propre fauteuil roulant (TPMR)")}
+      </div>` : ""}
+      ${mode === "individuel" || mode === "commun" ? `<div class="cont-chips">
+        ${pmtChip(s.accompagnant, "pmtToggle(null,'accompagnant')", "L'état du patient nécessite une personne accompagnante")}
+      </div>` : ""}
+      ${pmtSrcHTML(["NOTICE", "REF2006", "PARTAGE"])}
+    </div>
+
+    <div class="tc-card tc-green">
+      <p class="tc-card-title">4. Trajet et motif</p>
+      <p class="tc-head">Départ</p>
+      <div class="cont-chips">${lieuOpts("depart", s.depart)}</div>
+      ${s.depart === "soins" ? `<input type="text" class="tc-in pmt-lieu" value="${v(s.departSoins)}" oninput="pmtSet('departSoins', this.value)" placeholder="Nom et adresse de la structure de soins" />` : ""}
+      ${s.depart === "autre" ? `<input type="text" class="tc-in pmt-lieu" value="${v(s.departAutre)}" oninput="pmtSet('departAutre', this.value)" placeholder="Nom et adresse du lieu" />` : ""}
+      <p class="tc-head">Arrivée</p>
+      <div class="cont-chips">${lieuOpts("arrivee", s.arrivee)}</div>
+      ${s.arrivee === "soins" ? `<input type="text" class="tc-in pmt-lieu" value="${v(s.arriveeSoins)}" oninput="pmtSet('arriveeSoins', this.value)" placeholder="Nom et adresse de la structure de soins" />` : ""}
+      ${s.arrivee === "autre" ? `<input type="text" class="tc-in pmt-lieu" value="${v(s.arriveeAutre)}" oninput="pmtSet('arriveeAutre', this.value)" placeholder="Nom et adresse du lieu" />` : ""}
+      <div class="cont-chips pmt-row">
+        ${pmtChip(s.ar, "pmtToggle(null,'ar')", "Aller-retour")}
+        ${pmtChip(s.urgence, "pmtToggle(null,'urgence')", "Urgence : appel du SAMU-centre 15")}
+        <label class="pmt-iter">Transports itératifs<input type="number" min="0" max="99" class="tc-in" value="${v(s.iteratifs)}" oninput="pmtSet('iteratifs', this.value)" /></label>
+      </div>
+      <p class="tc-head">Éléments d'ordre médical (nature de l'examen ou des soins)</p>
+      <div class="cont-chips">${PMT_MOTIFS.map(m => `<button type="button" class="cont-chip" onclick="pmtAddMotif('${m.replace(/'/g, "\\'")}')">+ ${m}</button>`).join("")}</div>
+      <textarea class="tc-avis-area pmt-motif" rows="2" oninput="pmtSet('motif', this.value)" placeholder="Ex. : consultation de cardiologie (suivi d'insuffisance cardiaque) au CH de …">${v(s.motif)}</textarea>
+      <div class="cont-chips">
+        ${pmtChip(s.maladiesRares, "pmtToggle(null,'maladiesRares')", "Vers un autre centre de référence maladies rares")}
+      </div>
+      <details class="cont-details"><summary>Exonérations particulières${s.exo || s.pension ? " (renseignées)" : ""}</summary>
+        <p class="tc-note">Cas particuliers d'exonération du ticket modérateur (acte ≥ K60 ou ≥ 120 € pendant l'hospitalisation, transfert consécutif, HAD hors protocole, radiothérapie en libéral, nouveau-né de moins de 30 jours).</p>
+        <div class="cont-chips">
+          ${pmtChip(s.exo === "OUI", "pmtSet('exo','OUI', true)", "Oui", "radio", "pmtExo")}
+          ${pmtChip(s.exo === "NON", "pmtSet('exo','NON', true)", "Non", "radio", "pmtExo")}
+        </div>
+        <p class="tc-note">Soins liés à une pension militaire d'invalidité (art. L212-1 du code des pensions militaires).</p>
+        <div class="cont-chips">
+          ${pmtChip(s.pension === "OUI", "pmtSet('pension','OUI', true)", "Oui", "radio", "pmtPension")}
+          ${pmtChip(s.pension === "NON", "pmtSet('pension','NON', true)", "Non", "radio", "pmtPension")}
+        </div>
+        ${pmtSrcHTML(["NOTICE"])}
+      </details>
+    </div>
+
+    <div class="tc-card tc-slate">
+      <p class="tc-card-title">5. Prescripteur</p>
+      <p class="tc-head">Prescrivez-vous les soins qui justifient ce transport ?</p>
+      <div class="cont-chips">
+        ${pmtChip(s.prescripteurSoins === "oui", "pmtSet('prescripteurSoins','oui', true)", "Oui", "radio", "pmtPresc")}
+        ${pmtChip(s.prescripteurSoins === "non", "pmtSet('prescripteurSoins','non', true)", "Non", "radio", "pmtPresc")}
+      </div>
+      <div class="tc-idbar">
+        <label>Nom et prénom<input type="text" class="tc-in" maxlength="45" value="${v(s.presNom)}" oninput="pmtSet('presNom', this.value)" placeholder="Dr …" /></label>
+        <label>N° RPPS<input type="text" class="tc-in" inputmode="numeric" value="${v(s.rpps)}" oninput="pmtSet('rpps', this.value)" placeholder="11 chiffres" /></label>
+      </div>
+      <div class="tc-idbar">
+        <label>Structure (raison sociale)<input type="text" class="tc-in" value="${v(s.presStruct)}" oninput="pmtSet('presStruct', this.value)" placeholder="Cabinet, Docs On The Road…" /></label>
+        <label>N° de la structure<input type="text" class="tc-in" value="${v(s.presNum)}" oninput="pmtSet('presNum', this.value)" placeholder="AM, FINESS ou SIRET" /></label>
+      </div>
+      <div class="tc-idbar">
+        <label>Adresse de la structure<input type="text" class="tc-in" maxlength="50" value="${v(s.presAdresse)}" oninput="pmtSet('presAdresse', this.value)" /></label>
+        <label>Date<input type="date" class="tc-in" value="${v(s.date)}" onchange="pmtSet('date', this.value, true)" /></label>
+      </div>
+    </div>`;
+}
+
+/* ------------------------------------------------------------ note pour le dossier */
+function pmtLieuTxt(which){
+  const s = pmtS();
+  const k = s[which];
+  if(k === "domicile") return "domicile";
+  if(k === "etab") return pmtEtabLieu() || PMT_ETAB[s.etab];
+  if(k === "soins") return (which === "depart" ? s.departSoins : s.arriveeSoins).trim() || "structure de soins";
+  return (which === "depart" ? s.departAutre : s.arriveeAutre).trim() || "autre lieu";
+}
+function pmtBuild(){
+  const s = pmtS();
+  const mode = pmtMode();
+  const sit = [];
+  if(s.hosp) sit.push("hospitalisation (entrée/sortie, ou séances assimilées)");
+  if(s.ald === "exo") sit.push("ALD exonérante");
+  if(s.ald === "nonexo") sit.push("ALD non exonérante");
+  if(s.atmp) sit.push("AT/MP" + (s.atmpDate ? " du " + pmtFmtDate(s.atmpDate) : ""));
+  if(s.maternite) sit.push("engagement maternité");
+  const crit = PMT_AMB.filter(x => s.amb[x.id]).map(x => x.t).concat(Object.keys(s.amb).length ? [] : PMT_TAP.filter(x => s.tap[x.id]).map(x => x.t));
+  const opts = [];
+  if(mode === "tap"){ opts.push(s.partageKo ? "état incompatible avec un transport partagé" : "transport partagé possible"); if(s.tpmr) opts.push("TPMR"); }
+  if((mode === "individuel" || mode === "commun") && s.accompagnant) opts.push("personne accompagnante nécessaire");
+  const traj = pmtLieuTxt("depart") + " → " + pmtLieuTxt("arrivee") + (s.ar ? " (aller-retour)" : "") + (s.iteratifs ? " ; " + s.iteratifs + " transports itératifs" : "") + (s.urgence ? " ; urgence (centre 15)" : "");
+  const rows = [
+    ["Date", pmtFmtDate(s.date) || "…"],
+    ["Patient", (s.nom.trim() || "…") + (s.naissance.trim() ? ", né(e) le " + (pmtFmtDate(s.naissance) || s.naissance.trim()) : "")],
+    ["Motif", s.motif.trim() || "…"],
+    ["Situation de prise en charge", sit.length ? sit.join(" ; ") : "aucune cochée"],
+    ["Mode", PMT_MODES[mode] + (opts.length ? " — " + opts.join(", ") : "")],
+    ["Justification", crit.length ? crit.join(" ; ") : "patient pouvant se déplacer par ses propres moyens"],
+    ["Trajet", traj],
+    ["Prescripteur", (s.presNom.trim() || "…") + (s.rpps.trim() ? " (RPPS " + pmtDigits(s.rpps) + ")" : "")]
+  ];
+  const P = ["PRESCRIPTION MÉDICALE DE TRANSPORT (Cerfa n° 11574)"].concat(rows.map(r => r[0] + " : " + r[1]));
+  const H = [`<p><strong><u>PRESCRIPTION MÉDICALE DE TRANSPORT</u></strong> (Cerfa n° 11574)</p>`,
+    `<p>${rows.map(r => `<strong>${esc(r[0])} :</strong> ${esc(r[1])}`).join("<br>")}</p>`];
+  return { plain: P.join("\n"), html: H.join(""), rows };
+}
+
+function renderPmtResult(){
+  const out = document.getElementById("pmtResult");
+  if(!out) return;
+  const s = pmtS();
+  const alerts = pmtAlerts();
+  const built = pmtBuild();
+  const hot = alerts.filter(a => a.lvl === "hot").length;
+  out.innerHTML = `
+    <div class="bio-result-box">
+      <div class="bio-result-head">
+        <strong>Prescription de transport</strong>
+        <div class="bio-result-actions">
+          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="pmtPdfBtn">📄 Cerfa pré-rempli</button>
+          <button type="button" class="bio-copy-btn" id="pmtCopyBtn">Copier la note</button>
+          <button type="button" class="bio-reset-btn" onclick="pmtReset()">Réinitialiser</button>
+        </div>
+      </div>
+      <label class="pmt-notice"><input type="checkbox" ${s.notice ? "checked" : ""} onchange="pmtS().notice = this.checked" /> Joindre la notice (2 pages)</label>
+      ${alerts.length ? `<div class="cont-alerts">
+        <p class="cont-alerts-title">${hot ? "⚠︎ " : ""}Points d'attention (${alerts.length})</p>
+        ${alerts.map(a => `<div class="cont-alert cont-alert-${a.lvl}">${escapeHtml(a.t)}${pmtSrcHTML(a.s)}</div>`).join("")}
+      </div>` : ""}
+      <button type="button" class="cont-help-btn" onclick="pmtToggleHelp()">${s.aide ? "▾" : "▸"} Et ensuite ?</button>
+      ${s.aide ? `<ol class="cont-help">
+        <li><strong>Cerfa pré-rempli</strong> : vérifier, imprimer, <strong>signer</strong>. Les champs restent modifiables dans le PDF avant impression.</li>
+        <li>Volet 1 pour le médecin-conseil, volets 2 et 3 pour le patient et le transporteur.</li>
+        <li><strong>Copier la note</strong>, puis la coller dans l'observation du dossier (Cmd + V sur Mac, Ctrl + V sur PC).</li>
+      </ol>` : ""}
+      <div class="tc-preview">${built.html}</div>
+    </div>`;
+  document.getElementById("pmtPdfBtn").addEventListener("click", pmtPdf);
+  document.getElementById("pmtCopyBtn").addEventListener("click", async function(){
+    const btn = this;
+    const done = () => { btn.textContent = "Copié ✓"; setTimeout(() => { btn.textContent = "Copier la note"; }, 1800); };
+    try{
+      if(navigator.clipboard && window.ClipboardItem){
+        await navigator.clipboard.write([new ClipboardItem({
+          "text/plain": new Blob([built.plain], { type: "text/plain" }),
+          "text/html": new Blob([built.html], { type: "text/html" })
+        })]);
+        done(); return;
+      }
+      await navigator.clipboard.writeText(built.plain); done();
+    }catch(e){
+      const ta = document.createElement("textarea");
+      ta.value = built.plain; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); }catch(err){}
+      document.body.removeChild(ta); done();
+    }
+  });
+}
+
+/* ------------------------------------------------------------ Cerfa pré-rempli */
+/* Correspondance avec les noms de champs du formulaire officiel. Les deux
+   volets portent les mêmes noms de champs : un seul remplissage suffit. */
+function pmtFieldValues(){
+  const s = pmtS();
+  const mode = pmtMode();
+  const nir = pmtDigits(s.nir);
+  const anir = pmtDigits(s.assureNir);
+  const lieu = which => {
+    const k = s[which];
+    if(k === "etab") return { autre: pmtEtabLieu() || PMT_ETAB[s.etab] };
+    if(k === "soins") return { soins: (which === "depart" ? s.departSoins : s.arriveeSoins).trim() };
+    if(k === "autre") return { autre: (which === "depart" ? s.departAutre : s.arriveeAutre).trim() };
+    return { domicile: true };
+  };
+  const dep = lieu("depart"), arr = lieu("arrivee");
+  const text = {
+    "N et P bénéficiaire": s.nom.trim(),
+    "N° immat bénéf": nir.slice(0, 13),
+    "clé": nir.slice(13, 15),
+    "Date Nais": pmtDateDigits(s.naissance),
+    "Nom et num centre paiement": s.organisme.trim(),
+    "adresse": (s.etab !== "domicile" ? pmtEtabLieu() : s.adresse.trim()),
+    "N et P assuré": s.assureDiff ? s.assureNom.trim() : "",
+    "N° immat assuré": s.assureDiff ? anir.slice(0, 13) : "",
+    "clé 1": s.assureDiff ? anir.slice(13, 15) : "",
+    "date accident": s.tiers === "oui" ? pmtDateDigits(s.tiersDate) : "",
+    "date accid ATMP": s.atmp ? pmtDateDigits(s.atmpDate) : "",
+    "départ autre lieu": dep.autre || "",
+    "départ struct soins": dep.soins || "",
+    "arrivée autre lieu": arr.autre || "",
+    "arrivée struct soins": arr.soins || "",
+    "nbr transp": pmtDigits(s.iteratifs).slice(0, 2),
+    "comm évent": s.motif.trim(),
+    "N et P prescript": s.presNom.trim(),
+    "raison sociale prescript": s.presStruct.trim(),
+    "identifiant": pmtDigits(s.rpps).slice(0, 11),
+    "adresse precript": s.presAdresse.trim(),
+    "date": pmtDateDigits(s.date),
+    "AM FINESS ou SIRET": pmtDigits(s.presNum).slice(0, 14)
+  };
+  const checks = {                      // nom du champ -> valeur d'activation (true = la seule case du champ)
+    "non": s.tiers === "non",
+    "oui": s.tiers === "oui",
+    "entré sortie hosp": s.hosp,
+    "ALD exo": s.ald === "exo" ? "OUI" : s.ald === "nonexo" ? "NON" : false,
+    "transport Engagement maternité du lieu de résidence vers la maternité ou lhébergement temporaire non médicalisé": s.maternite,
+    "transport lié à un accident du travail ou une maladie professionnelle": s.atmp,
+    "transport assis professionnalisé VSL taxi conventionné": mode === "tap",
+    "létat de santé du patient nest pas compatible avec un transport partagé cochez la case": mode === "tap" && s.partageKo,
+    "un transport pour patient à mobilité réduite dans son fauteuil roulant est adapté cochez la case": mode === "tap" && s.tpmr,
+    "transp indiv": mode === "individuel",
+    "transp terres": mode === "commun",
+    "dans ce cas si létat du patient nécessite une personne accompagnante cochez la case": (mode === "individuel" || mode === "commun") && s.accompagnant,
+    "domicile": !!dep.domicile,
+    "domicile_2": !!arr.domicile,
+    "transp aller-retour": s.ar,
+    "Urg SAMU centre 15": s.urgence,
+    "transp autre cent": s.maladiesRares,
+    "oui1": s.exo || false,
+    "oui2": s.pension || false
+  };
+  PMT_AMB.forEach(x => { checks[x.f] = mode === "ambulance" && !!s.amb[x.id]; });
+  return { text, checks };
+}
+
+/* Le Cerfa diffusé référence, dans les champs, des widgets qui ne sont pas
+   ceux affichés sur les pages : on rattache chaque champ aux widgets
+   réellement présents sur les pages, sans quoi les cases cochées et certains
+   textes ne s'affichent pas. */
+function pmtFixCerfa(pdfDoc){
+  const { PDFName, PDFArray } = PDFLib;
+  const ctx = pdfDoc.context;
+  const acro = pdfDoc.catalog.lookup(PDFName.of("AcroForm"));
+  if(!acro) return;
+  const fields = acro.lookup(PDFName.of("Fields"));
+  const byParent = new Map();
+  const merged = [];
+  pdfDoc.getPages().forEach(pg => {
+    const annots = pg.node.Annots();
+    if(!annots) return;
+    annots.asArray().forEach(ref => {
+      const a = ctx.lookup(ref);
+      if(!a || !a.get || String(a.get(PDFName.of("Subtype"))) !== "/Widget") return;
+      const par = a.get(PDFName.of("Parent"));
+      if(par){
+        const k = par.toString();
+        if(!byParent.has(k)) byParent.set(k, { par, kids: [] });
+        byParent.get(k).kids.push(ref);
+      }else if(a.get(PDFName.of("T"))){
+        merged.push({ ref, name: a.lookup(PDFName.of("T")).decodeText() });
+      }
+    });
+  });
+  byParent.forEach(({ par, kids }) => {
+    const pd = ctx.lookup(par);
+    const arr = PDFArray.withContext(ctx);
+    kids.forEach(k => arr.push(k));
+    pd.set(PDFName.of("Kids"), arr);
+  });
+  if(fields && merged.length){
+    const list = fields.asArray();
+    merged.forEach(m => {
+      const i = list.findIndex(r => { const f = ctx.lookup(r); const t = f && f.lookup && f.lookup(PDFName.of("T")); return t && t.decodeText() === m.name; });
+      if(i >= 0 && list[i].toString() !== m.ref.toString()) fields.set(i, m.ref);
+    });
+  }
+}
+
+async function pmtPdf(){
+  const btn = document.getElementById("pmtPdfBtn");
+  const original = btn.textContent;
+  btn.textContent = "Génération…";
+  try{
+    const { PDFDocument, StandardFonts, PDFName } = PDFLib;
+    const resp = await fetch(DOCUMENTS["bon-transport-vierge"].path);
+    if(!resp.ok) throw new Error("Cerfa introuvable");
+    const pdfDoc = await PDFDocument.load(await resp.arrayBuffer());
+    pmtFixCerfa(pdfDoc);
+    const form = pdfDoc.getForm();
+    const helv = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const vals = pmtFieldValues();
+    const missing = [];
+
+    Object.keys(vals.text).forEach(name => {
+      const value = pdfSafe(vals.text[name] || "");
+      let f;
+      try{ f = form.getTextField(name); }catch(e){ missing.push(name); return; }
+      const max = f.getMaxLength();
+      // Taille imposée (champ et widgets) : 9 pt, réduite jusqu'à 6 pt pour
+      // qu'une ligne tienne dans la case ; les champs à cases gardent la leur.
+      const widgets = f.acroField.getWidgets();
+      if(!f.isCombed()){
+        let size = f.isMultiline() ? 8.5 : 9;
+        if(!f.isMultiline() && value){
+          const w = Math.min.apply(null, widgets.map(x => x.getRectangle().width)) - 4;
+          while(size > 6 && helv.widthOfTextAtSize(value, size) > w) size -= 0.5;
+        }
+        const da = "/Helv " + size + " Tf 0 g";
+        f.acroField.setDefaultAppearance(da);
+        widgets.forEach(x => x.setDefaultAppearance(da));
+      }else if(!f.acroField.getDefaultAppearance()){
+        f.acroField.setDefaultAppearance("/Helv 0 Tf 0 g");
+      }
+      f.setText(max ? value.slice(0, max) : value);
+    });
+    Object.keys(vals.checks).forEach(name => {
+      const want = vals.checks[name];
+      let field;
+      try{ field = form.getField(name); }catch(e){ missing.push(name); return; }
+      const acro = field.acroField;
+      const widgets = acro.getWidgets();
+      // Même nom de champ sur les deux volets : toutes les cases portant la
+      // valeur visée sont cochées (true = valeur de la première case).
+      let target = null;
+      if(want){
+        const first = widgets.map(w => w.getOnValue()).find(Boolean);
+        target = want === true ? (first ? first.decodeText() : null) : want;
+      }
+      let chosen = null;
+      widgets.forEach(w => {
+        const on = w.getOnValue();
+        const onName = on ? on.decodeText() : null;
+        if(target && onName === target){ chosen = onName; w.setAppearanceState(on); }
+        else w.setAppearanceState(PDFName.of("Off"));
+      });
+      acro.dict.set(PDFName.of("V"), PDFName.of(chosen || "Off"));
+    });
+    form.updateFieldAppearances(helv);
+    if(missing.length) console.warn("Champs absents du Cerfa :", missing);
+    if(!pmtS().notice && pdfDoc.getPageCount() === 4){ pdfDoc.removePage(0); pdfDoc.removePage(0); }
+
+    const bytes = await pdfDoc.save();
+    const nom = (pmtS().nom.trim() || "patient").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-zA-Z0-9]+/g, "_");
+    triggerDownload(new Blob([bytes], { type: "application/pdf" }), "Prescription_transport_" + nom + "_" + (pmtS().date || pmtToday()) + ".pdf");
+    btn.textContent = "Fait ✓";
+    setTimeout(() => { btn.textContent = original; }, 1800);
+  }catch(e){
+    console.error(e);
+    btn.textContent = "Erreur";
+    setTimeout(() => { btn.textContent = original; }, 2200);
+  }
+}
+window.pmtPdf = pmtPdf;
+
 /* Rubriques marquées « wip » : grand bandeau d'alerte en tête de page, dans la
    rubrique comme dans ses outils et documents. Appelé après chaque rendu, y
    compris les rendus internes des outils (voir les enveloppes plus bas). */
@@ -12213,7 +13369,7 @@ function applyWipBanner(){
   if(back) back.insertAdjacentHTML("afterend", html);
   else contentEl.insertAdjacentHTML("afterbegin", html);
 }
-["renderContentionPanel", "renderTeleconsultPanel", "renderCourrierPanel", "renderCertifPanel"].forEach(name => {
+["renderContentionPanel", "renderTeleconsultPanel", "renderCourrierPanel", "renderCertifPanel", "renderPmtPanel"].forEach(name => {
   const fn = window[name];
   if(typeof fn !== "function") return;
   const wrapped = function(){ const r = fn.apply(this, arguments); applyWipBanner(); return r; };
@@ -12360,6 +13516,8 @@ function render(){
     renderContentionPanel();
   }else if(state.activeDoc === "certificat-redaction" && state.explorerMode){
     renderCertifPanel();
+  }else if(state.activeDoc === "bon-transport-outil" && state.explorerMode){
+    renderPmtPanel();
   }else if(state.activeDoc){
     renderEmbedPage(state.activeDoc);
   }else if(state.query){
