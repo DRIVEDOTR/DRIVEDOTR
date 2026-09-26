@@ -790,6 +790,32 @@
   @media (max-width:640px){
     .cont-tabs{grid-template-columns:1fr;}
   }
+  /* sélecteurs visuels (pastilles, tuiles) */
+  .cont-seg{display:flex; flex-wrap:wrap; gap:5px;}
+  .cont-seg-btn{padding:6px 11px; border-radius:9px; border:1.5px solid var(--border); background:#fff; cursor:pointer;
+    font-family:inherit; font-size:12.5px; font-weight:600; color:var(--text-muted); line-height:1.2;}
+  .cont-seg-btn:hover{border-color:var(--blue); color:var(--blue);}
+  .cont-seg-on{border-color:var(--blue); background:var(--blue); color:#fff !important;}
+  .cont-inline-row{display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px; margin:8px 0;}
+  .cont-inline-lab{flex:0 0 100%; font-size:12px; font-weight:700; color:var(--text-muted);}
+  .cont-inline-num{width:90px; border:1px solid var(--border);}
+  .cont-legend{display:flex; flex-wrap:wrap; gap:4px 14px; margin:2px 0 8px; font-size:11.5px; color:var(--text-muted);}
+  .cont-dot{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; vertical-align:0;}
+  .cont-dot-prevention{background:#188754;} .cont-dot-lav{background:#6B4C9A;} .cont-dot-passive{background:#B8231D;}
+  .cont-groups{display:grid; grid-template-columns:repeat(auto-fill, minmax(190px, 1fr)); gap:10px 12px;}
+  .cont-group-title{margin:0 0 5px; font-size:12px; font-weight:800; color:var(--text);}
+  .cont-tiles{display:flex; flex-direction:column; gap:5px;}
+  .cont-tile{text-align:left; padding:8px 10px 8px 12px; border-radius:9px; cursor:pointer; font-family:inherit; font-size:12.5px; font-weight:600;
+    color:var(--text); background:#fff; border:1px solid var(--border); border-left:4px solid var(--border);}
+  .cont-tile:hover{box-shadow:0 3px 10px rgba(17,58,110,.12);}
+  .cont-tile-prevention{border-left-color:#188754;} .cont-tile-lav{border-left-color:#6B4C9A;} .cont-tile-passive{border-left-color:#B8231D;}
+  .cont-tile-on{background:var(--sky-bg); border-color:var(--blue); color:var(--blue);}
+  .cont-chosen{display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:10px; background:#fff; border:1px solid var(--border); border-left:5px solid var(--border);}
+  .cont-chosen.cont-tile-prevention{border-left-color:#188754;} .cont-chosen.cont-tile-lav{border-left-color:#6B4C9A;} .cont-chosen.cont-tile-passive{border-left-color:#B8231D;}
+  .cont-chosen-ico{font-size:22px;}
+  .cont-chosen-txt{flex:1; display:flex; flex-direction:column; font-size:13.5px; color:var(--text);}
+  .cont-chosen-txt small{font-size:11.5px; color:var(--text-muted);}
+  @media (max-width:640px){ .cont-inline-lab{flex-basis:100%;} }
   /* ---------- fin Contention ---------- */
   /* ---------- Check-lists de téléconsultation : modes, puces, navigation ---------- */
   .tc-modes{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; margin-bottom:6px;}
@@ -1145,6 +1171,11 @@
     color:var(--text-muted);
   }
   .bio-freq-list strong{color:var(--text);}
+  .bio-wip{display:block; font-size:10px; font-weight:700; color:#B45309; margin-top:2px;}
+  .bio-notes{margin-top:12px; padding:10px 12px; border-radius:10px; background:#F7F9FC; border:1px dashed var(--border);}
+  .bio-notes-title{margin:0 0 6px; font-size:12px; font-weight:700; color:var(--text-muted);}
+  .bio-note{margin:0 0 7px; font-size:12px; line-height:1.45; color:var(--text);}
+  .bio-note-src{display:block; margin-top:2px; font-size:10px; font-style:italic; color:#A6B1BF;}
 
   /* ---------- Calculateurs cliniques ---------- */
   .calc-box{
@@ -1221,74 +1252,133 @@
   .chariot-head-count{display:block; font-size:13px; font-weight:600; line-height:18px; margin-top:1px;}
   .chariot-sub{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--text-muted); margin:12px 0 4px;}
 
+  /* ---------- Chariot d'urgence : refonte visuelle (sept. 2026) ---------- */
+  .chariot-steps-label{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:var(--text); margin:18px 0 8px;}
+  .chariot-step-num{display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:var(--navy); color:#fff; font-size:12px; font-weight:700; flex:none;}
+  .chariot-dots{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px;}
+  .chariot-dot{
+    display:flex; flex-direction:column; gap:8px; text-align:left;
+    background:var(--card-bg); border:2px solid var(--border); border-left:6px solid var(--dc);
+    border-radius:14px; padding:14px 16px; cursor:pointer; font-family:inherit; color:var(--text);
+    transition:box-shadow .15s, background .15s, border-color .15s; min-width:0;
+  }
+  .chariot-dot:hover{box-shadow:0 4px 14px rgba(11,37,69,.08);}
+  .chariot-dot-on{background:var(--dcbg); border-color:var(--dc); box-shadow:0 0 0 1px var(--dc) inset, 0 6px 16px rgba(11,37,69,.08);}
+  .chariot-dot-top{display:flex; align-items:center; gap:10px;}
+  .chariot-dot-icon{font-size:26px; line-height:1; flex:none;}
+  .chariot-dot-titles{display:flex; flex-direction:column; flex:1; min-width:0;}
+  .chariot-dot-label{font-size:16.5px; font-weight:800; color:var(--dc);}
+  .chariot-dot-tag{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--text-muted);}
+  .chariot-dot-check{width:24px; height:24px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; color:#fff; background:transparent; border:2px solid var(--border);}
+  .chariot-dot-on .chariot-dot-check{background:var(--dc); border-color:var(--dc);}
+  .chariot-dot-hint{font-size:13px; line-height:1.45; color:var(--text);}
+  .chariot-dot-foot{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:6px 10px; padding-top:8px; border-top:1px dashed var(--border);}
+  .chariot-dot-rule{font-size:11.5px; color:var(--text-muted); line-height:1.35;}
+  .chariot-dot-count{font-size:12px; font-weight:700; color:var(--dc); background:#fff; border:1px solid var(--dc); border-radius:999px; padding:2px 9px; white-space:nowrap;}
+
+  .chariot-work{margin-top:18px; border:2px solid var(--dc); border-radius:16px; padding:0 16px 16px; background:linear-gradient(180deg, var(--dcbg) 0, var(--card-bg) 140px);}
+  .chariot-work-band{margin:0 -16px; padding:10px 16px; border-radius:13px 13px 0 0; background:var(--dc); color:#fff; font-size:14px; display:flex; align-items:center; gap:8px;}
+  .chariot-work-band-icon{font-size:18px;}
+
   /* ---------- Onglets de catégorie du chariot (Médicaments / DM / Équipement) ---------- */
-  .chariot-section-tabs{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px;}
+  .chariot-section-tabs{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; margin:0 0 4px;}
   .chariot-section-tab{
-    background:var(--card-bg);
-    border:1.5px solid var(--border);
-    border-radius:9px;
-    padding:8px 14px;
-    font-size:13.5px;
-    font-weight:600;
-    font-family:inherit;
-    color:var(--text);
-    cursor:pointer;
+    display:flex; align-items:center; gap:8px; min-width:0;
+    background:var(--card-bg); border:1.5px solid var(--border); border-radius:11px;
+    padding:10px 12px; font-size:13.5px; font-weight:600; font-family:inherit; color:var(--text); cursor:pointer; text-align:left;
   }
   .chariot-section-tab:hover{background:var(--slate-bg);}
-  .chariot-section-tab-active{background:var(--navy); border-color:var(--navy); color:#fff;}
+  .chariot-tab-icon{font-size:18px; flex:none;}
+  .chariot-tab-label{flex:1; min-width:0; line-height:1.25;}
+  .chariot-tab-count{flex:none; font-size:12px; font-weight:700; border-radius:999px; padding:2px 8px; background:var(--slate-bg); color:var(--text-muted);}
+  .chariot-section-tab-active{background:var(--dc); border-color:var(--dc); color:#fff;}
+  .chariot-section-tab-active:hover{background:var(--dc);}
+  .chariot-section-tab-active .chariot-tab-count{background:rgba(255,255,255,.22); color:#fff;}
+  .chariot-tip{font-size:12px; color:var(--text-muted); margin:6px 0 14px;}
 
-  /* ---------- Sections du chariot (Médicaments / DM / Équipement) ---------- */
-  .chariot-section{
-    margin-top:16px;
-    padding-top:14px;
-    border-top:1px dashed var(--border);
-  }
-  .chariot-section:first-of-type{margin-top:12px; padding-top:0; border-top:none;}
-  .chariot-section-title{
-    font-size:13.5px;
-    font-weight:700;
-    margin:0 0 8px;
-  }
-  .chariot-section-medicaments .chariot-section-title{color:var(--red);}
-  .chariot-section-dm .chariot-section-title{color:var(--teal);}
-  .chariot-section-equipement .chariot-section-title{color:var(--purple);}
-  .chariot-item-list{display:flex; flex-direction:column; gap:6px;}
+  .chariot-list-wrap{background:var(--card-bg);}
+  .chariot-toolbar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:10px;}
+  .chariot-progress{flex:1 1 200px; display:flex; flex-direction:column; gap:5px; min-width:0;}
+  .chariot-progress-txt{font-size:13px; color:var(--text-muted);}
+  .chariot-progress-txt strong{color:var(--dc); font-size:15px;}
+  .chariot-progress-bar{display:block; height:6px; border-radius:999px; background:var(--slate-bg); overflow:hidden;}
+  .chariot-progress-bar > span{display:block; height:100%; background:var(--dc); border-radius:999px;}
+  .chariot-toolbar-btns{display:flex; flex-wrap:wrap; gap:6px;}
+  .chariot-search{flex:1 1 100%; font-family:inherit; font-size:14px; border:1px solid var(--border); border-radius:9px; padding:9px 12px; background:var(--bg); min-width:0;}
+  .chariot-search:focus{outline:2px solid var(--dc); outline-offset:1px;}
+
+  /* ---------- Groupes et lignes ---------- */
+  .chariot-section{margin-top:4px;}
+  .chariot-group{margin-top:14px;}
+  .chariot-group:first-child{margin-top:4px;}
+  .chariot-group-head{display:flex; align-items:center; gap:7px; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); padding:0 2px 6px; border-bottom:1px solid var(--border); margin-bottom:6px;}
+  .chariot-group-icon{font-size:15px;}
+  .chariot-group-n{margin-left:auto; font-weight:700; font-size:11px; color:var(--text-muted); background:var(--slate-bg); border-radius:999px; padding:1px 7px;}
+  .chariot-item-list{display:flex; flex-direction:column; gap:5px;}
   .chariot-item-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    padding:8px 10px;
-    border-radius:9px;
-    background:transparent;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:9px 10px 9px 12px; border-radius:10px; border:1px solid transparent; border-left:4px solid transparent;
+    background:transparent; transition:background .12s, opacity .12s;
   }
-  .chariot-item-active{background:var(--slate-bg);}
-  .chariot-item-info{display:flex; flex-direction:column; min-width:0;}
-  .chariot-stepper{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    flex:none;
-  }
+  .chariot-item-active{background:var(--slate-bg); border-left-color:var(--dc);}
+  .chariot-item-off{opacity:.55; border:1px dashed var(--border); border-left:4px solid var(--border);}
+  .chariot-item-off .chariot-item-name{text-decoration:line-through; text-decoration-color:rgba(0,0,0,.35);}
+  .chariot-item-info{display:flex; flex-direction:column; gap:3px; min-width:0;}
+  .chariot-item-name{font-size:14px; font-weight:600; color:var(--text); line-height:1.35;}
+  .chariot-item-meta{display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 8px; font-size:12px; color:var(--text-muted); line-height:1.4;}
+  .chariot-reco{font-weight:700; color:var(--text); background:#fff; border:1px solid var(--border); border-radius:6px; padding:0 6px; white-space:nowrap;}
+  .chariot-item-ind{min-width:0;}
+  .chariot-badge{display:inline-block; margin-left:7px; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; border-radius:999px; padding:1px 7px; vertical-align:2px; text-decoration:none;}
+  .chariot-badge-mod{background:var(--amber-bg); color:var(--amber);}
+  .chariot-badge-off{background:var(--border); color:var(--text-muted);}
+  .chariot-badge-new{background:var(--teal-bg); color:var(--teal); text-transform:none;}
+  .chariot-badge-arb{background:var(--purple-bg); color:var(--purple); text-transform:none;}
+  .chariot-stepper{display:flex; align-items:center; gap:6px; flex:none; background:#fff; border:1px solid var(--border); border-radius:999px; padding:3px;}
   .chariot-stepper button{
-    width:26px; height:26px;
-    border-radius:50%;
-    border:1px solid var(--border);
-    background:#fff;
-    font-size:15px;
-    line-height:1;
-    color:var(--text);
-    cursor:pointer;
+    width:28px; height:28px; border-radius:50%; border:none; background:var(--slate-bg);
+    font-size:16px; line-height:1; color:var(--text); cursor:pointer; font-family:inherit;
   }
-  .chariot-stepper button:hover{background:var(--slate-bg);}
-  .chariot-stepper-val{
-    min-width:20px;
-    text-align:center;
-    font-size:14px;
-    font-weight:700;
-    color:var(--text);
+  .chariot-stepper button:hover{background:var(--dc); color:#fff;}
+  .chariot-stepper-val{min-width:22px; text-align:center; font-size:15px; font-weight:800; color:var(--text-muted);}
+  .chariot-item-active .chariot-stepper-val{color:var(--dc);}
+
+  /* ---------- Carte de réassort (colonne droite) ---------- */
+  .chariot-sum{border:1.5px solid var(--dc); border-radius:14px; padding:14px; background:var(--card-bg); margin-bottom:12px;}
+  .chariot-sum-top{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+  .chariot-sum-icon{font-size:24px; flex:none;}
+  .chariot-sum-titles{display:flex; flex-direction:column; min-width:0;}
+  .chariot-sum-titles strong{font-size:15px; color:var(--dc);}
+  .chariot-sum-titles span{font-size:12.5px; color:var(--text-muted);}
+  .chariot-sum .chariot-etab-wrap{margin-bottom:12px;}
+  .chariot-actions{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .chariot-act{font-family:inherit; font-size:13.5px; font-weight:700; border-radius:10px; padding:10px 8px; cursor:pointer; border:1.5px solid var(--border); background:var(--card-bg); color:var(--text);}
+  .chariot-act:hover{background:var(--slate-bg);}
+  .chariot-act-main{background:var(--navy); border-color:var(--navy); color:#fff;}
+  .chariot-act-main:hover{background:var(--navy); opacity:.9;}
+  #chariotCopyBtn{grid-column:1 / -1;}
+  .chariot-act-hint{font-size:11.5px; color:var(--text-muted); line-height:1.4; margin:8px 0 0;}
+
+  /* ---------- Les 4 réflexes ---------- */
+  .chariot-reflexes{margin-top:22px; background:var(--slate-bg); border-radius:14px; padding:16px;}
+  .chariot-reflexes-title{font-size:15px; font-weight:800; color:var(--navy); margin:0 0 12px;}
+  .chariot-reflex-grid{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px;}
+  .chariot-reflex{display:flex; flex-direction:column; gap:4px; background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:12px; font-size:12.5px; line-height:1.45; color:var(--text); min-width:0;}
+  .chariot-reflex strong{font-size:14px; color:var(--navy);}
+  .chariot-reflex-ico{font-size:22px;}
+  .chariot-reflex-note{font-size:13px; margin:12px 0 0; padding:9px 12px; border-left:4px solid var(--amber); background:var(--amber-bg); border-radius:8px;}
+  .chariot-reflex-src{font-size:11px; color:#8a9099; line-height:1.45; margin:10px 0 0;}
+  @media (max-width: 1100px){ .chariot-reflex-grid{grid-template-columns:repeat(2, minmax(0,1fr));} }
+  @media (max-width: 640px){
+    .chariot-dots{grid-template-columns:1fr;}
+    .chariot-section-tabs{grid-template-columns:1fr;}
+    .chariot-reflex-grid{grid-template-columns:1fr;}
+    .chariot-work{padding:0 10px 12px;}
+    .chariot-work-band{margin:0 -10px;}
+    .chariot-item-row{gap:8px; padding:8px 8px 8px 10px;}
+    .chariot-item-info{flex:1 1 0;}
+    .chariot-stepper{gap:3px;}
+    .chariot-stepper-val{min-width:18px;}
   }
-  .chariot-item-active .chariot-stepper-val{color:var(--teal);}
 
   /* ---------- Présentation "ordonnance" du réassort ---------- */
   .chariot-etab-wrap{margin-bottom:14px;}
@@ -1408,7 +1498,9 @@
     margin-top:16px;
   }
   .bio-layout-right{position:sticky; top:16px;}
-  .chariot-layout{grid-template-columns:1fr 400px; gap:40px;}
+  .chariot-layout{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr); gap:20px; margin-top:6px;}
+  .chariot-work .chariot-rx{max-height:55vh; overflow:auto;}
+  @media (max-width:900px){ .bio-layout.chariot-layout{grid-template-columns:minmax(0,1fr);} .chariot-layout > *{min-width:0;} .chariot-item-name{overflow-wrap:anywhere;} }
   @media (max-width:900px){
     .bio-layout{grid-template-columns:1fr;}
     .bio-layout-right{position:static;}
@@ -2645,6 +2737,7 @@ function categoryIconHTML(iconKey, color, size){
 const SUBCATEGORIES = {
   "as-educ": "Protocoles AS / Éduc",
   "ide": "Protocoles IDE",
+  "socle": "Socle établissement (MedCo) — fiches transversales",
   "certificats": "Certificats médicaux",
   "admin": "Administratifs",
   "tutos": "Tutos",
@@ -3072,6 +3165,51 @@ const DOCUMENTS = {
     filename: "Vomissements_Metopimazine_Vogalene.pdf",
     path: "protocoles/ide/Vomissements_Metopimazine_Vogalene.pdf"
   },
+  "socle-circuit-medicament": {
+    wip: true,
+    title: "Circuit du médicament en ESMS",
+    category: "protocoles-generaux",
+    subcategory: "socle",
+    meta: "Fiche socle MedCo · de la prescription à la traçabilité, aide à la prise (L313-26 CASF), stockage, never events, critère impératif HAS 3.6.2 · version de travail sept. 2026",
+    filename: "Circuit_du_medicament_ESMS_DOTR.pdf",
+    path: "protocoles/socle/Circuit_du_medicament_ESMS_DOTR.pdf"
+  },
+  "socle-hygiene-mains": {
+    wip: true,
+    title: "Hygiène des mains et précautions standard",
+    category: "protocoles-generaux",
+    subcategory: "socle",
+    meta: "Fiche socle MedCo · friction hydro-alcoolique, 5 moments, gants, tenue, excreta, précautions complémentaires, DAMRI · version de travail sept. 2026",
+    filename: "Hygiene_des_mains_precautions_standard_DOTR.pdf",
+    path: "protocoles/socle/Hygiene_des_mains_precautions_standard_DOTR.pdf"
+  },
+  "socle-epidemie-ira-gea": {
+    wip: true,
+    title: "Épidémie d'IRA ou de GEA en ESMS — conduite à tenir et signalement",
+    category: "protocoles-generaux",
+    subcategory: "socle",
+    meta: "Fiche socle MedCo · seuils de signalement ARS (IRA 3 cas / GEA 5 cas en 4 jours), mesures, clôture · version de travail sept. 2026",
+    filename: "Epidemie_IRA_GEA_ESMS_DOTR.pdf",
+    path: "protocoles/socle/Epidemie_IRA_GEA_ESMS_DOTR.pdf"
+  },
+  "socle-signalements": {
+    wip: true,
+    title: "Qui signale quoi, à qui ?",
+    category: "protocoles-generaux",
+    subcategory: "socle",
+    meta: "Fiche socle MedCo · EIGS, dysfonctionnements graves en ESMS, maltraitance (3133, 119), vigilances · version de travail sept. 2026",
+    filename: "Qui_signale_quoi_a_qui_DOTR.pdf",
+    path: "protocoles/socle/Qui_signale_quoi_a_qui_DOTR.pdf"
+  },
+  "socle-dlu": {
+    wip: true,
+    title: "DLU et transfert aux urgences",
+    category: "protocoles-generaux",
+    subcategory: "socle",
+    meta: "Fiche socle MedCo · dossier de liaison d'urgence HAS (mis à jour avril 2026), fiche Aller/Retour, adaptation handicap · version de travail sept. 2026",
+    filename: "DLU_transfert_urgences_DOTR.pdf",
+    path: "protocoles/socle/DLU_transfert_urgences_DOTR.pdf"
+  },
   "suivi-ime-enfant-ado": {
     title: "IME - Suivi biologique Enfant & Adolescent",
     category: "suivis-biologiques",
@@ -3420,7 +3558,7 @@ const DOCUMENTS = {
   "affiche-chariot-urgence": {
     title: "Affiche — Chariot d'urgence : pas de seconde chance",
     category: "materiel",
-    meta: "OMéDIT, mars 2026 — affiche de sensibilisation pour les équipes : critère impératif 2.3-12 de la certification HAS · Vérifier, Sceller, Tracer, Former",
+    meta: "OMéDIT, mars 2026 — affiche de sensibilisation pour les équipes : critère impératif « urgences vitales » de la certification HAS (2.2-12 dans la v2025) · Vérifier, Sceller, Tracer, Former",
     filename: "Affiche_chariot_urgence_OMEDIT.png",
     path: "materiel/Affiche_chariot_urgence_OMEDIT.png"
   },
@@ -3721,6 +3859,7 @@ const BIO_TESTS = {
   "cpk": "CPK",
   "probnp": "NT-proBNP",
   "ammoniemie": "Ammoniémie",
+  "iga-ttg": "IgA anti-transglutaminase + IgA totales (dépistage de la maladie cœliaque)",
   "psa-total": "PSA total",
   "psa-libre": "± PSA libre / PSA total (à réaliser uniquement si PSA total entre 4 et 10 ng/mL)"
 };
@@ -3742,6 +3881,14 @@ const BIO_SITUATIONS = [
   { id: "hepatopathie", label: "Hépatopathie / Cirrhose", color: "amber", tests: ["nfs-plaquettes", "tp-inr", "albuminemie", "bilirubine", "ionogramme", "creat-dfg", "asat-alat", "ggt", "pal"], frequency: "Tous les 6 mois" },
   { id: "lithium", label: "Lithium", color: "red", tests: ["lithiemie", "creat-dfg", "calcemie", "tsh"], frequency: "Toutes les semaines pendant 1 mois, puis tous les 2 mois" },
   { id: "clozapine", label: "Clozapine", color: "sky", tests: ["nfs-pnn"], frequency: "Toutes les semaines pendant 18 semaines, puis tous les mois pendant 8 mois, puis tous les 3 mois" },
+  {"id": "ic", "wip": true, "label": "Insuffisance cardiaque", "color": "wine", "tests": ["ionogramme", "creat-dfg", "nfs-plaquettes", "ferritine-cst"], "frequency": "Au moins 2 fois par an et à chaque modification de traitement : 1 à 2 semaines après l'introduction ou l'augmentation d'un IEC, ARA2, sacubitril-valsartan ou diurétique ; sous spironolactone ou éplérénone : à 1 et 4 semaines, 8 et 12 semaines, 6, 9 et 12 mois, puis tous les 4 mois. Bilan martial (NFS, ferritine, CST) périodiquement", "note": "NT-proBNP : pas en routine ; utile en cas de doute sur une décompensation, comparé à la valeur de l'état stable dans le même laboratoire (hausse ≥ 50 % en faveur d'une décompensation). Sous IEC/ARA2, une hausse de créatinine jusqu'à 50 % est acceptable ; réduire la dose si K⁺ > 5,5 mmol/L. Carence martiale : ferritine < 100 µg/L, ou 100–299 avec CST < 20 %.", "src": ["HAS_IC", "ESC_IC"]},
+  {"id": "hypothyroidie", "wip": true, "label": "Hypothyroïdie traitée (lévothyroxine)", "color": "indigo", "tests": ["tsh"], "frequency": "6 à 8 semaines après toute modification de dose ou de spécialité, puis 1 fois par an une fois équilibrée", "note": "TSH seule : pas de T4L ni de T3L en routine. À partir de 65 ans, viser le haut de l'intervalle de référence (limite haute ≈ décennie d'âge : environ 8 mUI/L entre 80 et 89 ans). Lévothyroxine à distance (≥ 2 h) du calcium, du fer et des pansements gastriques ; IPP : absorption diminuée, recontrôler aussi à leur arrêt.", "src": ["HAS_HYPO", "RCP_LEVO"]},
+  {"id": "antipsychotiques", "wip": true, "label": "Antipsychotiques (suivi métabolique)", "color": "emerald", "tests": ["glycemie", "eal"], "frequency": "Avant traitement, à 3 mois, puis glycémie à jeun 1 fois par an ; bilan lipidique tous les 5 ans s'il est normal (plus souvent selon le contexte)", "note": "À associer : poids/IMC à 1 et 3 mois puis tous les 3 mois (alerte si prise ≥ 7 %), périmètre ombilical et pression artérielle. ECG recommandé : QTc > 450 ms, surveillance ; > 500 ms, contre-indication. Prolactinémie seulement sur signe d'appel. Clozapine : bulle dédiée (NFS).", "src": ["ANSM_AP", "FFP_2015"]},
+  {"id": "valproate", "wip": true, "label": "Valproate", "color": "red", "tests": ["asat-alat", "ggt", "pal", "bilirubine", "nfs-plaquettes"], "frequency": "Bilan hépatique avant le traitement puis régulièrement pendant les 6 premiers mois ; NFS-plaquettes avant le traitement et avant toute chirurgie ; ensuite sur point d'appel", "note": "Dosage plasmatique (dépakinémie) : pas systématique, seulement sur point d'appel (crises non contrôlées, effet indésirable suspecté). Transaminases ≤ 3 N asymptomatiques : pas forcément de changement de traitement, mais suivi. Signes d'hyperammoniémie (confusion, ataxie, vomissements) : prévenir le médecin, risque accru avec le topiramate.", "src": ["HAS_EPI", "RCP_VPA"]},
+  {"id": "carbamazepine", "wip": true, "label": "Carbamazépine / oxcarbazépine", "color": "amber", "tests": ["ionogramme", "nfs-plaquettes", "asat-alat", "ggt"], "frequency": "Natrémie avant le traitement, à 2 semaines puis tous les mois pendant 3 mois, ensuite selon l'état clinique (sujet âgé, diurétiques). Carbamazépine : NFS tous les mois pendant 5 mois puis 2 à 4 fois par an ; bilan hépatique chaque semaine le premier mois puis sur signe d'appel", "note": "Oxcarbazépine : natrémie seule en routine ; NFS et bilan hépatique seulement si anomalie suspectée. Dosages plasmatiques : pas systématiques (polythérapie, doute d'observance). Carbamazépine sous lévothyroxine : contrôler la TSH.", "src": ["HAS_EPI", "RCP_CBZ"]},
+  {"id": "phenobarbital", "wip": true, "label": "Phénobarbital (Gardénal)", "color": "purple", "tests": ["nfs-plaquettes", "asat-alat", "ggt", "pal"], "frequency": "1 fois par an et sur point d'appel ; phénobarbitalémie seulement sur point d'appel : crises non contrôlées, somnolence ou ataxie évoquant un surdosage, modification de dose ou d'un traitement associé, doute d'observance", "note": "Rythme annuel : proposition DOTR, ni le RCP ni la HAS n'en fixent. Induction enzymatique : élévation fréquente et attendue des GGT, transaminases et PAL, sans hépatopathie forcément — interpréter l'évolution. Anémie par carence en folates possible : NFS, et folates si macrocytose (option B9). Dosage : prélèvement de préférence le matin ; zone habituelle chez l'adulte 65–130 µmol/L. Inducteur puissant : revoir les traitements associés (AVK, AOD, lévothyroxine, contraceptifs…). Traitement au long cours : évaluer le risque osseux (HAS 2020) ; la prévention par vitamine D du RCP vise l'enfant.", "src": ["HAS_EPI", "RCP_PB"]},
+  {"id": "t21", "wip": true, "label": "Trisomie 21 (adulte)", "color": "sky", "tests": ["tsh", "glycemie", "iga-ttg"], "frequency": "Tous les 2 à 3 ans chez l'adulte (thyroïde, diabète, maladie cœliaque) et à tout signe d'appel ; TSH annuelle chez l'enfant", "note": "Rythme adulte issu d'une source secondaire citant le PNDS HAS 2020 (annexe de suivi non relue) : à confirmer avant validation. Hypothyroïdie infraclinique fréquente. Maladie cœliaque : IgA anti-transglutaminase avec dosage des IgA totales.", "src": ["PNDS_T21"]},
+  {"id": "nutrition", "wip": true, "label": "Nutrition entérale (gastrostomie)", "color": "teal", "tests": ["ionogramme", "creat-dfg", "phosphoremie", "magnesemie", "glycemie", "nfs-plaquettes", "albuminemie"], "frequency": "Au long cours : tous les 6 à 12 mois et à chaque événement intercurrent. À l'initiation ou à la reprise après un jeûne : K⁺, phosphore et magnésium avant, puis toutes les 12 h pendant 3 jours si risque de renutrition inappropriée", "note": "Rythme au long cours : proposition DOTR, aucune recommandation ne fixe de calendrier biologique. Efficacité suivie d'abord cliniquement : poids au moins une fois par mois, hydratation. Albuminémie : critère de sévérité de la dénutrition (< 30 g/L = sévère), pas de diagnostic ; l'interpréter avec la CRP. Renutrition à risque : thiamine avant de débuter, apports progressifs.", "src": ["ESPEN_HEN", "ASPEN_RS", "HAS_DEN"]},
   { id: "aod", label: "AOD / AVK", color: "slate", tests: ["nfs-plaquettes", "creat-dfg", "asat-alat"], frequency: "Tous les 12 mois" }
 ];
 
@@ -3758,6 +3905,8 @@ const MRC_FREQUENCIES = {
    biologiques. addIds peut regrouper plusieurs examens sous une seule case
    (ex. bilan hépatique complet) ; le dédoublonnage se fait sur ces mêmes
    identifiants, qu'ils viennent d'une bulle ou d'une option. */
+const BIO_SRC = {"HAS_IC": "HAS, guide du parcours de soins Insuffisance cardiaque, 2014", "ESC_IC": "ESC, insuffisance cardiaque 2016 (addenda), 2021 et mise à jour 2023", "HAS_HYPO": "HAS, prise en charge des hypothyroïdies chez l'adulte, 2022", "RCP_LEVO": "RCP Levothyrox (BDPM)", "ANSM_AP": "ANSM, suivi cardio-métabolique sous antipsychotiques, 2010", "FFP_2015": "FFP-CNPP / HAS, soins somatiques en psychiatrie, 2015", "HAS_EPI": "HAS, épilepsies de l'enfant et de l'adulte, 2020", "RCP_VPA": "RCP Dépakine (BDPM, 2025)", "RCP_CBZ": "RCP Tégrétol (BDPM, 2026) et Trileptal (BDPM, 2026)", "RCP_PB": "RCP Gardénal (BDPM, 2024)", "PNDS_T21": "HAS, PNDS Trisomie 21, 2020 (cité par pedia-univ, CNPU) — annexe de suivi de l'adulte non relue", "ESPEN_HEN": "ESPEN, nutrition entérale à domicile, 2020-2022", "ASPEN_RS": "ASPEN, syndrome de renutrition inappropriée, 2020", "HAS_DEN": "HAS, diagnostic de la dénutrition ≥ 70 ans, 2021"};
+
 const BIO_OPTIONS = [
   { id: "albuminemie", label: "Albuminémie", indication: "si risque nutritionnel", addIds: ["albuminemie"] },
   { id: "crp", label: "CRP", indication: "si contexte inflammatoire, ou pour interpréter une albumine basse", addIds: ["crp"] },
@@ -5189,12 +5338,24 @@ function removeCustomBioTest(index){
 }
 window.removeCustomBioTest = removeCustomBioTest;
 
+/* Repères et sources des bulles de suivi : affichés sous l'ordonnance,
+   jamais copiés dans le texte de prescription. */
+function bioNotesHTML(){
+  const sel = state.bioSelected.map(id => BIO_SITUATIONS.find(s => s.id === id)).filter(s => s && s.note);
+  if(!sel.length) return "";
+  return `<div class="bio-notes"><p class="bio-notes-title">💡 Repères (non copiés dans l'ordonnance)</p>
+    ${sel.map(s => `<p class="bio-note"><strong>${s.label} :</strong> ${s.note}
+      ${s.src && s.src.length ? `<span class="bio-note-src">Sources : ${s.src.map(k => BIO_SRC[k] || k).join(" · ")}</span>` : ""}</p>`).join("")}
+  </div>`;
+}
+
 function bioBubbleHTML(situ){
   const mc = colorVars(situ.color);
   const active = state.bioSelected.includes(situ.id);
   return `
     <button type="button" class="neurolep-bubble bio-bubble ${active ? "bio-bubble-active" : ""}" style="--pill:${mc.pill};--pillbg:${mc.pillbg}" onclick="toggleBioSituation('${situ.id}')">
       <span class="neurolep-dci">${situ.label}</span>
+      ${situ.wip ? `<span class="bio-wip">🚧 nouveau, à valider</span>` : ""}
       <span class="bio-check">${active ? "✓ ajouté" : "+ ajouter"}</span>
     </button>
   `;
@@ -5373,6 +5534,7 @@ function renderBioResults(){
             ${freqItems.map(f => `<li><strong>${f.label}</strong> : ${f.freq}</li>`).join("")}
           </ul>
         ` : ""}
+        ${bioNotesHTML()}
       </div>
     </div>
   `;
@@ -8948,6 +9110,9 @@ function renderAcbSuggestions(){
    Deux dotations distinctes : urgence VITALE (chariot/trousse scellée)
    et urgence RELATIVE. Les quantités sont celles recommandées par le
    référentiel, à adapter au profil de l'établissement.
+   Champ facultatif « w » : ajout DOTR (cohérence avec les protocoles IDE
+   DOTR, validé par Cédric le 26/09/2026) ou ligne « à arbitrer » —
+   affiché en badge, jamais présenté comme issu du référentiel OMéDIT.
    ===================================================================== */
 const CHARIOT_DOTATIONS = [
   { id: "vitale", label: "Urgence vitale", sub: "Chariot / trousse scellée", color: "red" },
@@ -8958,18 +9123,20 @@ const CHARIOT_ITEMS = [
   // ---------- URGENCE VITALE : MÉDICAMENTS ----------
   { d:"vitale", s:"medicaments", n:"Adrénaline 1 mg / 1 mL, ampoule", q:"6 ampoules", i:"Choc anaphylactique, arrêt cardio-respiratoire" },
   { d:"vitale", s:"medicaments", n:"Antiseptique alcoolique (povidone iodée 5 % ou chlorhexidine alcoolique 0,5 %), flacon 125 mL", q:"1 flacon", i:"Antisepsie avant pose de cathéter" },
-  { d:"vitale", s:"medicaments", n:"Clonazépam (Rivotril®) 1 mg / 1 mL, ampoule", q:"2 ampoules", i:"Crise convulsive" },
+  { d:"vitale", s:"medicaments", n:"Clonazépam (Rivotril®) 1 mg / 1 mL, ampoule", q:"2 ampoules", i:"Crise convulsive — état de mal (> 5 min) : benzodiazépine IV de 1re ligne, 0,015 mg/kg (max 1,5 mg), sur prescription (RFE SRLF/SFMU 2018)" },
   { d:"vitale", s:"medicaments", n:"Furosémide (Lasilix®) 20 mg / 2 mL, ampoule", q:"5 ampoules", i:"Œdème aigu du poumon" },
   { d:"vitale", s:"medicaments", n:"Glucagon voie nasale (Baqsimi®)", q:"4", i:"Hypoglycémie sévère — alternative : glucose 30 % ampoule 10 mL" },
   { d:"vitale", s:"medicaments", n:"Glucose 5 %, poche 500 mL", q:"1 poche", i:"Réhydratation — jamais en garde-veine seul" },
   { d:"vitale", s:"medicaments", n:"Insuline d'action rapide SC (Novorapid®, Humalog® ou Lyumjev®)", q:"2 stylos + 6 aiguilles", i:"Hyperglycémie — stock commun aux deux dotations · à conserver entre +2 et +8 °C" },
   { d:"vitale", s:"medicaments", n:"Méthylprednisolone (Solumédrol®) 40 mg / 2 mL, flacon", q:"4 flacons", i:"Œdème de Quincke, dyspnée laryngée" },
-  { d:"vitale", s:"medicaments", n:"Midazolam (Hypnovel®) 5 mg / 5 mL, ampoule", q:"4 ampoules", i:"Sédation en soins palliatifs" },
+  { d:"vitale", s:"medicaments", n:"Midazolam (Hypnovel®) 5 mg / 5 mL, ampoule", q:"4 ampoules", i:"Sédation en soins palliatifs · crise convulsive prolongée (> 5 min) sans voie veineuse : 0,15 mg/kg IM, soit 10 mg pour 70 kg, sur prescription (RFE SRLF/SFMU 2018) — en IM, la présentation 5 mg/mL réduit le volume (10 mg = 2 mL) : à voir avec le pharmacien", w:"ajout DOTR — indication convulsions" },
   { d:"vitale", s:"medicaments", n:"Naloxone (Narcan®) 0,4 mg / 1 mL, ampoule", q:"2 ampoules", i:"Surdosage aux morphinomimétiques" },
   { d:"vitale", s:"medicaments", n:"Oxygène, bouteille 1 m³", q:"2 bouteilles", i:"Détresse respiratoire" },
   { d:"vitale", s:"medicaments", n:"Prednisone (Cortancyl®) 5 mg, comprimé", q:"20 comprimés", i:"Corticothérapie orale" },
   { d:"vitale", s:"medicaments", n:"Salbutamol (Ventoline®) 100 µg / 200 doses, spray", q:"1 flacon", i:"Crise d'asthme, gêne respiratoire" },
   { d:"vitale", s:"medicaments", n:"Salbutamol 5 mg / 2,5 mL (ou terbutaline 5 mg / 2 mL), unidose pour nébulisation", q:"4 unidoses", i:"Crise d'asthme — associable à l'ipratropium 0,5 mg / 2 mL" },
+  { d:"vitale", s:"medicaments", n:"Ipratropium 0,5 mg / 2 mL, unidose pour nébulisation", q:"4 unidoses", i:"Crise d'asthme, exacerbation de BPCO — en association au salbutamol ou à la terbutaline", w:"ajout DOTR — à valider" },
+  { d:"vitale", s:"medicaments", n:"Sucre en morceaux ou gel / solution de glucose (resucrage per os)", q:"3 resucrages de 15 g", i:"Hypoglycémie chez un résident conscient qui avale — 15 g chez l'adulte (protocole IDE DOTR)", w:"ajout DOTR — à valider" },
   { d:"vitale", s:"medicaments", n:"Eau pour préparations injectables 10 mL, ampoule", q:"4 ampoules", i:"Solvant — ne jamais injecter seule" },
   { d:"vitale", s:"medicaments", n:"Chlorure de sodium 0,9 %, poche 500 mL", q:"1 poche", i:"Solvant, garde-veine" },
   { d:"vitale", s:"medicaments", n:"Chlorure de sodium 0,9 %, dosettes 5 mL", q:"4 dosettes", i:"Solvant, rinçage" },
@@ -9031,8 +9198,10 @@ const CHARIOT_ITEMS = [
   { d:"relative", s:"medicaments", n:"Amphotéricine B 10 % (Fungizone®) ou nystatine (Mycostatine®), suspension buvable", q:"1 flacon", i:"Mycose buccale" },
   { d:"relative", s:"medicaments", n:"Amoxicilline + acide clavulanique 1 g / 125 mg, sachets", q:"12 sachets", i:"Infection bactérienne — contrôler l'INR si AVK" },
   { d:"relative", s:"medicaments", n:"Ceftriaxone (Rocéphine®) 1 g / 3,5 mL, solution injectable IM", q:"3 à 6 flacons", i:"Infection bactérienne — jamais en sous-cutané" },
+  { d:"relative", s:"medicaments", n:"Fosfomycine-trométamol 3 g, sachet (dose unique)", q:"2 sachets", i:"Cystite simple de la femme < 65 ans — 1re intention du protocole IDE DOTR", w:"ajout DOTR — à valider" },
+  { d:"relative", s:"medicaments", n:"Pivmécillinam 200 mg (Selexid®), comprimés", q:"12 comprimés (1 traitement de 3 jours)", i:"Cystite simple — 2e intention si prévue par l'algorithme signé (400 mg matin et soir, 3 jours)", w:"ajout DOTR — à valider" },
   { d:"relative", s:"medicaments", n:"Desloratadine (Aerius®) 5 mg, comprimés", q:"1 boîte de 30", i:"Symptômes allergiques" },
-  { d:"relative", s:"medicaments", n:"Diazépam (Valium®) 10 mg / 2 mL, ampoule", q:"2 ampoules", i:"Crise convulsive — voie intra-rectale" },
+  { d:"relative", s:"medicaments", n:"Diazépam (Valium®) 10 mg / 2 mL, ampoule", q:"2 ampoules", i:"Crise convulsive — voie intra-rectale : enfant sans voie veineuse, 0,5 mg/kg (max 10 mg) (RFE SRLF/SFMU/GFRUP 2018) ; chez l'adulte sans voie veineuse, la RFE retient le midazolam IM" },
   { d:"relative", s:"medicaments", n:"Éconazole 1 %, crème 30 g", q:"1 tube", i:"Mycose cutanée" },
   { d:"relative", s:"medicaments", n:"Énoxaparine 4 000 UI / 0,4 mL (Lovenox®), seringues pré-remplies", q:"1 boîte de 2 ou 6", i:"Anticoagulation prophylactique" },
   { d:"relative", s:"medicaments", n:"Furosémide 20 mg, comprimés", q:"10 comprimés", i:"Œdèmes" },
@@ -9070,6 +9239,7 @@ const CHARIOT_ITEMS = [
   { d:"relative", s:"dm", n:"Pansement non tissé stérile (type Cicaplaie®)", q:"selon besoin" },
   { d:"relative", s:"dm", n:"Sparadrap siliconé, rouleau", q:"1" },
   { d:"relative", s:"dm", n:"Sutures cutanées stériles (Steristrip®)", q:"5" },
+  { d:"relative", s:"dm", n:"Colle cutanée (cyanoacrylate, type Dermabond®)", q:"2", i:"Plaie simple — protocole IDE DOTR « Colle cutanée »", w:"ajout DOTR — à valider" },
   { d:"relative", s:"dm", n:"Lubrifiant stérile aqueux", q:"1" },
   { d:"relative", s:"dm", n:"Sonde de Foley CH 14", q:"1" },
   { d:"relative", s:"dm", n:"Sonde de Foley CH 16", q:"1" },
@@ -9134,6 +9304,80 @@ function chariotSelectAll(on){
 }
 window.chariotSelectAll = chariotSelectAll;
 
+/* Présentation visuelle des deux dotations (affichage uniquement ; la liste
+   de référence CHARIOT_ITEMS n'est pas modifiée). */
+const CHARIOT_DOT_INFO = {
+  vitale:   { icon: "🚨", tag: "Pronostic vital engagé", hint: "En attendant le SAMU : arrêt cardio-respiratoire, anaphylaxie, détresse respiratoire, convulsions, hypoglycémie sévère.", rule: "Scellé · vérifié au moins une fois par mois et après chaque ouverture" },
+  relative: { icon: "🕒", tag: "Soins urgents non vitaux", hint: "Débuter un traitement sans attendre la livraison de l'officine : infection, douleur, rétention urinaire, troubles digestifs…", rule: "Dotation distincte du chariot vital · même rigueur de péremption" }
+};
+
+/* Regroupement d'affichage par usage clinique, à l'intérieur de chaque
+   catégorie (Médicaments / DM / Équipement). Règles lues dans l'ordre. */
+const CHARIOT_GROUP_RULES = {
+  medicaments: [
+    ["Allergie", "🤧", /Desloratadine/],
+    ["Anaphylaxie · ACR · corticoïdes", "🫀", /Adrénaline|Méthylprednisolone|Prednisone/],
+    ["Respiratoire", "🫁", /Oxygène|Salbutamol|terbutaline|Ipratropium/],
+    ["Cardio-circulatoire · anticoagulation", "❤️", /Furosémide|Trinitrine|Nicardipine|Énoxaparine|Phytoménadione/],
+    ["Neurologique · sédation · agitation", "🧠", /Clonazépam|Midazolam|Diazépam|Halopéridol/],
+    ["Métabolique", "🩸", /Glucagon|Insuline|Polystyrène|potassium|resucrage/],
+    ["Antidote", "🧪", /Naloxone/],
+    ["Infections", "🦠", /Amoxicilline|Ceftriaxone|Amphotéricine|Éconazole|Picloxydine|Fosfomycine|Pivmécillinam/],
+    ["Douleur", "🌡️", /Paracétamol|Morphine|Phloroglucinol/],
+    ["Digestif", "🥣", /Lavement|Laxatif|Métopimazine|Racécadotril/],
+    ["Urologie", "💧", /Silodosine/],
+    ["Peau · brûlures", "🩹", /Sulfadiazine/],
+    ["Solutés · solvants · antisepsie", "💉", /Glucose 5|Chlorure de sodium|Eau pour|Antiseptique/]
+  ],
+  dm: [
+    ["Injection · perfusion", "💉", /Aiguille|Cathéter|Garrot|Perfuseur|Seringue|Film adhésif|Canule intra-rectale/],
+    ["Voies aériennes · oxygène", "🫁", /Guedel|Magill|aspiration|Poche de recueil|BAVU|oxygène|nébuliseur|Abaisse-langue/],
+    ["Surveillance · glycémie", "📈", /glycémie|Oxymètre|Thermomètre|autopiqueur|Bandelettes/],
+    ["Hygiène · protection", "🧤", /Gants|Masques FFP2|Masques chirurgicaux|hydro-alcoolique|masque de protection/],
+    ["Soins · pansements", "🩹", /Compresses|Pansement|Sparadrap|Sutures|Colle cutanée|Poche de froid|Haricot|Eau stérile/],
+    ["Sondage urinaire", "💧", /Foley|sondage évacuateur|Lubrifiant/],
+    ["Traçabilité", "🔒", /Scellés/]
+  ],
+  equipement: [
+    ["Réanimation", "⚡", /Défibrillateur|Électrodes|Plan dur|Aspirateur/],
+    ["Surveillance", "🩺", /Tensiomètre|Stéthoscope|Oxymètre/],
+    ["Nébulisation", "🫁", /nébuliseur/],
+    ["Logistique · déchets", "🧺", /DASRI|Sac poubelle|ciseaux|Couverture/]
+  ]
+};
+
+function chariotGroups(sId, items){
+  const rules = CHARIOT_GROUP_RULES[sId] || [];
+  const groups = rules.map(r => ({ label: r[0], icon: r[1], items: [] }));
+  const other = { label: "Autres", icon: "📦", items: [] };
+  items.forEach(it => {
+    const idx = rules.findIndex(r => r[2].test(it.n));
+    (idx >= 0 ? groups[idx] : other).items.push(it);
+  });
+  return groups.concat([other]).filter(g => g.items.length);
+}
+
+function chariotEsc(s){ return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
+
+function chariotFilter(q){
+  state.chariotSearch = q;
+  const norm = x => x.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  const nq = norm(q || "").trim();
+  let shown = 0;
+  document.querySelectorAll(".chariot-group").forEach(g => {
+    let any = false;
+    g.querySelectorAll(".chariot-item-row").forEach(r => {
+      const ok = !nq || norm(r.getAttribute("data-search") || "").includes(nq);
+      r.style.display = ok ? "" : "none";
+      if(ok){ any = true; shown++; }
+    });
+    g.style.display = any ? "" : "none";
+  });
+  const empty = document.getElementById("chariotNoMatch");
+  if(empty) empty.style.display = shown ? "none" : "";
+}
+window.chariotFilter = chariotFilter;
+
 function renderChariotPanel(){
   const cat = CATEGORIES.find(c => c.id === "materiel");
   const c = colorVars(cat.color);
@@ -9144,6 +9388,46 @@ function renderChariotPanel(){
   const sec = CHARIOT_SECTIONS.find(s => s.id === sId);
   const items = CHARIOT_ITEMS.filter(it => it.d === dId && it.s === sId);
   const keptCount = items.filter(it => chariotGetQty(it) > 0).length;
+  const total = CHARIOT_ITEMS.length;
+
+  const dotCard = x => {
+    const xc = colorVars(x.color);
+    const info = CHARIOT_DOT_INFO[x.id];
+    const all = CHARIOT_ITEMS.filter(it => it.d === x.id);
+    const kept = all.filter(it => chariotGetQty(it) > 0).length;
+    const on = dId === x.id;
+    return `<button type="button" class="chariot-dot ${on ? "chariot-dot-on" : ""}" style="--dc:${xc.pill};--dcbg:${xc.pillbg}" onclick="setChariotDotation('${x.id}')" aria-pressed="${on}">
+      <span class="chariot-dot-top">
+        <span class="chariot-dot-icon">${info.icon}</span>
+        <span class="chariot-dot-titles"><span class="chariot-dot-label">${x.label}</span><span class="chariot-dot-tag">${info.tag}</span></span>
+        <span class="chariot-dot-check">${on ? "✓" : ""}</span>
+      </span>
+      <span class="chariot-dot-hint">${info.hint}</span>
+      <span class="chariot-dot-foot"><span class="chariot-dot-rule">${info.rule}</span><span class="chariot-dot-count">${kept} / ${all.length} retenus</span></span>
+    </button>`;
+  };
+
+  const rowHTML = it => {
+    const k = chariotKey(it);
+    const qty = chariotGetQty(it);
+    const def = chariotDefaultQty(it);
+    const ek = k.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+    const state_ = qty === 0 ? "chariot-item-off" : "chariot-item-active";
+    const badge = qty === 0 ? `<span class="chariot-badge chariot-badge-off">retiré</span>`
+      : (qty !== def ? `<span class="chariot-badge chariot-badge-mod">ajusté</span>` : "");
+    return `
+      <div class="chariot-item-row ${state_}" data-search="${chariotEsc(it.n + " " + (it.i || ""))}">
+        <div class="chariot-item-info">
+          <span class="chariot-item-name">${it.n}${badge}${it.w ? `<span class="chariot-badge ${/^ajout/.test(it.w) ? "chariot-badge-new" : "chariot-badge-arb"}">${it.w}</span>` : ""}</span>
+          <span class="chariot-item-meta"><span class="chariot-reco">Reco : ${it.q}</span>${it.i ? `<span class="chariot-item-ind">${it.i}</span>` : ""}</span>
+        </div>
+        <div class="chariot-stepper">
+          <button type="button" onclick="setChariotQty('${ek}', -1)" aria-label="Diminuer">−</button>
+          <span class="chariot-stepper-val">${qty}</span>
+          <button type="button" onclick="setChariotQty('${ek}', 1)" aria-label="Augmenter">+</button>
+        </div>
+      </div>`;
+  };
 
   contentEl.innerHTML = `
     <button class="back-link" onclick="closeDoc()">
@@ -9152,74 +9436,75 @@ function renderChariotPanel(){
     </button>
     <div class="doc-page">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
-      <div class="tool-hero" style="--pill:${c.pill}"><span class="tool-hero-icon">🚑</span><div class="tool-hero-body"><p class="tool-hero-title">Dotations d'urgence en ESMS</p><p class="tool-hero-sub">Chariot vitale ou relative, catégorie par catégorie : ajuste les quantités, sors le bon de réassort et la feuille de contrôle.</p><div class="tool-hero-stats"><span class="tool-hero-stat">117 références</span><span class="tool-hero-stat">2 dotations</span><span class="tool-hero-stat">PDF à signer</span><span class="tool-hero-stat">Doc de contrôle</span></div></div></div>
-      <p class="doc-meta">Liste de référence pré-remplie aux quantités recommandées : ajuste avec + / − ce dont l'établissement a besoin pour son réassort, qui se construit à droite. Mets à 0 ce qui n'est pas utile.</p>
+      <div class="tool-hero" style="--pill:${c.pill}"><span class="tool-hero-icon">🚑</span><div class="tool-hero-body"><p class="tool-hero-title">Dotations d'urgence en ESMS</p><p class="tool-hero-sub">Choisis la dotation, puis la catégorie : ajuste les quantités, sors le bon de réassort et la feuille de contrôle.</p><div class="tool-hero-stats"><span class="tool-hero-stat">${total} références</span><span class="tool-hero-stat">2 dotations</span><span class="tool-hero-stat">PDF à signer</span><span class="tool-hero-stat">Doc de contrôle</span></div></div></div>
 
-      <div class="neurolep-grid">
-        ${CHARIOT_DOTATIONS.map(x => {
-          const xc = colorVars(x.color);
-          return `<button type="button" class="neurolep-bubble bio-bubble ${dId === x.id ? "bio-bubble-active" : ""}" style="--pill:${xc.pill};--pillbg:${xc.pillbg}" onclick="setChariotDotation('${x.id}')">
-            <span class="neurolep-dci">${x.label}</span>
-            <span class="neurolep-brand">${x.sub}</span>
-          </button>`;
-        }).join("")}
-      </div>
+      <div class="chariot-steps-label"><span class="chariot-step-num">1</span> Quelle dotation ?</div>
+      <div class="chariot-dots">${CHARIOT_DOTATIONS.map(dotCard).join("")}</div>
 
-      <p class="doc-meta" style="margin-top:10px;">Affiche une seule catégorie à la fois — un PDF plus court et plus lisible pour chaque réassort.</p>
-      <div class="chariot-section-tabs">
-        ${CHARIOT_SECTIONS.map(s => `
-          <button type="button" class="chariot-section-tab ${sId === s.id ? "chariot-section-tab-active" : ""}" onclick="setChariotSection('${s.id}')">
-            ${chariotSectionIcon(s.id)} ${s.label}
-          </button>
-        `).join("")}
-      </div>
+      <div class="chariot-work" style="--dc:${dc.pill};--dcbg:${dc.pillbg}">
+        <div class="chariot-work-band">
+          <span class="chariot-work-band-icon">${CHARIOT_DOT_INFO[dId].icon}</span>
+          <span><strong>${dot.label}</strong> · ${dot.sub}</span>
+        </div>
 
-      <div class="bio-layout chariot-layout">
-        <div class="bio-layout-left">
-          <div class="bio-options-wrap">
-            <div class="chariot-head">
-              <span class="neurolep-label">${dot.label} — ${sec.label}<span class="chariot-head-count">${keptCount} / ${items.length} éléments retenus</span></span>
-              <div class="bio-result-actions">
-                <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(true)">Quantités recommandées</button>
-                <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(false)">Tout mettre à 0</button>
+        <div class="chariot-steps-label"><span class="chariot-step-num">2</span> Quelle catégorie ?</div>
+        <div class="chariot-section-tabs" role="tablist">
+          ${CHARIOT_SECTIONS.map(s => {
+            const all = CHARIOT_ITEMS.filter(it => it.d === dId && it.s === s.id);
+            const kept = all.filter(it => chariotGetQty(it) > 0).length;
+            return `<button type="button" role="tab" aria-selected="${sId === s.id}" class="chariot-section-tab ${sId === s.id ? "chariot-section-tab-active" : ""}" onclick="setChariotSection('${s.id}')">
+              <span class="chariot-tab-icon">${chariotSectionIcon(s.id)}</span><span class="chariot-tab-label">${s.label}</span><span class="chariot-tab-count">${kept}/${all.length}</span>
+            </button>`;
+          }).join("")}
+        </div>
+        <p class="chariot-tip">Une catégorie à la fois : un PDF plus court et plus lisible pour chaque réassort.</p>
+
+        <div class="bio-layout chariot-layout">
+          <div class="bio-layout-left">
+            <div class="bio-options-wrap chariot-list-wrap">
+              <div class="chariot-steps-label" style="margin-top:0"><span class="chariot-step-num">3</span> Ajuste les quantités</div>
+              <div class="chariot-toolbar">
+                <div class="chariot-progress">
+                  <span class="chariot-progress-txt"><strong>${keptCount}</strong> / ${items.length} éléments retenus</span>
+                  <span class="chariot-progress-bar"><span style="width:${items.length ? Math.round(100 * keptCount / items.length) : 0}%"></span></span>
+                </div>
+                <div class="chariot-toolbar-btns">
+                  <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(true)">↺ Quantités recommandées</button>
+                  <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(false)">Tout à 0</button>
+                </div>
+                <input type="search" class="chariot-search" id="chariotSearch" placeholder="🔎 Rechercher (ex. adrénaline, BAVU, glycémie…)" value="${chariotEsc(state.chariotSearch || "")}" oninput="chariotFilter(this.value)" />
               </div>
-            </div>
-            <div class="chariot-section chariot-section-${sId}">
-              <div class="chariot-item-list">
-                ${items.map(it => {
-                  const k = chariotKey(it);
-                  const qty = chariotGetQty(it);
-                  return `
-                    <div class="chariot-item-row ${qty > 0 ? "chariot-item-active" : ""}">
-                      <div class="chariot-item-info">
-                        <span class="bio-option-label">${it.n}</span>
-                        <span class="bio-option-indication">Recommandé : ${it.q}${it.i ? " — " + it.i : ""}</span>
-                      </div>
-                      <div class="chariot-stepper">
-                        <button type="button" onclick="setChariotQty('${k.replace(/'/g, "\\'")}', -1)" aria-label="Diminuer">−</button>
-                        <span class="chariot-stepper-val">${qty}</span>
-                        <button type="button" onclick="setChariotQty('${k.replace(/'/g, "\\'")}', 1)" aria-label="Augmenter">+</button>
-                      </div>
-                    </div>`;
-                }).join("")}
+              <div class="chariot-section chariot-section-${sId}">
+                ${chariotGroups(sId, items).map(g => `
+                  <div class="chariot-group">
+                    <div class="chariot-group-head"><span class="chariot-group-icon">${g.icon}</span>${g.label}<span class="chariot-group-n">${g.items.length}</span></div>
+                    <div class="chariot-item-list">${g.items.map(rowHTML).join("")}</div>
+                  </div>`).join("")}
+                <div class="empty-state" id="chariotNoMatch" style="display:none">Aucun élément ne correspond dans « ${sec.label} ».</div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="bio-layout-right">
-          <div id="chariotResult"></div>
+          <div class="bio-layout-right">
+            <div id="chariotResult"></div>
+          </div>
         </div>
       </div>
 
-      <div class="doc-note" style="margin-top:18px;">
-        <strong>Un chariot non opérationnel = une perte de chance</strong>
-        <p>La tenue du chariot d'urgence relève du <strong>critère impératif 2.3-12 de la certification HAS</strong> : « les équipes maîtrisent la prise en charge des urgences vitales ». Quatre réflexes : <strong>Vérifier · Sceller · Tracer · Former</strong>. Le jour J, on n'aura pas le temps de chercher.</p>
-        <p style="margin-top:8px;"><strong>Non recommandé par le groupe de travail :</strong> les antiarythmiques (amiodarone notamment) ne sont pas recommandés dans une dotation d'urgence, en particulier en l'absence d'ECG dans l'établissement.</p>
-        <p style="margin-top:8px;">Source : OMéDIT Centre-Val de Loire, groupe de travail régional « Dotations d'urgences médicales en EHPAD », février 2025. Transposable aux FAM, MAS et IME en adaptant au profil des résidents. Ne dispense pas de la validation par le médecin coordonnateur et le pharmacien référent de l'établissement.</p>
+      <div class="chariot-reflexes">
+        <p class="chariot-reflexes-title">Un chariot non opérationnel = une perte de chance</p>
+        <div class="chariot-reflex-grid">
+          <div class="chariot-reflex"><span class="chariot-reflex-ico">🔍</span><strong>Vérifier</strong><span>Au moins une fois par mois et après chaque utilisation : contenu, péremptions, fonctionnement (DAE, aspirateur, O₂).</span></div>
+          <div class="chariot-reflex"><span class="chariot-reflex-ico">🔒</span><strong>Sceller</strong><span>Scellé numéroté après chaque contrôle ou ouverture ; numéro reporté sur la fiche de vérification.</span></div>
+          <div class="chariot-reflex"><span class="chariot-reflex-ico">📝</span><strong>Tracer</strong><span>Fiche de vérification signée + registre d'utilisation (patient, date, circonstances, produits utilisés).</span></div>
+          <div class="chariot-reflex"><span class="chariot-reflex-ico">🎓</span><strong>Former</strong><span>Emplacement connu de tous, gestes d'urgence et utilisation du DAE régulièrement entraînés.</span></div>
+        </div>
+        <p class="chariot-reflex-note"><strong>Non recommandé par le groupe de travail :</strong> les antiarythmiques (amiodarone notamment), en particulier en l'absence d'ECG dans l'établissement.</p>
+        <p class="chariot-reflex-src">Sources : OMéDIT Centre-Val de Loire, groupe de travail régional « Dotations d'urgences médicales en EHPAD », février 2025 · HAS, certification des établissements de santé v2025, critère impératif 2.2-12 « Les équipes maîtrisent la prise en charge des urgences vitales » (repère transposé aux ESMS). Les lignes marquées « ajout DOTR » ne viennent pas du référentiel OMéDIT : elles alignent la dotation sur les protocoles IDE DOTR (cystite simple, colle cutanée, hypoglycémie, nébulisation). Transposable aux FAM, MAS et IME en adaptant au profil des résidents. Ne dispense pas de la validation par le médecin coordonnateur et le pharmacien référent de l'établissement.</p>
       </div>
     </div>
   `;
   renderChariotResult();
+  if(state.chariotSearch) chariotFilter(state.chariotSearch);
 }
 
 function chariotSectionIcon(sid){
@@ -9234,12 +9519,20 @@ function renderChariotResult(){
   const sId = state.chariotSection || "medicaments";
   const sec = CHARIOT_SECTIONS.find(s => s.id === sId);
   const items = CHARIOT_ITEMS.filter(it => it.d === dId && it.s === sId && chariotGetQty(it) > 0);
+  const info = CHARIOT_DOT_INFO[dId];
 
-  if(!items.length){
-    out.innerHTML = `
+  const etabField = `
       <div class="chariot-etab-wrap">
         <label class="calc-field"><span>Nom de l'établissement</span><input type="text" id="chariotEtab" placeholder="EHPAD Les Tilleuls" value="${(state.chariotEtab || "").replace(/"/g, "&quot;")}" /></label>
-      </div>
+      </div>`;
+  const sumHead = `
+      <div class="chariot-sum-top">
+        <span class="chariot-sum-icon">${info.icon}</span>
+        <span class="chariot-sum-titles"><strong>Réassort · ${dot.label}</strong><span>${chariotSectionIcon(sId)} ${sec.label} · ${items.length} élément${items.length > 1 ? "s" : ""}</span></span>
+      </div>`;
+
+  if(!items.length){
+    out.innerHTML = `<div class="chariot-sum">${sumHead}${etabField}</div>
       <div class="empty-state">Aucun élément retenu dans « ${sec.label} » : ajuste au moins une quantité à gauche.</div>`;
     const etabInput = document.getElementById("chariotEtab");
     if(etabInput) etabInput.addEventListener("input", e => { state.chariotEtab = e.target.value; });
@@ -9255,22 +9548,19 @@ function renderChariotResult(){
     + `<ul>${items.map(it => `<li>${it.n} — Qté : ${chariotGetQty(it)}</li>`).join("")}</ul>`;
 
   out.innerHTML = `
-    <div class="chariot-etab-wrap">
-      <label class="calc-field"><span>Nom de l'établissement</span><input type="text" id="chariotEtab" placeholder="EHPAD Les Tilleuls" value="${(state.chariotEtab || "").replace(/"/g, "&quot;")}" /></label>
+    <div class="chariot-sum">
+      ${sumHead}
+      ${etabField}
+      <div class="chariot-actions">
+        <button type="button" class="chariot-act chariot-act-main" id="chariotChecklistBtn">📋 Doc Établissement</button>
+        <button type="button" class="chariot-act chariot-act-main" id="chariotPdfBtn">📄 PDF à signer</button>
+        <button type="button" class="chariot-act" id="chariotCopyBtn">Copier</button>
+      </div>
+      <p class="chariot-act-hint"><strong>Doc Établissement</strong> : feuille de contrôle à cocher · <strong>PDF à signer</strong> : liste de réassort, signature et cachet du médecin.</p>
     </div>
-    <div class="bio-result-box">
-      <div class="bio-result-head">
-        <strong>${items.length} élément${items.length > 1 ? "s" : ""} à réassortir</strong>
-        <div class="bio-result-actions">
-          <button type="button" class="bio-copy-btn" id="chariotCopyBtn">Copier</button>
-          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="chariotChecklistBtn">📋 Doc Établissement</button>
-          <button type="button" class="bio-copy-btn chariot-pdf-btn" id="chariotPdfBtn">📄 PDF à signer</button>
-        </div>
-      </div>
-      <div class="chariot-rx">
-        <p class="chariot-rx-heading">${heading}</p>
-        ${items.map(it => `<div class="chariot-rx-row"><span class="chariot-rx-name">${it.n}</span><span class="chariot-rx-qty">${chariotGetQty(it)}</span></div>`).join("")}
-      </div>
+    <div class="chariot-rx">
+      <p class="chariot-rx-heading">${heading}</p>
+      ${items.map(it => `<div class="chariot-rx-row"><span class="chariot-rx-name">${it.n}</span><span class="chariot-rx-qty">${chariotGetQty(it)}</span></div>`).join("")}
     </div>
   `;
 
@@ -11578,6 +11868,34 @@ window.contSuggestAlts = contSuggestAlts;
 window.contAddEquipe = contAddEquipe;
 window.contBackToPresets = contBackToPresets;
 
+
+/* ------------------------------------------------------------ sélecteurs visuels
+   Pastilles à un clic à la place des menus déroulants. */
+function contSeg(field, opts, cur, extraCls){
+  return `<div class="cont-seg ${extraCls || ""}">${opts.map(([v, l]) => `<button type="button" class="cont-seg-btn ${String(cur) === String(v) ? "cont-seg-on" : ""}" onclick="contSet('${field}', '${v}', true)">${l}</button>`).join("")}</div>`;
+}
+const CONT_GROUP_ICON = { "Positionnement et prévention": "🧍", "Au fauteuil": "🪑", "Au lit": "🛏️",
+  "Membres et vêtements": "🧤", "Liberté d'aller et venir": "🚪", "Chambre et espaces": "🔒" };
+// de la mesure la moins restrictive à la plus restrictive
+const CONT_GROUP_ORDER = ["Positionnement et prévention", "Au fauteuil", "Au lit", "Membres et vêtements", "Liberté d'aller et venir", "Chambre et espaces"];
+function contPickType(){ contS().pickType = true; renderContentionPanel(); }
+function contChooseType(id){ contS().pickType = false; contSet("type", id, true); }
+window.contPickType = contPickType;
+window.contChooseType = contChooseType;
+function contTypeTiles(s){
+  const groups = CONT_GROUP_ORDER.filter(g => CONT_REF.groupes.indexOf(g) >= 0)
+    .concat(CONT_REF.groupes.filter(g => CONT_GROUP_ORDER.indexOf(g) < 0));
+  return `<div class="cont-legend">
+      <span><i class="cont-dot cont-dot-prevention"></i>Prévention, non restrictive</span>
+      <span><i class="cont-dot cont-dot-lav"></i>Liberté d'aller et venir</span>
+      <span><i class="cont-dot cont-dot-passive"></i>Contention physique</span>
+    </div>
+    <div class="cont-groups">${groups.map(g => `<div class="cont-group">
+      <p class="cont-group-title">${CONT_GROUP_ICON[g] || "•"} ${g}</p>
+      <div class="cont-tiles">${CONT_REF.types.filter(x => x.g === g).map(x => `<button type="button" class="cont-tile cont-tile-${x.nature} ${s.type === x.id ? "cont-tile-on" : ""}" onclick="contChooseType('${x.id}')" title="${escapeHtml(x.label)}">${x.court}</button>`).join("")}</div>
+    </div>`).join("")}</div>`;
+}
+
 /* ------------------------------------------------------------ rendu */
 function renderContentionPanel(){
   const cat = CATEGORIES.find(c => c.id === "contentions");
@@ -11675,13 +11993,11 @@ function contFormHTML(s, t){
         <label>Établissement<input type="text" class="tc-in" value="${contVal(s.etabNom)}" oninput="contSet('etabNom', this.value)" placeholder="Nom" /></label>
         <label>Prescripteur<input type="text" class="tc-in" value="${contVal(s.prescripteur)}" oninput="contSet('prescripteur', this.value)" placeholder="Dr …" /></label>
       </div>
+      <div class="cont-inline-row"><span class="cont-inline-lab">Type d'établissement</span>
+        ${contSeg("etab", Object.keys(CONT_REF.cadres).map(k => [k, CONT_REF.cadres[k].label]), s.etab)}</div>
+      <div class="cont-inline-row"><span class="cont-inline-lab">Protection juridique</span>
+        ${contSeg("protection", Object.keys(CONT_REF.protection).map(k => [k, ({ aucune: "Aucune", assistance: "Assistance (curatelle…)", representation: "Représentation (tutelle…)" })[k] || CONT_REF.protection[k].label]), s.protection)}</div>
       <div class="tc-idbar cont-idbar-last">
-        <label>Type d'établissement<select class="tc-in" onchange="contSet('etab', this.value, true)">
-          ${Object.keys(CONT_REF.cadres).map(k => contOpt(k, CONT_REF.cadres[k].label, s.etab)).join("")}
-        </select></label>
-        <label>Protection juridique<select class="tc-in" onchange="contSet('protection', this.value, true)">
-          ${Object.keys(CONT_REF.protection).map(k => contOpt(k, CONT_REF.protection[k].label, s.protection)).join("")}
-        </select></label>
         <label>Né(e) le<input type="text" class="tc-in" value="${contVal(s.naissance)}" oninput="contSet('naissance', this.value)" placeholder="facultatif" /></label>
       </div>
     </div>`;
@@ -11704,12 +12020,11 @@ function contStep1(s, t){
   const nat = t ? CONT_REF.natures[t.nature] : null;
   const natColor = { green: "emerald", red: "red", purple: "purple" };
   const nc = nat ? colorVars(natColor[nat.color] || "slate") : null;
-  const typeSelect = `<select class="tc-in cont-select ${t ? "" : "cont-select-todo"}" onchange="contSet('type', this.value, true)">
-      <option value="">— Choisir la mesure —</option>
-      ${CONT_REF.groupes.map(g => `<optgroup label="${g}">
-        ${CONT_REF.types.filter(x => x.g === g).map(x => contOpt(x.id, x.label, s.type)).join("")}
-      </optgroup>`).join("")}
-    </select>`;
+  const showTiles = !t || s.pickType;
+  const typeSelect = showTiles ? contTypeTiles(s)
+    : `<div class="cont-chosen cont-tile-${t.nature}"><span class="cont-chosen-ico">${CONT_GROUP_ICON[t.g] || "•"}</span>
+        <span class="cont-chosen-txt"><strong>${t.court}</strong><small>${t.label}</small></span>
+        <button type="button" class="cont-link" onclick="contPickType()">Changer</button></div>`;
   const motifs = CONT_REF.motifs.map(m => {
     const st = CONT_REF.statuts[m.statut];
     const sc = colorVars({ amber: "amber", red: "red", slate: "slate", purple: "purple", green: "emerald" }[st.color]);
@@ -11815,35 +12130,24 @@ function contStep3(s, t){
       <p class="cont-resume">✓ Repères appliqués : ${resume}</p>
       <div class="tc-idbar">
         <label>Début<input type="datetime-local" class="tc-in" value="${contVal(s.debut)}" onchange="contSet('debut', this.value, true)" /></label>
-        <label>${t.id === "acces_controle" ? "Réévaluation" : "Validité"}<select class="tc-in" onchange="contSet('validite', this.value, true)">
-          ${valOpts.map(v => contOpt(v, contDureeLabel(v), s.validite)).join("")}
-          ${contOpt(-1, "Autre (en heures)", s.validite)}
-        </select></label>
-        ${s.validite === -1 ? `<label>En heures<input type="number" min="1" class="tc-in" value="${contVal(s.validiteAutre)}" oninput="contSet('validiteAutre', this.value)" /></label>` : ""}
       </div>
+      <div class="cont-inline-row"><span class="cont-inline-lab">${t.id === "acces_controle" ? "Réévaluation" : "Validité"}</span>
+        ${contSeg("validite", valOpts.map(v => [v, contDureeLabel(v)]).concat([[-1, "Autre"]]), s.validite)}
+        ${s.validite === -1 ? `<input type="number" min="1" class="tc-in cont-inline-num" value="${contVal(s.validiteAutre)}" oninput="contSet('validiteAutre', this.value)" placeholder="heures" />` : ""}</div>
+      <div class="cont-inline-row"><span class="cont-inline-lab">Période</span>
+        ${contSeg("periode", [["continu", "En continu"], ["nuit", "🌙 La nuit"], ["jour", "☀️ En journée"], ["ponctuel", "Ponctuellement"]], s.periode)}</div>
       <div class="tc-idbar">
-        <label>Période<select class="tc-in" onchange="contSet('periode', this.value, true)">
-          ${contOpt("continu", "En continu", s.periode)}
-          ${contOpt("nuit", "La nuit", s.periode)}
-          ${contOpt("jour", "En journée", s.periode)}
-          ${contOpt("ponctuel", "Ponctuellement", s.periode)}
-        </select></label>
         ${s.periode === "nuit" || s.periode === "jour" ? `
           <label>De<input type="time" class="tc-in" value="${contVal(s.de)}" onchange="contSet('de', this.value, true)" /></label>
           <label>À<input type="time" class="tc-in" value="${contVal(s.a)}" onchange="contSet('a', this.value, true)" /></label>` : ""}
         ${s.periode === "ponctuel" ? `<label>Lors de<input type="text" class="tc-in" value="${contVal(s.ponctuel)}" oninput="contSet('ponctuel', this.value)" placeholder="la toilette, les repas…" /></label>` : ""}
       </div>
-      <div class="tc-idbar">
-        <label>Contrôle toutes les<select class="tc-in" onchange="contSet('controle', this.value, true)">
-          ${[15, 30, 60, 120, 180, 240].map(v => contOpt(v, v === 60 ? "1 h" : contFreqLabel(v), s.controle)).join("")}
-        </select></label>
-        <label>Levée toutes les<select class="tc-in" onchange="contSet('levee', this.value, true)">
-          ${[60, 120, 180, 240, 360].map(v => contOpt(v, v === 60 ? "1 h" : contFreqLabel(v), s.levee)).join("")}
-        </select></label>
-        <label>Réévaluation médicale<select class="tc-in" onchange="contSet('reeval', this.value, true)">
-          ${[12, 24, 48, 72, 168].map(v => contOpt(v, "toutes les " + contDureeLabel(v), s.reeval)).join("")}
-        </select></label>
-      </div>
+      <div class="cont-inline-row"><span class="cont-inline-lab">Contrôle toutes les</span>
+        ${contSeg("controle", [15, 30, 60, 120, 180, 240].map(v => [v, v === 60 ? "1 h" : contFreqLabel(v)]), s.controle)}</div>
+      <div class="cont-inline-row"><span class="cont-inline-lab">Levée toutes les</span>
+        ${contSeg("levee", [60, 120, 180, 240, 360].map(v => [v, v === 60 ? "1 h" : contFreqLabel(v)]), s.levee)}</div>
+      <div class="cont-inline-row"><span class="cont-inline-lab">Réévaluation médicale</span>
+        ${contSeg("reeval", [12, 24, 48, 72, 168].map(v => [v, contDureeLabel(v)]), s.reeval)}</div>
       <p class="tc-head">Surveillance réalisée par</p>
       <div class="cont-chips">
         ${Object.keys(CONT_QUI).map(k => `<label class="cont-chip ${s.qui[k] ? "cont-chip-on" : ""}"><input type="checkbox" ${s.qui[k] ? "checked" : ""} onchange="contToggle('qui','${k}')" />${CONT_QUI[k]}</label>`).join("")}
