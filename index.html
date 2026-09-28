@@ -2474,6 +2474,7 @@
   .neurolep-bubble:hover{transform:translateY(-2px);}
   .neurolep-dci{font-weight:700; font-size:14.5px; color:var(--pill,var(--blue));}
   .neurolep-brand{font-size:12px; font-weight:700; color:var(--text-muted);}
+  .bio-freq-nocopy{font-size:11px; font-weight:600; color:var(--text-muted); text-transform:none; letter-spacing:0;}
   .neurolep-brand-title{font-size:15px; font-weight:500; color:var(--text-muted); text-shadow:none;}
   .neurolep-form-card{
     background:var(--card-bg);
@@ -2659,7 +2660,7 @@ const CATEGORIES = [
     label: "Matériel médical",
     icon: "materiel",
     color: "purple",
-    description: "Synthèses pratiques sur le matériel médical (fauteuils roulants, dispositifs) et leurs règles de prescription."
+    description: "Synthèses pratiques sur le matériel médical (fauteuils roulants, orthèses, pédicurie-podologie, dispositifs) et leurs règles de prescription."
   },
   {
     id: "calculateurs",
@@ -3591,6 +3592,13 @@ const DOCUMENTS = {
     filename: "Reforme_fauteuils_roulants_VPH_synthese.pdf",
     path: "materiel/Reforme_fauteuils_roulants_VPH_synthese.pdf"
   },
+  "pedicurie-podologie": {
+    title: "Pédicurie-podologie en ESMS — prescription, remboursement, financement",
+    category: "materiel",
+    meta: "Fiche pratique DOTR · accès direct, patient diabétique sans ordonnance (grades 0 à 3), orthèses plantaires prescrites par le pédicure-podologue, qui finance en EHPAD / FAM / MAS / IME · septembre 2026",
+    filename: "Pedicurie_Podologie_ESMS_DOTR.pdf",
+    path: "materiel/Pedicurie_Podologie_ESMS_DOTR.pdf"
+  },
 };
 
 /* =====================================================================
@@ -3825,9 +3833,9 @@ const BIO_TESTS = {
   "afp": "AFP (alpha-fœtoprotéine)",
   "lithiemie": "Lithiémie",
   "nfs-pnn": "NFS (surveillance PNN — clozapine)",
-  "depakinemie": "Dépakinémie",
-  "carbamazepinemie": "Carbamazépinémie",
-  "phenobarbitalemie": "Phénobarbitalémie",
+  "depakinemie": "Dépakinémie (dosage de l'acide valproïque)",
+  "carbamazepinemie": "Tégrétolémie (carbamazépinémie)",
+  "phenobarbitalemie": "Gardénalémie (phénobarbitalémie)",
   "glycemie-veineuse": "Glycémie veineuse à jeun",
   "anti-gad": "Anticorps anti-GAD",
   "anti-ia2": "Anticorps anti-IA2",
@@ -3884,9 +3892,10 @@ const BIO_SITUATIONS = [
   {"id": "ic", "wip": true, "label": "Insuffisance cardiaque", "color": "wine", "tests": ["ionogramme", "creat-dfg", "nfs-plaquettes", "ferritine-cst"], "frequency": "Au moins 2 fois par an et à chaque modification de traitement : 1 à 2 semaines après l'introduction ou l'augmentation d'un IEC, ARA2, sacubitril-valsartan ou diurétique ; sous spironolactone ou éplérénone : à 1 et 4 semaines, 8 et 12 semaines, 6, 9 et 12 mois, puis tous les 4 mois. Bilan martial (NFS, ferritine, CST) périodiquement", "note": "NT-proBNP : pas en routine ; utile en cas de doute sur une décompensation, comparé à la valeur de l'état stable dans le même laboratoire (hausse ≥ 50 % en faveur d'une décompensation). Sous IEC/ARA2, une hausse de créatinine jusqu'à 50 % est acceptable ; réduire la dose si K⁺ > 5,5 mmol/L. Carence martiale : ferritine < 100 µg/L, ou 100–299 avec CST < 20 %.", "src": ["HAS_IC", "ESC_IC"]},
   {"id": "hypothyroidie", "wip": true, "label": "Hypothyroïdie traitée (lévothyroxine)", "color": "indigo", "tests": ["tsh"], "frequency": "6 à 8 semaines après toute modification de dose ou de spécialité, puis 1 fois par an une fois équilibrée", "note": "TSH seule : pas de T4L ni de T3L en routine. À partir de 65 ans, viser le haut de l'intervalle de référence (limite haute ≈ décennie d'âge : environ 8 mUI/L entre 80 et 89 ans). Lévothyroxine à distance (≥ 2 h) du calcium, du fer et des pansements gastriques ; IPP : absorption diminuée, recontrôler aussi à leur arrêt.", "src": ["HAS_HYPO", "RCP_LEVO"]},
   {"id": "antipsychotiques", "wip": true, "label": "Antipsychotiques (suivi métabolique)", "color": "emerald", "tests": ["glycemie", "eal"], "frequency": "Avant traitement, à 3 mois, puis glycémie à jeun 1 fois par an ; bilan lipidique tous les 5 ans s'il est normal (plus souvent selon le contexte)", "note": "À associer : poids/IMC à 1 et 3 mois puis tous les 3 mois (alerte si prise ≥ 7 %), périmètre ombilical et pression artérielle. ECG recommandé : QTc > 450 ms, surveillance ; > 500 ms, contre-indication. Prolactinémie seulement sur signe d'appel. Clozapine : bulle dédiée (NFS).", "src": ["ANSM_AP", "FFP_2015"]},
-  {"id": "valproate", "wip": true, "label": "Valproate", "color": "red", "tests": ["asat-alat", "ggt", "pal", "bilirubine", "nfs-plaquettes"], "frequency": "Bilan hépatique avant le traitement puis régulièrement pendant les 6 premiers mois ; NFS-plaquettes avant le traitement et avant toute chirurgie ; ensuite sur point d'appel", "note": "Dosage plasmatique (dépakinémie) : pas systématique, seulement sur point d'appel (crises non contrôlées, effet indésirable suspecté). Transaminases ≤ 3 N asymptomatiques : pas forcément de changement de traitement, mais suivi. Signes d'hyperammoniémie (confusion, ataxie, vomissements) : prévenir le médecin, risque accru avec le topiramate.", "src": ["HAS_EPI", "RCP_VPA"]},
-  {"id": "carbamazepine", "wip": true, "label": "Carbamazépine / oxcarbazépine", "color": "amber", "tests": ["ionogramme", "nfs-plaquettes", "asat-alat", "ggt"], "frequency": "Natrémie avant le traitement, à 2 semaines puis tous les mois pendant 3 mois, ensuite selon l'état clinique (sujet âgé, diurétiques). Carbamazépine : NFS tous les mois pendant 5 mois puis 2 à 4 fois par an ; bilan hépatique chaque semaine le premier mois puis sur signe d'appel", "note": "Oxcarbazépine : natrémie seule en routine ; NFS et bilan hépatique seulement si anomalie suspectée. Dosages plasmatiques : pas systématiques (polythérapie, doute d'observance). Carbamazépine sous lévothyroxine : contrôler la TSH.", "src": ["HAS_EPI", "RCP_CBZ"]},
-  {"id": "phenobarbital", "wip": true, "label": "Phénobarbital (Gardénal)", "color": "purple", "tests": ["nfs-plaquettes", "asat-alat", "ggt", "pal"], "frequency": "1 fois par an et sur point d'appel ; phénobarbitalémie seulement sur point d'appel : crises non contrôlées, somnolence ou ataxie évoquant un surdosage, modification de dose ou d'un traitement associé, doute d'observance", "note": "Rythme annuel : proposition DOTR, ni le RCP ni la HAS n'en fixent. Induction enzymatique : élévation fréquente et attendue des GGT, transaminases et PAL, sans hépatopathie forcément — interpréter l'évolution. Anémie par carence en folates possible : NFS, et folates si macrocytose (option B9). Dosage : prélèvement de préférence le matin ; zone habituelle chez l'adulte 65–130 µmol/L. Inducteur puissant : revoir les traitements associés (AVK, AOD, lévothyroxine, contraceptifs…). Traitement au long cours : évaluer le risque osseux (HAS 2020) ; la prévention par vitamine D du RCP vise l'enfant.", "src": ["HAS_EPI", "RCP_PB"]},
+  {"id": "valproate", "label": "Dépakine (acide valproïque)", "brand": "Dépakine", "dci": "Acide valproïque", "color": "red", "tests": ["depakinemie", "asat-alat", "ggt", "pal", "bilirubine", "nfs-plaquettes"], "frequency": "Bilan hépatique avant le traitement puis régulièrement pendant les 6 premiers mois ; NFS-plaquettes avant le traitement et avant toute chirurgie ; ensuite sur point d'appel", "note": "Dépakinémie : ajoutée d'office à la demande DOTR ; la HAS ne la rend pas systématique (utile si crises non contrôlées ou effet indésirable suspecté). Transaminases ≤ 3 N asymptomatiques : pas forcément de changement de traitement, mais suivi. Signes d'hyperammoniémie (confusion, ataxie, vomissements) : prévenir le médecin, risque accru avec le topiramate.", "src": ["HAS_EPI", "RCP_VPA"]},
+  {"id": "carbamazepine", "label": "Tégrétol (carbamazépine)", "brand": "Tégrétol", "dci": "Carbamazépine", "color": "amber", "tests": ["carbamazepinemie", "ionogramme", "nfs-plaquettes", "asat-alat", "ggt"], "frequency": "Natrémie avant le traitement, à 2 semaines puis tous les mois pendant 3 mois, ensuite selon l'état clinique (sujet âgé, diurétiques). NFS tous les mois pendant 5 mois puis 2 à 4 fois par an ; bilan hépatique chaque semaine le premier mois puis sur signe d'appel", "note": "Dosage plasmatique : ajouté d'office à la demande DOTR ; la HAS ne le rend pas systématique (utile en polythérapie ou en cas de doute d'observance). Sous lévothyroxine : contrôler la TSH.", "src": ["HAS_EPI", "RCP_CBZ"]},
+  {"id": "oxcarbazepine", "wip": true, "label": "Trileptal (oxcarbazépine)", "brand": "Trileptal", "dci": "Oxcarbazépine", "color": "amber", "tests": ["ionogramme"], "frequency": "Natrémie avant le traitement, à 2 semaines puis tous les mois pendant 3 mois, ensuite selon l'état clinique (sujet âgé, diurétiques)", "note": "Natrémie seule en routine ; NFS et bilan hépatique seulement si anomalie suspectée. Pas de dosage plasmatique en routine.", "src": ["HAS_EPI", "RCP_CBZ"]},
+  {"id": "phenobarbital", "label": "Gardénal / Alepsal (phénobarbital)", "brand": "Gardénal · Alepsal", "dci": "Phénobarbital", "color": "purple", "tests": ["phenobarbitalemie", "nfs-plaquettes", "asat-alat", "ggt", "pal"], "frequency": "1 fois par an (avec la phénobarbitalémie) et sur point d'appel : crises non contrôlées, somnolence ou ataxie évoquant un surdosage, modification de dose ou d'un traitement associé, doute d'observance", "note": "Rythme annuel : proposition DOTR, ni le RCP ni la HAS n'en fixent. Induction enzymatique : élévation fréquente et attendue des GGT, transaminases et PAL, sans hépatopathie forcément — interpréter l'évolution. Anémie par carence en folates possible : NFS, et folates si macrocytose (option B9). Dosage : prélèvement de préférence le matin ; zone habituelle chez l'adulte 65–130 µmol/L. Inducteur puissant : revoir les traitements associés (AVK, AOD, lévothyroxine, contraceptifs…). Traitement au long cours : évaluer le risque osseux (HAS 2020) ; la prévention par vitamine D du RCP vise l'enfant.", "src": ["HAS_EPI", "RCP_PB"]},
   {"id": "t21", "wip": true, "label": "Trisomie 21 (adulte)", "color": "sky", "tests": ["tsh", "glycemie", "iga-ttg"], "frequency": "Tous les 2 à 3 ans chez l'adulte (thyroïde, diabète, maladie cœliaque) et à tout signe d'appel ; TSH annuelle chez l'enfant", "note": "Rythme adulte issu d'une source secondaire citant le PNDS HAS 2020 (annexe de suivi non relue) : à confirmer avant validation. Hypothyroïdie infraclinique fréquente. Maladie cœliaque : IgA anti-transglutaminase avec dosage des IgA totales.", "src": ["PNDS_T21"]},
   {"id": "nutrition", "wip": true, "label": "Nutrition entérale (gastrostomie)", "color": "teal", "tests": ["ionogramme", "creat-dfg", "phosphoremie", "magnesemie", "glycemie", "nfs-plaquettes", "albuminemie"], "frequency": "Au long cours : tous les 6 à 12 mois et à chaque événement intercurrent. À l'initiation ou à la reprise après un jeûne : K⁺, phosphore et magnésium avant, puis toutes les 12 h pendant 3 jours si risque de renutrition inappropriée", "note": "Rythme au long cours : proposition DOTR, aucune recommandation ne fixe de calendrier biologique. Efficacité suivie d'abord cliniquement : poids au moins une fois par mois, hydratation. Albuminémie : critère de sévérité de la dénutrition (< 30 g/L = sévère), pas de diagnostic ; l'interpréter avec la CRP. Renutrition à risque : thiamine avant de débuter, apports progressifs.", "src": ["ESPEN_HEN", "ASPEN_RS", "HAS_DEN"]},
   { id: "aod", label: "AOD / AVK", color: "slate", tests: ["nfs-plaquettes", "creat-dfg", "asat-alat"], frequency: "Tous les 12 mois" }
@@ -5354,7 +5363,8 @@ function bioBubbleHTML(situ){
   const active = state.bioSelected.includes(situ.id);
   return `
     <button type="button" class="neurolep-bubble bio-bubble ${active ? "bio-bubble-active" : ""}" style="--pill:${mc.pill};--pillbg:${mc.pillbg}" onclick="toggleBioSituation('${situ.id}')">
-      <span class="neurolep-dci">${situ.label}</span>
+      <span class="neurolep-dci">${situ.brand || situ.label}</span>
+      ${situ.dci ? `<span class="neurolep-brand">${situ.dci}</span>` : ""}
       ${situ.wip ? `<span class="bio-wip">🚧 nouveau, à valider</span>` : ""}
       <span class="bio-check">${active ? "✓ ajouté" : "+ ajouter"}</span>
     </button>
@@ -5509,10 +5519,10 @@ function renderBioResults(){
   const freqItems = freqGroups.map(g => ({ label: g.labels.join(", "), freq: g.freq }));
 
   const freqHeading = "Examens à réaliser :";
-  const plainText = heading + "\n" + lines.map(l => `- ${l}`).join("\n")
-    + (freqItems.length ? "\n\n" + freqHeading + "\n" + freqItems.map(f => `- ${f.label} : ${f.freq}`).join("\n") : "");
-  const htmlText = `<p><strong><u>${heading}</u></strong></p><ul>${lines.map(l => `<li>${l}</li>`).join("")}</ul>`
-    + (freqItems.length ? `<p><strong><u>${freqHeading}</u></strong></p><ul>${freqItems.map(f => `<li><strong>${f.label}</strong> : ${f.freq}</li>`).join("")}</ul>` : "");
+  // Copie = ordonnance seule : les fréquences de renouvellement restent
+  // affichées à titre informatif mais ne sont pas copiées (demande Cédric 27/09/2026).
+  const plainText = heading + "\n" + lines.map(l => `- ${l}`).join("\n");
+  const htmlText = `<p><strong><u>${heading}</u></strong></p><ul>${lines.map(l => `<li>${l}</li>`).join("")}</ul>`;
 
   wrap.innerHTML = `
     <div class="bio-result-box">
@@ -5529,7 +5539,7 @@ function renderBioResults(){
           ${lines.map(l => `<li>${l}</li>`).join("")}
         </ul>
         ${freqItems.length ? `
-          <p class="bio-result-heading bio-freq-heading">🕒 ${freqHeading}</p>
+          <p class="bio-result-heading bio-freq-heading">🕒 ${freqHeading} <span class="bio-freq-nocopy">(repère, non copié)</span></p>
           <ul class="bio-freq-list">
             ${freqItems.map(f => `<li><strong>${f.label}</strong> : ${f.freq}</li>`).join("")}
           </ul>
