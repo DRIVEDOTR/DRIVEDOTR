@@ -2591,6 +2591,8 @@
   .sign-bar em{font-style:normal; font-size:11.5px; color:var(--text-muted);}
   .sign-bar-empty{font-size:12.5px; color:var(--text-muted);}
   .param-grid{display:grid; grid-template-columns:1fr 1fr; gap:0 12px;}
+  .param-full{grid-column:1 / -1;}
+  .param-cpv{grid-column:1 / -1; display:grid; grid-template-columns:140px 1fr; gap:0 12px;}
   @media (max-width:640px){ .param-grid{grid-template-columns:1fr;} }
   .param-imgs{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px;}
   @media (max-width:640px){ .param-imgs{grid-template-columns:1fr;} }
@@ -4611,7 +4613,7 @@ function selectionToolbarHTML(scopeId){
   if(!ids.length) return "";
   const hasFillable = ids.some(id => isFillableDoc(id, DOCUMENTS[id]));
   const zf = state.zipFill;
-  if(!zf._pref){ zf._pref = true; const pp = prescGet(); if(!zf.medecin) zf.medecin = pp.nom || ""; if(!zf.lieu) zf.lieu = pp.ville || ""; }
+  if(!zf._pref){ zf._pref = true; const pp = prescGet(); if(!zf.medecin) zf.medecin = pp.nom || ""; }
   const scopeArg = scopeId ? `'${scopeId}'` : "";
   return `
     <div class="selection-toolbar">
@@ -4818,7 +4820,7 @@ function renderEmbedPage(id){
           <div class="fill-box-fields">
             <label>Établissement<input type="text" id="fillEtablissement" placeholder="Nom de l'établissement" autocomplete="off" /></label>
             <label>Médecin<input type="text" id="fillMedecin" placeholder="Nom du médecin (« Docteur » ajouté automatiquement)" autocomplete="off" value="${escapeHtml(prescGet().nom || "")}" /></label>
-            <label>Fait à (lieu)<input type="text" id="fillLieu" placeholder="Ville / lieu" autocomplete="off" maxlength="34" value="${escapeHtml(prescGet().ville || "")}" /></label>
+            <label>Fait à (lieu)<input type="text" id="fillLieu" placeholder="Ville / lieu" autocomplete="off" maxlength="34" value="" /></label>
             <label>Le (date)<input type="date" id="fillDate" value="${new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10)}" /></label>
           </div>
           ${signBarHTML("proto", "tampon dans le cadre « Médecin », signature en bas de page")}
@@ -8807,15 +8809,18 @@ const PRESC_KEY = "dotr_prescripteur_v1";
 const PRESC_FIELDS = [
   { id: "nom", label: "Nom affiché", ph: "Dr Cédric VILLEMINOT" },
   { id: "qualite", label: "Qualité", ph: "Médecin généraliste" },
-  { id: "fonction", label: "Fonction", ph: "Co-Directeur médical" },
-  { id: "structure", label: "Structure", ph: "Docs On The Road" },
   { id: "rpps", label: "N° RPPS", ph: "11 chiffres" },
   { id: "adeli", label: "N° ADELI (facultatif)", ph: "9 chiffres" },
-  { id: "adresse", label: "Adresse professionnelle", ph: "Adresse de Docs On The Road" },
-  { id: "ville", label: "Ville (« Fait à »)", ph: "Annecy" },
+  { id: "structure", label: "Structure", ph: "Docs On The Road", full: 1 },
+  { id: "adresse", label: "Adresse professionnelle (n° et rue)", ph: "N° et rue", full: 1 },
+  { id: "cp", label: "Code postal", ph: "74000", cpv: 1 },
+  { id: "villePro", label: "Ville", ph: "Annecy", cpv: 1 },
   { id: "tel", label: "Téléphone", ph: "04 XX XX XX XX" },
   { id: "email", label: "E-mail professionnel", ph: "prenom.nom@…" }
 ];
+/* Anciens champs retirés des paramètres (29/09/2026) : « fonction » et « ville (Fait à) ».
+   Le « Fait à » se saisit désormais dans chaque document qui le demande. */
+const PRESC_OLD_KEYS = ["fonction", "ville"];
 const PRESC_IMAGES = [
   { id: "signature", label: "Signature manuscrite", icon: "🖊️", help: "Photo ou scan de ta signature sur papier blanc." },
   { id: "tampon", label: "Tampon (cachet)", icon: "🔖", help: "Scan de ton tampon, ou le PDF de ton tampon numérique." }
@@ -8823,17 +8828,19 @@ const PRESC_IMAGES = [
 let PRESC_SESSION = {};
 function prescLoad(){ try{ const r = localStorage.getItem(PRESC_KEY); return r ? JSON.parse(r) : {}; }catch(e){ return {}; } }
 function prescStore(d){ try{ localStorage.setItem(PRESC_KEY, JSON.stringify(d)); return true; }catch(e){ return false; } }
-function prescGet(){ return Object.assign({}, prescLoad(), PRESC_SESSION); }
+function prescGet(){ const d = Object.assign({}, prescLoad(), PRESC_SESSION); PRESC_OLD_KEYS.forEach(k => delete d[k]); return d; }
+function prescVilleLigne(p){ return [p.cp, p.villePro].map(x => (x || "").trim()).filter(Boolean).join(" "); }
+function prescAdresseComplete(p, sep){ return [(p.adresse || "").trim(), prescVilleLigne(p)].filter(Boolean).join(sep || ", "); }
 function prescNomNu(){ return (prescGet().nom || "").replace(/^(Dr\.?|Docteur)\s+/i, ""); }
 function prescSignatureLines(p){
   const out = [];
   if(p.nom) out.push(p.nom);
   if(p.qualite) out.push(p.qualite);
-  const fs = [p.fonction, p.structure].filter(Boolean).join(" — ");
-  if(fs) out.push(fs);
+  if(p.structure) out.push(p.structure);
   const ids = [p.rpps ? "RPPS " + p.rpps : "", p.adeli ? "ADELI " + p.adeli : ""].filter(Boolean).join(" · ");
   if(ids) out.push(ids);
-  if(p.adresse) out.push(p.adresse);
+  const adr = prescAdresseComplete(p);
+  if(adr) out.push(adr);
   const ct = [p.tel, p.email].filter(Boolean).join(" · ");
   if(ct) out.push(ct);
   return out;
@@ -8960,7 +8967,10 @@ function renderParamPanel(){
           <div class="bio-options-wrap">
             <span class="neurolep-label">Identité</span>
             <div class="courrier-fields param-grid">
-              ${PRESC_FIELDS.map(f => `<label class="calc-field courrier-field"><span>${f.label}</span><input type="text" data-pf="${f.id}" placeholder="${f.ph}" value="${escapeHtml(d[f.id] || "")}" /></label>`).join("")}
+              ${(() => { const one = f => `<label class="calc-field courrier-field${f.full ? " param-full" : ""}"><span>${f.label}</span><input type="text" data-pf="${f.id}" placeholder="${f.ph}" value="${escapeHtml(d[f.id] || "")}"${f.id === "cp" ? ' inputmode="numeric" maxlength="5"' : ""} /></label>`;
+                let h = "", cpv = [];
+                PRESC_FIELDS.forEach(f => { if(f.cpv){ cpv.push(f); if(cpv.length === 2) h += `<div class="param-cpv">${cpv.map(one).join("")}</div>`; } else h += one(f); });
+                return h; })()}
             </div>
             <span class="neurolep-label" style="margin-top:16px; display:block;">Signature et tampon</span>
             <div class="param-imgs">
@@ -9021,6 +9031,7 @@ async function paramImgFile(kind, f){
 }
 function paramSave(){
   const d = Object.assign({}, state.paramDraft);
+  PRESC_OLD_KEYS.forEach(k => delete d[k]);
   const toStore = Object.assign({}, d);
   PRESC_SESSION = {};
   if(!d.memSig){
@@ -13919,7 +13930,7 @@ function certToday(){
 function certDefault(){
   return {
     famille: null, q: "", model: null,
-    medNom: prescNomNu(), medQualif: prescGet().qualite || "Médecin généraliste", medQualifAutre: "", rpps: prescGet().rpps || "", lieu: prescGet().ville || "",
+    medNom: prescNomNu(), medQualif: prescGet().qualite || "Médecin généraliste", medQualifAutre: "", rpps: prescGet().rpps || "", lieu: "",
     civ: "Mme", patient: "", naissance: "", dateExam: certToday(), mode: "presentiel",
     protection: "aucune", demandePar: "interesse", remisA: "interesse", representant: "",
     v: {},              // valeurs des champs du modèle
@@ -14516,7 +14527,7 @@ function pmtDefault(){
     exo: "NON", pension: "NON",
     km150: false, serie: false, avion: false, camsp: false,
     prescripteurSoins: "",
-    presNom: prescGet().nom || "", rpps: prescGet().rpps || "", presStruct: prescGet().structure || "", presAdresse: prescGet().adresse || "", presNum: "", date: pmtToday(),
+    presNom: prescGet().nom || "", rpps: prescGet().rpps || "", presStruct: prescGet().structure || "", presAdresse: prescAdresseComplete(prescGet()), presNum: "", date: pmtToday(),
     notice: false, aide: false
   };
 }
@@ -14881,7 +14892,7 @@ function pmtFormHTML(){
         ${pmtMasked("presNum", "N° de structure (AM, FINESS, SIRET)", "9 ou 14 chiffres")}
       </div>
       <div class="tc-idbar">
-        <label>Adresse de la structure<input type="text" class="tc-in" maxlength="50" value="${v(s.presAdresse)}" oninput="pmtSet('presAdresse', this.value)" /></label>
+        <label>Adresse de la structure<input type="text" class="tc-in" maxlength="80" value="${v(s.presAdresse)}" oninput="pmtSet('presAdresse', this.value)" /></label>
         <label>Date<input type="date" class="tc-in" value="${v(s.date)}" onchange="pmtSet('date', this.value, true)" /></label>
       </div>
     </div>`;
@@ -15557,7 +15568,7 @@ function mdphFr(iso){ const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2}
 function mdphDefault(){
   const p = prescGet();
   return { civ: "Mme", nomNaiss: "", nomUsage: "", prenom: "", naissance: "", adresse: "", nir: "", dossier: "", besoins: "",
-    dateCert: mdphToday(), dateRemise: mdphToday(), faitA: p.ville || "", mt: "" };
+    dateCert: mdphToday(), dateRemise: mdphToday(), faitA: "", mt: "" };
 }
 function mdphS(){ if(!state.mdph) state.mdph = mdphDefault(); return state.mdph; }
 function mdphSet(k, v, full){ mdphS()[k] = v; if(full) renderMdphPanel(); else mdphRefresh(); }
@@ -15605,7 +15616,7 @@ function renderMdphPanel(){
   const s = mdphS(), p = prescGet();
   const v = x => escapeHtml(x || "");
   const auto = [
-    ["Docteur", prescNomNu()], ["RPPS", p.rpps], ["ADELI", p.adeli], ["Adresse postale", p.adresse],
+    ["Docteur", prescNomNu()], ["RPPS", p.rpps], ["ADELI", p.adeli], ["Adresse postale", prescAdresseComplete(p)],
     ["Téléphone", p.tel], ["E-mail", p.email]
   ];
   const nirSt = mdphNirState(s.nir);
@@ -15825,7 +15836,7 @@ async function mdphPdf(){
     line(p8, prescNomNu(), Q.docteur, { bold: true });
     line(p8, p.rpps, Q.rpps);
     line(p8, p.adeli, Q.adeli);
-    block(p8, [p.structure, p.adresse].filter(Boolean).join("\n"), Q.adresse, { size: 9.5 });
+    block(p8, [p.structure, prescAdresseComplete(p)].filter(Boolean).join("\n"), Q.adresse, { size: 9.5 });
     line(p8, p.tel, Q.tel);
     line(p8, p.email, Q.email);
     line(p8, mdphFr(s.dateRemise), Q.remis);
