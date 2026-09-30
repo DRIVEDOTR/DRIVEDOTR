@@ -2666,6 +2666,28 @@
   .medoc-verdict-icon svg{width:40px; height:40px; display:block;} .medoc-verdict-icon .ico-emoji{font-size:30px;}
   .medoc-legend-tile span svg{width:38px; height:38px; display:block;} .medoc-legend-tile span .ico-emoji{font-size:30px;}
   @media (max-width:640px){ .medoc-legend{grid-template-columns:1fr 1fr !important;} .doc-ico-lg{width:52px; height:52px;} .doc-ico-lg .ico-emoji{font-size:29px;} }
+  /* ---------- Musique d'ambiance ---------- */
+  .music-wrap{position:relative; display:inline-block;}
+  .music-btn{font-size:15px; padding:7px 12px; display:inline-flex; align-items:center; gap:6px;}
+  .music-btn.music-on{background:var(--navy,#1E385D); color:#fff; border-color:var(--navy,#1E385D);}
+  .music-eq{display:inline-flex; align-items:flex-end; gap:2px; height:13px;}
+  .music-eq i{display:block; width:3px; background:#8fd3ff; border-radius:1px; animation:musicEq 1s ease-in-out infinite;}
+  .music-eq i:nth-child(1){height:6px;} .music-eq i:nth-child(2){height:12px; animation-delay:.2s;} .music-eq i:nth-child(3){height:8px; animation-delay:.4s;}
+  @keyframes musicEq{0%,100%{transform:scaleY(.4);} 50%{transform:scaleY(1);}}
+  .music-eq i{transform-origin:bottom;}
+  @media (prefers-reduced-motion:reduce){ .music-eq i{animation:none;} }
+  .music-pop{position:absolute; right:0; top:calc(100% + 8px); z-index:60; width:270px; background:#fff; border:1px solid var(--border); border-radius:16px; box-shadow:0 12px 32px rgba(11,37,69,.22); padding:12px;}
+  .music-pop[hidden]{display:none;}
+  .music-pop-t{margin:0 0 8px; font-weight:800; color:var(--navy,#1E385D); font-size:14px;}
+  .music-opt{display:flex; align-items:center; gap:10px; width:100%; border:1.5px solid transparent; background:transparent; border-radius:12px; padding:7px 8px; font:inherit; text-align:left; cursor:pointer; color:var(--text);}
+  .music-opt:hover{background:var(--sky-bg);}
+  .music-opt-on{border-color:var(--blue); background:var(--sky-bg);}
+  .music-opt-ico{font-size:22px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; border-radius:10px; background:var(--slate-bg); flex:none;}
+  .music-opt strong{display:block; font-size:13.5px;} .music-opt em{display:block; font-style:normal; font-size:11.5px; color:var(--text-muted);}
+  .music-opt-ck{margin-left:auto; color:var(--blue); font-weight:800;}
+  .music-vol{display:flex; align-items:center; gap:8px; margin:10px 4px 4px;} .music-vol input{flex:1; accent-color:var(--blue);}
+  .music-pop-n{margin:6px 4px 0; font-size:11.5px; color:var(--text-muted); line-height:1.4;}
+  @media (max-width:700px){ .music-pop{right:auto; left:0;} }
   /* ---------- Calculateurs : bulles de contexte ---------- */
   .calc-ctx-lead{font-size:14.5px; font-weight:700; color:var(--text); margin:20px 0 10px;}
   .calc-ctx-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:16px;}
@@ -2829,6 +2851,7 @@
     <input id="search" type="text" placeholder="Rechercher un protocole (ex : hypoglycémie, chute, hémorragie…)" aria-label="Rechercher un protocole" />
   </div>
   <div class="status-msg" id="statusMsg"></div>
+  <div class="music-wrap"><button type="button" class="settings-btn music-btn" id="musicBtn" onclick="musicToggleMenu(event)" title="Musique d'ambiance (coupée)" aria-label="Musique d'ambiance">🎵</button><div class="music-pop" id="musicPop" hidden></div></div>
   <button type="button" class="settings-btn team-btn" onclick="openDoc('trombinoscope-vms')" title="Trombinoscope de l'équipe VMS/DOTR">👥 Équipe</button>
   <button type="button" class="settings-btn" onclick="openExplorer('parametres-medecin')" title="Mes paramètres : médecin (identité, signature) et établissements, enregistrés sur cet appareil">⚙️ Mes paramètres</button>
 </div>
@@ -16612,6 +16635,175 @@ function icoTile(def, size){
 function docIconDef(id, catId){ return DOC_ICONS[id] || CAT_ICON_DEFAULT[catId] || ["📄", "slate"]; }
 function docIconHTML(id, catId, size){ return icoTile(docIconDef(id, catId), size); }
 /* fin Icônes */
+
+/* =====================================================================
+   MUSIQUE D'AMBIANCE — bouton 🎵 dans l'en-tête, coupée par défaut.
+   Choix du morceau et du volume mémorisés sur l'appareil (localStorage).
+   Lecture en boucle avec fondu enchaîné (deux lecteurs qui se relaient)
+   pour masquer le début et la fin du morceau ; volume géré par Web Audio
+   (le volume des balises <audio> est ignoré sur iPhone / iPad).
+   La page ne se recharge jamais en naviguant dans l'Espace : la musique
+   continue pendant toutes les actions.
+   ===================================================================== */
+const MUSIC_TRACKS = [
+  { id: "midnight", titre: "Midnight Highway", sous: "Synthwave de nuit", ico: "🌃", src: "audio/Midnight Highway.mp3" },
+  { id: "luminous", titre: "Luminous Minor", sous: "French touch filtrée", ico: "✨", src: "audio/Luminous Minor.mp3" }
+];
+const MUSIC_KEY = "dotr_music_v1";
+const MUSIC_XF = 5;        // durée du fondu enchaîné en fin de boucle (s)
+const MUSIC_SWITCH = 1.6;  // fondu lors d'un changement de morceau (s)
+const MUSIC = { ctx: null, master: null, players: [], cur: 0, track: null, timer: null, pending: false };
+
+function musicPrefs(){
+  try{ const r = JSON.parse(localStorage.getItem(MUSIC_KEY) || "{}"); return { on: !!r.on, track: r.track || MUSIC_TRACKS[0].id, vol: typeof r.vol === "number" ? r.vol : 0.35 }; }
+  catch(e){ return { on: false, track: MUSIC_TRACKS[0].id, vol: 0.35 }; }
+}
+function musicSave(p){ try{ localStorage.setItem(MUSIC_KEY, JSON.stringify(p)); }catch(e){} }
+
+function musicInit(){
+  if(MUSIC.players.length) return;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if(AC){
+    try{ MUSIC.ctx = new AC(); MUSIC.master = MUSIC.ctx.createGain(); MUSIC.master.gain.value = musicPrefs().vol; MUSIC.master.connect(MUSIC.ctx.destination); }catch(e){ MUSIC.ctx = null; }
+  }
+  for(let i = 0; i < 2; i++){
+    const a = new Audio();
+    a.preload = "auto";
+    a.crossOrigin = "anonymous";
+    const p = { el: a, gain: null, v: 0 };
+    if(MUSIC.ctx){
+      try{
+        const src = MUSIC.ctx.createMediaElementSource(a);
+        p.gain = MUSIC.ctx.createGain(); p.gain.gain.value = 0;
+        src.connect(p.gain); p.gain.connect(MUSIC.master);
+      }catch(e){ p.gain = null; }
+    }
+    MUSIC.players.push(p);
+  }
+}
+/* volume d'un lecteur (0-1), relatif au volume général */
+function musicSetV(p, v){
+  p.v = Math.max(0, Math.min(1, v));
+  if(p.gain) p.gain.gain.value = p.v;
+  else p.el.volume = p.v * musicPrefs().vol;
+}
+function musicRamp(p, from, to, sec, done){
+  const t0 = performance.now();
+  clearInterval(p.ramp);
+  musicSetV(p, from);
+  p.ramp = setInterval(() => {
+    const k = Math.min(1, (performance.now() - t0) / (sec * 1000));
+    musicSetV(p, from + (to - from) * k);
+    if(k >= 1){ clearInterval(p.ramp); p.ramp = null; if(done) done(); }
+  }, 50);
+}
+function musicStartOn(p, tr, fade){
+  if(p.el.dataset.id !== tr.id){ p.el.src = encodeURI(tr.src); p.el.dataset.id = tr.id; }
+  try{ p.el.currentTime = 0; }catch(e){}
+  musicSetV(p, 0);
+  const pr = p.el.play();
+  if(pr && pr.catch) pr.catch(() => { MUSIC.pending = true; musicArmGesture(); });
+  musicRamp(p, 0, 1, fade);
+}
+function musicWatch(){
+  clearInterval(MUSIC.timer);
+  MUSIC.timer = setInterval(() => {
+    const a = MUSIC.players[MUSIC.cur];
+    if(!a || a.el.paused || !a.el.duration || !isFinite(a.el.duration)) return;
+    if(a.el.duration - a.el.currentTime <= MUSIC_XF && !a.xf){
+      a.xf = true;
+      const nxt = (MUSIC.cur + 1) % 2, b = MUSIC.players[nxt];
+      musicStartOn(b, MUSIC.track, MUSIC_XF);
+      musicRamp(a, a.v, 0, MUSIC_XF, () => { a.el.pause(); a.xf = false; });
+      MUSIC.cur = nxt;
+    }
+  }, 200);
+}
+function musicPlay(trackId, fade){
+  const tr = MUSIC_TRACKS.find(t => t.id === trackId) || MUSIC_TRACKS[0];
+  musicInit();
+  if(MUSIC.ctx && MUSIC.ctx.state === "suspended") MUSIC.ctx.resume().catch(() => {});
+  const old = MUSIC.players[MUSIC.cur];
+  const playing = old && !old.el.paused;
+  if(playing && MUSIC.track && MUSIC.track.id === tr.id) return;
+  MUSIC.track = tr;
+  if(playing){
+    const nxt = (MUSIC.cur + 1) % 2;
+    musicRamp(old, old.v, 0, fade || MUSIC_SWITCH, () => { old.el.pause(); old.xf = false; });
+    MUSIC.cur = nxt;
+  }
+  musicStartOn(MUSIC.players[MUSIC.cur], tr, fade || MUSIC_SWITCH);
+  musicWatch();
+  musicUI();
+}
+function musicStop(){
+  MUSIC.players.forEach(p => { if(!p.el.paused) musicRamp(p, p.v, 0, 0.8, () => { p.el.pause(); p.xf = false; }); });
+  clearInterval(MUSIC.timer);
+  MUSIC.track = null;
+  musicUI();
+}
+/* Les navigateurs n'autorisent le son qu'après un geste : si la musique
+   était activée, elle repart au premier clic ou à la première touche. */
+function musicArmGesture(){
+  if(MUSIC.armed) return;
+  MUSIC.armed = true;
+  const go = e => {
+    if(e && e.target && e.target.closest && e.target.closest(".music-wrap")) return;
+    document.removeEventListener("pointerdown", go, true);
+    document.removeEventListener("keydown", go, true);
+    MUSIC.armed = false;
+    const p = musicPrefs();
+    if(p.on && (MUSIC.pending || !MUSIC.track)){ MUSIC.pending = false; MUSIC.track = null; musicPlay(p.track, 2.5); }
+  };
+  document.addEventListener("pointerdown", go, true);
+  document.addEventListener("keydown", go, true);
+}
+
+function musicChoose(id){
+  const p = musicPrefs();
+  if(id === "off"){ p.on = false; musicSave(p); musicStop(); }
+  else{ p.on = true; p.track = id; musicSave(p); musicPlay(id); }
+  musicUI();
+}
+function musicVol(v){
+  const p = musicPrefs(); p.vol = +v; musicSave(p);
+  if(MUSIC.master) MUSIC.master.gain.value = p.vol;
+  else MUSIC.players.forEach(x => musicSetV(x, x.v));
+}
+function musicToggleMenu(ev){
+  if(ev) ev.stopPropagation();
+  const pop = document.getElementById("musicPop");
+  if(!pop) return;
+  pop.hidden = !pop.hidden;
+  musicUI();
+}
+function musicUI(){
+  const p = musicPrefs();
+  const on = !!(MUSIC.track && MUSIC.players.some(x => !x.el.paused));
+  const btn = document.getElementById("musicBtn");
+  if(btn){
+    btn.classList.toggle("music-on", on);
+    btn.innerHTML = on ? `<span class="music-eq" aria-hidden="true"><i></i><i></i><i></i></span>🎵` : "🎵";
+    btn.title = on ? "Musique : " + MUSIC.track.titre + " — cliquer pour changer ou couper" : "Musique d'ambiance (coupée)";
+  }
+  const pop = document.getElementById("musicPop");
+  if(!pop || pop.hidden) return;
+  const cur = on ? MUSIC.track.id : (p.on ? p.track : "off");
+  pop.innerHTML = `
+    <p class="music-pop-t">🎵 Musique d'ambiance</p>
+    ${MUSIC_TRACKS.map(t => `<button type="button" class="music-opt ${cur === t.id ? "music-opt-on" : ""}" onclick="musicChoose('${t.id}')"><span class="music-opt-ico">${t.ico}</span><span><strong>${t.titre}</strong><em>${t.sous}</em></span>${cur === t.id ? '<span class="music-opt-ck">✓</span>' : ""}</button>`).join("")}
+    <button type="button" class="music-opt ${cur === "off" ? "music-opt-on" : ""}" onclick="musicChoose('off')"><span class="music-opt-ico">🔇</span><span><strong>Coupée</strong><em>par défaut</em></span>${cur === "off" ? '<span class="music-opt-ck">✓</span>' : ""}</button>
+    <label class="music-vol"><span>🔈</span><input type="range" min="0" max="1" step="0.05" value="${p.vol}" oninput="musicVol(this.value)" aria-label="Volume" /><span>🔊</span></label>
+    <p class="music-pop-n">En boucle, sans coupure pendant la navigation. Choix retenu sur cet appareil.${p.on && !on ? " Elle reprendra au prochain clic." : ""}</p>`;
+}
+document.addEventListener("click", e => {
+  const pop = document.getElementById("musicPop");
+  if(pop && !pop.hidden && !e.target.closest(".music-wrap")){ pop.hidden = true; }
+});
+window.musicChoose = musicChoose; window.musicVol = musicVol; window.musicToggleMenu = musicToggleMenu;
+if(musicPrefs().on){ MUSIC.pending = true; musicArmGesture(); }
+setTimeout(musicUI, 0);
+/* fin Musique */
 
 /* Rubriques marquées « wip » : grand bandeau d'alerte en tête de page, dans la
    rubrique comme dans ses outils et documents. Appelé après chaque rendu, y
