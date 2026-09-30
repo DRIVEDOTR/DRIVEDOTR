@@ -2528,7 +2528,7 @@
   .medoc-alt-l{display:block; color:var(--amber); margin-bottom:2px;}
   .medoc-more{margin-top:10px;}
   .medoc-more summary{cursor:pointer; font-size:12.5px; font-weight:700; color:var(--blue);}
-  .medoc-legend{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:14px;}
+  .medoc-legend{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px;}
   @media (max-width:760px){ .medoc-legend{grid-template-columns:repeat(2,1fr);} }
   .medoc-legend-tile{display:flex; flex-direction:column; gap:2px; padding:12px; border-radius:14px; background:var(--pillbg); border-top:4px solid var(--pill);}
   .medoc-legend-tile span{font-size:22px;} .medoc-legend-tile strong{font-size:13.5px; color:var(--pill);} .medoc-legend-tile em{font-style:normal; font-size:12px; color:var(--text-muted);}
@@ -2614,6 +2614,54 @@
   .mdph-auto div{display:flex; justify-content:space-between; gap:10px; border-bottom:1px dashed var(--border); padding:3px 0;}
   .mdph-auto span{color:var(--text-muted);}
   .mdph-miss{font-style:normal; font-weight:600; color:var(--amber); font-size:12px;}
+  /* ---------- Mes paramètres : onglets, établissements, sauvegarde ---------- */
+  .param-tabs{display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 18px;}
+  .param-tab{border:1.5px solid var(--border); background:var(--surface, #fff); color:var(--text); font:inherit; font-weight:700; font-size:14px; padding:9px 16px; border-radius:999px; cursor:pointer;}
+  .param-tab span{display:inline-block; min-width:20px; padding:0 6px; margin-left:4px; border-radius:999px; background:var(--slate-bg); font-size:12px;}
+  .param-tab-on{background:var(--navy); border-color:var(--navy); color:#fff;}
+  .param-tab-on span{background:rgba(255,255,255,.22);}
+  .etab-toolbar{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:10px;}
+  .etab-search{width:100%; box-sizing:border-box; padding:9px 12px; border:1.5px solid var(--border); border-radius:10px; font:inherit; margin-bottom:10px;}
+  .etab-card{border:1.5px solid var(--border); border-radius:14px; margin-bottom:10px; background:var(--surface, #fff); overflow:hidden;}
+  .etab-card-open{border-color:var(--blue); box-shadow:0 4px 16px rgba(11,116,208,.10);}
+  .etab-card-head{display:flex; align-items:center; gap:12px; width:100%; padding:11px 14px; border:0; background:transparent; font:inherit; text-align:left; cursor:pointer;}
+  .etab-ico{font-size:24px; width:42px; height:42px; display:flex; align-items:center; justify-content:center; border-radius:12px; background:var(--sky-bg); flex:none;}
+  .etab-card-t{display:flex; flex-direction:column; gap:2px; flex:1; min-width:0;}
+  .etab-card-t strong{color:var(--navy); font-size:15px;} .etab-card-t em{font-style:normal; color:var(--text-muted); font-size:12.5px;}
+  .etab-card-chev{color:var(--text-muted); font-size:11px;}
+  .etab-card-body{padding:4px 14px 14px; border-top:1px dashed var(--border);}
+  .etab-sec{margin:14px 0 4px; font-weight:800; font-size:13px; color:var(--navy);}
+  .etab-logs{display:flex; flex-direction:column; gap:6px;}
+  .etab-log{display:grid; grid-template-columns:1.1fr 1fr 1fr auto; gap:6px; align-items:center;}
+  .etab-log input{width:100%; box-sizing:border-box; padding:8px 10px; border:1.5px solid var(--border); border-radius:9px; font:inherit; font-size:13.5px;}
+  .etab-pwd{position:relative; display:block;} .etab-pwd input{padding-right:34px;}
+  .etab-pwd button{position:absolute; right:4px; top:50%; transform:translateY(-50%); border:0; background:transparent; cursor:pointer; font-size:15px;}
+  .etab-log-del{border:0; background:var(--red-bg); color:var(--red); border-radius:8px; width:30px; height:30px; cursor:pointer; font-weight:800;}
+  @media (max-width:640px){ .etab-log{grid-template-columns:1fr 1fr; } .etab-log .etab-pwd{grid-column:1 / 2;} }
+  .etab-del-confirm{background:var(--red) !important; color:#fff !important; border-color:var(--red) !important;}
+  .etab-empty{padding:22px; text-align:center; color:var(--text-muted); border:1.5px dashed var(--border); border-radius:14px; line-height:1.6;}
+  .etab-pdf-box{margin-top:14px; padding-top:10px; border-top:1px dashed var(--border);}
+  .etab-pick{display:block; width:100%; max-width:340px; margin-top:5px; padding:6px 8px; border:1.5px dashed var(--blue); border-radius:9px; background:var(--sky-bg); color:var(--navy); font:inherit; font-size:12.5px; font-weight:600; cursor:pointer;}
+  .bk-opts{display:flex; flex-direction:column; gap:2px;}
+  .bk-pend{background:var(--amber-bg); border-radius:12px; padding:10px 12px;}
+  .bk-steps{margin:6px 0 0 18px; padding:0; line-height:1.55;} .bk-steps li{margin-bottom:3px;}
+  /* ---------- Icônes des cartes et des bulles ---------- */
+  .doc-ico{display:inline-flex; align-items:center; justify-content:center; flex:none; border-radius:16px; background:linear-gradient(150deg, #fff 0%, var(--icbg) 55%); border:1.5px solid var(--icbd); box-shadow:0 2px 6px rgba(11,37,69,.12), inset 0 1px 0 rgba(255,255,255,.9);}
+  .doc-ico svg{display:block;}
+  .ico-emoji{line-height:1; font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;}
+  .doc-ico-lg{width:60px; height:60px; border-radius:18px;} .doc-ico-lg .ico-emoji{font-size:34px;} .doc-ico-lg svg{width:42px; height:42px;}
+  .doc-ico-md{width:50px; height:50px; border-radius:15px;} .doc-ico-md .ico-emoji{font-size:28px;} .doc-ico-md svg{width:36px; height:36px;}
+  .doc-ico-sm{width:44px; height:44px; border-radius:13px; margin-bottom:4px;} .doc-ico-sm .ico-emoji{font-size:25px;} .doc-ico-sm svg{width:32px; height:32px;}
+  .doc-ico-btn{border:0; background:transparent; padding:0; cursor:pointer; flex:none; transition:transform .12s ease;}
+  .doc-ico-btn:hover{transform:translateY(-2px) scale(1.04);}
+  .card-ftop{display:flex; align-items:center; gap:14px;}
+  .card-ftxt{display:flex; flex-direction:column; gap:7px; min-width:0;}
+  .card-ptop{display:flex; align-items:center; gap:10px;}
+  .card:hover .doc-ico{transform:translateY(-1px);} .card .doc-ico{transition:transform .12s ease;}
+  .sec-ico svg{width:17px; height:17px; vertical-align:-4px; margin-right:4px;}
+  .medoc-verdict-icon svg{width:40px; height:40px; display:block;} .medoc-verdict-icon .ico-emoji{font-size:30px;}
+  .medoc-legend-tile span svg{width:38px; height:38px; display:block;} .medoc-legend-tile span .ico-emoji{font-size:30px;}
+  @media (max-width:640px){ .medoc-legend{grid-template-columns:1fr 1fr !important;} .doc-ico-lg{width:52px; height:52px;} .doc-ico-lg .ico-emoji{font-size:29px;} }
   /* ---------- Calculateurs : bulles de contexte ---------- */
   .calc-ctx-lead{font-size:14.5px; font-weight:700; color:var(--text); margin:20px 0 10px;}
   .calc-ctx-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:16px;}
@@ -2776,7 +2824,7 @@
     <input id="search" type="text" placeholder="Rechercher un protocole (ex : hypoglycémie, chute, hémorragie…)" aria-label="Rechercher un protocole" />
   </div>
   <div class="status-msg" id="statusMsg"></div>
-  <button type="button" class="settings-btn" onclick="openExplorer('parametres-medecin')" title="Mes paramètres : identité et signature, enregistrées sur cet ordinateur">⚙️ Mes paramètres</button>
+  <button type="button" class="settings-btn" onclick="openExplorer('parametres-medecin')" title="Mes paramètres : médecin (identité, signature) et établissements, enregistrés sur cet appareil">⚙️ Mes paramètres</button>
 </div>
 
 <div class="layout">
@@ -3500,7 +3548,7 @@ const DOCUMENTS = {
     interactive: true
   },
   "parametres-medecin": {
-    wip: true,
+    hidden: true,
     title: "Mes paramètres — identité du médecin et signature",
     category: "administratif",
     meta: "Nom, qualité, RPPS, ADELI, adresse et signature, enregistrés uniquement sur cet ordinateur pour signer les courriers — export et import en fichier",
@@ -3589,8 +3637,8 @@ const DOCUMENTS = {
   "tuto-tampon-numerique": {
     title: "Tuto — Utiliser votre tampon numérique sur un PDF",
     openLabel: "Ouvrir le tuto",
-    category: "telemedecine",
-    subcategory: "tele-outils",
+    category: "administratif",
+    subcategory: "tutos",
     meta: "Tuto rapide PC (Adobe Acrobat Reader) — signer un PDF sans imprimer, en 6 étapes",
     filename: "Tuto_Tampon_Numerique_PDF.jpeg",
     path: "administratif/Tuto_Tampon_Numerique_PDF.jpeg"
@@ -3636,8 +3684,8 @@ const DOCUMENTS = {
   "tuto-healphi-ordoclic": {
     title: "Healphi / Ordoclic — Complément pratique",
     openLabel: "Ouvrir le tuto",
-    category: "telemedecine",
-    subcategory: "tele-outils",
+    category: "administratif",
+    subcategory: "tutos",
     meta: "En attendant le module d'ordonnances libres : ce qui passe par Ordoclic, ce qui passe par un document Word tamponné",
     filename: "Tuto_Healphi_Ordoclic.jpeg",
     path: "administratif/Tuto_Healphi_Ordoclic.jpeg"
@@ -3655,10 +3703,14 @@ const DOCUMENTS = {
     category: "administratif",
     subcategory: "admin",
     meta: "Renouvellement sans changement : page 1 (certificat simplifié, identité du patient, n° de sécurité sociale, besoins exprimés) et page 8 (coordonnées du médecin, date, lieu) remplies, signature et tampon — PDF prêt à remettre",
+    openLabel: "Ouvrir le Cerfa vierge",
+    filename: "CERFA_15695_Certificat_medical_MDPH.pdf",
+    path: "administratif/CERFA_15695_Certificat_medical_MDPH.pdf",
     interactive: true
   },
   "cerfa-15695-mdph": {
     title: "CERFA 15695*01 — Certificat médical MDPH",
+    hidden: true,
     category: "administratif",
     subcategory: "admin",
     meta: "Formulaire officiel Cerfa n° 15695*01 — certificat médical à joindre à une demande à la Maison Départementale des Personnes Handicapées (MDPH) — articles R.146-26 et D.245-25 du code de l'action sociale et des familles",
@@ -3756,6 +3808,7 @@ const DOCUMENTS = {
   },
   "bon-transport-vierge": {
     title: "Prescription médicale de transport (CERFA)",
+    hidden: true,
     category: "administratif",
     subcategory: "admin",
     meta: "Formulaire officiel Cerfa n° 11574*07 — notice S3138g — prescription médicale de transport, vierge à imprimer et compléter",
@@ -3824,7 +3877,7 @@ const DOCUMENTS = {
 /* =====================================================================
    PROTOCOLES — un élément par document affiché sur le site.
    ===================================================================== */
-const PROTOCOLS = Object.keys(DOCUMENTS).map(id => ({
+const PROTOCOLS = Object.keys(DOCUMENTS).filter(id => !DOCUMENTS[id].hidden).map(id => ({
   id,
   title: DOCUMENTS[id].title,
   category: DOCUMENTS[id].category,
@@ -4543,8 +4596,13 @@ function cardHTML(protocolItem, cat){
       <div class="card-wrap card-wrap-featured">
         ${checkboxHTML}
         <div class="card card-featured" style="--pill:${c.pill};--pillbg:${c.pillbg}">
-          <span class="card-badge">🔎 Outil interactif</span>
-          <div class="card-title">${protocolItem.title}</div>
+          <div class="card-ftop">
+            <button type="button" class="doc-ico-btn" title="Ouvrir l'outil" onclick="openExplorer('${protocolItem.id}')">${docIconHTML(protocolItem.id, cat.id, "lg")}</button>
+            <div class="card-ftxt">
+              <span class="card-badge">🔎 Outil interactif</span>
+              <div class="card-title">${protocolItem.title}</div>
+            </div>
+          </div>
           ${wipHTML}
           <div class="card-dual-actions">
             <button type="button" onclick="openExplorer('${protocolItem.id}')">
@@ -4566,7 +4624,7 @@ function cardHTML(protocolItem, cat){
     <div class="card-wrap">
       ${checkboxHTML}
       <button class="card" style="text-align:left;cursor:pointer" onclick="openDoc('${protocolItem.id}')">
-        <span class="card-tag" style="--pill:${c.pill};--pillbg:${c.pillbg}">${cat.label}</span>
+        <div class="card-ptop">${docIconHTML(protocolItem.id, cat.id, "md")}<span class="card-tag" style="--pill:${c.pill};--pillbg:${c.pillbg}">${cat.label}</span></div>
         <div class="card-title">${protocolItem.title}</div>
         ${wipHTML}
         <span class="card-open">
@@ -4627,7 +4685,7 @@ function selectionToolbarHTML(scopeId){
       <div class="zip-fill-panel">
         <p class="zip-fill-title">Pré-remplir Établissement / Médecin / Fait à / Date avant de zipper <span>(facultatif — laisse tout vide pour garder les PDF vierges)</span></p>
         <div class="zip-fill-fields">
-          <label class="calc-field"><span>Établissement</span><input type="text" value="${zf.etablissement.replace(/"/g, "&quot;")}" oninput="setZipFillField('etablissement', this.value)" /></label>
+          <label class="calc-field"><span>Établissement</span><input type="text" id="zipEtab" value="${zf.etablissement.replace(/"/g, "&quot;")}" oninput="setZipFillField('etablissement', this.value)" />${etabPickHTML('#zipEtab')}</label>
           <label class="calc-field"><span>Médecin</span><input type="text" value="${zf.medecin.replace(/"/g, "&quot;")}" oninput="setZipFillField('medecin', this.value)" placeholder="« Docteur » ajouté automatiquement" /></label>
           <label class="calc-field"><span>Fait à (lieu)</span><input type="text" value="${zf.lieu.replace(/"/g, "&quot;")}" oninput="setZipFillField('lieu', this.value)" /></label>
           <label class="calc-field"><span>Le (date)</span><input type="date" value="${zf.date}" oninput="setZipFillField('date', this.value)" /></label>
@@ -4818,7 +4876,7 @@ function renderEmbedPage(id){
             Pré-remplir le PDF téléchargé (facultatif) — rien n'est enregistré, ces champs se vident si tu quittes ou recharges la page.
           </div>
           <div class="fill-box-fields">
-            <label>Établissement<input type="text" id="fillEtablissement" placeholder="Nom de l'établissement" autocomplete="off" /></label>
+            <label>Établissement<input type="text" id="fillEtablissement" placeholder="Nom de l'établissement" autocomplete="off" />${etabPickHTML('#fillEtablissement')}</label>
             <label>Médecin<input type="text" id="fillMedecin" placeholder="Nom du médecin (« Docteur » ajouté automatiquement)" autocomplete="off" value="${escapeHtml(prescGet().nom || "")}" /></label>
             <label>Fait à (lieu)<input type="text" id="fillLieu" placeholder="Ville / lieu" autocomplete="off" maxlength="34" value="" /></label>
             <label>Le (date)<input type="date" id="fillDate" value="${new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10)}" /></label>
@@ -5137,7 +5195,7 @@ function secabiliteBadgeHTML(forme){
   if(!r) return "";
   const lg = SECABILITE_LEGEND[r.key];
   const c = colorVars(lg.color);
-  return `<span class="medoc-badge medoc-badge-sec" style="--pill:${c.pill};--pillbg:${c.pillbg}" title="${escapeHtml(r.detail)}">${escapeHtml(lg.label)}</span>`;
+  return `<span class="medoc-badge medoc-badge-sec" style="--pill:${c.pill};--pillbg:${c.pillbg}" title="${escapeHtml(r.detail)}">${r.key === "oui" || r.key === "dosage" ? `<span class="sec-ico">${ICO_SVG.secable}</span>` : ""}${escapeHtml(lg.label)}</span>`;
 }
 
 function modalitesBadgesHTML(mod){
@@ -5163,17 +5221,17 @@ function medocVerdict(mod, meth, alt){
   const codes = String(mod || "").split(",").map(x => x.trim()).filter(Boolean);
   const ok = codes.filter(x => x === "E" || x === "O" || x === "D");
   const no = codes.filter(x => x === "NE" || x === "NO");
-  if(ok.includes("O") && no.includes("NE")) return { k: "mix", color: "amber", icon: "⚠️", t: "Gélule ouvrable — contenu à ne pas écraser", s: "Ouvrir la gélule et administrer le contenu tel quel (microgranules), sans l'écraser ni le croquer." };
+  if(ok.includes("O") && no.includes("NE")) return { k: "mix", color: "amber", icon: ICO_SVG.geluleWarn, t: "Gélule ouvrable — contenu à ne pas écraser", s: "Ouvrir la gélule et administrer le contenu tel quel (microgranules), sans l'écraser ni le croquer." };
   if(ok.length && !no.length){
     const t = ok.includes("E") ? "Peut être écrasé" : ok.includes("O") ? "Gélule ouvrable" : "Peut être délité (dispersé)";
-    return { k: "ok", color: "emerald", icon: "✅", t, s: "Selon la liste nationale OMéDIT / SFPC — voir la méthode d'administration ci-dessous." };
+    return { k: "ok", color: "emerald", icon: ok.includes("E") ? ICO_SVG.ecrase : ok.includes("O") ? ICO_SVG.gelule : "<span class=\"ico-emoji\">💧</span>", t, s: "Selon la liste nationale OMéDIT / SFPC — voir la méthode d'administration ci-dessous." };
   }
   if(no.length){
     const t = no.includes("NE") && no.includes("NO") ? "Ne pas écraser ni ouvrir" : no.includes("NE") ? "Ne pas écraser ni croquer" : "Ne pas ouvrir la gélule";
     return { k: "no", color: "red", icon: "⛔", t, s: meth ? "Administrer tel quel, sans écraser, selon la méthode indiquée ci-dessous." : alt ? "Voir l'alternative galénique ci-dessous, à discuter avec le prescripteur." : "Chercher une autre forme galénique ou une autre molécule avec le prescripteur et la pharmacie." };
   }
   if(codes.includes("⚠")) return { k: "unk", color: "amber", icon: "⚠️", t: "Attention particulière", s: "Lire les informations détaillées avant toute manipulation." };
-  return { k: "unk", color: "slate", icon: "❔", t: "Donnée incertaine", s: "Pas d'avis tranché dans la liste : demander l'avis du pharmacien avant de modifier la forme." };
+  return { k: "unk", color: "slate", icon: "<span class=\"ico-emoji\">🤷</span>", t: "Donnée incertaine", s: "Pas d'avis tranché dans la liste : demander l'avis du pharmacien avant de modifier la forme." };
 }
 
 const MEDOC_QUICK = ["Paracétamol", "Lévothyroxine", "Furosémide", "Amlodipine", "Bisoprolol", "Oméprazole", "Ésoméprazole", "Sertraline", "Escitalopram", "Mirtazapine", "Quétiapine", "Rispéridone", "Donépézil", "Lévodopa", "Lévétiracétam", "Valproate", "Apixaban", "Rivaroxaban", "Morphine", "Oxycodone", "Tramadol", "Metformine", "Zopiclone", "Oxazépam", "Prednisolone", "Tamsulosine"];
@@ -5245,7 +5303,7 @@ function renderMedocResults(){
     const quick = MEDOC_QUICK.filter(n => MEDICAMENTS_ECRASABLES.some(r => normalizeSearch(r.pa).includes(normalizeSearch(n))));
     resultsEl.innerHTML = `
       <div class="medoc-legend">
-        ${[["emerald", "✅", "Écrasable ou ouvrable", "avec la méthode indiquée"], ["amber", "⚠️", "Ouvrable sans écraser", "microgranules à garder intacts"], ["red", "⛔", "Ne pas écraser / ouvrir", "LP, gastro-résistant, toxique…"], ["slate", "❔", "Donnée incertaine", "avis du pharmacien"]].map(([col, ic, t, s2]) => {
+        ${[["emerald", ICO_SVG.ecrase, "Écrasable", "avec la méthode indiquée"], ["teal", ICO_SVG.gelule, "Gélule ouvrable", "contenu à mélanger"], ["amber", ICO_SVG.geluleWarn, "Ouvrable sans écraser", "microgranules à garder intacts"], ["red", "<span class=\"ico-emoji\">⛔</span>", "Ne pas écraser / ouvrir", "LP, gastro-résistant, toxique…"], ["sky", ICO_SVG.secable, "Comprimé sécable", "barre de cassure : peut être coupé"], ["slate", "<span class=\"ico-emoji\">🤷</span>", "Donnée incertaine", "avis du pharmacien"]].map(([col, ic, t, s2]) => {
           const cc = colorVars(col);
           return `<div class="medoc-legend-tile" style="--pill:${cc.pill};--pillbg:${cc.pillbg}"><span>${ic}</span><strong>${t}</strong><em>${s2}</em></div>`;
         }).join("")}
@@ -5779,6 +5837,7 @@ function bioBubbleHTML(situ){
   const active = state.bioSelected.includes(situ.id);
   return `
     <button type="button" class="neurolep-bubble bio-bubble ${active ? "bio-bubble-active" : ""}" style="--pill:${mc.pill};--pillbg:${mc.pillbg}" onclick="toggleBioSituation('${situ.id}')">
+      ${BIO_ICONS[situ.id] ? icoTile(BIO_ICONS[situ.id], "sm") : ""}
       <span class="neurolep-dci">${situ.brand || situ.label}</span>
       ${situ.dci ? `<span class="neurolep-brand">${situ.dci}</span>` : ""}
       ${situ.wip ? `<span class="bio-wip">🚧 nouveau, à valider</span>` : ""}
@@ -8441,7 +8500,7 @@ function renderCourrierPanel(){
                   <span>${f.label}${f.id === "question" ? " <em>— l'élément le plus attendu par le destinataire</em>" : ""}</span>
                   ${f.type === "textarea"
                     ? `<textarea id="cf_${f.id}" rows="2" placeholder="${f.ph}">${escapeHtml(state.courrierFields[f.id] || "")}</textarea>`
-                    : `<input type="text" id="cf_${f.id}" placeholder="${f.id === "signataire" && p.nom ? "Laisser vide : signature de Mes paramètres" : f.ph}" value="${escapeHtml(state.courrierFields[f.id] || "")}" />`}
+                    : `<input type="text" id="cf_${f.id}" placeholder="${f.id === "signataire" && p.nom ? "Laisser vide : signature de Mes paramètres" : f.ph}" value="${escapeHtml(state.courrierFields[f.id] || "")}" />${f.id === "etablissement" ? etabPickHTML("#cf_etablissement", "nomTel") : ""}`}
                 </label>
               `).join("")}
             </div>
@@ -8816,7 +8875,8 @@ const PRESC_FIELDS = [
   { id: "cp", label: "Code postal", ph: "74000", cpv: 1 },
   { id: "villePro", label: "Ville", ph: "Annecy", cpv: 1 },
   { id: "tel", label: "Téléphone", ph: "04 XX XX XX XX" },
-  { id: "email", label: "E-mail professionnel", ph: "prenom.nom@…" }
+  { id: "email", label: "E-mail professionnel", ph: "prenom.nom@…" },
+  { id: "mss", label: "Adresse MSS (messagerie sécurisée de santé)", ph: "prenom.nom@medecin.mssante.fr", full: 1 }
 ];
 /* Anciens champs retirés des paramètres (29/09/2026) : « fonction » et « ville (Fait à) ».
    Le « Fait à » se saisit désormais dans chaque document qui le demande. */
@@ -8948,20 +9008,15 @@ function signFit(page, img, box, align){
 }
 
 function renderParamPanel(){
-  const cat = CATEGORIES.find(c => c.id === "administratif");
-  const c = colorVars(cat.color);
-  const saved = prescLoad();
+  const tab = state.paramTab || "medecin";
+  if(tab !== "medecin"){
+    contentEl.innerHTML = paramHeadHTML() + (tab === "etab" ? renderEtabTab() : renderBackupTab()) + `</div>`;
+    if(tab === "etab") etabBindInputs();
+    return;
+  }
   const p = prescGet();
   const d = state.paramDraft || (state.paramDraft = Object.assign({}, p));
-  contentEl.innerHTML = `
-    <button class="back-link" onclick="closeDoc()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
-      Retour
-    </button>
-    <div class="doc-page doc-page-wide">
-      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">⚙️ Mes paramètres</span>
-      <div class="tool-hero" style="--pill:${c.pill}"><span class="tool-hero-icon">⚙️</span><div class="tool-hero-body"><p class="tool-hero-title">Mon identité de médecin, ma signature, mon tampon</p><p class="tool-hero-sub">Renseignés une fois, ils s'appliquent dès que tu coches « ✍️ Signer le document » : certificats (dont Handisport), bon de transport, prescription de contention, protocoles, courriers, compte rendu de téléconsultation, dotation du chariot.</p><div class="tool-hero-stats"><span class="tool-hero-stat">${saved.nom ? "✓ Enregistrés sur cet ordinateur" : "Rien d'enregistré pour l'instant"}</span><span class="tool-hero-stat">Aucun serveur</span><span class="tool-hero-stat">Sauvegarde en fichier possible</span></div></div></div>
-
+  contentEl.innerHTML = paramHeadHTML() + `
       <div class="bio-layout">
         <div class="bio-layout-left">
           <div class="bio-options-wrap">
@@ -8987,10 +9042,13 @@ function renderParamPanel(){
             </div>
             <label class="bio-option-row" style="margin-top:8px;"><input type="checkbox" ${d.memSig ? "checked" : ""} onchange="state.paramDraft.memSig = this.checked" /><span><span class="bio-option-label">Mémoriser la signature et le tampon sur cet ordinateur</span><span class="bio-option-indication">Sinon, ils ne servent que jusqu'à la fermeture de l'onglet. À ne cocher que sur ton ordinateur personnel.</span></span></label>
             <div class="cv2-actions">
-              <button type="button" class="bio-copy-btn" onclick="paramSave()">Enregistrer sur cet ordinateur</button>
-              <button type="button" class="bio-reset-btn" onclick="paramExport()">Exporter (fichier)</button>
-              <label class="bio-reset-btn cv2-file">Importer<input type="file" accept="application/json,.json" onchange="paramImport(this.files[0]); this.value='';" /></label>
+              <button type="button" class="bio-copy-btn" onclick="paramSave()">Enregistrer sur cet appareil</button>
               <button type="button" class="bio-reset-btn" onclick="paramClear()">Tout effacer</button>
+            </div>
+            <span class="neurolep-label" style="margin-top:18px; display:block;">Transmettre mes coordonnées à un établissement</span>
+            <div class="cv2-actions">
+              <button type="button" class="bio-copy-btn" onclick="paramCopyCoord(this)">📋 Copier mes coordonnées</button>
+              <button type="button" class="bio-copy-btn" onclick="paramCoordPdf()">📇 Fiche coordonnées (PDF)</button>
             </div>
             <p class="cv2-help" id="paramMsg"></p>
           </div>
@@ -9005,10 +9063,10 @@ function renderParamPanel(){
           </div>
           <div class="doc-note" style="margin-top:14px;">
             <strong>Où vont ces informations ?</strong>
-            <p><strong>Nulle part ailleurs que sur cet ordinateur.</strong> Elles sont rangées dans la mémoire locale de ton navigateur, pour l'adresse de ce site. Le site n'a ni serveur ni base de données : rien n'est transmis.</p>
-            <p style="margin-top:6px;"><strong>Tes collègues ne les voient pas</strong>, et tu ne vois pas les leurs : chacun a sa propre mémoire locale.</p>
-            <p style="margin-top:6px;"><strong>Mises à jour du site</strong> : tes paramètres sont conservés. Ils sont perdus si tu vides les données de navigation, si tu utilises un autre navigateur ou un autre ordinateur, en navigation privée, ou si l'adresse du site change. D'où « Exporter » : garde le fichier, « Importer » le recharge en une seconde.</p>
-            <p style="margin-top:6px;"><strong>Signature et tampon</strong> : stockés sans chiffrement. Toute personne utilisant ta session sur cet ordinateur pourrait les réutiliser : ne les mémorise que sur un poste personnel. Rien n'est jamais signé sans que tu coches « Signer le document ».</p>
+            <p><strong>Nulle part ailleurs que sur cet appareil.</strong> Elles sont rangées dans la mémoire locale du navigateur, pour l'adresse de ce site. Le site n'a ni serveur ni base de données : rien n'est transmis, et tes collègues ne voient pas tes informations.</p>
+            <p style="margin-top:6px;"><strong>Autre appareil (iPad, iPhone…)</strong> : onglet <button type="button" class="acb-link" onclick="paramTab('sauv')">🔄 Sauvegarde &amp; autres appareils</button> — un fichier, chiffrable par mot de passe, à recharger sur l'autre appareil.</p>
+            <p style="margin-top:6px;"><strong>Signature et tampon</strong> : stockés sans chiffrement. Ne les mémorise que sur un appareil personnel. Rien n'est jamais signé sans que tu coches « Signer le document ».</p>
+            <p style="margin-top:6px;"><strong>Fiche coordonnées (PDF)</strong> : nom, qualité, RPPS, adresse, téléphone, e-mail, MSS et ton tampon (jamais ta signature), à envoyer à un nouvel établissement.</p>
           </div>
         </div>
       </div>
@@ -10847,7 +10905,7 @@ function renderChariotResult(){
 
   const etabField = `
       <div class="chariot-etab-wrap">
-        <label class="calc-field"><span>Nom de l'établissement</span><input type="text" id="chariotEtab" placeholder="EHPAD Les Tilleuls" value="${(state.chariotEtab || "").replace(/"/g, "&quot;")}" /></label>
+        <label class="calc-field"><span>Nom de l'établissement</span><input type="text" id="chariotEtab" placeholder="EHPAD Les Tilleuls" value="${(state.chariotEtab || "").replace(/"/g, "&quot;")}" />${etabPickHTML('#chariotEtab')}</label>
       </div>`;
   const sumHead = `
       <div class="chariot-sum-top">
@@ -12142,7 +12200,7 @@ function tcFormHTML(f){
         <div class="tc-card tc-blue">
           <div class="tc-idbar">
             <label>Résident<input type="text" class="tc-in" value="${q(state.tcResident)}" oninput="tcSetIdent('tcResident', this.value)" placeholder="Nom et prénom" /></label>
-            <label>Établissement<input type="text" class="tc-in" value="${q(state.tcEtab)}" oninput="tcSetIdent('tcEtab', this.value)" placeholder="Nom de l'établissement" /></label>
+            <label>Établissement<input type="text" class="tc-in" id="tcEtabIn" value="${q(state.tcEtab)}" oninput="tcSetIdent('tcEtab', this.value)" placeholder="Nom de l'établissement" />${etabPickHTML('#tcEtabIn')}</label>
           </div>
           <div class="tc-idbar tc-idbar-last">
             ${mode === "ide" ? `<label>IDE qui remplit<input type="text" class="tc-in" value="${q(state.tcIde)}" oninput="tcSetIdent('tcIde', this.value)" placeholder="Nom, fonction" /></label>` : ""}
@@ -13362,7 +13420,7 @@ function contFormHTML(s, t){
       </div>
       <div class="tc-idbar">
         <label>Résident<input type="text" class="tc-in" value="${contVal(s.resident)}" oninput="contSet('resident', this.value)" placeholder="Nom et prénom" /></label>
-        <label>Établissement<input type="text" class="tc-in" value="${contVal(s.etabNom)}" oninput="contSet('etabNom', this.value)" placeholder="Nom" /></label>
+        <label>Établissement<input type="text" class="tc-in" id="contEtabIn" value="${contVal(s.etabNom)}" oninput="contSet('etabNom', this.value)" placeholder="Nom" />${etabPickHTML('#contEtabIn')}</label>
         <label>Prescripteur<input type="text" class="tc-in" value="${contVal(s.prescripteur)}" oninput="contSet('prescripteur', this.value)" placeholder="Dr …" /></label>
       </div>
       <div class="cont-inline-row"><span class="cont-inline-lab">Type d'établissement</span>
@@ -14779,7 +14837,7 @@ function pmtFormHTML(){
         <label>Lieu de vie<select class="tc-in" onchange="pmtSet('etab', this.value, true)">
           ${Object.keys(PMT_ETAB).map(k => `<option value="${k}" ${s.etab === k ? "selected" : ""}>${PMT_ETAB[k]}</option>`).join("")}
         </select></label>
-        ${s.etab !== "domicile" ? `<label>Nom de l'établissement<input type="text" class="tc-in" value="${v(s.etabNom)}" oninput="pmtSet('etabNom', this.value)" /></label>` : ""}
+        ${s.etab !== "domicile" ? `<label>Nom de l'établissement<input type="text" class="tc-in" value="${v(s.etabNom)}" oninput="pmtSet('etabNom', this.value)" />${etabPickHTML('', 'pmt')}</label>` : `<label>&nbsp;${etabPickHTML('', 'pmt')}</label>`}
       </div>
       <label class="tc-field cont-field-full"><span>Adresse</span><input type="text" class="tc-in" maxlength="100" value="${v(s.etab !== "domicile" ? s.etabAdresse : s.adresse)}" oninput="pmtSet('${s.etab !== "domicile" ? "etabAdresse" : "adresse"}', this.value)" placeholder="${s.etab !== "domicile" ? "Adresse de l'établissement (reprise comme adresse du patient)" : "Adresse du patient"}" /></label>
       <div class="cont-chips">
@@ -15312,6 +15370,7 @@ function renderVaxPanel(){
         </div>
         <p class="calc-ctx-lead">3 · Nom de l'établissement (facultatif, imprimé en en-tête)</p>
         <input type="text" class="tc-in vax-etab" id="vaxEtab" placeholder="Ex. EHPAD Les Tilleuls" value="${escapeHtml(s.etab || "")}" oninput="vaxState().etab = this.value" />
+        ${etabPickHTML('#vaxEtab')}
         <div class="vax-actions">
           <button type="button" class="bio-copy-btn" id="vaxPdfBtn" onclick="vaxPdf()">📄 Générer la fiche ${cdef.label} (PDF)</button>
           <button type="button" class="bio-reset-btn" onclick="resetVax()">Sélection par défaut</button>
@@ -15650,7 +15709,7 @@ function renderMdphPanel(){
               <label class="calc-field courrier-field"><span>Date de naissance</span><input type="date" value="${v(s.naissance)}" oninput="mdphSet('naissance', this.value)" /></label>
               <label class="calc-field courrier-field"><span>N° de dossier MDPH (s'il existe)</span><input type="text" value="${v(s.dossier)}" oninput="mdphSet('dossier', this.value)" /></label>
             </div>
-            <label class="calc-field courrier-field"><span>Adresse</span><textarea rows="2" oninput="mdphSet('adresse', this.value)" placeholder="EHPAD Les Tilleuls, 12 rue des Lilas, 74000 Annecy">${v(s.adresse)}</textarea></label>
+            <label class="calc-field courrier-field"><span>Adresse</span><textarea rows="2" oninput="mdphSet('adresse', this.value)" placeholder="EHPAD Les Tilleuls, 12 rue des Lilas, 74000 Annecy">${v(s.adresse)}</textarea>${etabPickHTML('', 'mdph')}</label>
             <label class="calc-field courrier-field"><span>N° de sécurité sociale</span>
               <span class="pmt-masked"><input type="text" class="tc-in pmt-mono" autocomplete="off" value="${v(mdphNirFmt(s.nir))}" oninput="mdphNirInput(this)" placeholder="2 38 03 74 010 123 45" />
               <span class="pmt-badge ${nirSt.cls}" id="mdphNirBadge">${nirSt.txt}</span></span></label>
@@ -15861,6 +15920,691 @@ async function mdphPdf(){
 }
 window.mdphPdf = mdphPdf;
 /* fin Cerfa MDPH */
+
+/* =====================================================================
+   MES PARAMÈTRES — ÉTABLISSEMENTS (carnet d'adresses personnel)
+   + sauvegarde complète (médecin + établissements), chiffrable,
+   + fiche coordonnées du médecin (copier / PDF).
+   Tout reste dans le navigateur (localStorage, clé dotr_etablissements_v1).
+   ===================================================================== */
+const ETAB_KEY = "dotr_etablissements_v1";
+const ETAB_TYPES = ["EHPAD", "USLD", "FAM", "EAM", "MAS", "IME", "IEM", "LHSS", "Autre"];
+const ETAB_FIELDS = [
+  { id: "nom", label: "Nom de l'établissement", ph: "EHPAD Les Tilleuls", full: 1, g: "id" },
+  { id: "finess", label: "N° FINESS (facultatif)", ph: "9 chiffres", g: "id" },
+  { id: "adresse", label: "Adresse (n° et rue)", ph: "12 rue des Lilas", full: 1, g: "adr" },
+  { id: "cp", label: "Code postal", ph: "74000", cpv: 1, g: "adr" },
+  { id: "ville", label: "Ville", ph: "Annecy", cpv: 1, g: "adr" },
+  { id: "telAccueil", label: "Téléphone accueil / standard", ph: "04 XX XX XX XX", g: "ct" },
+  { id: "idesTel", label: "Téléphone IDE", ph: "04 XX XX XX XX", g: "ct" },
+  { id: "idesMail", label: "E-mail IDE", ph: "ide@…", g: "ct" },
+  { id: "idesNoms", label: "Noms des IDE", ph: "Une IDE par ligne", area: 1, g: "ct" },
+  { id: "idec", label: "IDEC / cadre de santé", ph: "Nom", g: "ct" },
+  { id: "idecContact", label: "Tél. / e-mail IDEC", ph: "04… / idec@…", g: "ct" },
+  { id: "notes", label: "Notes (jours de présence, codes portail, particularités…)", ph: "", area: 1, full: 1, g: "notes" }
+];
+
+function etabAll(){
+  try{ const r = localStorage.getItem(ETAB_KEY); const l = r ? JSON.parse(r) : []; return Array.isArray(l) ? l : []; }catch(e){ return []; }
+}
+function etabSorted(){ return etabAll().slice().sort((a, b) => (a.nom || "").localeCompare(b.nom || "", "fr")); }
+function etabStore(l){ try{ localStorage.setItem(ETAB_KEY, JSON.stringify(l)); return true; }catch(e){ return false; } }
+function etabNewId(){ return "e" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function etabAdresse(e, sep){ return [(e.adresse || "").trim(), [e.cp, e.ville].map(x => (x || "").trim()).filter(Boolean).join(" ")].filter(Boolean).join(sep || ", "); }
+function etabGet(id){ return etabAll().find(x => x.id === id); }
+
+/* ---------- menu déroulant « 📇 Mes établissements » dans les documents */
+function etabPickHTML(target, mode){
+  const L = etabSorted().filter(e => (e.nom || "").trim());
+  if(!L.length) return "";
+  return `<select class="etab-pick" title="Remplir depuis mes établissements (Mes paramètres)" onchange="etabPick(this, '${target}', '${mode || "nom"}')">
+    <option value="">📇 Choisir dans mes établissements…</option>
+    ${L.map(e => `<option value="${e.id}">${escapeHtml(e.nom)}${e.ville ? " — " + escapeHtml(e.ville) : ""}</option>`).join("")}
+  </select>`;
+}
+function etabTypeToPmt(t){ return { EHPAD: "ehpad", USLD: "usld", MAS: "mas", FAM: "fam", EAM: "fam", IME: "ime", IEM: "ime" }[t] || ""; }
+function etabPick(sel, target, mode){
+  const e = etabGet(sel.value);
+  sel.value = "";
+  if(!e) return;
+  if(mode === "pmt"){
+    const s = pmtS();
+    const t = etabTypeToPmt(e.type);
+    if(t) s.etab = t; else if(s.etab === "domicile") s.etab = "ehpad";
+    s.etabNom = e.nom || "";
+    s.etabAdresse = etabAdresse(e);
+    renderPmtPanel();
+    return;
+  }
+  if(mode === "mdph"){
+    mdphS().adresse = [e.nom, etabAdresse(e)].filter(Boolean).join("\n");
+    renderMdphPanel();
+    return;
+  }
+  const el = document.querySelector(target);
+  if(!el) return;
+  const tel = e.idesTel ? " — tél. IDE " + e.idesTel : (e.telAccueil ? " — tél. " + e.telAccueil : "");
+  el.value = mode === "nomTel" ? (e.nom || "") + tel : (e.nom || "");
+  el.dispatchEvent(new Event("input", { bubbles: true }));
+}
+window.etabPick = etabPick;
+
+/* ---------- onglets de Mes paramètres */
+function paramTabsHTML(){
+  const n = etabAll().length;
+  const t = state.paramTab || "medecin";
+  return `<div class="param-tabs" role="tablist">
+    <button type="button" class="param-tab ${t === "medecin" ? "param-tab-on" : ""}" onclick="paramTab('medecin')">🩺 Médecin</button>
+    <button type="button" class="param-tab ${t === "etab" ? "param-tab-on" : ""}" onclick="paramTab('etab')">🏥 Établissements <span>${n}</span></button>
+    <button type="button" class="param-tab ${t === "sauv" ? "param-tab-on" : ""}" onclick="paramTab('sauv')">🔄 Sauvegarde &amp; autres appareils</button>
+  </div>`;
+}
+function paramTab(t){ state.paramTab = t; renderParamPanel(); }
+window.paramTab = paramTab;
+
+function paramHeadHTML(){
+  const cat = CATEGORIES.find(c => c.id === "administratif");
+  const c = colorVars(cat.color);
+  return `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour
+    </button>
+    <div class="doc-page doc-page-wide">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">⚙️ Mes paramètres</span>
+      <div class="tool-hero" style="--pill:${c.pill}"><span class="tool-hero-icon">⚙️</span><div class="tool-hero-body"><p class="tool-hero-title">Mes paramètres — médecin et établissements</p><p class="tool-hero-sub">Renseignés une fois, ils pré-remplissent les documents (certificats, bon de transport, protocoles, courriers, contention, Cerfa MDPH…) et servent à signer quand tu coches « ✍️ Signer le document ».</p><div class="tool-hero-stats"><span class="tool-hero-stat">Enregistrés sur cet appareil</span><span class="tool-hero-stat">Aucun serveur</span><span class="tool-hero-stat">Fichier de sauvegarde, chiffrable</span></div></div></div>
+      ${paramTabsHTML()}`;
+}
+
+/* ---------- onglet Établissements */
+let ETAB_SAVE_T = null;
+function etabSet(id, k, v){
+  const L = etabAll();
+  const e = L.find(x => x.id === id);
+  if(!e) return;
+  e[k] = v;
+  e.maj = new Date().toISOString().slice(0, 10);
+  clearTimeout(ETAB_SAVE_T);
+  ETAB_SAVE_T = setTimeout(() => {
+    const ok = etabStore(L);
+    const m = document.getElementById("etabMsg_" + id);
+    if(m) m.textContent = ok ? "✓ Enregistré sur cet appareil" : "Enregistrement impossible (navigation privée ?)";
+  }, 250);
+  etabStore(L);
+}
+function etabLogSet(id, i, k, v){
+  const L = etabAll();
+  const e = L.find(x => x.id === id);
+  if(!e) return;
+  e.logiciels = e.logiciels || [];
+  if(!e.logiciels[i]) e.logiciels[i] = { nom: "", login: "", mdp: "" };
+  e.logiciels[i][k] = v;
+  etabStore(L);
+  const m = document.getElementById("etabMsg_" + id);
+  if(m) m.textContent = "✓ Enregistré sur cet appareil";
+}
+function etabLogAdd(id){
+  const L = etabAll(); const e = L.find(x => x.id === id); if(!e) return;
+  (e.logiciels = e.logiciels || []).push({ nom: "", login: "", mdp: "" });
+  etabStore(L); renderParamPanel();
+}
+function etabLogDel(id, i){
+  const L = etabAll(); const e = L.find(x => x.id === id); if(!e) return;
+  (e.logiciels || []).splice(i, 1);
+  etabStore(L); renderParamPanel();
+}
+function etabAdd(){
+  const L = etabAll();
+  const e = { id: etabNewId(), nom: "", type: "EHPAD", logiciels: [] };
+  L.push(e);
+  etabStore(L);
+  state.etabOpen = e.id;
+  state.etabDel = null;
+  renderParamPanel();
+  setTimeout(() => { const el = document.querySelector(`[data-ef="nom"][data-eid="${e.id}"]`); if(el) el.focus(); }, 30);
+}
+function etabToggle(id){ state.etabOpen = state.etabOpen === id ? null : id; state.etabDel = null; renderParamPanel(); }
+function etabDelete(id){
+  if(state.etabDel !== id){ state.etabDel = id; renderParamPanel(); return; }
+  etabStore(etabAll().filter(x => x.id !== id));
+  state.etabDel = null; state.etabOpen = null;
+  renderParamPanel();
+}
+function etabShowPwd(btn){
+  const inp = btn.parentElement.querySelector("input");
+  if(!inp) return;
+  inp.type = inp.type === "password" ? "text" : "password";
+  btn.textContent = inp.type === "password" ? "👁" : "🙈";
+}
+window.etabSet = etabSet; window.etabLogSet = etabLogSet; window.etabLogAdd = etabLogAdd; window.etabLogDel = etabLogDel;
+window.etabAdd = etabAdd; window.etabToggle = etabToggle; window.etabDelete = etabDelete; window.etabShowPwd = etabShowPwd;
+
+function etabText(e, withPwd){
+  const out = [e.nom + (e.type ? " (" + e.type + ")" : "")];
+  if(e.finess) out.push("FINESS : " + e.finess);
+  const adr = etabAdresse(e);
+  if(adr) out.push("Adresse : " + adr);
+  if(e.telAccueil) out.push("Accueil : " + e.telAccueil);
+  if(e.idesNoms) out.push("IDE : " + e.idesNoms.split(/\n+/).map(x => x.trim()).filter(Boolean).join(", "));
+  if(e.idesTel) out.push("Tél. IDE : " + e.idesTel);
+  if(e.idesMail) out.push("E-mail IDE : " + e.idesMail);
+  if(e.idec || e.idecContact) out.push("IDEC / cadre : " + [e.idec, e.idecContact].filter(Boolean).join(" — "));
+  (e.logiciels || []).filter(l => l.nom || l.login).forEach(l => out.push("Logiciel " + (l.nom || "") + (l.login ? " — identifiant : " + l.login : "") + (withPwd && l.mdp ? " — mot de passe : " + l.mdp : "")));
+  if(e.notes) out.push("Notes : " + e.notes);
+  return out.join("\n");
+}
+function etabCopy(id, btn){ const e = etabGet(id); if(e) copyText(etabText(e, false), btn, btn.textContent); }
+window.etabCopy = etabCopy;
+
+function etabSubText(e){
+  const nLog = (e.logiciels || []).filter(l => l.nom || l.login).length;
+  return [e.type, [e.cp, e.ville].filter(Boolean).join(" "), e.idesTel ? "IDE " + e.idesTel : "", nLog ? nLog + " logiciel" + (nLog > 1 ? "s" : "") : ""].filter(Boolean).join(" · ") || "À compléter";
+}
+function etabCardHTML(e){
+  const open = state.etabOpen === e.id;
+  const v = x => escapeHtml(x || "");
+  const one = f => f.area
+    ? `<label class="calc-field courrier-field${f.full ? " param-full" : ""}"><span>${f.label}</span><textarea rows="2" data-ef="${f.id}" data-eid="${e.id}" placeholder="${f.ph}">${v(e[f.id])}</textarea></label>`
+    : `<label class="calc-field courrier-field${f.full ? " param-full" : ""}"><span>${f.label}</span><input type="text" data-ef="${f.id}" data-eid="${e.id}" placeholder="${f.ph}" value="${v(e[f.id])}"${f.id === "cp" ? ' inputmode="numeric" maxlength="5"' : ""} /></label>`;
+  const grp = g => { let h = "", cpv = []; ETAB_FIELDS.filter(f => f.g === g).forEach(f => { if(f.cpv){ cpv.push(f); if(cpv.length === 2) h += `<div class="param-cpv">${cpv.map(one).join("")}</div>`; } else h += one(f); }); return h; };
+  const sub = etabSubText(e);
+  return `
+  <div class="etab-card ${open ? "etab-card-open" : ""}">
+    <button type="button" class="etab-card-head" onclick="etabToggle('${e.id}')">
+      <span class="etab-ico">🏥</span>
+      <span class="etab-card-t"><strong>${v(e.nom) || "<em>Nouvel établissement</em>"}</strong><em>${escapeHtml(sub)}</em></span>
+      <span class="etab-card-chev">${open ? "▲" : "▼"}</span>
+    </button>
+    ${open ? `
+    <div class="etab-card-body">
+      <div class="courrier-fields param-grid">
+        ${grp("id")}
+        <label class="calc-field courrier-field"><span>Type</span><select data-ef="type" data-eid="${e.id}">${ETAB_TYPES.map(t => `<option ${e.type === t ? "selected" : ""}>${t}</option>`).join("")}</select></label>
+      </div>
+      <p class="etab-sec">📍 Adresse</p>
+      <div class="courrier-fields param-grid">${grp("adr")}</div>
+      <p class="etab-sec">📞 Contacts</p>
+      <div class="courrier-fields param-grid">${grp("ct")}</div>
+      <p class="etab-sec">💻 Logiciels — identifiants</p>
+      <div class="etab-logs">
+        ${(e.logiciels || []).map((l, i) => `
+          <div class="etab-log">
+            <input type="text" placeholder="Logiciel (NetSoins, Titan, Easily…)" value="${v(l.nom)}" oninput="etabLogSet('${e.id}', ${i}, 'nom', this.value)" />
+            <input type="text" placeholder="Identifiant" value="${v(l.login)}" autocomplete="off" oninput="etabLogSet('${e.id}', ${i}, 'login', this.value)" />
+            <span class="etab-pwd"><input type="password" placeholder="Mot de passe" value="${v(l.mdp)}" autocomplete="new-password" oninput="etabLogSet('${e.id}', ${i}, 'mdp', this.value)" /><button type="button" title="Afficher / masquer" onclick="etabShowPwd(this)">👁</button></span>
+            <button type="button" class="etab-log-del" title="Retirer cette ligne" onclick="etabLogDel('${e.id}', ${i})">✕</button>
+          </div>`).join("")}
+        <button type="button" class="bio-reset-btn" onclick="etabLogAdd('${e.id}')">＋ Ajouter un logiciel</button>
+      </div>
+      <p class="etab-sec">📝 Notes</p>
+      <div class="courrier-fields param-grid">${grp("notes")}</div>
+      <div class="cv2-actions">
+        <button type="button" class="bio-copy-btn" onclick="etabCopy('${e.id}', this)">📋 Copier la fiche</button>
+        <button type="button" class="bio-reset-btn" onclick="etabToggle('${e.id}')">Fermer</button>
+        <button type="button" class="bio-reset-btn etab-del ${state.etabDel === e.id ? "etab-del-confirm" : ""}" onclick="etabDelete('${e.id}')">${state.etabDel === e.id ? "Confirmer la suppression ?" : "Supprimer"}</button>
+        <span class="cv2-help" id="etabMsg_${e.id}">${e.maj ? "Modifié le " + e.maj.split("-").reverse().join("/") : ""}</span>
+      </div>
+    </div>` : ""}
+  </div>`;
+}
+
+function renderEtabTab(){
+  const q = normalizeSearch(state.etabQuery || "");
+  const all = etabSorted();
+  const L = q ? all.filter(e => normalizeSearch([e.nom, e.ville, e.type].join(" ")).includes(q)) : all;
+  const hasLog = all.some(e => (e.logiciels || []).some(l => l.login || l.mdp));
+  return `
+    <div class="bio-layout">
+      <div class="bio-layout-left">
+        <div class="bio-options-wrap">
+          <div class="etab-toolbar">
+            <span class="neurolep-label">Mon carnet d'établissements</span>
+            <button type="button" class="bio-copy-btn etab-add" onclick="etabAdd()">＋ Ajouter un établissement</button>
+          </div>
+          ${all.length > 5 ? `<input type="search" class="etab-search" placeholder="Filtrer (nom, ville, type)…" value="${escapeHtml(state.etabQuery || "")}" oninput="state.etabQuery = this.value; renderParamPanel(); const i = document.querySelector('.etab-search'); if(i){ i.focus(); i.setSelectionRange(i.value.length, i.value.length); }" />` : ""}
+          ${L.length ? L.map(etabCardHTML).join("") : `<div class="etab-empty">${all.length ? "Aucun établissement ne correspond." : "Aucun établissement pour l'instant.<br>Clique sur « ＋ Ajouter un établissement » : il n'y a pas de nombre maximum, tu en ajoutes au fur et à mesure."}</div>`}
+          ${all.length ? `
+          <div class="etab-pdf-box">
+            <label class="bio-option-row"><input type="checkbox" ${state.etabPdfPwd ? "checked" : ""} onchange="state.etabPdfPwd = this.checked" /><span><span class="bio-option-label">Imprimer aussi les mots de passe dans le PDF</span><span class="bio-option-indication">Décoché par défaut : seuls les identifiants apparaissent.</span></span></label>
+            <div class="cv2-actions">
+              <button type="button" class="bio-copy-btn" id="etabPdfBtn" onclick="etabPdf()">📄 Télécharger le carnet (PDF)</button>
+            </div>
+          </div>` : ""}
+        </div>
+      </div>
+      <div class="bio-layout-right">
+        <div class="doc-note">
+          <strong>À quoi ça sert ?</strong>
+          <p>Une fois enregistré, un établissement apparaît dans le menu <strong>« 📇 Choisir dans mes établissements… »</strong> des documents qui demandent un établissement : protocoles (et ZIP), bon de transport (nom, type et adresse), prescription de contention, Cerfa MDPH (adresse), fiche vaccinale, courriers, compte rendu de téléconsultation, dotation du chariot.</p>
+          <p style="margin-top:6px;">Chaque modification est <strong>enregistrée aussitôt</strong> sur cet appareil.</p>
+        </div>
+        <div class="doc-note" style="margin-top:14px; border-left-color:var(--amber);">
+          <strong>🔐 Identifiants et mots de passe</strong>
+          <p>Ils sont rangés <strong>sans chiffrement</strong> dans la mémoire du navigateur de cet appareil : quiconque utilise ta session peut les lire. À ne renseigner que sur un appareil personnel, verrouillé.${hasLog ? " Pour les transférer vers un autre appareil, protège le fichier de sauvegarde par un mot de passe (onglet 🔄)." : ""}</p>
+          <p style="margin-top:6px;">Un gestionnaire de mots de passe (trousseau iCloud, Bitwarden…) reste l'outil le plus sûr ; ce carnet est un aide-mémoire.</p>
+        </div>
+      </div>
+    </div>`;
+}
+
+function etabBindInputs(){
+  contentEl.querySelectorAll("[data-ef]").forEach(el => {
+    const ev = el.tagName === "SELECT" ? "change" : "input";
+    el.addEventListener(ev, e => {
+      etabSet(e.target.dataset.eid, e.target.dataset.ef, e.target.value);
+      const card = e.target.closest(".etab-card");
+      const et = etabGet(e.target.dataset.eid);
+      if(card && et){
+        const t = card.querySelector(".etab-card-t strong"); if(t) t.textContent = et.nom || "Nouvel établissement";
+        const u = card.querySelector(".etab-card-t em"); if(u) u.textContent = etabSubText(et);
+      }
+    });
+  });
+}
+
+/* ---------- PDF du carnet */
+async function etabPdf(){
+  const btn = document.getElementById("etabPdfBtn");
+  const L = etabSorted();
+  if(!L.length) return;
+  const withPwd = !!state.etabPdfPwd;
+  if(btn) btn.textContent = "…";
+  try{
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const pdf = await PDFDocument.create();
+    const font = await pdf.embedFont(StandardFonts.Helvetica);
+    const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+    const logo = await pdf.embedJpg(base64ToBytes(VMS_DOTR_LOGO_B64));
+    const W = 841.89, H = 595.28, M = 30;
+    const NAVY = rgb(0.067, 0.227, 0.431), INK = rgb(0.12, 0.16, 0.22), MUTED = rgb(0.36, 0.4, 0.44), BLUE = rgb(0.043, 0.455, 0.816), ZEBRA = rgb(0.94, 0.965, 0.99), LINE = rgb(0.82, 0.87, 0.93), SKY = rgb(0.9, 0.95, 1);
+    const S = t => pdfSafe(t || "");
+    const cols = [
+      { t: "Établissement", w: 150 }, { t: "Adresse", w: 128 }, { t: "IDE", w: 112 },
+      { t: "Téléphone et e-mail IDE", w: 140 }, { t: "IDEC / cadre", w: 106 }, { t: "Logiciels et identifiants", w: 145.89 }
+    ];
+    const size = 8.2, lead = 10.4, pad = 5;
+    const p = prescGet();
+    const today = new Date().toLocaleDateString("fr-FR");
+    const pages = [];
+    let page, y;
+    const newPage = () => {
+      page = pdf.addPage([W, H]); pages.push(page);
+      page.drawRectangle({ x: 0, y: H - 8, width: W, height: 8, color: BLUE });
+      page.drawText(S("Carnet des établissements"), { x: M, y: H - 40, size: 17, font: bold, color: NAVY });
+      page.drawText(S([p.nom, "édité le " + today].filter(Boolean).join(" — ")), { x: M, y: H - 56, size: 9, font, color: MUTED });
+      y = H - 74;
+      let x = M;
+      page.drawRectangle({ x: M, y: y - 18, width: W - 2 * M, height: 18, color: NAVY });
+      cols.forEach(c => { page.drawText(S(c.t), { x: x + pad, y: y - 12.5, size: 8.6, font: bold, color: rgb(1, 1, 1) }); x += c.w; });
+      y -= 18;
+    };
+    newPage();
+    L.forEach((e, idx) => {
+      const cell = [
+        [{ t: e.nom || "(sans nom)", b: 1 }, { t: [e.type, e.finess ? "FINESS " + e.finess : ""].filter(Boolean).join(" · "), m: 1 }, { t: e.telAccueil ? "Accueil : " + e.telAccueil : "" }],
+        [{ t: e.adresse || "" }, { t: [e.cp, e.ville].filter(Boolean).join(" ") }],
+        (e.idesNoms || "").split(/\n+/).map(x => ({ t: x.trim() })),
+        [{ t: e.idesTel ? "Tél. " + e.idesTel : "" }, { t: e.idesMail || "" }],
+        [{ t: e.idec || "", b: 1 }, { t: e.idecContact || "" }],
+        (e.logiciels || []).filter(l => l.nom || l.login || l.mdp).map(l => ({ t: (l.nom ? l.nom + " : " : "") + (l.login || "") + (withPwd && l.mdp ? " / " + l.mdp : "") }))
+      ];
+      const lines = cell.map((parts, ci) => {
+        const out = [];
+        parts.filter(x => x.t).forEach(x => wrapPdfText(S(x.t), x.b ? bold : font, size, cols[ci].w - 2 * pad).forEach(l => out.push({ l, b: x.b, m: x.m })));
+        return out;
+      });
+      const rowH = Math.max(1, ...lines.map(l => l.length)) * lead + 2 * pad;
+      if(y - rowH < 60){ newPage(); }
+      if(idx % 2 === 0) page.drawRectangle({ x: M, y: y - rowH, width: W - 2 * M, height: rowH, color: ZEBRA });
+      page.drawLine({ start: { x: M, y: y - rowH }, end: { x: W - M, y: y - rowH }, thickness: 0.6, color: LINE });
+      let x = M;
+      lines.forEach((ls, ci) => {
+        ls.forEach((o, li) => page.drawText(o.l, { x: x + pad, y: y - pad - 7.4 - li * lead, size, font: o.b ? bold : font, color: o.m ? MUTED : (o.b ? NAVY : INK) }));
+        x += cols[ci].w;
+      });
+      y -= rowH;
+    });
+    const hasLog = L.some(e => (e.logiciels || []).some(l => l.login || l.mdp));
+    pages.forEach((pg, i) => {
+      pg.drawImage(logo, { x: W - M - 92, y: 12, width: 92, height: 92 * 702 / 1444 });
+      pg.drawText(S("Page " + (i + 1) + " / " + pages.length + (hasLog ? "  —  Document personnel : contient des identifiants de connexion, ne pas diffuser." : "")), { x: M, y: 22, size: 7.2, font, color: hasLog ? rgb(0.7, 0.2, 0.15) : MUTED });
+    });
+    pdf.setTitle("Carnet des établissements");
+    triggerDownload(new Blob([await pdf.save()], { type: "application/pdf" }), "Carnet_etablissements_" + today.replace(/\//g, "-") + ".pdf");
+  }catch(err){
+    console.error(err);
+    alert("La génération du PDF a échoué.");
+  }finally{
+    if(btn) btn.textContent = "📄 Télécharger le carnet (PDF)";
+  }
+}
+window.etabPdf = etabPdf;
+
+/* ---------- fiche coordonnées du médecin (copier / PDF) */
+function prescCoordLines(p){
+  const out = [];
+  if(p.nom) out.push(["", p.nom]);
+  const q = [p.qualite, p.structure].filter(Boolean).join(" — ");
+  if(q) out.push(["", q]);
+  if(p.rpps) out.push(["RPPS", p.rpps]);
+  if(p.adeli) out.push(["ADELI", p.adeli]);
+  const adr = prescAdresseComplete(p);
+  if(adr) out.push(["Adresse", adr]);
+  if(p.tel) out.push(["Téléphone", p.tel]);
+  if(p.email) out.push(["E-mail", p.email]);
+  if(p.mss) out.push(["Messagerie sécurisée (MSS)", p.mss]);
+  return out;
+}
+function prescCoordText(p){ return prescCoordLines(p).map(([k, v]) => k ? k + " : " + v : v).join("\n"); }
+function paramCopyCoord(btn){
+  const p = Object.assign({}, prescGet(), state.paramDraft || {});
+  const t = prescCoordText(p);
+  if(!t){ paramMsg("Rien à copier : renseigne d'abord tes coordonnées."); return; }
+  copyText(t, btn, btn.textContent);
+}
+async function paramCoordPdf(){
+  const p = Object.assign({}, prescGet(), state.paramDraft || {});
+  const rows = prescCoordLines(p).slice(p.nom ? 1 : 0).filter(r => r[0]);
+  if(!p.nom && !rows.length){ paramMsg("Renseigne d'abord tes coordonnées."); return; }
+  try{
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const pdf = await PDFDocument.create();
+    const font = await pdf.embedFont(StandardFonts.Helvetica);
+    const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+    const logo = await pdf.embedJpg(base64ToBytes(VMS_DOTR_LOGO_B64));
+    const W = 595.28, H = 841.89, M = 56;
+    const NAVY = rgb(0.067, 0.227, 0.431), INK = rgb(0.12, 0.16, 0.22), MUTED = rgb(0.36, 0.4, 0.44), BLUE = rgb(0.043, 0.455, 0.816), SKY = rgb(0.91, 0.953, 0.996), LINE = rgb(0.8, 0.87, 0.95);
+    const S = t => pdfSafe(t || "");
+    const page = pdf.addPage([W, H]);
+    page.drawRectangle({ x: 0, y: H - 8, width: W, height: 8, color: BLUE });
+    page.drawText(S("Coordonnées du médecin"), { x: M, y: H - 62, size: 11, font: bold, color: BLUE });
+    page.drawText(S(p.nom || ""), { x: M, y: H - 92, size: 24, font: bold, color: NAVY });
+    const q = [p.qualite, p.structure].filter(Boolean).join(" — ");
+    if(q) page.drawText(S(q), { x: M, y: H - 114, size: 12.5, font, color: INK });
+    // carte
+    const top = H - 146, rowH = 34, cardH = rows.length * rowH + 20;
+    page.drawRectangle({ x: M, y: top - cardH, width: W - 2 * M, height: cardH, color: SKY, borderColor: LINE, borderWidth: 1 });
+    page.drawRectangle({ x: M, y: top - cardH, width: 5, height: cardH, color: BLUE });
+    rows.forEach(([k, v], i) => {
+      const yy = top - 16 - i * rowH;
+      page.drawText(S(k.toUpperCase()), { x: M + 22, y: yy - 11, size: 8, font: bold, color: MUTED });
+      const ls = wrapPdfText(S(v), font, 12, W - 2 * M - 210);
+      ls.slice(0, 2).forEach((l, j) => page.drawText(l, { x: M + 190, y: yy - 12 - j * 13, size: 12, font: j ? font : font, color: INK }));
+      if(i < rows.length - 1) page.drawLine({ start: { x: M + 22, y: yy - rowH + 8 }, end: { x: W - M - 18, y: yy - rowH + 8 }, thickness: 0.5, color: LINE });
+    });
+    let y = top - cardH - 30;
+    // tampon (pas la signature)
+    if(p.tampon && /^data:image\/png/.test(p.tampon)){
+      const img = await pdf.embedPng(base64ToBytes(p.tampon.split(",")[1]));
+      page.drawText(S("Cachet"), { x: M, y, size: 8, font: bold, color: MUTED });
+      signFit(page, img, { x: M, y: y - 96, w: 200, h: 86 }, "left");
+      y -= 110;
+    }
+    page.drawText(S("Merci d'enregistrer ces coordonnées dans l'annuaire de l'établissement et dans le dossier de soins."), { x: M, y: Math.max(y, 150), size: 9.5, font, color: MUTED });
+    page.drawText(S("Docs On The Road — Vision Moderne de la Santé"), { x: M, y: 40, size: 8, font, color: MUTED });
+    page.drawImage(logo, { x: W - M - 110, y: 24, width: 110, height: 110 * 702 / 1444 });
+    pdf.setTitle("Coordonnées — " + (p.nom || "médecin"));
+    triggerDownload(new Blob([await pdf.save()], { type: "application/pdf" }), "Coordonnees_" + (prescNomNu() || "medecin").replace(/[^A-Za-z0-9À-ÿ-]+/g, "_") + ".pdf");
+  }catch(err){
+    console.error(err);
+    paramMsg("La génération du PDF a échoué.");
+  }
+}
+window.paramCopyCoord = paramCopyCoord; window.paramCoordPdf = paramCoordPdf;
+
+/* ---------- sauvegarde complète : fichier, éventuellement chiffré (AES-GCM, clé dérivée PBKDF2) */
+const BK_ITER = 250000;
+const b64e = u8 => { let s = ""; u8.forEach(b => { s += String.fromCharCode(b); }); return btoa(s); };
+const b64d = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function bkKey(pwd, salt){
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pwd), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: BK_ITER, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+}
+function bkOpts(){ return state.bkOpts || (state.bkOpts = { med: true, etab: true, img: true }); }
+async function bkExport(){
+  const o = bkOpts();
+  const pwdEl = document.getElementById("bkPwd"), pwd2El = document.getElementById("bkPwd2");
+  const pwd = pwdEl ? pwdEl.value : "", pwd2 = pwd2El ? pwd2El.value : "";
+  const msg = t => { const el = document.getElementById("bkMsg"); if(el) el.textContent = t; };
+  if(pwd && pwd !== pwd2){ msg("Les deux mots de passe ne correspondent pas."); return; }
+  if(pwd && pwd.length < 8){ msg("Mot de passe trop court (8 caractères minimum)."); return; }
+  const data = { app: "Espace VMS/DOTR", v: 3, date: new Date().toISOString() };
+  if(o.med){
+    const p = prescGet();
+    if(!o.img) PRESC_IMAGES.forEach(im => delete p[im.id]);
+    data.parametres = p;
+  }
+  if(o.etab) data.etablissements = etabAll();
+  let out = data;
+  if(pwd){
+    if(!(window.crypto && crypto.subtle)){ msg("Chiffrement indisponible sur ce navigateur."); return; }
+    const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+    const key = await bkKey(pwd, salt);
+    const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, new TextEncoder().encode(JSON.stringify(data))));
+    out = { app: "Espace VMS/DOTR", v: 3, chiffre: { alg: "AES-GCM-256", kdf: "PBKDF2-SHA256", it: BK_ITER, salt: b64e(salt), iv: b64e(iv), data: b64e(ct) } };
+  }
+  const d = new Date().toISOString().slice(0, 10);
+  triggerDownload(new Blob([JSON.stringify(out, null, pwd ? 0 : 2)], { type: "application/json" }), "Sauvegarde_EspaceVMS_" + d + (pwd ? "_chiffree" : "") + ".json");
+  msg(pwd ? "✓ Fichier chiffré téléchargé. Sans le mot de passe, il est illisible — ne le perds pas." : "✓ Fichier téléchargé (non chiffré).");
+}
+function bkImportFile(f){
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      const j = JSON.parse(r.result);
+      if(j.chiffre){ state.bkPending = j; renderParamPanel(); return; }
+      bkApply(j);
+    }catch(e){ state.bkMsg = "Fichier illisible."; renderParamPanel(); }
+  };
+  r.readAsText(f);
+}
+async function bkDecrypt(){
+  const j = state.bkPending;
+  const el = document.getElementById("bkOpenPwd");
+  if(!j || !el) return;
+  try{
+    const key = await bkKey(el.value, b64d(j.chiffre.salt));
+    const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64d(j.chiffre.iv) }, key, b64d(j.chiffre.data));
+    state.bkPending = null;
+    bkApply(JSON.parse(new TextDecoder().decode(pt)));
+  }catch(e){
+    const m = document.getElementById("bkMsg"); if(m) m.textContent = "Mot de passe incorrect.";
+  }
+}
+function bkApply(j){
+  const parts = [];
+  const src = j.parametres || (!j.etablissements && !j.chiffre && (j.nom || j.rpps || j.signature) ? j : null);
+  if(src){
+    const d = {};
+    PRESC_FIELDS.forEach(x => { if(typeof src[x.id] === "string") d[x.id] = src[x.id].slice(0, 200); });
+    PRESC_IMAGES.forEach(im => { if(typeof src[im.id] === "string" && /^data:image\/(png|jpeg);base64,/.test(src[im.id])) d[im.id] = src[im.id]; });
+    d.memSig = !!src.memSig;
+    const toStore = Object.assign({}, d);
+    PRESC_SESSION = {};
+    if(!d.memSig) PRESC_IMAGES.forEach(im => { if(d[im.id]) PRESC_SESSION[im.id] = d[im.id]; delete toStore[im.id]; });
+    prescStore(toStore);
+    state.paramDraft = null;
+    parts.push("paramètres du médecin");
+  }
+  if(Array.isArray(j.etablissements)){
+    const L = etabAll();
+    let add = 0, upd = 0;
+    j.etablissements.forEach(e => {
+      if(!e || typeof e !== "object") return;
+      const clean = {};
+      ["id", "nom", "type", "maj"].concat(ETAB_FIELDS.map(f => f.id)).forEach(k => { if(typeof e[k] === "string") clean[k] = e[k].slice(0, 2000); });
+      clean.logiciels = Array.isArray(e.logiciels) ? e.logiciels.slice(0, 30).map(l => ({ nom: String(l.nom || "").slice(0, 200), login: String(l.login || "").slice(0, 200), mdp: String(l.mdp || "").slice(0, 200) })) : [];
+      if(!clean.id) clean.id = etabNewId();
+      const i = L.findIndex(x => x.id === clean.id || (x.nom && clean.nom && normalizeSearch(x.nom) === normalizeSearch(clean.nom)));
+      if(i >= 0){ L[i] = Object.assign({}, L[i], clean, { id: L[i].id }); upd++; } else { L.push(clean); add++; }
+    });
+    etabStore(L);
+    parts.push(j.etablissements.length + " établissement" + (j.etablissements.length > 1 ? "s" : "") + " (" + add + " ajouté" + (add > 1 ? "s" : "") + ", " + upd + " mis à jour)");
+  }
+  state.bkMsg = parts.length ? "✓ Restauré sur cet appareil : " + parts.join(" et ") + "." : "Ce fichier ne contient rien de reconnu.";
+  renderParamPanel();
+}
+window.bkExport = bkExport; window.bkImportFile = bkImportFile; window.bkDecrypt = bkDecrypt;
+
+function renderBackupTab(){
+  const o = bkOpts();
+  const pend = state.bkPending;
+  const msg = state.bkMsg || ""; state.bkMsg = "";
+  return `
+    <div class="bio-layout">
+      <div class="bio-layout-left">
+        <div class="bio-options-wrap">
+          <span class="neurolep-label">1. Enregistrer une sauvegarde (fichier)</span>
+          <div class="bk-opts">
+            <label class="bio-option-row"><input type="checkbox" ${o.med ? "checked" : ""} onchange="bkOpts().med = this.checked" /><span><span class="bio-option-label">Mes paramètres médecin</span></span></label>
+            <label class="bio-option-row"><input type="checkbox" ${o.img ? "checked" : ""} onchange="bkOpts().img = this.checked" /><span><span class="bio-option-label">Avec la signature et le tampon</span></span></label>
+            <label class="bio-option-row"><input type="checkbox" ${o.etab ? "checked" : ""} onchange="bkOpts().etab = this.checked" /><span><span class="bio-option-label">Mes établissements (${etabAll().length})</span><span class="bio-option-indication">y compris identifiants et mots de passe des logiciels</span></span></label>
+          </div>
+          <div class="courrier-fields param-grid" style="margin-top:8px;">
+            <label class="calc-field courrier-field"><span>Protéger par un mot de passe (recommandé)</span><input type="password" id="bkPwd" autocomplete="new-password" placeholder="8 caractères minimum" /></label>
+            <label class="calc-field courrier-field"><span>Confirmer le mot de passe</span><input type="password" id="bkPwd2" autocomplete="new-password" /></label>
+          </div>
+          <div class="cv2-actions"><button type="button" class="bio-copy-btn" onclick="bkExport()">💾 Télécharger la sauvegarde</button></div>
+
+          <span class="neurolep-label" style="margin-top:20px; display:block;">2. Restaurer sur cet appareil</span>
+          ${pend ? `
+            <div class="bk-pend">
+              <p>🔒 Fichier chiffré : saisis son mot de passe.</p>
+              <div class="cv2-actions"><input type="password" id="bkOpenPwd" class="etab-search" style="max-width:260px; margin:0;" onkeydown="if(event.key === 'Enter') bkDecrypt()" /><button type="button" class="bio-copy-btn" onclick="bkDecrypt()">Déverrouiller</button><button type="button" class="bio-reset-btn" onclick="state.bkPending = null; renderParamPanel();">Annuler</button></div>
+            </div>` : `
+            <div class="cv2-actions"><label class="bio-copy-btn cv2-file">📂 Choisir un fichier de sauvegarde<input type="file" accept="application/json,.json" onchange="bkImportFile(this.files[0]); this.value='';" /></label></div>
+            <p class="cv2-help cv2-small">Les paramètres médecin du fichier remplacent ceux de cet appareil ; les établissements sont ajoutés, ou mis à jour s'ils portent le même nom. Les anciens fichiers « Mes_parametres_EspaceVMS.json » sont acceptés.</p>`}
+          <p class="cv2-help" id="bkMsg">${escapeHtml(msg)}</p>
+        </div>
+      </div>
+      <div class="bio-layout-right">
+        <div class="doc-note">
+          <strong>Ordinateur, iPad, iPhone : retrouver mes paramètres partout</strong>
+          <p>Le site n'a pas de serveur : chaque appareil (et chaque navigateur) garde sa propre mémoire. Pour passer de l'un à l'autre :</p>
+          <ol class="bk-steps">
+            <li>Sur l'appareil où tout est rempli : <strong>💾 Télécharger la sauvegarde</strong>, avec un mot de passe.</li>
+            <li>Transfère le fichier : AirDrop, iCloud Drive, e-mail à toi-même…</li>
+            <li>Sur l'autre appareil, ouvre l'Espace VMS/DOTR (même navigateur que d'habitude), onglet 🔄, <strong>📂 Choisir un fichier</strong>, puis le mot de passe.</li>
+          </ol>
+          <p style="margin-top:6px;">À refaire après chaque modification importante : les appareils ne se synchronisent pas tout seuls.</p>
+        </div>
+        <div class="doc-note" style="margin-top:14px; border-left-color:var(--teal);">
+          <strong>Qui peut voir mes informations ?</strong>
+          <p>Personne à distance : rien ne quitte ton appareil, sauf le fichier que tu télécharges toi-même. Tes collègues ont chacun leur propre mémoire et ne voient pas la tienne.</p>
+          <p style="margin-top:6px;">Chiffré, le fichier est illisible sans son mot de passe (AES-256) ; <strong>mot de passe perdu = fichier perdu</strong>. Non chiffré, il se lit comme un texte : ne l'envoie pas par e-mail s'il contient des mots de passe.</p>
+          <p style="margin-top:6px;">Tout est perdu si tu vides les données de navigation ou utilises la navigation privée : garde une sauvegarde récente.</p>
+        </div>
+      </div>
+    </div>`;
+}
+/* fin Établissements */
+
+/* =====================================================================
+   ICÔNES DES CARTES ET DES BULLES — un visuel coloré par document,
+   outil interactif ou situation clinique. Emoji quand il en existe un
+   parlant, sinon petit dessin SVG maison (foie, reins, listes I/II,
+   lithium, comprimé écrasé, gélule ouverte, comprimé sécable…).
+   Cliquer sur l'icône ouvre l'outil ou le PDF, comme les boutons.
+   ===================================================================== */
+const ICO_SVG = {
+  foie: `<svg viewBox="0 0 48 48"><path d="M5 19c0-7 9-11 20-11 10 0 18 3 18 9 0 9-9 17-21 21-4 1-6 0-7-3-1-4-10-6-10-16z" fill="#B4493B"/><path d="M9 18c2-4 9-6 16-6" stroke="#E58B7C" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M26 11c1 7-1 14-5 21" stroke="#8E3328" stroke-width="1.6" fill="none"/><ellipse cx="29" cy="31" rx="3.2" ry="4.6" fill="#5BA35A" transform="rotate(-25 29 31)"/></svg>`,
+  reins: `<svg viewBox="0 0 48 48"><path d="M17 8c-7 0-11 7-11 15s4 15 11 15c4 0 6-3 5-6-1-2-3-3-3-6s2-4 3-6c1-3-1-12-5-12z" fill="#C0392B"/><path d="M31 8c7 0 11 7 11 15s-4 15-11 15c-4 0-6-3-5-6 1-2 3-3 3-6s-2-4-3-6c-1-3 1-12 5-12z" fill="#C0392B"/><path d="M11 16c1-3 3-5 6-5M37 16c-1-3-3-5-6-5" stroke="#F1948A" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M20 26c2 2 3 7 3 16M28 26c-2 2-3 7-3 16" stroke="#E6A23C" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>`,
+  listes: `<svg viewBox="0 0 48 48"><rect x="3" y="11" width="19" height="26" rx="3" fill="#fff" stroke="#D32F2F" stroke-width="3"/><text x="12.5" y="30" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="15" fill="#D32F2F">I</text><rect x="26" y="11" width="19" height="26" rx="3" fill="#fff" stroke="#2E7D32" stroke-width="3"/><text x="35.5" y="30" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="14" fill="#2E7D32">II</text></svg>`,
+  lithium: `<svg viewBox="0 0 48 48"><rect x="5" y="5" width="38" height="38" rx="7" fill="#EDE7F6" stroke="#6A4FB3" stroke-width="2.6"/><text x="10" y="15" font-family="Arial,sans-serif" font-size="8" font-weight="700" fill="#6A4FB3">3</text><text x="24" y="33" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="800" fill="#4527A0">Li</text></svg>`,
+  ecrase: `<svg viewBox="0 0 48 48"><path d="M5 26h32c0 9-7 15-16 15S5 35 5 26z" fill="#8FA3B8"/><path d="M5 26h32" stroke="#5E7187" stroke-width="2.4" stroke-linecap="round"/><circle cx="13" cy="23" r="2.2" fill="#fff"/><circle cx="19" cy="21.5" r="2.8" fill="#F4F6F8"/><circle cx="26" cy="23" r="2.4" fill="#fff"/><circle cx="31" cy="22" r="1.6" fill="#F4F6F8"/><path d="M27 7l-7 13" stroke="#6D4C41" stroke-width="4" stroke-linecap="round"/><circle cx="38" cy="12" r="9" fill="#2E9E5B"/><path d="M33.5 12.5l3 3 5.5-6.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  gelule: `<svg viewBox="0 0 48 48"><g transform="rotate(-35 24 24)"><path d="M10 17h11v14H10a7 7 0 010-14z" fill="#1E88E5"/><path d="M27 17h11a7 7 0 010 14H27z" fill="#FFB300"/></g><circle cx="22" cy="36" r="1.8" fill="#FFB300"/><circle cx="26" cy="39" r="1.6" fill="#FFCA28"/><circle cx="21" cy="41" r="1.4" fill="#FFB300"/><circle cx="29" cy="35" r="1.3" fill="#FFCA28"/></svg>`,
+  geluleWarn: `<svg viewBox="0 0 48 48"><g transform="rotate(-35 24 24)"><path d="M10 17h11v14H10a7 7 0 010-14z" fill="#1E88E5"/><path d="M27 17h11a7 7 0 010 14H27z" fill="#FFB300"/></g><circle cx="22" cy="36" r="1.8" fill="#FFB300"/><circle cx="26" cy="39" r="1.6" fill="#FFCA28"/><circle cx="21" cy="41" r="1.4" fill="#FFB300"/><path d="M38 3l9 16H29z" fill="#F39C12"/><path d="M38 9v5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="38" cy="16.6" r="1.3" fill="#fff"/></svg>`,
+  secable: `<svg viewBox="0 0 48 48"><path d="M21 9a15 15 0 000 30z" fill="#F5F5F5" stroke="#90A4AE" stroke-width="2.2"/><path d="M27 9a15 15 0 010 30z" fill="#F5F5F5" stroke="#90A4AE" stroke-width="2.2"/><path d="M24 4v40" stroke="#E53935" stroke-width="2" stroke-dasharray="3 3"/><path d="M8 16l5 3M40 16l-5 3" stroke="#B0BEC5" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+  deprescrire: `<svg viewBox="0 0 48 48"><rect x="5" y="7" width="20" height="10" rx="5" fill="#E57373"/><rect x="15" y="7" width="10" height="10" rx="0" fill="#EF9A9A"/><rect x="5" y="7" width="20" height="10" rx="5" fill="none" stroke="#C62828" stroke-width="1.6"/><path d="M8 25c6 0 10 2 14 6s8 7 16 7" stroke="#0E8A7E" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M33 31l6 7-8 3" stroke="#0E8A7E" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  surveillance: `<svg viewBox="0 0 48 48"><rect x="6" y="14" width="22" height="11" rx="5.5" fill="#42A5F5"/><rect x="17" y="14" width="11" height="11" fill="#90CAF9"/><circle cx="31" cy="29" r="9.5" fill="#fff" stroke="#37474F" stroke-width="3.2"/><path d="M38 36l7 7" stroke="#37474F" stroke-width="4" stroke-linecap="round"/><path d="M26 29h3l2-4 2 7 2-3h2" stroke="#E53935" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg>`
+};
+
+/* Couleur de fond de la tuile (pastel) et liseré. */
+const ICO_TONES = {
+  red: ["#FDECEC", "#F5B7B1"], pink: ["#FCE4EC", "#F8BBD0"], orange: ["#FFF1E0", "#FFCC80"], amber: ["#FFF8E1", "#FFE082"],
+  green: ["#E8F5E9", "#A5D6A7"], teal: ["#E0F4F1", "#80CBC4"], sky: ["#E3F2FD", "#90CAF9"], blue: ["#E8EEFB", "#9FB6EC"],
+  navy: ["#E6ECF5", "#9DB0CC"], purple: ["#F1EAFB", "#C9B3EE"], slate: ["#EEF1F5", "#C3CCD8"], brown: ["#F6EDE8", "#D7B8A6"]
+};
+
+/* Un document (id) -> [visuel, teinte]. Visuel : emoji ou "svg:nom". */
+const DOC_ICONS = {
+  // Médicaments & sécurité
+  "medicaments-sensibles": ["🔏", "amber"], "charge-anticholinergique": ["🧠", "purple"],
+  "deprescription-classes": ["📉", "teal"], "deprescription-situations": ["svg:deprescrire", "teal"],
+  "benzodiazepines": ["⭐", "navy"], "neuroleptiques-classiques": ["🌀", "purple"],
+  "liste-1-vs-2": ["svg:listes", "slate"], "clozapine": ["🔬", "sky"],
+  "nebulisations-prescription": ["🫁", "sky"], "surveillance-plaquettaire-hbpm": ["💉", "red"],
+  // Suivis biologiques
+  "ordonnance-biologie": ["🧪", "red"], "suivi-ime-enfant-ado": ["🧒", "orange"],
+  "suivi-surveillance-medicamenteuse": ["svg:surveillance", "sky"], "suivi-antiepileptiques": ["⚡", "amber"],
+  "suivi-hepatopathie-cirrhose": ["svg:foie", "brown"], "suivi-mrc-irc": ["svg:reins", "pink"],
+  "suivi-hta": ["🫀", "red"], "suivi-diabete": ["🩸", "red"], "lecture-agp": ["📈", "teal"],
+  "suivi-bilan-annuel-esms": ["📅", "navy"],
+  // Protocoles
+  "collab-si-besoin": ["🤝", "navy"],
+  "as-epistaxis": ["👃", "red"], "as-vomissements": ["🤢", "green"], "as-traumatisme-cranien": ["🤕", "orange"],
+  "as-surveillance-temperature": ["🌡️", "red"], "as-soins-palliatifs": ["🕊️", "sky"], "as-soins-de-bouche": ["🪥", "teal"],
+  "as-regles-douloureuses": ["🌸", "pink"], "as-ruptures-approvisionnement": ["📦", "brown"], "as-refus-traitement": ["🙅", "amber"],
+  "as-plaie-simple": ["🩹", "orange"], "as-perte-connaissance": ["😵‍💫", "purple"], "as-paracetamol": ["💊", "blue"],
+  "as-oubli-traitement": ["⏰", "amber"], "as-infection-urinaire": ["💧", "sky"], "as-hemorragie-externe": ["🩸", "red"],
+  "as-hypothermie": ["🥶", "sky"], "as-hypoglycemie": ["🍬", "pink"], "as-hyperthermie": ["🥵", "red"],
+  "as-fausse-route": ["🍽️", "orange"], "as-erreur-medicamenteuse": ["⚠️", "amber"], "as-dyspnee-desaturation": ["😮‍💨", "sky"],
+  "as-douleur": ["😣", "orange"], "as-diarrhee": ["🚽", "brown"], "as-criteres-samu": ["🚑", "red"],
+  "as-crise-epilepsie": ["⚡", "amber"], "as-constipation": ["🧻", "brown"], "as-deces": ["🕯️", "slate"],
+  "as-chute": ["🦴", "slate"], "as-arret-cardio-respiratoire": ["❤️‍🩹", "red"], "as-agitation": ["😤", "orange"],
+  "as-aes-soignant": ["🧤", "sky"],
+  "ide-aes-biologie": ["🧪", "sky"], "ide-anaphylaxie": ["🐝", "amber"], "ide-constipation-simple": ["🧻", "brown"],
+  "ide-crise-convulsive-midazolam": ["⚡", "amber"], "ide-cystite-simple": ["💧", "sky"], "ide-diarrhee-racecadotril": ["🚽", "brown"],
+  "ide-dyspnee-oxygenotherapie": ["🫁", "sky"], "ide-hypoglycemie-resucrage": ["🍬", "pink"], "ide-paracetamol": ["💊", "blue"],
+  "ide-plaie-simple-colle": ["🩹", "orange"], "ide-surveillance-traumatisme-cranien": ["🤕", "orange"], "ide-vomissements-metopimazine": ["🤢", "green"],
+  "socle-circuit-medicament": ["🔄", "teal"], "socle-hygiene-mains": ["🧼", "sky"], "socle-epidemie-ira-gea": ["🦠", "green"],
+  "socle-signalements": ["📣", "orange"], "socle-dlu": ["📁", "navy"],
+  // Contentions
+  "contention-outil": ["🧷", "purple"], "contention-fiche-remplissable": ["📝", "purple"], "contention-fiche": ["📘", "purple"],
+  // Administratif et tutos
+  "certificat-redaction": ["📝", "amber"], "certificats-referentiel": ["📚", "amber"], "certif-handisport": ["🏅", "amber"],
+  "cerfa-15695-outil": ["♿", "blue"], "cerfa-ald": ["🗂️", "amber"], "bon-transport-outil": ["🚑", "red"],
+  "trombinoscope-vms": ["👥", "navy"], "tuto-connexion-cardioparc": ["🫀", "red"], "tuto-healphi-ordoclic": ["💻", "blue"],
+  "tuto-tampon-numerique": ["🔖", "blue"],
+  // Matériel
+  "guide-dotations-urgence-pdf": ["🧰", "red"], "affiche-chariot-urgence": ["🚨", "red"], "chariot-urgence": ["🛒", "red"],
+  "fauteuils-vph": ["🦽", "purple"], "pedicurie-podologie": ["🦶", "orange"],
+  // Calculateurs
+  "calculateurs-cliniques": ["🧮", "sky"], "fiche-algoplus": ["😣", "orange"], "fiche-doloplus": ["😖", "orange"], "fiche-ecpa": ["🙁", "orange"],
+  // Courriers, télémédecine, vaccination
+  "trames-courriers": ["✉️", "green"], "preparer-ia": ["🎭", "purple"],
+  "teleconsultation-assistee": ["📹", "blue"], "chk-lesion-cutanee": ["🔍", "orange"], "chk-respiratoire": ["🫁", "sky"],
+  "chk-transit": ["🧻", "brown"], "chk-urinaire": ["💧", "sky"],
+  "calendrier-vaccinal-pdf": ["📅", "green"], "vaccination-esms": ["💉", "green"], "fiche-vaccinale-outil": ["🛡️", "green"],
+  "vaccination-pediatrique": ["🧸", "green"]
+};
+/* Visuel par défaut, selon la rubrique. */
+const CAT_ICON_DEFAULT = {
+  "protocoles-generaux": ["📄", "navy"], "medicaments-securite": ["💊", "teal"], "suivis-biologiques": ["🧪", "red"],
+  "contentions": ["🧷", "purple"], "administratif": ["📄", "amber"], "materiel": ["🧰", "purple"], "calculateurs": ["🧮", "sky"],
+  "courriers": ["✉️", "green"], "telemedecine": ["📹", "blue"], "vaccination": ["💉", "green"]
+};
+/* Bulles de l'ordonnance de biologie. */
+const BIO_ICONS = {
+  "dec-diabete": ["🩸", "teal"], "dec-hta": ["🫀", "blue"], "dec-dysthyroidie": ["🦋", "purple"], "dec-anemie": ["🔴", "red"],
+  "dec-cognitif": ["🧠", "navy"], "dec-hyponatremie": ["🧂", "sky"], "dec-cytolyse": ["svg:foie", "brown"], "dec-hypercalcemie": ["🥛", "green"],
+  "dec-fracture": ["🦴", "slate"], "bilan-annuel": ["📅", "navy"], "diabete": ["🩸", "teal"], "hta": ["🫀", "blue"],
+  "mrc": ["svg:reins", "pink"], "hepatopathie": ["svg:foie", "brown"], "lithium": ["svg:lithium", "purple"], "clozapine": ["🔬", "sky"],
+  "ic": ["💔", "red"], "hypothyroidie": ["🦋", "purple"], "antipsychotiques": ["⚖️", "green"], "valproate": ["⚡", "red"],
+  "carbamazepine": ["⚡", "amber"], "oxcarbazepine": ["⚡", "amber"], "phenobarbital": ["⚡", "purple"], "t21": ["🧬", "sky"],
+  "nutrition": ["🥣", "teal"], "aod": ["🩹", "slate"]
+};
+
+function icoGlyph(g){ return g.indexOf("svg:") === 0 ? (ICO_SVG[g.slice(4)] || "") : `<span class="ico-emoji">${g}</span>`; }
+function icoTile(def, size){
+  const [g, tone] = def;
+  const t = ICO_TONES[tone] || ICO_TONES.slate;
+  return `<span class="doc-ico doc-ico-${size || "md"}" style="--icbg:${t[0]};--icbd:${t[1]}" aria-hidden="true">${icoGlyph(g)}</span>`;
+}
+function docIconDef(id, catId){ return DOC_ICONS[id] || CAT_ICON_DEFAULT[catId] || ["📄", "slate"]; }
+function docIconHTML(id, catId, size){ return icoTile(docIconDef(id, catId), size); }
+/* fin Icônes */
 
 /* Rubriques marquées « wip » : grand bandeau d'alerte en tête de page, dans la
    rubrique comme dans ses outils et documents. Appelé après chaque rendu, y
