@@ -16646,9 +16646,14 @@ function docIconHTML(id, catId, size){ return icoTile(docIconDef(id, catId), siz
    continue pendant toutes les actions.
    ===================================================================== */
 const MUSIC_TRACKS = [
-  { id: "midnight", titre: "Midnight Highway", sous: "Synthwave de nuit", ico: "🌃", src: "audio/Midnight Highway.mp3" },
-  { id: "luminous", titre: "Luminous Minor", sous: "French touch filtrée", ico: "✨", src: "audio/Luminous Minor.mp3" }
+  { id: "midnight", titre: "Midnight Highway", sous: "Synthwave de nuit", ico: "🌃", src: "audio/Midnight Highway.mp3", debut: 0.5, fin: 0.6 },
+  { id: "luminous", titre: "Luminous Minor", sous: "French touch filtrée", ico: "✨", src: "audio/Luminous Minor.mp3" },
+  { id: "blueplanet", titre: "Above the Blue Planet", sous: "Au-dessus de la planète bleue", ico: "🌍", src: "audio/Above the Blue Planet.mp3", fin: 1.4 },
+  { id: "trench", titre: "The Trench Beneath The Stars", sous: "La fosse sous les étoiles", ico: "🌌", src: "audio/The Trench Beneath The Stars.mp3", debut: 0.7 },
+  { id: "cerulean", titre: "Orbits Around Cerulean", sous: "En orbite autour du bleu", ico: "🪐", src: "audio/Orbits Around Cerulean.mp3", fin: 1.4 }
 ];
+/* debut / fin : secondes de silence à sauter au début et à la fin du fichier
+   (mesurées au silencedetect de ffmpeg, seuil −40 dB). */
 const MUSIC_KEY = "dotr_music_v1";
 const MUSIC_XF = 5;        // durée du fondu enchaîné en fin de boucle (s)
 const MUSIC_SWITCH = 1.6;  // fondu lors d'un changement de morceau (s)
@@ -16699,7 +16704,9 @@ function musicRamp(p, from, to, sec, done){
 }
 function musicStartOn(p, tr, fade){
   if(p.el.dataset.id !== tr.id){ p.el.src = encodeURI(tr.src); p.el.dataset.id = tr.id; }
-  try{ p.el.currentTime = 0; }catch(e){}
+  const d0 = tr.debut || 0;
+  if(p.el.readyState >= 1){ try{ p.el.currentTime = d0; }catch(e){} }
+  else if(d0) p.el.addEventListener("loadedmetadata", () => { try{ p.el.currentTime = d0; }catch(e){} }, { once: true });
   musicSetV(p, 0);
   const pr = p.el.play();
   if(pr && pr.catch) pr.catch(() => { MUSIC.pending = true; musicArmGesture(); });
@@ -16710,7 +16717,7 @@ function musicWatch(){
   MUSIC.timer = setInterval(() => {
     const a = MUSIC.players[MUSIC.cur];
     if(!a || a.el.paused || !a.el.duration || !isFinite(a.el.duration)) return;
-    if(a.el.duration - a.el.currentTime <= MUSIC_XF && !a.xf){
+    if(a.el.duration - (MUSIC.track.fin || 0) - a.el.currentTime <= MUSIC_XF && !a.xf){
       a.xf = true;
       const nxt = (MUSIC.cur + 1) % 2, b = MUSIC.players[nxt];
       musicStartOn(b, MUSIC.track, MUSIC_XF);
