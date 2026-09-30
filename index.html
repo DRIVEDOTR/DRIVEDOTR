@@ -15268,7 +15268,7 @@ async function pmtPdf(){
         const H = page.getHeight(), top = i === 0 ? 682.3 : 680.8;
         if(SA.sig) signFit(page, SA.sig, { x: 219, y: H - top - 22, w: 80, h: 34 }, "left");
         // tampon centré dans le cadre « raison sociale / adresse / n° de structure »
-        if(SA.stamp) signFit(page, SA.stamp, { x: 362, y: 151, w: 200, h: 62 }, "center");
+        if(SA.stamp) signFit(page, SA.stamp, { x: 402, y: 162, w: 120, h: 40 }, "center");  // taille naturelle, centré dans le cadre (362–562 × 151–213)
       });
     }
     if(!pmtS().notice && pdfDoc.getPageCount() === 4){ pdfDoc.removePage(0); pdfDoc.removePage(0); }
