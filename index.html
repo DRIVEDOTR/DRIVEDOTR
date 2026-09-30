@@ -102,6 +102,10 @@
     transition:transform .15s ease;
   }
   .planet-bubble:hover{transform:scale(1.08);}
+  .planet-label{position:absolute; left:50%; top:-15px; transform:translateX(-50%); white-space:nowrap; font-family:'Space Grotesk','IBM Plex Sans',sans-serif; font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#1E385D; opacity:.55; text-shadow:0 0 6px rgba(255,255,255,.9); pointer-events:none; transition:opacity .15s ease;}
+  .planet-bubble:hover .planet-label{opacity:.95;}
+  .team-btn{display:none;}
+  @media (max-width:700px){ .team-btn{display:inline-block; padding:8px 11px;} }
   /* Anneau (façon Saturne) : ellipse inclinée, avec deux petites billes en
      bout d'anneau qui font écho aux sphères en orbite du fond d'écran. */
   .planet-ring{
@@ -2807,7 +2811,8 @@
 <body>
 
 <div class="bg-layer" id="bgLayer" aria-hidden="true"></div>
-<button type="button" class="planet-bubble" id="planetBubble" onclick="openDoc('trombinoscope-vms')" title="L'équipe VMS" aria-label="Voir le trombinoscope de l'équipe VMS">
+<button type="button" class="planet-bubble" id="planetBubble" onclick="openDoc('trombinoscope-vms')" title="Planète VMS/DOTR — l'équipe" aria-label="Planète VMS/DOTR : voir le trombinoscope de l'équipe">
+  <span class="planet-label" aria-hidden="true">Planète VMS/DOTR</span>
   <span class="planet-ring" aria-hidden="true"></span>
   <span class="planet-sphere"><span class="planet-bubble-inner">👥</span></span>
 </button>
@@ -2824,6 +2829,7 @@
     <input id="search" type="text" placeholder="Rechercher un protocole (ex : hypoglycémie, chute, hémorragie…)" aria-label="Rechercher un protocole" />
   </div>
   <div class="status-msg" id="statusMsg"></div>
+  <button type="button" class="settings-btn team-btn" onclick="openDoc('trombinoscope-vms')" title="Trombinoscope de l'équipe VMS/DOTR">👥 Équipe</button>
   <button type="button" class="settings-btn" onclick="openExplorer('parametres-medecin')" title="Mes paramètres : médecin (identité, signature) et établissements, enregistrés sur cet appareil">⚙️ Mes paramètres</button>
 </div>
 
@@ -3664,6 +3670,7 @@ const DOCUMENTS = {
     path: "certificats/Certificats_medicaux_ESMS_DOTR.pdf"
   },
   "trombinoscope-vms": {
+    hidden: true,
     title: "Trombinoscope — Équipe médicale et paramédicale VMS",
     category: "administratif",
     subcategory: "admin",
@@ -4756,12 +4763,10 @@ function renderCardsGroup(list, cat, subId){
   const gridPlain = items => items.length
     ? `<div class="grid">${items.map(it => cardHTML(it, cat)).join("")}</div>` : "";
 
-  // Administratifs : les CERFA et la prescription de transport d'abord, puis le
-  // certificat Handisport (outil interactif), puis le trombinoscope.
+  // Administratifs : les outils interactifs (Cerfa MDPH, bon de transport) sur la
+  // première ligne, puis les formulaires PDF (protocole de soins ALD).
   if(subId === "admin"){
-    const trombino = plain.filter(it => it.id === "trombinoscope-vms");
-    const autres = plain.filter(it => it.id !== "trombinoscope-vms");
-    return gridPlain(autres) + gridFeatured(featured) + gridPlain(trombino);
+    return gridFeatured(featured) + gridPlain(plain);
   }
 
   return gridFeatured(featured) + gridPlain(plain);
@@ -4784,7 +4789,9 @@ function renderCategoryPanel(cat){
       .filter(it => !it.subcategory)
       .slice()
       .sort((a, b) => (b.interactive ? 1 : 0) - (a.interactive ? 1 : 0));
-    const subIds = [...new Set(items.filter(it => it.subcategory).map(it => it.subcategory))];
+    const SUB_ORDER = { admin: 1, certificats: 2, tutos: 3 };
+    const subIds = [...new Set(items.filter(it => it.subcategory).map(it => it.subcategory))]
+      .sort((x, y) => (SUB_ORDER[x] || 50) - (SUB_ORDER[y] || 50));
 
     const directHTML = direct.length ? renderCardsGroup(direct, cat) : "";
 
