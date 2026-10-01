@@ -2718,6 +2718,43 @@
   .mx-div-n{margin:6px 0 0; font-size:12px; line-height:1.45; color:var(--text);}
   .mx-card-remb .mx-block{margin-top:8px;}
   .mx-count-remb{color:#B3261E !important;}
+  /* ---------- Midazolam outil ---------- */
+  .mz-grid{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:18px; align-items:start;}
+  @media (max-width:900px){ .mz-grid{grid-template-columns:1fr;} }
+  .mz-qs{display:flex; flex-direction:column; gap:8px;}
+  .mz-q{display:flex; justify-content:space-between; align-items:center; gap:10px; background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:9px 12px;}
+  .mz-q-t{margin:0; font-weight:600; font-size:13.5px;} .mz-q-h{margin:2px 0 0; font-size:12px; color:var(--text-muted);}
+  .mz-sits{display:grid; grid-template-columns:1fr; gap:6px;}
+  .mz-sit{display:flex; align-items:center; gap:10px; text-align:left; font:inherit; font-size:13.5px; cursor:pointer; background:var(--card-bg); border:1px solid var(--border); border-left:4px solid var(--pill); border-radius:10px; padding:8px 10px; color:inherit;}
+  .mz-sit:hover{background:var(--pillbg);}
+  .mz-sit-on{background:var(--pillbg); border-color:var(--pill); font-weight:700;}
+  .mz-sit-l{display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; background:var(--pill); color:#fff; font-weight:700; font-size:13px; flex:none;}
+  .mz-sit-head{display:flex; align-items:center; gap:10px; font-family:'Space Grotesk','IBM Plex Sans',sans-serif; font-weight:700; font-size:16px; color:var(--pill); margin:0 0 10px;}
+  .mz-sit-head .mz-sit-l{background:var(--pill);}
+  .mz-empty{border:1.5px dashed var(--border); border-radius:14px; padding:26px 18px; color:var(--text-muted); text-align:center; font-size:14px;}
+  .mz-sit-box{background:var(--card-bg); border:1px solid var(--border); border-radius:14px; padding:12px 14px; margin-bottom:14px;}
+  .mz-sit-A{border-left:4px solid var(--teal);} .mz-sit-B{border-left:4px solid var(--blue);} .mz-sit-C{border-left:4px solid var(--amber);} .mz-sit-D{border-left:4px solid var(--red);}
+  .mz-sit-lead{margin:0 0 8px; font-weight:700; font-size:14px;}
+  .mz-list{margin:0 0 6px; padding-left:18px; font-size:13.5px;} .mz-list li{margin:3px 0;}
+  .mz-note{font-size:12px; color:var(--text-muted); margin:6px 0 0;}
+  .mz-calc{background:var(--card-bg); border:1px solid var(--border); border-radius:14px; padding:12px 14px;}
+  .mz-dose-table{display:flex; flex-direction:column; gap:6px; margin-top:8px;}
+  .mz-dose-row{display:grid; grid-template-columns:150px minmax(0,1fr) auto; gap:10px; align-items:center; background:var(--amber-bg); border-left:4px solid var(--amber); border-radius:8px; padding:8px 10px;}
+  .mz-sit-B .mz-dose-row{background:var(--sky-bg); border-left-color:var(--blue);}
+  .mz-dose-wait{background:var(--slate-bg); border-left-color:var(--slate);}
+  .mz-dose-warn{background:var(--red-bg); border-left-color:var(--red);}
+  .mz-dose-k{font-weight:700; font-size:12.5px; color:var(--navy);}
+  .mz-dose-v{display:flex; flex-direction:column; gap:1px; font-size:13px;}
+  .mz-dose-v strong{font-size:15px;} .mz-vol{font-weight:700; color:var(--blue); font-size:12.5px;} .mz-dose-v em{font-style:normal; color:var(--text-muted); font-size:12px;}
+  .mz-dose-src{font-size:10.5px; color:var(--text-muted); white-space:nowrap;}
+  @media (max-width:560px){ .mz-dose-row{grid-template-columns:1fr;} }
+  .mz-checks{display:flex; flex-direction:column; gap:5px; margin:4px 0 8px;}
+  .mz-check{display:flex; align-items:flex-start; gap:8px; font-size:13px; background:var(--card-bg); border:1px solid var(--border); border-radius:9px; padding:6px 9px; cursor:pointer;}
+  .mz-check em{margin-left:auto; font-style:normal; font-size:10.5px; color:var(--text-muted); white-space:nowrap;}
+  .mz-check-on{border-color:var(--emerald); background:var(--emerald-bg);}
+  .mz-actions{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+  .mz-src{font-size:11px; color:#A6B1BF; margin-top:16px; line-height:1.45;}
+  /* fin Midazolam outil CSS */
   /* ---------- Calculateurs : bulles de contexte ---------- */
   .calc-ctx-lead{font-size:14.5px; font-weight:700; color:var(--text); margin:20px 0 10px;}
   .calc-ctx-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:16px;}
@@ -3027,6 +3064,7 @@ const SUBCATEGORIES = {
   "certificats": "Certificats médicaux",
   "admin": "Administratifs",
   "tutos": "Tutos",
+  "soins-palliatifs": "Soins palliatifs",
   "checklists": "Check-lists de préparation",
   "tele-outils": "Outils et tutoriels de la consultation à distance"
 };
@@ -3818,6 +3856,23 @@ const DOCUMENTS = {
     interactive: true,
     filename: "Neuroleptiques_classiques_posologies_OMEDIT.pdf",
     path: "medicaments-securite/Neuroleptiques_classiques_posologies_OMEDIT.pdf"
+  },
+  "anxiolyse-esms": {
+    title: "Anxiolyse en ESMS — crise, anxiété durable, « si besoin », arrêt",
+    category: "medicaments-securite",
+    meta: "Démarche en 4 temps, quelle molécule chez le sujet âgé (REMEDI[e]S, HAS 2024), hydroxyzine et phénothiazines à éviter, rédiger un « si besoin », arrêter une benzodiazépine (HAS 2015), réglementation — fiche 2 pages",
+    filename: "Anxiolyse_ESMS_DOTR.pdf",
+    path: "medicaments-securite/Anxiolyse_ESMS_DOTR.pdf"
+  },
+  "midazolam-palliatif": {
+    title: "Midazolam en soins palliatifs — anxiolyse, prescription anticipée, sédation, SPCMD",
+    category: "medicaments-securite",
+    subcategory: "soins-palliatifs",
+    meta: "Outil : quelle situation (A à D), calcul des doses HAS 2020 en mg et en mL, protocole de soins infirmiers sur prescription anticipée signable, check-list SPCMD — et la fiche PDF 2 pages",
+    openLabel: "Fiche PDF",
+    interactive: true,
+    filename: "Midazolam_soins_palliatifs_DOTR.pdf",
+    path: "soins-palliatifs/Midazolam_soins_palliatifs_DOTR.pdf"
   },
   "liste-1-vs-2": {
     title: "Liste I vs Liste II",
@@ -16633,7 +16688,7 @@ const DOC_ICONS = {
   "deprescription-classes": ["📉", "teal"], "deprescription-situations": ["svg:deprescrire", "teal"],
   "benzodiazepines": ["⭐", "navy"], "neuroleptiques-classiques": ["🌀", "purple"],
   "liste-1-vs-2": ["svg:listes", "slate"], "clozapine": ["🔬", "sky"],
-  "nebulisations-prescription": ["🫁", "sky"], "surveillance-plaquettaire-hbpm": ["💉", "red"],
+  "nebulisations-prescription": ["🫁", "sky"], "midazolam-palliatif": ["🕊️", "purple"], "anxiolyse-esms": ["🌿", "teal"], "surveillance-plaquettaire-hbpm": ["💉", "red"],
   // Suivis biologiques
   "ordonnance-biologie": ["🧪", "red"], "suivi-ime-enfant-ado": ["🧒", "orange"],
   "suivi-surveillance-medicamenteuse": ["svg:surveillance", "sky"], "suivi-antiepileptiques": ["⚡", "amber"],
@@ -16989,6 +17044,499 @@ function mxExtrasHTML(row){
 }
 /* fin Médicament express */
 
+/* =====================================================================
+   MIDAZOLAM EN SOINS PALLIATIFS — OUTIL INTERACTIF.
+   ① quelle situation (A anxiolyse, B prescription anticipée de détresse,
+   C sédation proportionnée, D SPCMD) ; ② calcul des doses (HAS 2020,
+   fiche outil « Pratiques sédatives chez l'adulte pour le médecin
+   généraliste ») ; ③ « Protocole de soins infirmiers sur prescription
+   anticipée » en PDF, signable ; ④ check-list des prérequis de la SPCMD.
+   Seuls les chiffres de la HAS sont calculés : aucun plafond, aucune dose
+   « sujet âgé » n'est inventée là où la HAS n'en donne pas.
+   Rien n'est enregistré : tout disparaît avec l'onglet.
+   ===================================================================== */
+const MZ_SIT = {
+  A: { t: "Anxiolyse — patient vigilant", c: "teal", ico: "🌿" },
+  B: { t: "Prescription anticipée — détresse aiguë", c: "blue", ico: "📝" },
+  C: { t: "Sédation proportionnée", c: "amber", ico: "⚖️" },
+  D: { t: "SPCMD — sédation profonde et continue", c: "red", ico: "🛑" }
+};
+const MZ_CHECK = [
+  ["collegiale", "Procédure collégiale réalisée (médecin consultant sans lien hiérarchique), motifs inscrits au dossier", "CSP R4127-37-3"],
+  ["info", "Patient, personne de confiance ou proches informés ; directives anticipées consultées", "CSP L1110-5-2"],
+  ["medecin", "Médecin présent lors de la titration, jusqu'à stabilisation", "HAS 2020"],
+  ["joignable", "Médecin joignable 24 h/24, visites possibles", "HAS 2020"],
+  ["ide", "IDE formée présente 24 h/24 (EHPAD sans IDE de nuit : HAD)", "HAS 2018-2020"],
+  ["emsp", "Équipe ou réseau de soins palliatifs associé, même en HAD", "HAS 2020"],
+  ["lit", "Lit de repli identifié (USP de préférence)", "HAS 2020"],
+  ["antalgie", "Antalgique prescrit et poursuivi (systématique dans la SPCMD)", "HAS 2020"],
+  ["maintien", "Traitements de maintien en vie arrêtés (nutrition, hydratation artificielles)", "HAS 2020"],
+  ["midaz", "Midazolam disponible en quantité suffisante (commande anticipée)", "Proposition DOTR"]
+];
+
+function mzToday(){ const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); }
+function mzDefault(){
+  const p = prescGet();
+  return {
+    q: { det: null, refr: null, spcmd: null }, sit: null,
+    poids: "", terrain: "adulte", voie: "sc", conc: 5, cumul: "", debit: "",
+    chk: {},
+    b: { nom: "", prenom: "", naissance: "", poids: "", etab: "", sigAsph: true, sigHemo: true, sigAutre: "",
+      dose: "", voieB: "", maxAdm: "", interv: "", opio: "", avis: "",
+      surv: "Rester auprès du résident. Fréquence respiratoire, RASS et soulagement à 15 min, 30 min et 1 h après l'injection, puis toutes les heures. Accompagner les proches.",
+      appel: "Appeler le médecin prescripteur" + (p.tel ? " (" + p.tel + ")" : "") + " dès la 1re administration ; s'il est injoignable : 15.",
+      jusqua: "", faitA: "", date: mzToday() }
+  };
+}
+function mzS(){ if(!state.midaz) state.midaz = mzDefault(); return state.midaz; }
+function mzReset(){ state.midaz = mzDefault(); renderMidazPanel(); }
+window.mzReset = mzReset;
+
+/* nombres : saisie « 62,5 » ou « 62.5 » ; affichage français, 2 décimales au plus */
+function mzNum(v){ const n = parseFloat(String(v || "").replace(",", ".")); return isFinite(n) && n > 0 ? n : null; }
+function mzF(x){ return (Math.round(x * 100) / 100).toLocaleString("fr-FR", { maximumFractionDigits: 2 }); }
+function mzR(a, b, u){ return a === b ? mzF(a) + " " + u : mzF(a) + " à " + mzF(b) + " " + u; }
+function mzMl(mg, conc){ return mzF(mg / conc) + " mL"; }
+function mzMlR(a, b, conc){ return a === b ? mzMl(a, conc) : mzF(a / conc) + " à " + mzF(b / conc) + " mL"; }
+
+/* Situation d'après les réponses (même logique que l'arbre de la fiche) */
+function mzSitFromQ(q){
+  if(q.det === "oui") return "B";
+  if(q.det === "non" && q.refr === "non") return "A";
+  if(q.det === "non" && q.refr === "oui" && q.spcmd === "non") return "C";
+  if(q.det === "non" && q.refr === "oui" && q.spcmd === "oui") return "D";
+  return null;
+}
+function mzQ(k, v){
+  const s = mzS();
+  s.q[k] = v;
+  if(k === "det" && v === "oui"){ s.q.refr = null; s.q.spcmd = null; }
+  if(k === "refr" && v === "non") s.q.spcmd = null;
+  const sit = mzSitFromQ(s.q);
+  if(sit) s.sit = sit;
+  renderMidazPanel();
+}
+function mzSit(x){ const s = mzS(); if(mzSitFromQ(s.q) !== x) s.q = { det: null, refr: null, spcmd: null }; s.sit = x; renderMidazPanel(); }
+function mzSet(k, v, full){ mzS()[k] = v; if(full) renderMidazPanel(); else mzRefresh(); }
+function mzSetB(k, v, full){ mzS().b[k] = v; if(full) renderMidazPanel(); else mzRefresh(); }
+function mzChk(k, v){ mzS().chk[k] = v; mzRefresh(); }
+window.mzQ = mzQ; window.mzSit = mzSit; window.mzSet = mzSet; window.mzSetB = mzSetB; window.mzChk = mzChk;
+
+function mzChips(name, cur, opts, fn){
+  return `<span class="pmt-seg" role="radiogroup">${opts.map(([k, l]) => `<label class="cont-chip ${cur === k ? "cont-chip-on" : ""}"><input type="radio" name="${name}" ${cur === k ? "checked" : ""} onchange="${fn}('${k}')" />${l}</label>`).join("")}</span>`;
+}
+
+/* ------------------------------------------------------------ calculs HAS 2020 */
+function mzCalc(spcmd){
+  const s = mzS();
+  const kg = mzNum(s.poids), frag = s.terrain === "fragile", conc = +s.conc || 5;
+  const iv = s.voie === "iv";
+  const out = { rows: [], notes: [], copy: [] };
+  const add = (k, dose, vol, rythme, src, tone) => { out.rows.push({ k, dose, vol, rythme, src, tone: tone || "" }); out.copy.push(k + " : " + dose + (vol ? " (" + vol + ")" : "") + (rythme ? " — " + rythme : "")); };
+
+  if(iv){
+    if(spcmd){
+      const b = frag ? 0.5 : 1;
+      add("Titration IV (bolus)", mzF(b) + " mg", mzMl(b, conc), frag ? "toutes les 2 à 3 min, délai pouvant être plus long" : "toutes les 2 à 3 min jusqu'à RASS –4 / –5", "HAS 2020 — SPCMD");
+      add("Ou débit continu IV", "1 mg/h", mzMl(1, conc) + "/h", "adapté de la même dose toutes les 30 min", "HAS 2020 — SPCMD");
+    }else{
+      add("Titration IV (bolus)", frag ? "0,5 mg" : "0,5 à 1 mg", frag ? mzMl(0.5, conc) : mzMlR(0.5, 1, conc), frag ? "délai à adapter, jusqu'à 5 min entre 2 doses" : "toutes les 2 à 3 min jusqu'au soulagement", "HAS 2020");
+      add("Sans titration : débit continu", "0,5 à 1 mg/h" + (frag ? ", à réduire" : ""), mzMlR(0.5, 1, conc) + "/h", "évaluer et adapter toutes les 30 min", "HAS 2020", frag ? "warn" : "");
+    }
+  }else{
+    if(kg){
+      const a = 0.05 * kg, b = 0.1 * kg;
+      add("Dose de charge SC", mzR(a, b, "mg"), mzMlR(a, b, conc), "0,05 à 0,1 mg/kg × " + mzF(kg) + " kg — à renouveler toutes les 20 à 30 min jusqu'au soulagement", "HAS 2020");
+    }else{
+      out.rows.push({ k: "Dose de charge SC", dose: "0,05 à 0,1 mg/kg", vol: "", rythme: "saisir le poids pour le calcul", src: "HAS 2020", tone: "wait" });
+    }
+    add("Sans dose de charge : débit continu SC", "0,5 à 1 mg/h" + (frag ? ", à réduire" : ""), mzMlR(0.5, 1, conc) + "/h", "évaluer et adapter toutes les 30 min", "HAS 2020", frag ? "warn" : "");
+    if(spcmd) out.notes.push("SPCMD : la HAS recommande la voie IV ; la voie SC « peut être envisagée » si l'IV est impossible, avec des modalités « proches » de la sédation proportionnée.");
+  }
+
+  const cum = mzNum(s.cumul);
+  let horaire = null;
+  if(cum){
+    if(spcmd && iv){
+      add("Entretien IV", mzR(0.5 * cum, cum, "mg/h"), mzMlR(0.5 * cum, cum, conc) + "/h", "50 à 100 % de " + mzF(cum) + " mg — soit " + mzR(12 * cum, 24 * cum, "mg/24 h"), "HAS 2020 — SPCMD");
+      horaire = [0.5 * cum, cum];
+    }else{
+      const h = 0.5 * cum;
+      add("Entretien " + (iv ? "IV" : "SC"), mzF(h) + " mg/h", mzMl(h, conc) + "/h", "50 % de " + mzF(cum) + " mg — soit " + mzF(24 * h) + " mg/24 h (" + mzMl(24 * h, conc) + ")", "HAS 2020");
+      horaire = [h, h];
+    }
+  }else{
+    out.rows.push({ k: "Entretien", dose: spcmd && iv ? "50 à 100 % / h" : "50 % / h", vol: "", rythme: "de la dose cumulée de la titration — saisir la dose cumulée", src: "HAS 2020", tone: "wait" });
+  }
+  const deb = mzNum(s.debit);
+  if(deb) horaire = [deb, deb];
+  if(horaire){
+    add("Dose de secours", mzR(horaire[0], horaire[1], "mg"), mzMlR(horaire[0], horaire[1], conc), "égale à la dose reçue en 1 h (débit horaire), " + (iv ? "IV toutes les 2 à 3 min" : "SC toutes les 20 à 30 min") + " — à prescrire d'avance", "HAS 2020");
+  }else{
+    out.rows.push({ k: "Dose de secours", dose: "= dose reçue en 1 h", vol: "", rythme: iv ? "IV toutes les 2 à 3 min" : "SC toutes les 20 à 30 min", src: "HAS 2020", tone: "wait" });
+  }
+  if(spcmd && iv) add("Réveil sous SPCMD", "1 mg IV en 30 s", mzMl(1, conc), "toutes les 2 min", "HAS 2020 — SPCMD");
+  if(frag && !iv) out.notes.push("Sujet âgé ou fragile : la HAS demande de réduire le débit continu sans dose de charge, sans donner de chiffre ; elle ne prévoit pas de réduction chiffrée de la dose de charge SC.");
+  if(frag && iv && !spcmd) out.notes.push("Sujet âgé, insuffisance d'organe, dénutrition sévère, déshydratation : bolus initial de 0,5 mg (HAS). Débit continu sans titration : « réduit », sans chiffre.");
+  out.notes.push("Réadapter l'entretien à chaque évaluation, selon le soulagement et le nombre de doses de secours. Midazolam : prescription hors AMM pour ces pratiques (HAS 2020).");
+  return out;
+}
+
+function mzCalcHTML(spcmd){
+  const s = mzS();
+  const c = mzCalc(spcmd);
+  const kg = mzNum(s.poids);
+  return `
+    <div class="mz-calc">
+      <p class="neurolep-label">③ Calcul des doses de midazolam ${spcmd ? "— SPCMD" : "— sédation proportionnée"}</p>
+      <div class="courrier-fields mdph-grid">
+        <label class="calc-field courrier-field"><span>Poids (kg)</span><input type="text" inputmode="decimal" value="${escapeHtml(s.poids)}" oninput="mzSet('poids', this.value)" placeholder="ex. 58" /></label>
+        <label class="calc-field courrier-field"><span>Concentration de l'ampoule</span>${mzChips("mzConc", String(s.conc), [["5", "5 mg/mL"], ["1", "1 mg/mL"]], "mzSetConc")}</label>
+        <label class="calc-field courrier-field"><span>Voie</span>${mzChips("mzVoie", s.voie, [["sc", "SC"], ["iv", "IV"]], "mzSetVoie")}</label>
+        <label class="calc-field courrier-field"><span>Terrain</span>${mzChips("mzTer", s.terrain, [["adulte", "Adulte"], ["fragile", "Âgé / fragile"]], "mzSetTer")}</label>
+        <label class="calc-field courrier-field"><span>Dose cumulée de la titration (mg)</span><input type="text" inputmode="decimal" value="${escapeHtml(s.cumul)}" oninput="mzSet('cumul', this.value)" placeholder="ex. 4" /></label>
+        <label class="calc-field courrier-field"><span>Ou débit en cours (mg/h)</span><input type="text" inputmode="decimal" value="${escapeHtml(s.debit)}" oninput="mzSet('debit', this.value)" placeholder="pour la dose de secours" /></label>
+      </div>
+      <p class="cv2-help cv2-small">« Âgé / fragile » : sujet âgé, insuffisance d'organe, dénutrition sévère, déshydratation (HAS 2020).${kg && (kg < 30 || kg > 150) ? ` <strong style="color:var(--red)">Poids inhabituel : vérifier la saisie.</strong>` : ""}</p>
+      <div id="mzCalcOut">${mzCalcOutHTML(c)}</div>
+    </div>`;
+}
+function mzCalcOutHTML(c){
+  const s = mzS();
+  return `<div class="mz-dose-table">
+      ${c.rows.map(r => `<div class="mz-dose-row ${r.tone ? "mz-dose-" + r.tone : ""}">
+        <div class="mz-dose-k">${escapeHtml(r.k)}</div>
+        <div class="mz-dose-v"><strong>${escapeHtml(r.dose)}</strong>${r.vol ? `<span class="mz-vol">${escapeHtml(r.vol)} à ${+s.conc} mg/mL</span>` : ""}<em>${escapeHtml(r.rythme)}</em></div>
+        <div class="mz-dose-src">${escapeHtml(r.src)}</div>
+      </div>`).join("")}
+    </div>
+    ${c.notes.map(n => `<p class="mz-note">${escapeHtml(n)}</p>`).join("")}
+    <div class="mz-actions"><button type="button" class="bio-copy-btn" id="mzCopyBtn" onclick="mzCopy()">📋 Copier le calcul pour le dossier</button></div>`;
+}
+function mzSetConc(v){ mzSet("conc", +v, true); }
+function mzSetVoie(v){ mzSet("voie", v, true); }
+function mzSetTer(v){ mzSet("terrain", v, true); }
+window.mzSetConc = mzSetConc; window.mzSetVoie = mzSetVoie; window.mzSetTer = mzSetTer;
+
+function mzCopyText(){
+  const s = mzS();
+  const spcmd = s.sit === "D";
+  const c = mzCalc(spcmd);
+  const lines = ["Midazolam — " + (spcmd ? "SPCMD" : "sédation proportionnée") + " — repères HAS 2020 (" + new Date().toLocaleDateString("fr-FR") + ")",
+    "Voie " + (s.voie === "iv" ? "IV" : "SC") + ", ampoule " + s.conc + " mg/mL" + (mzNum(s.poids) ? ", poids " + mzF(mzNum(s.poids)) + " kg" : "") + (s.terrain === "fragile" ? ", sujet âgé / fragile" : "")];
+  return lines.concat(c.copy.map(x => "- " + x)).join("\n");
+}
+function mzCopy(){
+  const t = mzCopyText();
+  const btn = document.getElementById("mzCopyBtn");
+  const done = () => { if(btn){ const o = btn.textContent; btn.textContent = "Copié ✓"; setTimeout(() => { btn.textContent = o; }, 1800); } };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, done);
+  else done();
+}
+window.mzCopy = mzCopy;
+
+/* ------------------------------------------------------------ panneaux A à D */
+function mzPanelA(){
+  return `<div class="mz-sit-box mz-sit-A">
+    <p class="mz-sit-lead">Pas de pratique sédative : le patient reste vigilant.</p>
+    <ul class="mz-list">
+      <li><strong>Chercher une cause</strong> : douleur, fécalome, globe, hypoxie, iatrogénie, sevrage.</li>
+      <li><strong>Accompagner</strong> : présence, écoute, information du patient et des proches.</li>
+      <li><strong>Traitement symptomatique habituel</strong>, par voie orale si possible.</li>
+      <li>Voie orale impossible ou anxiété majeure en fin de vie : <strong>avis de l'EMSP</strong>.</li>
+    </ul>
+    <p class="mz-note">Les sources consultées (HAS 2020, SFAP) ne donnent pas de schéma de midazolam « anxiolytique » : l'outil ne calcule pas de dose pour cette situation.</p>
+    ${DOCUMENTS["anxiolyse-esms"] ? `<div class="mz-actions"><button type="button" class="bio-copy-btn" onclick="openDoc('anxiolyse-esms')">📄 Ouvrir la fiche Anxiolyse en ESMS</button></div>` : ""}
+  </div>`;
+}
+function mzPanelC(){
+  return `<div class="mz-sit-box mz-sit-C">
+    <p class="mz-sit-lead">Midazolam titré : profondeur et durée proportionnées au soulagement, réversible, réévaluée.</p>
+    <ul class="mz-list">
+      <li>Seulement après mise en œuvre de <strong>toutes les bonnes pratiques</strong> de contrôle du symptôme.</li>
+      <li>Évaluer : <strong>RASS</strong>, soulagement, effets indésirables ; douleur évaluée, antalgique associé si besoin.</li>
+      <li><strong>Proposition DOTR</strong> : en téléconsultation, seulement si une IDE est présente 24 h/24, le médecin joignable et l'EMSP sollicitée ; sinon relais EMSP / HAD.</li>
+    </ul>
+  </div>${mzCalcHTML(false)}`;
+}
+function mzPanelD(){
+  const s = mzS();
+  const n = MZ_CHECK.filter(([k]) => s.chk[k]).length;
+  return `<div class="mz-sit-box mz-sit-D">
+    <p class="mz-sit-lead">Ne s'initie jamais à distance : le médecin est présent à la titration.</p>
+    <p class="neurolep-label">Prérequis (HAS, CSP)</p>
+    <div class="mz-checks">
+      ${MZ_CHECK.map(([k, t, src]) => `<label class="mz-check ${s.chk[k] ? "mz-check-on" : ""}"><input type="checkbox" ${s.chk[k] ? "checked" : ""} onchange="mzChk('${k}', this.checked); this.parentNode.classList.toggle('mz-check-on', this.checked)" /><span>${escapeHtml(t)}</span><em>${escapeHtml(src)}</em></label>`).join("")}
+    </div>
+    <div id="mzChkState">${mzChkStateHTML(n)}</div>
+    <div class="mz-actions"><button type="button" class="bio-copy-btn" id="mzChkCopy" onclick="mzChkCopy()">📋 Copier la check-list pour le dossier</button></div>
+  </div>${mzCalcHTML(true)}`;
+}
+function mzChkStateHTML(n){
+  const tot = MZ_CHECK.length;
+  return n === tot
+    ? `<div class="cont-alerts"><div class="cont-alert" style="border-left-color:var(--emerald);background:var(--emerald-bg)">✓ ${n} / ${tot} : les conditions de mise en œuvre sont réunies.</div></div>`
+    : `<div class="cont-alerts"><div class="cont-alert cont-alert-hot">${n} / ${tot} — tant qu'un prérequis manque, pas de SPCMD sur place : organiser HAD, EMSP ou transfert.</div></div>`;
+}
+function mzChkCopy(){
+  const s = mzS();
+  const t = ["SPCMD — prérequis vérifiés le " + new Date().toLocaleDateString("fr-FR")].concat(MZ_CHECK.map(([k, l]) => (s.chk[k] ? "[x] " : "[ ] ") + l)).join("\n");
+  const btn = document.getElementById("mzChkCopy");
+  const done = () => { if(btn){ const o = btn.textContent; btn.textContent = "Copié ✓"; setTimeout(() => { btn.textContent = o; }, 1800); } };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, done); else done();
+}
+window.mzChkCopy = mzChkCopy;
+
+function mzPanelB(){
+  const s = mzS(), b = s.b, v = x => escapeHtml(x || "");
+  const conc = +s.conc || 5;
+  return `<div class="mz-sit-box mz-sit-B">
+    <p class="mz-sit-lead">Rédigée à l'avance pour un résident nommé, appliquée par l'IDE si la détresse survient.</p>
+    <div class="mz-dose-table">
+      <div class="mz-dose-row"><div class="mz-dose-k">Dose de charge</div><div class="mz-dose-v"><strong>2 à 5 mg</strong><span class="mz-vol">${mzMlR(2, 5, conc)} à ${conc} mg/mL</span><em>après avis d'un médecin expérimenté dans les pratiques sédatives ; IV si possible, sinon IM plutôt que SC</em></div><div class="mz-dose-src">HAS 2020</div></div>
+      <div class="mz-dose-row"><div class="mz-dose-k">Entretien</div><div class="mz-dose-v"><strong>par voie SC</strong><em>même si la charge a été faite en IM ; opioïde associé possible (douleur, détresse respiratoire)</em></div><div class="mz-dose-src">HAS 2020</div></div>
+    </div>
+    <p class="neurolep-label" style="margin-top:14px;">③ Le protocole à faire signer</p>
+    <div class="courrier-fields mdph-grid">
+      <label class="calc-field courrier-field"><span>Nom</span><input type="text" value="${v(b.nom)}" oninput="mzSetB('nom', this.value)" placeholder="DUPONT" /></label>
+      <label class="calc-field courrier-field"><span>Prénom</span><input type="text" value="${v(b.prenom)}" oninput="mzSetB('prenom', this.value)" /></label>
+      <label class="calc-field courrier-field"><span>Date de naissance</span><input type="date" value="${v(b.naissance)}" oninput="mzSetB('naissance', this.value)" /></label>
+      <label class="calc-field courrier-field"><span>Poids (kg)</span><input type="text" inputmode="decimal" value="${v(b.poids)}" oninput="mzSetB('poids', this.value)" /></label>
+    </div>
+    <label class="calc-field courrier-field"><span>Établissement</span><input type="text" id="mzEtab" value="${v(b.etab)}" oninput="mzSetB('etab', this.value)" placeholder="EHPAD Les Tilleuls" />${etabPickHTML('#mzEtab')}</label>
+    <p class="neurolep-label" style="margin-top:10px;">Quand l'IDE applique le protocole</p>
+    <div class="mz-checks">
+      <label class="mz-check ${b.sigAsph ? "mz-check-on" : ""}"><input type="checkbox" ${b.sigAsph ? "checked" : ""} onchange="mzSetB('sigAsph', this.checked, true)" /><span>Syndrome d'asphyxie, détresse respiratoire majeure</span></label>
+      <label class="mz-check ${b.sigHemo ? "mz-check-on" : ""}"><input type="checkbox" ${b.sigHemo ? "checked" : ""} onchange="mzSetB('sigHemo', this.checked, true)" /><span>Hémorragie grave (cervicale, digestive, pulmonaire…)</span></label>
+    </div>
+    <label class="calc-field courrier-field"><span>Autre situation précise (facultatif)</span><input type="text" value="${v(b.sigAutre)}" oninput="mzSetB('sigAutre', this.value)" placeholder="ex. hémoptysie massive sur tumeur connue" /></label>
+    <div class="courrier-fields mdph-grid">
+      <label class="calc-field courrier-field"><span>Dose de midazolam (mg)</span><input type="text" inputmode="decimal" value="${v(b.dose)}" oninput="mzSetB('dose', this.value)" placeholder="2 à 5 mg (HAS)" /></label>
+      <label class="calc-field courrier-field"><span>Voie</span>${mzChips("mzVoieB", b.voieB, [["IV", "IV"], ["IM", "IM"], ["SC", "SC"]], "mzSetVoieB")}</label>
+      <label class="calc-field courrier-field"><span>Nombre maximal d'injections</span><input type="text" inputmode="numeric" value="${v(b.maxAdm)}" oninput="mzSetB('maxAdm', this.value)" placeholder="à fixer par le médecin" /></label>
+      <label class="calc-field courrier-field"><span>Délai minimal entre 2 injections (min)</span><input type="text" inputmode="numeric" value="${v(b.interv)}" oninput="mzSetB('interv', this.value)" placeholder="à fixer par le médecin" /></label>
+    </div>
+    <label class="calc-field courrier-field"><span>Opioïde associé (facultatif : molécule, dose, voie)</span><input type="text" value="${v(b.opio)}" oninput="mzSetB('opio', this.value)" /></label>
+    <label class="calc-field courrier-field"><span>Avis du médecin expérimenté (nom, équipe, date)</span><input type="text" value="${v(b.avis)}" oninput="mzSetB('avis', this.value)" placeholder="Dr …, EMSP de …, le …" /></label>
+    <label class="calc-field courrier-field"><span>Surveillance (proposition DOTR, modifiable)</span><textarea rows="3" oninput="mzSetB('surv', this.value)">${v(b.surv)}</textarea></label>
+    <label class="calc-field courrier-field"><span>Qui appeler (modifiable)</span><textarea rows="2" oninput="mzSetB('appel', this.value)">${v(b.appel)}</textarea></label>
+    <div class="courrier-fields mdph-grid">
+      <label class="calc-field courrier-field"><span>Valable jusqu'au (réévaluation)</span><input type="date" value="${v(b.jusqua)}" oninput="mzSetB('jusqua', this.value)" /></label>
+      <label class="calc-field courrier-field"><span>Date de la prescription</span><input type="date" value="${v(b.date)}" oninput="mzSetB('date', this.value)" /></label>
+      <label class="calc-field courrier-field"><span>Fait à</span><input type="text" value="${v(b.faitA)}" oninput="mzSetB('faitA', this.value)" /></label>
+    </div>
+    ${signBarHTML("midaz", "signature et tampon dans le cadre du prescripteur")}
+    <div id="mzBChecks"></div>
+    <div class="mz-actions">
+      <button type="button" class="bio-copy-btn chariot-pdf-btn" id="mzPdfBtn" onclick="mzPdf()">📄 Télécharger le protocole (PDF)</button>
+    </div>
+  </div>`;
+}
+function mzSetVoieB(v){ mzSetB("voieB", v, true); }
+window.mzSetVoieB = mzSetVoieB;
+
+function mzBChecks(){
+  const b = mzS().b, p = prescGet(), out = [];
+  if(!b.nom.trim() || !b.prenom.trim()) out.push(["ko", "Nom et prénom du résident : la prescription anticipée est nominative."]);
+  if(!b.sigAsph && !b.sigHemo && !b.sigAutre.trim()) out.push(["ko", "Aucune situation déclenchante cochée."]);
+  const d = mzNum(b.dose);
+  if(!d) out.push(["ko", "Dose de midazolam à renseigner."]);
+  else if(d < 2 || d > 5) out.push(["warn", "Dose hors de la fourchette HAS de la dose de charge en détresse (2 à 5 mg)."]);
+  if(!b.voieB) out.push(["ko", "Voie à choisir."]);
+  else if(b.voieB === "SC") out.push(["warn", "HAS : sans voie IV, la dose de charge en détresse se fait plutôt en IM qu'en SC (délai d'action)."]);
+  if(!mzNum(b.maxAdm)) out.push(["ko", "Nombre maximal d'injections à fixer."]);
+  if(!mzNum(b.interv)) out.push(["ko", "Délai minimal entre 2 injections à fixer."]);
+  if(!b.avis.trim()) out.push(["warn", "HAS : dose de charge de 2 à 5 mg après avis d'un médecin expérimenté dans les pratiques sédatives."]);
+  if(!b.jusqua) out.push(["warn", "Date de validité ou de réévaluation non renseignée."]);
+  if(!p.nom) out.push(["ko", "Ton nom n'est pas renseigné dans Mes paramètres."]);
+  return out;
+}
+
+/* ------------------------------------------------------------ rendu */
+function renderMidazPanel(){
+  const cat = CATEGORIES.find(c => c.id === "medicaments-securite");
+  const c = colorVars(cat.color);
+  const s = mzS();
+  const q = s.q;
+  const qRow = (k, label, help) => `<div class="mz-q"><div><p class="mz-q-t">${label}</p>${help ? `<p class="mz-q-h">${help}</p>` : ""}</div>${mzChips("mzq_" + k, q[k], [["oui", "Oui"], ["non", "Non"]], "mzQ_" + k)}</div>`;
+  let body = "";
+  if(s.sit === "A") body = mzPanelA();
+  else if(s.sit === "B") body = mzPanelB();
+  else if(s.sit === "C") body = mzPanelC();
+  else if(s.sit === "D") body = mzPanelD();
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page doc-page-wide">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}Soins palliatifs</span>
+      <div class="tool-hero" style="--pill:var(--purple)"><span class="tool-hero-icon">🕊️</span><div class="tool-hero-body"><p class="tool-hero-title">Midazolam en soins palliatifs</p><p class="tool-hero-sub">Quelle situation, quelles doses, quelle prescription : repères de la HAS (2020), calculés pour ton résident. L'outil n'invente aucun chiffre : là où la HAS n'en donne pas, il le dit.</p><div class="tool-hero-stats"><span class="tool-hero-stat">Arbre A · B · C · D</span><span class="tool-hero-stat">Calcul mg et mL</span><span class="tool-hero-stat">Prescription anticipée signable</span><span class="tool-hero-stat">Rien n'est enregistré</span></div></div></div>
+
+      <div class="mz-grid">
+        <div class="mz-left bio-options-wrap">
+          <p class="neurolep-label">① Quelle situation ?</p>
+          <div class="mz-qs">
+            ${qRow("det", "Une détresse aiguë est-elle à craindre ou en cours ?", "Asphyxie, hémorragie grave, détresse respiratoire majeure")}
+            ${q.det === "non" ? qRow("refr", "Le symptôme est-il réfractaire ?", "Tout a été tenté sans soulagement suffisant") : ""}
+            ${q.det === "non" && q.refr === "oui" ? qRow("spcmd", "Une SPCMD est-elle envisagée ?", "Demande du patient (CSP L1110-5-2) ou arrêt d'un traitement de maintien en vie") : ""}
+          </div>
+          <p class="neurolep-label" style="margin-top:12px;">② Ou choisir directement</p>
+          <div class="mz-sits">
+            ${Object.keys(MZ_SIT).map(k => { const m = MZ_SIT[k], cc = colorVars(m.c); return `<button type="button" class="mz-sit ${s.sit === k ? "mz-sit-on" : ""}" style="--pill:${cc.pill};--pillbg:${cc.pillbg}" onclick="mzSit('${k}')"><span class="mz-sit-l">${k}</span><span>${m.ico} ${m.t}</span></button>`; }).join("")}
+          </div>
+          <div class="mz-actions"><button type="button" class="bio-reset-btn" onclick="mzReset()">Réinitialiser</button>${DOCUMENTS["midazolam-palliatif"] ? `<button type="button" class="bio-reset-btn" onclick="openDoc('midazolam-palliatif')">📄 Fiche PDF (2 pages)</button>` : ""}</div>
+        </div>
+        <div class="mz-right bio-options-wrap">
+          ${s.sit ? `<div class="mz-sit-head" style="--pill:${colorVars(MZ_SIT[s.sit].c).pill}"><span class="mz-sit-l">${s.sit}</span>${MZ_SIT[s.sit].ico} ${MZ_SIT[s.sit].t}</div>${body}` : `<div class="mz-empty">Réponds aux questions ou choisis une situation : les repères, les doses et, si besoin, la prescription anticipée s'affichent ici.</div>`}
+        </div>
+      </div>
+      <p class="mz-src">Sources : HAS, Antalgie des douleurs rebelles et pratiques sédatives chez l'adulte — fiche outil 2 « Pratiques sédatives chez l'adulte pour le médecin généraliste » (janvier 2020) ; HAS, guide « Comment mettre en œuvre une SPCMD ? » (2018) ; CSP L1110-5-2, R4127-37-3, R4311-7. Les médicaments de la sédation sont utilisés hors AMM (HAS 2020).</p>
+    </div>`;
+  mzRefresh();
+}
+["det", "refr", "spcmd"].forEach(k => { window["mzQ_" + k] = v => mzQ(k, v); });
+
+function mzRefresh(){
+  const s = mzS();
+  const o = document.getElementById("mzCalcOut");
+  if(o) o.innerHTML = mzCalcOutHTML(mzCalc(s.sit === "D"));
+  const st = document.getElementById("mzChkState");
+  if(st) st.innerHTML = mzChkStateHTML(MZ_CHECK.filter(([k]) => s.chk[k]).length);
+  const bc = document.getElementById("mzBChecks");
+  if(bc){
+    const ch = mzBChecks();
+    bc.innerHTML = ch.length ? `<div class="cont-alerts">${ch.map(([l, t]) => `<div class="cont-alert cont-alert-${l === "ko" ? "hot" : "warn"}">${escapeHtml(t)}</div>`).join("")}</div>` : `<p class="cv2-sig-hint">✓ Tout est prêt.</p>`;
+  }
+}
+
+/* ------------------------------------------------------------ PDF du protocole */
+async function mzPdf(){
+  const btn = document.getElementById("mzPdfBtn");
+  const original = btn.textContent;
+  btn.textContent = "Génération…";
+  try{
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const pdfDoc = await PDFDocument.create();
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const ital = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
+    const logo = await pdfDoc.embedJpg(base64ToBytes(VMS_DOTR_LOGO_B64));
+    const SA = await signAssets(pdfDoc, "midaz");
+    const s = mzS(), b = s.b, p = prescGet();
+    const W = 595.28, H = 841.89, M = 34, FW = W - 2 * M;
+    const hex = h => rgb(parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255);
+    const BLUE = hex("#1E8EF1"), BLUEF = hex("#EAF4FF"), DEEP = hex("#1565C0"), INK = hex("#1F2A37"), MUTED = hex("#5C6670"), SRC = hex("#A6B1BF"), WHITE = rgb(1, 1, 1), LINE = hex("#DCE1E7");
+    const Y = t => H - t;
+    const safe = t => pdfSafe(t);
+    const txt = (pg, t, x, top, size, f, col) => pg.drawText(safe(t), { x, y: Y(top), size, font: f, color: col });
+    const ctr = (pg, t, top, size, f, col) => { const w = f.widthOfTextAtSize(safe(t), size); pg.drawText(safe(t), { x: (W - w) / 2, y: Y(top), size, font: f, color: col }); };
+    const rr = (pg, x, top, w, h, r, fill, border, bw) => {
+      const d = `M ${r} 0 H ${w - r} Q ${w} 0 ${w} ${r} V ${h - r} Q ${w} ${h} ${w - r} ${h} H ${r} Q 0 ${h} 0 ${h - r} V ${r} Q 0 0 ${r} 0 Z`;
+      const o = { x, y: Y(top) }; if(fill) o.color = fill; if(border){ o.borderColor = border; o.borderWidth = bw || 0.9; }
+      pg.drawSvgPath(d, o);
+    };
+    const fr = iso => { const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? m[3] + "/" + m[2] + "/" + m[1] : ""; };
+    const page = pdfDoc.addPage([W, H]);
+
+    // en-tête : établissement / médecin, puis titre en bulle (charte des protocoles DOTR)
+    const hw = (FW - 14) / 2;
+    rr(page, M, 30, hw, 62, 6, WHITE, DEEP, 0.9);
+    rr(page, M + hw + 14, 30, hw, 62, 6, WHITE, DEEP, 0.9);
+    txt(page, "ÉTABLISSEMENT", M + 12, 45, 7, bold, DEEP);
+    wrapPdfText(safe(b.etab || "………………………………………………"), bold, 9.5, hw - 24).slice(0, 3).forEach((l, i) => txt(page, l, M + 12, 59 + i * 12, 9.5, bold, INK));
+    const mx = M + hw + 26;
+    txt(page, "MÉDECIN PRESCRIPTEUR", mx, 45, 7, bold, DEEP);
+    txt(page, p.nom || "Dr ……………………", mx, 59, 9.5, bold, INK);
+    const ml = [p.rpps ? "RPPS " + p.rpps : "", p.tel ? "Tél. " + p.tel : ""].filter(Boolean).join("  ·  ");
+    if(ml) txt(page, ml, mx, 71, 8, font, MUTED);
+    if(p.email) txt(page, p.email, mx, 82, 8, font, MUTED);
+
+    rr(page, M, 104, FW, 60, 6, BLUEF, BLUE, 0.9);
+    ctr(page, "MIDAZOLAM · DÉTRESSE AIGUË EN SOINS PALLIATIFS", 119, 6.8, bold, INK);
+    ctr(page, "PROTOCOLE DE SOINS INFIRMIERS", 136, 14.5, bold, DEEP);
+    ctr(page, "SUR PRESCRIPTION ANTICIPÉE", 153, 14.5, bold, DEEP);
+
+    // résident
+    let top = 176;
+    rr(page, M, top, FW, 40, 6, hex("#F5F5F7"), LINE, 0.7);
+    const cells = [["RÉSIDENT", ((b.nom || "").toUpperCase() + " " + (b.prenom || "")).trim() || "……………………"], ["NÉ(E) LE", fr(b.naissance) || "…… / …… / ……"], ["POIDS", mzNum(b.poids) ? mzF(mzNum(b.poids)) + " kg" : "……… kg"], ["VALABLE JUSQU'AU", fr(b.jusqua) || "…… / …… / ……"]];
+    const cw = [FW * 0.40, FW * 0.20, FW * 0.14, FW * 0.26];
+    let cx = M + 12;
+    cells.forEach(([k, v], i) => { txt(page, k, cx, top + 14, 6.6, bold, MUTED); txt(page, v, cx, top + 29, 10, bold, INK); cx += cw[i]; });
+    top += 52;
+
+    // sections
+    const card = (title, color, lines) => {
+      const col = hex(color);
+      const L = [];
+      lines.forEach(([t, f]) => { wrapPdfText(safe(t), f || font, 9.2, FW - 44).forEach((x, i) => L.push([x, f || font, i === 0])); });
+      const h = 26 + L.length * 12.6 + 8;
+      rr(page, M, top, FW, h, 7, WHITE, col, 0.9);
+      rr(page, M, top, FW, 20, 7, col);
+      page.drawRectangle({ x: M, y: Y(top + 20), width: FW, height: 8, color: col });
+      txt(page, title, M + 12, top + 14, 8.6, bold, WHITE);
+      let y = top + 37;
+      L.forEach(([x, f, first]) => {
+        if(first) page.drawCircle({ x: M + 16, y: Y(y) + 3, size: 1.6, color: col });
+        txt(page, x, M + 24, y, 9.2, f, INK); y += 12.6;
+      });
+      top += h + 10;
+    };
+    const sig = [];
+    if(b.sigAsph) sig.push(["Syndrome d'asphyxie ou détresse respiratoire majeure", font]);
+    if(b.sigHemo) sig.push(["Hémorragie grave (cervicale, digestive, pulmonaire…)", font]);
+    if(b.sigAutre.trim()) sig.push([b.sigAutre.trim(), font]);
+    sig.push(["Le protocole ne s'applique qu'à ce résident, dans ces situations : en dehors, appeler le médecin.", ital]);
+    card("1 · QUAND APPLIQUER CE PROTOCOLE", "#C0392B", sig);
+    const d = mzNum(b.dose);
+    const conc = +s.conc || 5;
+    const adm = [
+      ["MIDAZOLAM " + (d ? mzF(d) + " mg" : "……… mg") + (b.voieB ? " en " + b.voieB : " — voie : ………") + (d ? "   (soit " + mzMl(d, conc) + " de la solution à " + conc + " mg/mL)" : ""), bold],
+      ["Délai minimal entre 2 injections : " + (mzNum(b.interv) ? mzF(mzNum(b.interv)) + " min" : "……… min") + "  ·  Nombre maximal d'injections : " + (mzNum(b.maxAdm) ? mzF(mzNum(b.maxAdm)) : "………"), font]
+    ];
+    if(b.opio.trim()) adm.push(["Opioïde associé : " + b.opio.trim(), font]);
+    adm.push(["Entretien éventuel par voie sous-cutanée, sur prescription du médecin.", font]);
+    card("2 · ADMINISTRER", "#D87706", adm);
+    card("3 · SURVEILLER", "#1D5FD6", [[b.surv || "……", font]]);
+    card("4 · APPELER", "#6B4C9A", [[b.appel || "……", font]]);
+    card("5 · TRACER DANS LE DOSSIER", "#5B6B82", [["Heure de chaque injection, dose, voie, motif, effet (RASS, soulagement), effets indésirables, appel au médecin, information des proches.", font]]);
+
+    // avis + signature
+    if(b.avis.trim()){ txt(page, "Avis d'un médecin expérimenté dans les pratiques sédatives : " + b.avis.trim(), M, top + 4, 8.2, ital, MUTED); top += 16; }
+    const sbTop = Math.max(top + 6, 648);
+    rr(page, M + FW - 250, sbTop, 250, 92, 6, WHITE, LINE, 0.8);
+    txt(page, "Fait" + (b.faitA ? " à " + b.faitA : " à ………………") + ", le " + (fr(b.date) || "……"), M + FW - 240, sbTop + 14, 8.4, font, INK);
+    txt(page, "Signature et tampon du médecin", M + FW - 240, sbTop + 26, 7, bold, MUTED);
+    if(SA){
+      if(SA.sig) signFit(page, SA.sig, { x: M + FW - 240, y: Y(sbTop + 88), w: 110, h: 56 }, "center");
+      if(SA.stamp) signFit(page, SA.stamp, { x: M + FW - 124, y: Y(sbTop + 88), w: 110, h: 56 }, "center");
+    }
+    const src = "Références : HAS, pratiques sédatives chez l'adulte — fiche outil pour le médecin généraliste (janv. 2020) : en détresse (asphyxie, hémorragie grave), après avis d'un médecin expérimenté, dose de charge de midazolam de 2 à 5 mg, IM plutôt que SC sans voie veineuse, entretien SC ; utilisation hors AMM. CSP R4311-7 (protocole écrit, qualitatif et quantitatif, daté et signé). Surveillance et traçabilité : proposition DOTR.";
+    wrapPdfText(safe(src), font, 6.4, FW - 270).forEach((l, i) => txt(page, l, M, sbTop + 10 + i * 8.2, 6.4, font, SRC));
+    const lw = 100, lh = lw * 702 / 1444;
+    page.drawImage(logo, { x: W - M - lw, y: 18, width: lw, height: lh });
+    txt(page, "Docs On The Road · VMS — établi avec la fiche « Midazolam en soins palliatifs »", M, H - 26, 6.4, font, SRC);
+
+    const bytes = await pdfDoc.save();
+    const blob = new Blob([bytes], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Protocole_IDE_midazolam_" + ((b.nom || "resident").replace(/[^A-Za-z0-9]+/g, "_")) + ".pdf";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+    btn.textContent = "Protocole téléchargé ✓";
+  }catch(e){
+    console.error(e);
+    btn.textContent = "Erreur — réessayer";
+  }
+  setTimeout(() => { btn.textContent = original; }, 2200);
+}
+window.mzPdf = mzPdf;
+window.renderMidazPanel = renderMidazPanel;
+/* fin Midazolam outil */
+
 /* Rubriques marquées « wip » : grand bandeau d'alerte en tête de page, dans la
    rubrique comme dans ses outils et documents. Appelé après chaque rendu, y
    compris les rendus internes des outils (voir les enveloppes plus bas). */
@@ -17015,7 +17563,7 @@ function applyWipBanner(){
   if(back) back.insertAdjacentHTML("afterend", html);
   else contentEl.insertAdjacentHTML("afterbegin", html);
 }
-["renderContentionPanel", "renderTeleconsultPanel", "renderCourrierPanel", "renderCertifPanel", "renderPmtPanel", "renderVaxPanel", "renderParamPanel", "renderPseudoPanel", "renderMdphPanel"].forEach(name => {
+["renderContentionPanel", "renderTeleconsultPanel", "renderCourrierPanel", "renderCertifPanel", "renderPmtPanel", "renderVaxPanel", "renderParamPanel", "renderPseudoPanel", "renderMdphPanel", "renderMidazPanel"].forEach(name => {
   const fn = window[name];
   if(typeof fn !== "function") return;
   const wrapped = function(){ const r = fn.apply(this, arguments); applyWipBanner(); return r; };
@@ -17170,6 +17718,8 @@ function render(){
     renderCertifPanel();
   }else if(state.activeDoc === "cerfa-15695-outil" && state.explorerMode){
     renderMdphPanel();
+  }else if(state.activeDoc === "midazolam-palliatif" && state.explorerMode){
+    renderMidazPanel();
   }else if(state.activeDoc === "bon-transport-outil" && state.explorerMode){
     renderPmtPanel();
   }else if(state.activeDoc){
