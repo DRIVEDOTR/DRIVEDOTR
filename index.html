@@ -2618,7 +2618,8 @@
   .param-preview-imgs img{max-height:70px; max-width:150px;}
   /* ---------- Cerfa MDPH ---------- */
   .mdph-grid{display:grid; grid-template-columns:1fr 1fr; gap:0 12px;}
-  .mdph-headrow{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-top:14px;}
+  .pmt-masked .tc-in.mdph-nir{font-size:12.5px; letter-spacing:0; padding-left:9px; padding-right:6px; flex:1 1 170px; min-width:170px;}
+  .mdph-headrow{display:flex; align-items:center; justify-content:flex-start; gap:14px; flex-wrap:wrap; margin-top:14px;}
   .mdph-headrow .neurolep-label{margin:0;}
   @media (max-width:640px){ .mdph-grid{grid-template-columns:1fr;} }
   .mdph-q{background:var(--emerald-bg,#E6F3EC); border-radius:12px; padding:8px 12px;}
@@ -2755,6 +2756,49 @@
   .mz-actions{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
   .mz-src{font-size:11px; color:#A6B1BF; margin-top:16px; line-height:1.45;}
   /* fin Midazolam outil CSS */
+  /* ---------- Corrections 02/10/2026 ---------- */
+  .mx-hero-n{margin:10px 0 0; font-size:12.5px; opacity:.85;}
+  .mx-fcard{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); background:var(--card-bg); border:1px solid var(--border); border-radius:14px; margin:12px 0 4px; overflow:hidden;}
+  .mx-fcol{padding:10px 12px 12px; border-left:1px solid var(--border);} .mx-fcol:first-child{border-left:none;}
+  .mx-fcol-t{margin:0 0 6px; font-weight:800; font-size:13px; color:var(--navy); text-transform:uppercase; letter-spacing:.05em;}
+  .mx-fcol-t span{display:block; text-transform:none; letter-spacing:0; font-weight:500; font-size:11.5px; color:var(--text-muted);}
+  .mx-fopt{display:flex; align-items:center; gap:8px; width:100%; text-align:left; font:inherit; font-size:13px; color:var(--text); background:none; border:none; border-radius:8px; padding:5px 6px; cursor:pointer;}
+  .mx-fopt:hover{background:var(--slate-bg);}
+  .mx-fopt i{width:8px; height:8px; border-radius:50%; flex:none;}
+  .mx-fopt span{flex:1;} .mx-fopt b{font-size:12px; color:var(--text-muted); font-weight:700;}
+  .mx-fopt-on{background:var(--sky-bg); font-weight:700;} .mx-fopt-on b{color:var(--blue);}
+  @media (max-width:760px){ .mx-fcard{grid-template-columns:1fr;} .mx-fcol{border-left:none; border-top:1px solid var(--border);} .mx-fcol:first-child{border-top:none;} }
+  .mx-info{margin:12px 0 6px; padding:10px 14px; background:var(--card-bg); border:1px solid var(--border); border-left:4px solid var(--amber); border-radius:10px; font-size:13.5px; line-height:1.5;}
+  .mx-info-src{display:block; margin-top:4px; font-size:11.5px; color:var(--text-muted);}
+  .mx-legend{margin-top:12px; background:var(--card-bg); border:1px solid var(--border); border-radius:14px; padding:12px 14px;}
+  .mx-legend-t{margin:0 0 8px; font-weight:800; font-size:13px; color:var(--navy); text-transform:uppercase; letter-spacing:.05em;}
+  .mx-legend-grid{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px 14px;}
+  @media (max-width:760px){ .mx-legend-grid{grid-template-columns:1fr 1fr;} }
+  .mx-leg{display:flex; align-items:center; gap:9px;}
+  .mx-leg-ic{width:32px; height:32px; border-radius:9px; background:var(--pillbg); display:inline-flex; align-items:center; justify-content:center; flex:none;}
+  .mx-leg-ic svg{width:20px; height:20px;} .mx-leg-ic .ico-emoji{font-size:17px;}
+  .mx-leg-tx{display:flex; flex-direction:column; line-height:1.25;} .mx-leg-tx strong{font-size:13px; color:var(--pill);} .mx-leg-tx em{font-style:normal; font-size:11.5px; color:var(--text-muted);}
+  .ms-duo{display:flex; flex-direction:column; gap:8px;}
+  .ms-duo-head{display:flex; flex-direction:column; gap:4px; margin-bottom:2px;}
+  .ms-duo-row{display:flex; align-items:center; gap:10px; padding:6px 0; border-top:1px solid var(--border);}
+  .ms-duo-row .doc-ico-btn{flex:none;}
+  .ms-duo-txt{flex:1; min-width:0; display:flex; flex-direction:column;}
+  .ms-duo-k{font-weight:700; font-size:14.5px;}
+  .ms-duo-m{font-size:12px; color:var(--text-muted); line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .ms-duo-go{flex:none; display:inline-flex; align-items:center; gap:5px; font:inherit; font-weight:700; font-size:13px; color:#fff; background:var(--pill); border:none; border-radius:10px; padding:8px 13px; cursor:pointer;}
+  .chariot-custom{margin-top:12px;}
+  .chariot-custom-row{display:flex; align-items:center; gap:8px;}
+  .chariot-custom-row .chariot-item-info{flex:1 1 auto; min-width:0;}
+  #medocFilters{display:block;}
+  .chariot-custom-in{width:100%; font:inherit; font-size:13.5px; padding:7px 9px; border:1px solid var(--border); border-radius:8px; background:var(--card-bg); box-sizing:border-box;}
+  .chariot-custom-del{flex:none; border:none; background:none; color:var(--text-muted); font-size:14px; cursor:pointer; padding:4px 6px; border-radius:6px;}
+  .chariot-custom-del:hover{background:var(--red-bg); color:var(--red);}
+  .chariot-custom-add{margin-top:8px; font:inherit; font-weight:700; font-size:13px; color:var(--blue); background:var(--sky-bg); border:1.5px dashed var(--blue); border-radius:10px; padding:7px 12px; cursor:pointer;}
+  .chariot-custom-hint{margin:6px 0 0; font-size:11.5px; color:var(--text-muted);}
+  .calc-reset-bar{display:flex; justify-content:flex-end; margin:-4px 0 8px;}
+  .fill-box-fields textarea, .zip-fill-fields textarea{font-family:inherit; font-size:14px; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:8px 11px; background:var(--bg); resize:vertical; width:100%; box-sizing:border-box; line-height:1.35;}
+  .fill-box-fields textarea:focus, .zip-fill-fields textarea:focus{outline:2px solid var(--blue-light); outline-offset:1px;}
+  /* fin Corrections 02/10/2026 */
   /* ---------- Calculateurs : bulles de contexte ---------- */
   .calc-ctx-lead{font-size:14.5px; font-weight:700; color:var(--text); margin:20px 0 10px;}
   .calc-ctx-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:16px;}
@@ -2935,11 +2979,11 @@
    ===================================================================== */
 const CATEGORIES = [
   {
-    id: "protocoles-generaux",
-    label: "Protocoles Généraux",
-    icon: "protocoles",
-    color: "navy",
-    description: "Protocole de collaboration interprofessionnelle et protocoles médicaux préétablis à destination des équipes AS/Éduc et IDE."
+    id: "medicaments-ecrasables",
+    label: "Médicament express",
+    icon: "ecrasables",
+    color: "sky",
+    description: "Un médicament, trois réponses : l'écraser ou ouvrir la gélule (OMéDIT / SFPC, avis HUG), le prescrire (liste, durée, ordonnance sécurisée) et son remboursement (SMR faible : fin du 100 % ALD au 1er octobre 2026)."
   },
   {
     id: "medicaments-securite",
@@ -2949,18 +2993,18 @@ const CATEGORIES = [
     description: "Circuit du médicament, gestion des erreurs et des ruptures, et repères pharmacologiques (listes, surveillance, prescription)."
   },
   {
+    id: "protocoles-generaux",
+    label: "Protocoles Généraux",
+    icon: "protocoles",
+    color: "navy",
+    description: "Protocole de collaboration interprofessionnelle et protocoles médicaux préétablis à destination des équipes AS/Éduc et IDE."
+  },
+  {
     id: "suivis-biologiques",
     label: "Suivis biologiques",
     icon: "seringue",
     color: "red",
     description: "Fiches de recommandation pour cibler les bilans biologiques utiles par pathologie chronique ou traitement à surveiller, sans biologie inutile."
-  },
-  {
-    id: "medicaments-ecrasables",
-    label: "Médicament express",
-    icon: "ecrasables",
-    color: "sky",
-    description: "Un médicament, trois réponses : l'écraser ou ouvrir la gélule (OMéDIT / SFPC, avis HUG), le prescrire (liste, durée, ordonnance sécurisée) et son remboursement (SMR faible : fin du 100 % ALD au 1er octobre 2026)."
   },
   {
     id: "contentions",
@@ -3065,6 +3109,7 @@ const SUBCATEGORIES = {
   "admin": "Administratifs",
   "tutos": "Tutos",
   "soins-palliatifs": "Soins palliatifs",
+  "fiches-conseils": "Fiches conseils Médicaments & Sécurité",
   "checklists": "Check-lists de préparation",
   "tele-outils": "Outils et tutoriels de la consultation à distance"
 };
@@ -3632,7 +3677,6 @@ const DOCUMENTS = {
     interactive: true
   },
   "fiche-vaccinale-outil": {
-    wip: true,
     title: "Fiche de statut vaccinal du résident — générateur",
     category: "vaccination",
     meta: "EHPAD · FAM / MAS · IME : choisis l'établissement et les vaccins à suivre (Covid-19, VRS, HPV…), la fiche PDF à remplir se construit — calendrier 2026",
@@ -3818,8 +3862,8 @@ const DOCUMENTS = {
   "medicaments-sensibles": {
     title: "Médicaments « sensibles » — règles pratiques de prescription",
     category: "medicaments-securite",
-    meta: "Fiche PDF 2 pages mise à jour en septembre 2026 + outil de recherche sur 597 molécules — base de données publique des médicaments (conditions de prescription du 28/09/2026), CSP R5132-21 et R5132-30",
-    interactive: true,
+    subcategory: "fiches-conseils",
+    meta: "Fiche PDF 2 pages (septembre 2026) : liste, durée maximale, ordonnance sécurisée, prescription restreinte — la recherche par molécule est dans Médicament express",
     filename: "Medicaments_sensibles_DOTR.pdf",
     path: "medicaments-securite/Medicaments_sensibles_DOTR.pdf"
   },
@@ -3860,6 +3904,7 @@ const DOCUMENTS = {
   "anxiolyse-esms": {
     title: "Anxiolyse en ESMS — crise, anxiété durable, « si besoin », arrêt",
     category: "medicaments-securite",
+    subcategory: "fiches-conseils",
     meta: "Démarche en 4 temps, quelle molécule chez le sujet âgé (REMEDI[e]S, HAS 2024), hydroxyzine et phénothiazines à éviter, rédiger un « si besoin », arrêter une benzodiazépine (HAS 2015), réglementation — fiche 2 pages",
     filename: "Anxiolyse_ESMS_DOTR.pdf",
     path: "medicaments-securite/Anxiolyse_ESMS_DOTR.pdf"
@@ -3877,6 +3922,7 @@ const DOCUMENTS = {
   "liste-1-vs-2": {
     title: "Liste I vs Liste II",
     category: "medicaments-securite",
+    subcategory: "fiches-conseils",
     meta: "Mémo pratique — prescription et renouvellement",
     filename: "Liste_I_vs_Liste_II.pdf",
     path: "medicaments-securite/Liste_I_vs_Liste_II.pdf"
@@ -3884,6 +3930,7 @@ const DOCUMENTS = {
   "clozapine": {
     title: "Clozapine — règles de surveillance",
     category: "medicaments-securite",
+    subcategory: "fiches-conseils",
     meta: "Mémo pratique — France — règles actualisées en 2025",
     filename: "Clozapine_surveillance_2026.pdf",
     path: "medicaments-securite/Clozapine_surveillance_2026.pdf"
@@ -3891,6 +3938,7 @@ const DOCUMENTS = {
   "nebulisations-prescription": {
     title: "Nébulisations en ESMS — Prescription par les MG & médecins gériatres",
     category: "medicaments-securite",
+    subcategory: "fiches-conseils",
     meta: "Fiche réglementaire DOTR — France — version du 25/08/2026",
     filename: "Prescription_Nebulisations_MG_Geriatre_2026.pdf",
     path: "medicaments-securite/Prescription_Nebulisations_MG_Geriatre_2026.pdf"
@@ -3898,6 +3946,7 @@ const DOCUMENTS = {
   "surveillance-plaquettaire-hbpm": {
     title: "HBPM : quelle surveillance plaquettaire ?",
     category: "medicaments-securite",
+    subcategory: "fiches-conseils",
     meta: "Fiche pratique DOTR — repères pour le dépistage d'une TIH sous HBPM — mise à jour : août 2026",
     filename: "Surveillance_plaquettaire_HBPM.pdf",
     path: "medicaments-securite/Surveillance_plaquettaire_HBPM.pdf"
@@ -4786,7 +4835,7 @@ function selectionToolbarHTML(scopeId){
   if(!ids.length) return "";
   const hasFillable = ids.some(id => isFillableDoc(id, DOCUMENTS[id]));
   const zf = state.zipFill;
-  if(!zf._pref){ zf._pref = true; const pp = prescGet(); if(!zf.medecin) zf.medecin = pp.nom || ""; }
+  if(!zf._pref){ zf._pref = true; const pp = prescGet(); if(!zf.medecin) zf.medecin = protoMedecinDefault(); }
   const scopeArg = scopeId ? `'${scopeId}'` : "";
   return `
     <div class="selection-toolbar">
@@ -4800,12 +4849,12 @@ function selectionToolbarHTML(scopeId){
       <div class="zip-fill-panel">
         <p class="zip-fill-title">Pré-remplir Établissement / Médecin / Fait à / Date avant de zipper <span>(facultatif — laisse tout vide pour garder les PDF vierges)</span></p>
         <div class="zip-fill-fields">
-          <label class="calc-field"><span>Établissement</span><input type="text" id="zipEtab" value="${zf.etablissement.replace(/"/g, "&quot;")}" oninput="setZipFillField('etablissement', this.value)" />${etabPickHTML('#zipEtab')}</label>
-          <label class="calc-field"><span>Médecin</span><input type="text" value="${zf.medecin.replace(/"/g, "&quot;")}" oninput="setZipFillField('medecin', this.value)" placeholder="« Docteur » ajouté automatiquement" /></label>
+          <label class="calc-field"><span>Établissement (nom et adresse)</span><textarea id="zipEtab" rows="3" oninput="setZipFillField('etablissement', this.value)">${escapeHtml(zf.etablissement)}</textarea>${etabPickHTML('#zipEtab', 'nomAdr')}</label>
+          <label class="calc-field"><span>Médecin (nom et adresse)</span><textarea rows="3" oninput="setZipFillField('medecin', this.value)" placeholder="« Docteur » ajouté automatiquement">${escapeHtml(zf.medecin)}</textarea></label>
           <label class="calc-field"><span>Fait à (lieu)</span><input type="text" value="${zf.lieu.replace(/"/g, "&quot;")}" oninput="setZipFillField('lieu', this.value)" /></label>
           <label class="calc-field"><span>Le (date)</span><input type="date" value="${zf.date}" oninput="setZipFillField('date', this.value)" /></label>
         </div>
-        ${signBarHTML("proto", "tampon dans le cadre « Médecin », signature en bas de page")}
+        ${signBarHTML("proto", "signature et tampon en bas de page, à côté de « Signature »")}
       </div>
     ` : ""}
   `;
@@ -4862,9 +4911,35 @@ window.downloadSelectedZip = downloadSelectedZip;
 // Rend un ensemble de documents : les outils interactifs sont regroupes dans
 // leur propre grille (2 par ligne, pleine largeur s'il n'y en a qu'un), puis
 // les documents classiques en dessous. `subId` permet un ordre specifique.
+/* Médicaments & sécurité : benzodiazépines + neuroleptiques, puis charge
+   anticholinergique + une bulle unique pour les deux outils de déprescription. */
+const MS_FEATURED_ORDER = ["benzodiazepines", "neuroleptiques-classiques", "charge-anticholinergique"];
+function msDuoCardHTML(cat){
+  const c = colorVars(cat.color);
+  const one = (id, label) => DOCUMENTS[id] ? `<div class="ms-duo-row">
+      <button type="button" class="doc-ico-btn" title="Ouvrir l'outil" onclick="openExplorer('${id}')">${docIconHTML(id, cat.id, "lg")}</button>
+      <div class="ms-duo-txt"><span class="ms-duo-k">${label}</span><span class="ms-duo-m">${escapeHtml(DOCUMENTS[id].meta || "")}</span></div>
+      <button type="button" class="ms-duo-go" onclick="openExplorer('${id}')">Explorer <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></button>
+    </div>` : "";
+  return `<div class="card-wrap card-wrap-featured">
+    <div class="card card-featured ms-duo" style="--pill:${c.pill};--pillbg:${c.pillbg}">
+      <div class="ms-duo-head"><span class="card-badge">🔎 2 outils interactifs</span><div class="card-title">Déprescription</div></div>
+      ${one("deprescription-classes", "Par classe")}
+      ${one("deprescription-situations", "Par situation clinique")}
+    </div>
+  </div>`;
+}
+
 function renderCardsGroup(list, cat, subId){
   const featured = list.filter(it => it.interactive);
   const plain = list.filter(it => !it.interactive);
+  if(cat.id === "medicaments-securite" && !subId){
+    const rank = it => { const i = MS_FEATURED_ORDER.indexOf(it.id); return i < 0 ? 99 : i; };
+    const main = featured.filter(it => !/^deprescription-/.test(it.id)).sort((a, b) => rank(a) - rank(b));
+    const duo = featured.some(it => /^deprescription-/.test(it.id)) ? msDuoCardHTML(cat) : "";
+    return `<div class="grid grid-featured">${main.map(it => cardHTML(it, cat)).join("")}${duo}</div>`
+      + (plain.length ? `<div class="grid">${plain.map(it => cardHTML(it, cat)).join("")}</div>` : "");
+  }
 
   const gridFeatured = items => items.length
     ? `<div class="grid grid-featured">${items.map(it => cardHTML(it, cat)).join("")}</div>` : "";
@@ -4897,7 +4972,7 @@ function renderCategoryPanel(cat){
       .filter(it => !it.subcategory)
       .slice()
       .sort((a, b) => (b.interactive ? 1 : 0) - (a.interactive ? 1 : 0));
-    const SUB_ORDER = { admin: 1, certificats: 2, tutos: 3 };
+    const SUB_ORDER = { admin: 1, certificats: 2, tutos: 3, "soins-palliatifs": 10, "fiches-conseils": 20 };
     const subIds = [...new Set(items.filter(it => it.subcategory).map(it => it.subcategory))]
       .sort((x, y) => (SUB_ORDER[x] || 50) - (SUB_ORDER[y] || 50));
 
@@ -4991,12 +5066,12 @@ function renderEmbedPage(id){
             Pré-remplir le PDF téléchargé (facultatif) — rien n'est enregistré, ces champs se vident si tu quittes ou recharges la page.
           </div>
           <div class="fill-box-fields">
-            <label>Établissement<input type="text" id="fillEtablissement" placeholder="Nom de l'établissement" autocomplete="off" />${etabPickHTML('#fillEtablissement')}</label>
-            <label>Médecin<input type="text" id="fillMedecin" placeholder="Nom du médecin (« Docteur » ajouté automatiquement)" autocomplete="off" value="${escapeHtml(prescGet().nom || "")}" /></label>
+            <label>Établissement<textarea id="fillEtablissement" rows="3" placeholder="Nom de l'établissement&#10;Adresse&#10;Code postal Ville" autocomplete="off"></textarea>${etabPickHTML('#fillEtablissement', 'nomAdr')}</label>
+            <label>Médecin<textarea id="fillMedecin" rows="3" placeholder="Nom du médecin (« Docteur » ajouté automatiquement)&#10;Adresse" autocomplete="off">${escapeHtml(protoMedecinDefault())}</textarea></label>
             <label>Fait à (lieu)<input type="text" id="fillLieu" placeholder="Ville / lieu" autocomplete="off" maxlength="34" value="" /></label>
             <label>Le (date)<input type="date" id="fillDate" value="${new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10)}" /></label>
           </div>
-          ${signBarHTML("proto", "tampon dans le cadre « Médecin », signature en bas de page")}
+          ${signBarHTML("proto", "signature et tampon en bas de page, à côté de « Signature »")}
           <button type="button" id="fillDownloadBtn" class="fill-download-btn">Télécharger le PDF avec ces informations</button>
           <p id="fillStatus" class="fill-status"></p>
         </div>
@@ -5052,8 +5127,8 @@ function renderEmbedPage(id){
 /* Coordonnées (en points PDF, origine en bas à gauche) des zones de saisie,
    identiques sur tous les protocoles AS/Éduc & IDE (même gabarit). */
 const FILL_ZONES = {
-  etablissement: { x: 56,  y: 772, maxWidth: 220, size: 10.5, lineHeight: 12.5 }, // encadré "Établissement" (3 lignes possibles)
-  medecin:       { x: 321, y: 772, maxWidth: 220, size: 10.5, lineHeight: 12.5 }, // encadré "Médecin" (3 lignes possibles)
+  etablissement: { x: 48,  y: 783, maxWidth: 205, size: 10, lineHeight: 12 },   // encadré "Établissement" : nom + adresse (3 à 4 lignes)
+  medecin:       { x: 320, y: 783, maxWidth: 205, size: 10, lineHeight: 12 },   // encadré "Médecin" : nom + adresse (3 à 4 lignes)
   lieu:          { x: 95,  y: 127, size: 9.5 },  // au-dessus des pointillés "Fait à ...................."
   jour:          { x: 291, y: 127, size: 10 },   // au-dessus des pointillés "Le : .... /"
   mois:          { x: 335, y: 127, size: 10 },   // au-dessus des pointillés " .... /"
@@ -5068,27 +5143,41 @@ function isFillableDoc(id, doc){
 // ZIP global des protocoles sélectionnés : prend les octets d'un PDF vierge
 // et les valeurs saisies, renvoie les octets du PDF rempli. N'importe rien,
 // ne déclenche aucun téléchargement — ça reste la responsabilité de l'appelant.
+/* Encadrés « Établissement » et « Médecin » : nom en gras puis adresse ; la taille
+   diminue (10 → 7,5 pt) pour que tout tienne dans le cadre (3 ou 4 lignes). */
+function fillBoxText(page, text, x0, font, bold, color){
+  const W = 205, TOP = 783, BOTTOM = 750;
+  const raw = String(text || "").split(/\n+/).map(l => l.trim()).filter(Boolean);
+  if(!raw.length) return;
+  for(const size of [10, 9.5, 9, 8.5, 8, 7.5]){
+    const lh = size * 1.2;
+    const lines = [];
+    raw.forEach((l, i) => wrapPdfText(pdfSafe(l), i === 0 ? bold : font, size, W).forEach(t => lines.push([t, i === 0])));
+    const maxN = Math.floor((TOP - BOTTOM) / lh) + 1;
+    if(lines.length <= maxN || size === 7.5){
+      lines.slice(0, maxN).forEach(([t, isB], k) => page.drawText(t, { x: x0, y: TOP - k * lh, size, font: isB ? bold : font, color }));
+      return;
+    }
+  }
+}
+
 async function fillPdfBytes(existingBytes, values){
   const { PDFDocument, StandardFonts, rgb } = PDFLib;
   const pdfDoc = await PDFDocument.load(existingBytes);
   const page = pdfDoc.getPages()[0];
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
   const color = rgb(0.09, 0.145, 0.27);
 
-  if(values.etablissement){
-    const z = FILL_ZONES.etablissement;
-    page.drawText(values.etablissement, { x: z.x, y: z.y, size: z.size, lineHeight: z.lineHeight, font, color, maxWidth: z.maxWidth });
-  }
+  if(values.etablissement) fillBoxText(page, values.etablissement, FILL_ZONES.etablissement.x, font, bold, color);
+  if(values.medecin) fillBoxText(page, values.medecin, FILL_ZONES.medecin.x, font, bold, color);
   const SA = values.signKey ? await signAssets(pdfDoc, values.signKey) : null;
-  if(values.medecin){
-    const z = FILL_ZONES.medecin;
-    page.drawText(values.medecin, { x: z.x, y: z.y, size: z.size, lineHeight: z.lineHeight, font, color, maxWidth: SA && SA.stamp ? 118 : z.maxWidth });
-  }
   if(SA){
-    // Tampon dans le cadre « Médecin » (partie droite si un nom y est écrit),
-    // signature à droite de « Signature : » / « Signature et cachet du médecin : ».
-    if(SA.stamp) signFit(page, SA.stamp, values.medecin ? { x: 442, y: 752, w: 112, h: 50 } : { x: 330, y: 752, w: 224, h: 50 }, values.medecin ? "right" : "center");
-    if(SA.sig) signFit(page, SA.sig, { x: 205, y: 40, w: 200, h: 62 }, "left");
+    // En bas de page, à droite de « Signature et cachet du médecin : » : le tampon,
+    // puis la signature dessinée par-dessus, qui déborde un peu sur le tampon.
+    let st = null;
+    if(SA.stamp) st = signFit(page, SA.stamp, { x: 310, y: 36, w: 114, h: 60 }, "left");
+    if(SA.sig) signFit(page, SA.sig, st ? { x: 168, y: 40, w: st.x + 30 - 168, h: 58 } : { x: 168, y: 40, w: 200, h: 58 }, st ? "right" : "left");
   }
   if(values.lieu){
     const z = FILL_ZONES.lieu;
@@ -5103,11 +5192,18 @@ async function fillPdfBytes(existingBytes, values){
   return pdfDoc.save();
 }
 
+/* Cadre « Médecin » des protocoles : nom (Mes paramètres) puis adresse professionnelle. */
+function protoMedecinDefault(){
+  const p = prescGet();
+  return [p.nom || "", prescAdresseComplete(p, "\n")].filter(Boolean).join("\n");
+}
+
 // Ajoute "Docteur " devant le nom du médecin, sauf s'il est déjà présent.
 function formatMedecinName(input){
-  const trimmed = (input || "").trim();
-  if(!trimmed) return "";
-  return !/^(dr|docteur)\b/i.test(trimmed) ? "Docteur " + trimmed : trimmed;
+  const lines = String(input || "").split("\n");
+  const first = (lines[0] || "").trim();
+  if(first) lines[0] = !/^(dr|docteur)\b/i.test(first) ? "Docteur " + first : first;
+  return lines.join("\n").trim();
 }
 
 async function downloadFilledPdf(doc){
@@ -5351,15 +5447,19 @@ function medocVerdict(mod, meth, alt){
 
 const MEDOC_QUICK = ["Paracétamol", "Lévothyroxine", "Furosémide", "Amlodipine", "Bisoprolol", "Oméprazole", "Ésoméprazole", "Sertraline", "Escitalopram", "Mirtazapine", "Quétiapine", "Rispéridone", "Donépézil", "Lévodopa", "Lévétiracétam", "Valproate", "Apixaban", "Rivaroxaban", "Morphine", "Oxycodone", "Tramadol", "Metformine", "Zopiclone", "Oxazépam", "Prednisolone", "Tamsulosine"];
 const MEDOC_FILTERS = [
-  { id: "ok", g: "e", kind: "ecr", label: "✅ Écrasable / ouvrable", test: r => ["ok", "mix"].includes(medocVerdict(r.mod).k) },
-  { id: "no", g: "e", kind: "ecr", label: "⛔ Ne pas écraser / ouvrir", test: r => medocVerdict(r.mod).k === "no" },
-  { id: "div", g: "e", kind: "ecr", label: "⚖️ Avis divergents HUG", test: r => !!medocHug(r) },
-  { id: "alt", g: "e", kind: "ecr", label: "💡 Alternative galénique", test: r => r.alt && !/^Non\b/i.test(r.alt.trim()) },
-  { id: "lim", g: "p", kind: "medsens", label: "⏱ Durée limitée", test: m => medsensFlags(m).lim },
-  { id: "sec", g: "p", kind: "medsens", label: "🔒 Ordonnance sécurisée", test: m => medsensFlags(m).sec },
-  { id: "res", g: "p", kind: "medsens", label: "🩺 Prescription restreinte", test: m => medsensFlags(m).res },
-  { id: "r15", g: "p", kind: "remb", label: "💶 15 % · SMR faible", test: () => true }
+  { id: "ok", g: "e", kind: "ecr", col: "var(--emerald)", label: "Écrasable / ouvrable", test: r => ["ok", "mix"].includes(medocVerdict(r.mod).k) },
+  { id: "no", g: "e", kind: "ecr", col: "var(--red)", label: "Ne pas écraser / ouvrir", test: r => medocVerdict(r.mod).k === "no" },
+  { id: "div", g: "e", kind: "ecr", col: "var(--purple)", label: "Avis divergents (HUG)", test: r => !!medocHug(r) },
+  { id: "alt", g: "e", kind: "ecr", col: "var(--sky)", label: "Alternative galénique", test: r => r.alt && !/^Non\b/i.test(r.alt.trim()) },
+  { id: "lim", g: "p", kind: "medsens", col: "var(--amber)", label: "Durée de prescription limitée", test: m => medsensFlags(m).lim },
+  { id: "sec", g: "p", kind: "medsens", col: "var(--red)", label: "Ordonnance sécurisée", test: m => medsensFlags(m).sec },
+  { id: "res", g: "p", kind: "medsens", col: "var(--teal)", label: "Prescription restreinte", test: m => medsensFlags(m).res },
+  { id: "r15", g: "r", kind: "remb", col: "var(--amber)", label: "Remboursés à 15 % (SMR faible)", test: () => true }
 ];
+const MX_GROUPS = [["e", "Écraser", "liste OMéDIT / SFPC"], ["p", "Prescrire", "base publique des médicaments"], ["r", "Rembourser", "depuis le 1er octobre 2026"]];
+function mxNewsHTML(){
+  return `<div class="mx-info"><strong>Depuis le 1er octobre 2026</strong>, les médicaments remboursés à 15 % (service médical rendu faible) ne sont plus pris en charge à 100 % au titre de l'ALD : 15 % pour tous, patients en ALD compris. Les autres soins liés à l'ALD restent à 100 %.<span class="mx-info-src">Décret n° 2026-285 du 16/04/2026 ; Assurance Maladie ; taux par présentation : base publique des médicaments du ${REMB15_MAJ}.</span></div>`;
+}
 function setMedocQuick(q){ state.medocQuery = q; const el = document.getElementById("medocSearch"); if(el){ el.value = q; el.focus(); } renderMedocResults(); }
 function setMedocFilter(id){ state.medocFilter = state.medocFilter === id ? null : id; renderMedocResults(); }
 function clearMedocSearch(){ state.medocQuery = ""; state.medocFilter = null; const el = document.getElementById("medocSearch"); if(el){ el.value = ""; el.focus(); } renderMedocResults(); }
@@ -5420,27 +5520,21 @@ function renderMedocResults(){
   const rbBase = q ? rembMatchQuery(q) : REMB15;
   const count = x => x.kind === "ecr" ? base.filter(x.test).length : x.kind === "medsens" ? msBase.filter(x.test).length : rbBase.length;
   if(fEl){
-    const chip = x => `<button type="button" class="medsens-filter ${f === x.id ? "medsens-filter-on" : ""}" onclick="setMedocFilter('${x.id}')">${x.label} <span>${count(x)}</span></button>`;
-    fEl.innerHTML = `<div class="mx-frow"><span class="mx-flab">Écraser</span>${MEDOC_FILTERS.filter(x => x.g === "e").map(chip).join("")}</div>
-      <div class="mx-frow"><span class="mx-flab">Prescrire · Rembourser</span>${MEDOC_FILTERS.filter(x => x.g === "p").map(chip).join("")}</div>`;
+    fEl.innerHTML = `<div class="mx-fcard">${MX_GROUPS.map(([g, t, st]) => `<div class="mx-fcol"><p class="mx-fcol-t">${t}<span>${st}</span></p>${MEDOC_FILTERS.filter(x => x.g === g).map(x => `<button type="button" class="mx-fopt ${f === x.id ? "mx-fopt-on" : ""}" onclick="setMedocFilter('${x.id}')"><i style="background:${x.col}"></i><span>${x.label}</span><b>${count(x)}</b></button>`).join("")}</div>`).join("")}</div>`;
   }
 
   if(!q && !f){
-    const quick = MEDOC_QUICK.filter(n => MEDICAMENTS_ECRASABLES.some(r => normalizeSearch(r.pa).includes(normalizeSearch(n))));
     resultsEl.innerHTML = `
-      <div class="mx-news">
-        <p class="mx-news-t">💶 Nouveau au 1er octobre 2026 — médicaments à SMR faible et ALD</p>
-        <p>Les médicaments remboursés à <strong>15 %</strong> (service médical rendu faible) ne sont plus pris en charge à 100 % au titre de l'ALD : <strong>15 % pour tous</strong>. Les autres soins en lien avec l'ALD restent à 100 %. En établissement : zopiclone, zolpidem, dompéridone, trimébutine, phloroglucinol, vildagliptine, saxagliptine, rivaroxaban 2,5 mg… <button type="button" class="acb-link" onclick="setMedocFilter('r15')">Voir les ${REMB15.length} molécules concernées</button></p>
-        <p class="mx-src">Décret n° 2026-285 du 16 avril 2026 ; information Assurance Maladie (ameli.fr) ; taux par présentation : base de données publique des médicaments du ${REMB15_MAJ}.</p>
-      </div>
-      <div class="medoc-legend">
-        ${[["emerald", ICO_SVG.ecrase, "Écrasable", "avec la méthode indiquée"], ["teal", ICO_SVG.gelule, "Gélule ouvrable", "contenu à mélanger"], ["amber", ICO_SVG.geluleWarn, "Ouvrable sans écraser", "microgranules à garder intacts"], ["red", "<span class=\"ico-emoji\">⛔</span>", "Ne pas écraser / ouvrir", "LP, gastro-résistant, toxique…"], ["sky", ICO_SVG.secable, "Comprimé sécable", "barre de cassure : peut être coupé"], ["slate", "<span class=\"ico-emoji\">🤷</span>", "Donnée incertaine", "avis du pharmacien"]].map(([col, ic, t, s2]) => {
+      <div class="mx-info mx-info-click">💶 <strong>Nouveau au 1er octobre 2026</strong> : fin du 100 % ALD pour les médicaments à SMR faible (15 % pour tous). <button type="button" class="acb-link" onclick="setMedocFilter('r15')">Voir les ${REMB15.length} molécules</button></div>
+      <div class="mx-legend">
+        <p class="mx-legend-t">Lire un résultat</p>
+        <div class="mx-legend-grid">
+        ${[["emerald", ICO_SVG.ecrase, "Écrasable", "avec la méthode indiquée"], ["teal", ICO_SVG.gelule, "Gélule ouvrable", "contenu à mélanger"], ["amber", ICO_SVG.geluleWarn, "Ouvrable sans écraser", "microgranules intacts"], ["red", "<span class=\"ico-emoji\">⛔</span>", "Ne pas écraser / ouvrir", "LP, gastro-résistant, toxique…"], ["sky", ICO_SVG.secable, "Comprimé sécable", "peut être coupé"], ["slate", "<span class=\"ico-emoji\">🤷</span>", "Donnée incertaine", "avis du pharmacien"]].map(([col, ic, t, s2]) => {
           const cc = colorVars(col);
-          return `<div class="medoc-legend-tile" style="--pill:${cc.pill};--pillbg:${cc.pillbg}"><span>${ic}</span><strong>${t}</strong><em>${s2}</em></div>`;
+          return `<div class="mx-leg" style="--pill:${cc.pill};--pillbg:${cc.pillbg}"><span class="mx-leg-ic">${ic}</span><span class="mx-leg-tx"><strong>${t}</strong><em>${s2}</em></span></div>`;
         }).join("")}
-      </div>
-      <p class="neurolep-label" style="margin-top:18px;">Accès rapide — molécules fréquentes en établissement</p>
-      <div class="quick-chips">${quick.map(n => `<button type="button" class="quick-chip" onclick="setMedocQuick('${n.replace(/'/g, "\\'")}')">${n}</button>`).join("")}</div>`;
+        </div>
+      </div>`;
     return;
   }
 
@@ -5454,7 +5548,7 @@ function renderMedocResults(){
   }
   if(flt && flt.kind === "remb"){
     const list = rbBase;
-    resultsEl.innerHTML = list.length ? `<p class="medoc-count">${list.length} molécule${list.length > 1 ? "s" : ""} ou association${list.length > 1 ? "s" : ""} avec au moins une spécialité remboursée à 15 % — toutes voies</p><div class="medoc-list">${list.map(rembCardHTML).join("")}</div>`
+    resultsEl.innerHTML = list.length ? `${mxNewsHTML()}<p class="medoc-count">${list.length} molécule${list.length > 1 ? "s" : ""} ou association${list.length > 1 ? "s" : ""} avec au moins une spécialité remboursée à 15 % — toutes voies</p><div class="medoc-list">${list.map(rembCardHTML).join("")}</div>`
       : `<div class="empty-state">Aucun médicament remboursé à 15 % ne correspond${q ? ` à « ${escapeHtml(q)} »` : ""}.</div>`;
     return;
   }
@@ -5496,12 +5590,7 @@ function renderMedocsPanel(cat){
       <div class="tool-hero-body">
         <p class="tool-hero-title">Écraser · Prescrire · Rembourser</p>
         <p class="tool-hero-sub">Tape un médicament : peut-on l'écraser ou ouvrir la gélule, comment le prescrire (liste, durée maximale, ordonnance sécurisée) et comment il est remboursé (SMR faible : fin du 100 % ALD au 1er octobre 2026).</p>
-        <div class="tool-hero-stats">
-          <span class="tool-hero-stat">${MEDICAMENTS_ECRASABLES.length} médicaments OMéDIT / SFPC</span>
-          <span class="tool-hero-stat">+ ${BDPM_SPEC.m.length} formes de la base publique</span>
-          <span class="tool-hero-stat">${MEDSENS_BDPM.length} règles de prescription</span>
-          <span class="tool-hero-stat">${REMB15.length} molécules à 15 % (SMR faible)</span>
-        </div>
+        <p class="mx-hero-n">${MEDICAMENTS_ECRASABLES.length} médicaments OMéDIT / SFPC · ${BDPM_SPEC.m.length.toLocaleString("fr-FR")} formes de la base publique · ${MEDSENS_BDPM.length} règles de prescription · ${REMB15.length} molécules à 15 %</p>
       </div>
     </div>
     <div class="medoc-search-wrap medoc-search-big">
@@ -5987,7 +6076,6 @@ function bioBubbleHTML(situ){
       ${BIO_ICONS[situ.id] ? icoTile(BIO_ICONS[situ.id], "sm") : ""}
       <span class="neurolep-dci">${situ.brand || situ.label}</span>
       ${situ.dci ? `<span class="neurolep-brand">${situ.dci}</span>` : ""}
-      ${situ.wip ? `<span class="bio-wip">🚧 nouveau, à valider</span>` : ""}
       <span class="bio-check">${active ? "✓ ajouté" : "+ ajouter"}</span>
     </button>
   `;
@@ -6454,6 +6542,24 @@ function setCalcTool(id){
   renderCalcPanel();
 }
 window.setCalcTool = setCalcTool;
+
+/* Bouton « Réinitialiser » ajouté en haut de chaque calculateur ou score :
+   le formulaire est simplement reconstruit (aucune valeur n'est gardée en mémoire). */
+function calcAddReset(){
+  const body = document.getElementById("calcBody");
+  if(!body || body.querySelector(".calc-reset-bar")) return;
+  const box = body.querySelector(".calc-box") || body;
+  box.insertAdjacentHTML("afterbegin", `<div class="calc-reset-bar"><button type="button" class="bio-reset-btn" onclick="calcResetTool()">↺ Réinitialiser</button></div>`);
+}
+function calcResetTool(){
+  renderCalcBody(state.calcTool || "dfg");
+  try{ runCalc(); }catch(e){}
+}
+window.calcResetTool = calcResetTool;
+(function(){
+  const orig = renderCalcBody;
+  renderCalcBody = function(tool){ const r = orig.apply(this, arguments); calcAddReset(); return r; };
+})();
 
 function calcField(label, id, placeholder, extra){
   return `<label class="calc-field"><span>${label}</span><input type="number" id="${id}" placeholder="${placeholder}" ${extra || ""} /></label>`;
@@ -9129,9 +9235,33 @@ function signBarHTML(key, hint){
     </span>
   </div>`;
 }
+/* Le fond clair (blanc, gris très pâle) des images de signature et de tampon devient
+   transparent : plus de rectangle blanc posé sur le document. Résultat mis en cache. */
+const SIGN_TRANSP_CACHE = {};
+async function signTransparent(dataUrl){
+  if(SIGN_TRANSP_CACHE[dataUrl]) return SIGN_TRANSP_CACHE[dataUrl];
+  const img = new Image();
+  img.src = dataUrl;
+  await (img.decode ? img.decode() : new Promise((ok, ko) => { img.onload = ok; img.onerror = ko; }));
+  const sc = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+  const cv = document.createElement("canvas");
+  cv.width = Math.max(1, Math.round(img.naturalWidth * sc)); cv.height = Math.max(1, Math.round(img.naturalHeight * sc));
+  const ctx = cv.getContext("2d");
+  ctx.drawImage(img, 0, 0, cv.width, cv.height);
+  const d = ctx.getImageData(0, 0, cv.width, cv.height), px = d.data;
+  for(let i = 0; i < px.length; i += 4){
+    const ink = 255 - Math.min(px[i], px[i + 1], px[i + 2]);   // 0 = blanc, 255 = noir ou couleur saturée
+    const a = ink <= 22 ? 0 : ink >= 80 ? 255 : Math.round((ink - 22) / 58 * 255);
+    px[i + 3] = Math.min(px[i + 3], a);
+  }
+  ctx.putImageData(d, 0, 0);
+  return (SIGN_TRANSP_CACHE[dataUrl] = cv.toDataURL("image/png"));
+}
 async function signEmbedData(pdfDoc, dataUrl){
-  const bytes = base64ToBytes(dataUrl.split(",")[1]);
-  return /^data:image\/png/.test(dataUrl) ? pdfDoc.embedPng(bytes) : pdfDoc.embedJpg(bytes);
+  let src = dataUrl;
+  try{ src = await signTransparent(dataUrl); }catch(e){ console.warn(e); }
+  const bytes = base64ToBytes(src.split(",")[1]);
+  return /^data:image\/png/.test(src) ? pdfDoc.embedPng(bytes) : pdfDoc.embedJpg(bytes);
 }
 /* Renvoie { sig, stamp, nom } (images pdf-lib) si la case « Signer » est cochée, sinon null. */
 async function signAssets(pdfDoc, key){
@@ -10799,6 +10929,7 @@ function chariotDefaultQty(it){
   return m ? Math.min(parseInt(m[1], 10), 30) : 1;
 }
 function chariotGetQty(it){
+  if(it.custom) return it.qty;
   const k = chariotKey(it);
   return state.chariotQty[k] !== undefined ? state.chariotQty[k] : chariotDefaultQty(it);
 }
@@ -10832,6 +10963,49 @@ function chariotSelectAll(on){
   renderChariotPanel();
 }
 window.chariotSelectAll = chariotSelectAll;
+
+/* Lignes libres (0 à 5 par dotation et par catégorie) : produit absent de la liste,
+   avec compteur ; reportées dans le PDF à signer et dans le document de contrôle. */
+const CHARIOT_CUSTOM_MAX = 5;
+const CHARIOT_CUSTOM_PH = { medicaments: "ex. Lorazépam 1 mg, comprimés", dm: "ex. Sonde nasogastrique CH 14", equipement: "ex. Lampe frontale" };
+function chariotCustomList(d, s){
+  if(!state.chariotCustom) state.chariotCustom = {};
+  const k = d + "|" + s;
+  if(!state.chariotCustom[k]) state.chariotCustom[k] = [];
+  return state.chariotCustom[k];
+}
+function chariotCustomCur(){ return chariotCustomList(state.chariotDotation || "vitale", state.chariotSection || "medicaments"); }
+function chariotCustomItems(d, s){
+  return chariotCustomList(d, s).filter(x => x.n.trim() && x.qty > 0).map(x => ({ d, s, n: x.n.trim(), q: "hors liste", i: "", custom: true, qty: x.qty }));
+}
+function chariotCustomAdd(){ const L = chariotCustomCur(); if(L.length < CHARIOT_CUSTOM_MAX){ L.push({ n: "", qty: 1 }); renderChariotPanel(); const ins = document.querySelectorAll(".chariot-custom-in"); if(ins.length) ins[ins.length - 1].focus(); } }
+function chariotCustomDel(i){ chariotCustomCur().splice(i, 1); renderChariotPanel(); }
+function chariotCustomQty(i, delta){ const x = chariotCustomCur()[i]; if(!x) return; x.qty = Math.max(0, Math.min(30, x.qty + delta)); renderChariotPanel(); }
+function chariotCustomName(i, v){ const x = chariotCustomCur()[i]; if(!x) return; x.n = v; renderChariotResult(); }
+function chariotCustomHTML(d, s){
+  const L = chariotCustomList(d, s);
+  return `<div class="chariot-group chariot-custom">
+    <div class="chariot-group-head"><span class="chariot-group-icon">✏️</span>Ajouts hors liste<span class="chariot-group-n">${L.length} / ${CHARIOT_CUSTOM_MAX}</span></div>
+    <div class="chariot-item-list">${L.map((x, i) => `
+      <div class="chariot-item-row chariot-custom-row ${x.qty === 0 ? "chariot-item-off" : "chariot-item-active"}">
+        <div class="chariot-item-info"><input type="text" class="chariot-custom-in" value="${chariotEsc(x.n)}" placeholder="${CHARIOT_CUSTOM_PH[s] || ""}" oninput="chariotCustomName(${i}, this.value)" aria-label="Produit hors liste" /></div>
+        <div class="chariot-stepper">
+          <button type="button" onclick="chariotCustomQty(${i}, -1)" aria-label="Diminuer">−</button>
+          <span class="chariot-stepper-val">${x.qty}</span>
+          <button type="button" onclick="chariotCustomQty(${i}, 1)" aria-label="Augmenter">+</button>
+        </div>
+        <button type="button" class="chariot-custom-del" onclick="chariotCustomDel(${i})" title="Supprimer la ligne" aria-label="Supprimer la ligne">✕</button>
+      </div>`).join("")}</div>
+    ${L.length < CHARIOT_CUSTOM_MAX ? `<button type="button" class="chariot-custom-add" onclick="chariotCustomAdd()">＋ Ajouter une ligne</button>` : ""}
+    <p class="chariot-custom-hint">Produit absent de la liste : il est reporté dans le PDF à signer et dans le document de contrôle.</p>
+  </div>`;
+}
+function chariotReset(){
+  state.chariotQty = {}; state.chariotCustom = {}; state.chariotEtab = ""; state.chariotSearch = "";
+  renderChariotPanel();
+}
+window.chariotCustomAdd = chariotCustomAdd; window.chariotCustomDel = chariotCustomDel; window.chariotCustomQty = chariotCustomQty;
+window.chariotCustomName = chariotCustomName; window.chariotReset = chariotReset;
 
 /* Présentation visuelle des deux dotations (affichage uniquement ; la liste
    de référence CHARIOT_ITEMS n'est pas modifiée). */
@@ -10893,7 +11067,7 @@ function chariotFilter(q){
   const norm = x => x.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
   const nq = norm(q || "").trim();
   let shown = 0;
-  document.querySelectorAll(".chariot-group").forEach(g => {
+  document.querySelectorAll(".chariot-group:not(.chariot-custom)").forEach(g => {
     let any = false;
     g.querySelectorAll(".chariot-item-row").forEach(r => {
       const ok = !nq || norm(r.getAttribute("data-search") || "").includes(nq);
@@ -11000,6 +11174,7 @@ function renderChariotPanel(){
                 <div class="chariot-toolbar-btns">
                   <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(true)">↺ Quantités recommandées</button>
                   <button type="button" class="bio-reset-btn" onclick="chariotSelectAll(false)">Tout à 0</button>
+                  <button type="button" class="bio-reset-btn" onclick="chariotReset()" title="Quantités recommandées, lignes libres et établissement remis à zéro">Réinitialiser</button>
                 </div>
                 <input type="search" class="chariot-search" id="chariotSearch" placeholder="🔎 Rechercher (ex. adrénaline, BAVU, glycémie…)" value="${chariotEsc(state.chariotSearch || "")}" oninput="chariotFilter(this.value)" />
               </div>
@@ -11010,6 +11185,7 @@ function renderChariotPanel(){
                     <div class="chariot-item-list">${g.items.map(rowHTML).join("")}</div>
                   </div>`).join("")}
                 <div class="empty-state" id="chariotNoMatch" style="display:none">Aucun élément ne correspond dans « ${sec.label} ».</div>
+                ${chariotCustomHTML(dId, sId)}
               </div>
             </div>
           </div>
@@ -11047,7 +11223,7 @@ function renderChariotResult(){
   const dot = CHARIOT_DOTATIONS.find(x => x.id === dId);
   const sId = state.chariotSection || "medicaments";
   const sec = CHARIOT_SECTIONS.find(s => s.id === sId);
-  const items = CHARIOT_ITEMS.filter(it => it.d === dId && it.s === sId && chariotGetQty(it) > 0);
+  const items = CHARIOT_ITEMS.filter(it => it.d === dId && it.s === sId && chariotGetQty(it) > 0).concat(chariotCustomItems(dId, sId));
   const info = CHARIOT_DOT_INFO[dId];
 
   const etabField = `
@@ -11603,7 +11779,7 @@ function renderHandisportPanel(){
       <div class="calc-box">
         <div class="calc-fields" style="grid-template-columns:1fr;">
           <label class="calc-field"><span>Docteur (nom du médecin)</span><input type="text" id="hMedecin" value="${h.medecin.replace(/"/g, "&quot;")}" placeholder="Nom du médecin" /></label>
-          <label class="calc-field"><span>Nom et prénom du patient</span><input type="text" id="hPatient" value="${h.patient.replace(/"/g, "&quot;")}" placeholder="Nom Prénom" /></label>
+          <label class="calc-field"><span>Nom et prénom du patient</span><input type="text" id="hPatient" value="${h.patient.replace(/"/g, "&quot;")}" placeholder="NOM d'usage Prénom" /></label>
         </div>
       </div>
 
@@ -11873,8 +12049,10 @@ async function downloadHandisportPdf(){
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    const safeName = (h.patient || "Patient").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[\\/:*?"<>|]/g, "").replace(/\s+/g, " ").trim();
-    a.download = `${safeName} Certificat Handisport.pdf`;
+    const MOIS_HS = ["JANV", "FEVR", "MARS", "AVR", "MAI", "JUIN", "JUIL", "AOUT", "SEPT", "OCT", "NOV", "DEC"];
+    const safeName = String(h.patient || "Patient").replace(/[\\/:*?"<>|]+/g, " ").replace(/\s+/g, " ").trim() || "Patient";
+    const dHS = new Date();
+    a.download = `${safeName} Handisport ${MOIS_HS[dHS.getMonth()]} ${String(dHS.getFullYear()).slice(-2)}.pdf`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -14971,7 +15149,7 @@ function pmtFormHTML(){
     <div class="tc-card tc-blue">
       <p class="tc-card-title">1. Le patient</p>
       <div class="tc-idbar">
-        <label>Nom et prénom<input type="text" class="tc-in" maxlength="50" value="${v(s.nom)}" oninput="pmtSet('nom', this.value)" placeholder="Nom de naissance, nom d'usage, prénom" /></label>
+        <label>Nom et prénom<input type="text" class="tc-in" maxlength="50" value="${v(s.nom)}" oninput="pmtSet('nom', this.value)" placeholder="NOM d'usage Prénom" /></label>
         ${pmtMasked("naissance", "Né(e) le", "jj/mm/aaaa")}
       </div>
       <div class="tc-idbar pmt-nir-row">
@@ -15382,8 +15560,13 @@ async function pmtPdf(){
     if(!pmtS().notice && pdfDoc.getPageCount() === 4){ pdfDoc.removePage(0); pdfDoc.removePage(0); }
 
     const bytes = await pdfDoc.save();
-    const nom = (pmtS().nom.trim() || "patient").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-zA-Z0-9]+/g, "_");
-    triggerDownload(new Blob([bytes], { type: "application/pdf" }), "Prescription_transport_" + nom + "_" + (pmtS().date || pmtToday()) + ".pdf");
+    // « NOM Prénom BT OCT 26.pdf » : nom tel que saisi (NOM d'usage puis prénom), mois abrégé et année de la prescription
+    const MOIS = ["JANV", "FEVR", "MARS", "AVR", "MAI", "JUIN", "JUIL", "AOUT", "SEPT", "OCT", "NOV", "DEC"];
+    const clean = x => String(x || "").replace(/[\\/:*?"<>|]+/g, " ").replace(/\s+/g, " ").trim();
+    const dm = String(pmtS().date || pmtToday()).match(/^(\d{4})-(\d{2})/);
+    const d0 = dm ? new Date(+dm[1], +dm[2] - 1, 1) : new Date();
+    const nomF = [clean(pmtS().nom) || "Patient", "BT", MOIS[d0.getMonth()], String(d0.getFullYear()).slice(-2)].join(" ");
+    triggerDownload(new Blob([bytes], { type: "application/pdf" }), nomF + ".pdf");
     btn.textContent = "Fait ✓";
     setTimeout(() => { btn.textContent = original; }, 1800);
   }catch(e){
@@ -15397,7 +15580,7 @@ window.pmtPdf = pmtPdf;
 /* =====================================================================
    FICHE DE STATUT VACCINAL DU RÉSIDENT — générateur (EHPAD, FAM/MAS, IME)
    Repères simplifiés du calendrier des vaccinations 2026 (ministère de la
-   Santé) ; version de travail DOTR, septembre 2026, à valider.
+   Santé) ; version DOTR, septembre 2026.
    Aucune donnée patient n'est saisie ici : la fiche est imprimée vierge,
    puis remplie à la main ou dans le dossier de l'établissement.
    ===================================================================== */
@@ -15577,7 +15760,7 @@ async function vaxBuildPdf(ctx, ids, etab){
       rr(page, 457, 30, W - M - 457, 46, 7, SKY);
       txt(page, "FICHE PRATIQUE DOTR", 466, 45, 6.9, bold, MUTED);
       txt(page, "VACCINATION · " + cdef.label, 466, 54.5, 6.9, bold, ACC);
-      txt(page, "Septembre 2026 — à valider", 466, 64, 6.9, font, MUTED);
+      txt(page, "Calendrier vaccinal 2026", 466, 64, 6.9, font, MUTED);
       top = 102;
     }else{
       txt(page, "Statut vaccinal du résident — " + cdef.label + " (suite)", M, 34, 11.5, bold, NAVY);
@@ -15689,7 +15872,7 @@ async function vaxBuildPdf(ctx, ids, etab){
   pages.forEach((p, i) => {
     p.drawLine({ start: { x: M, y: Y(752) }, end: { x: W - M, y: Y(752) }, thickness: 1, color: LINE });
     const foot = "Repères simplifiés du calendrier des vaccinations et recommandations vaccinales 2026 (ministère chargé de la Santé, Santé publique France) · HAS. "
-      + "En cas de statut inconnu, de rattrapage ou d'immunodépression, se référer au calendrier en vigueur. Version de travail DOTR, à valider.";
+      + "En cas de statut inconnu, de rattrapage ou d'immunodépression, se référer au calendrier en vigueur.";
     wrap(foot, font, 6.6, 392).forEach((l, k) => txt(p, l, M, 764 + k * 8.4, 6.6, font, MUTED));
     const lw = 108, lh = lw * 702 / 1444;
     p.drawImage(logo, { x: W - M - lw, y: Y(826), width: lw, height: lh });
@@ -15863,7 +16046,7 @@ function renderMdphPanel(){
             <label class="calc-field courrier-field"><span>Adresse complète</span><textarea rows="2" oninput="mdphSet('adresse', this.value)" placeholder="EHPAD Les Tilleuls, 12 rue des Lilas, 74000 Annecy">${v(s.adresse)}</textarea>${etabPickHTML('', 'mdph')}</label>
             <div class="courrier-fields mdph-grid">
               <label class="calc-field courrier-field"><span>N° de sécurité sociale</span>
-                <span class="pmt-masked"><input type="text" class="tc-in pmt-mono" autocomplete="off" value="${v(mdphNirFmt(s.nir))}" oninput="mdphNirInput(this)" placeholder="2 38 03 74 010 123 45" />
+                <span class="pmt-masked"><input type="text" class="tc-in pmt-mono mdph-nir" autocomplete="off" value="${v(mdphNirFmt(s.nir))}" oninput="mdphNirInput(this)" placeholder="2 38 03 74 010 123 45" />
                 <span class="pmt-badge ${nirSt.cls}" id="mdphNirBadge">${nirSt.txt}</span></span></label>
               <label class="calc-field courrier-field"><span>N° de dossier MDPH (s'il existe)</span><input type="text" value="${v(s.dossier)}" oninput="mdphSet('dossier', this.value)" /></label>
             </div>
@@ -16063,8 +16246,12 @@ async function mdphPdf(){
     }
 
     const bytes = await pdfDoc.save();
-    const nom = ((s.nomNaiss || "patient") + "_" + (s.prenom || "")).normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-zA-Z0-9]+/g, "_").replace(/_+$/, "");
-    triggerDownload(new Blob([bytes], { type: "application/pdf" }), "Certificat_MDPH_simplifie_" + nom + "_" + mdphToday() + ".pdf");
+    // « Nom Prénom MDPH OCT 26.pdf » : nom d'usage (nom de naissance seulement si le nom d'usage est vide), mois abrégé et année du jour
+    const clean = x => String(x || "").replace(/[\\/:*?"<>|]+/g, " ").replace(/\s+/g, " ").trim();
+    const d0 = new Date();
+    const MOIS = ["JANV", "FEVR", "MARS", "AVR", "MAI", "JUIN", "JUIL", "AOUT", "SEPT", "OCT", "NOV", "DEC"];
+    const nomF = [clean(s.nomUsage) || clean(s.nomNaiss) || "Patient", clean(s.prenom), "MDPH", MOIS[d0.getMonth()], String(d0.getFullYear()).slice(-2)].filter(Boolean).join(" ");
+    triggerDownload(new Blob([bytes], { type: "application/pdf" }), nomF + ".pdf");
     btn.textContent = "Téléchargé ✓";
   }catch(e){
     console.error(e);
@@ -16138,7 +16325,7 @@ function etabPick(sel, target, mode){
   const el = document.querySelector(target);
   if(!el) return;
   const tel = e.idesTel ? " — tél. IDE " + e.idesTel : (e.telAccueil ? " — tél. " + e.telAccueil : "");
-  el.value = mode === "nomTel" ? (e.nom || "") + tel : (e.nom || "");
+  el.value = mode === "nomTel" ? (e.nom || "") + tel : mode === "nomAdr" ? [e.nom, etabAdresse(e, "\n")].filter(Boolean).join("\n") : (e.nom || "");
   el.dispatchEvent(new Event("input", { bubbles: true }));
 }
 window.etabPick = etabPick;
