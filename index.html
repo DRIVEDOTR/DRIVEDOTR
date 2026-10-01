@@ -2697,6 +2697,27 @@
   .music-vol{display:flex; align-items:center; gap:8px; margin:10px 4px 4px;} .music-vol input{flex:1; accent-color:var(--blue);}
   .music-pop-n{margin:6px 4px 0; font-size:11.5px; color:var(--text-muted); line-height:1.4;}
   @media (max-width:700px){ .music-pop{right:auto; left:0;} }
+  /* ---------- Médicament express ---------- */
+  .mx-frow{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:6px 0;}
+  .mx-flab{font-size:11.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); min-width:96px;}
+  .mx-news{margin:14px 0 4px; padding:12px 16px; border-radius:14px; background:#FFF4E5; border:1.5px solid #F0A040;}
+  .mx-news p{margin:4px 0; font-size:13.5px; line-height:1.5;} .mx-news-t{font-weight:800; color:#A0520A; font-size:14.5px !important;}
+  .mx-src{font-size:11.5px !important; color:var(--text-muted);}
+  .mx-block{margin-top:10px; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:var(--card-bg);}
+  .mx-block-t{margin:0 0 6px; font-weight:800; font-size:13px; color:var(--navy);}
+  .mx-chips{display:flex; flex-wrap:wrap; gap:6px;}
+  .mx-chip{font-size:12.5px; font-weight:700; padding:4px 10px; border-radius:999px; color:var(--pill); background:var(--pillbg);}
+  .mx-conds{margin:8px 0 0 18px; padding:0; font-size:12.5px;} .mx-note{margin:8px 0 0; font-size:12.5px; line-height:1.45;}
+  .mx-remb-all{background:#FDECEC; border-color:#E8A0A0;} .mx-remb-all .mx-block-t{color:#B3261E;}
+  .mx-remb-part{background:#FFF6E6; border-color:#F0C880;} .mx-remb-part .mx-block-t{color:#A0520A;}
+  .mx-remb-alert{margin:0 0 4px; font-size:13px; line-height:1.45;}
+  .mx-sp{margin:6px 0 0; font-size:12px; line-height:1.5;} .mx-smr{margin:6px 0 0; font-size:11.5px; color:var(--text-muted); line-height:1.4;}
+  .mx-div{margin:0; padding:10px 14px; background:#F3EEFF; border-bottom:1px solid #D9CCF5;}
+  .mx-div-t{margin:0 0 4px; font-weight:800; color:#5B3FA8; font-size:13.5px;}
+  .mx-div-row{display:flex; gap:10px; font-size:13px; padding:2px 0;} .mx-div-src{min-width:130px; color:var(--text-muted);}
+  .mx-div-n{margin:6px 0 0; font-size:12px; line-height:1.45; color:var(--text);}
+  .mx-card-remb .mx-block{margin-top:8px;}
+  .mx-count-remb{color:#B3261E !important;}
   /* ---------- Calculateurs : bulles de contexte ---------- */
   .calc-ctx-lead{font-size:14.5px; font-weight:700; color:var(--text); margin:20px 0 10px;}
   .calc-ctx-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:16px;}
@@ -2899,10 +2920,10 @@ const CATEGORIES = [
   },
   {
     id: "medicaments-ecrasables",
-    label: "Médicaments écrasables",
+    label: "Médicament express",
     icon: "ecrasables",
     color: "sky",
-    description: "Recherchez un médicament pour savoir aussitôt s'il peut être écrasé ou sa gélule ouverte — liste nationale OMéDIT Normandie / SFPC, consultable directement ici."
+    description: "Un médicament, trois réponses : l'écraser ou ouvrir la gélule (OMéDIT / SFPC, avis HUG), le prescrire (liste, durée, ordonnance sécurisée) et son remboursement (SMR faible : fin du 100 % ALD au 1er octobre 2026)."
   },
   {
     id: "contentions",
@@ -5275,9 +5296,14 @@ function medocVerdict(mod, meth, alt){
 
 const MEDOC_QUICK = ["Paracétamol", "Lévothyroxine", "Furosémide", "Amlodipine", "Bisoprolol", "Oméprazole", "Ésoméprazole", "Sertraline", "Escitalopram", "Mirtazapine", "Quétiapine", "Rispéridone", "Donépézil", "Lévodopa", "Lévétiracétam", "Valproate", "Apixaban", "Rivaroxaban", "Morphine", "Oxycodone", "Tramadol", "Metformine", "Zopiclone", "Oxazépam", "Prednisolone", "Tamsulosine"];
 const MEDOC_FILTERS = [
-  { id: "ok", label: "✅ Écrasable / ouvrable", test: r => ["ok", "mix"].includes(medocVerdict(r.mod).k) },
-  { id: "no", label: "⛔ Ne pas écraser / ouvrir", test: r => medocVerdict(r.mod).k === "no" },
-  { id: "alt", label: "💡 Avec alternative galénique", test: r => r.alt && !/^Non\b/i.test(r.alt.trim()) }
+  { id: "ok", g: "e", kind: "ecr", label: "✅ Écrasable / ouvrable", test: r => ["ok", "mix"].includes(medocVerdict(r.mod).k) },
+  { id: "no", g: "e", kind: "ecr", label: "⛔ Ne pas écraser / ouvrir", test: r => medocVerdict(r.mod).k === "no" },
+  { id: "div", g: "e", kind: "ecr", label: "⚖️ Avis divergents HUG", test: r => !!medocHug(r) },
+  { id: "alt", g: "e", kind: "ecr", label: "💡 Alternative galénique", test: r => r.alt && !/^Non\b/i.test(r.alt.trim()) },
+  { id: "lim", g: "p", kind: "medsens", label: "⏱ Durée limitée", test: m => medsensFlags(m).lim },
+  { id: "sec", g: "p", kind: "medsens", label: "🔒 Ordonnance sécurisée", test: m => medsensFlags(m).sec },
+  { id: "res", g: "p", kind: "medsens", label: "🩺 Prescription restreinte", test: m => medsensFlags(m).res },
+  { id: "r15", g: "p", kind: "remb", label: "💶 15 % · SMR faible", test: () => true }
 ];
 function setMedocQuick(q){ state.medocQuery = q; const el = document.getElementById("medocSearch"); if(el){ el.value = q; el.focus(); } renderMedocResults(); }
 function setMedocFilter(id){ state.medocFilter = state.medocFilter === id ? null : id; renderMedocResults(); }
@@ -5305,6 +5331,7 @@ function medocCardHTML(row){
         <span class="medoc-verdict-icon">${v.icon}</span>
         <div class="medoc-verdict-body"><p class="medoc-verdict-t">${escapeHtml(v.t)}</p><p class="medoc-verdict-s">${escapeHtml(v.s)}</p></div>
       </div>
+      ${(h => h ? medocHugHTML(h) : "")(medocHug(row))}
       <div class="medoc-card-in">
         <div class="medoc-head">
           <div class="medoc-name">${escapeHtml(dci)}${brand ? `<span class="medoc-brand">${escapeHtml(brand)}</span>` : ""}</div>
@@ -5316,6 +5343,7 @@ function medocCardHTML(row){
         <div class="medoc-meta">${[row.forme, row.atc3].filter(Boolean).map(escapeHtml).join(" · ")}</div>
         ${row.meth ? `<div class="medoc-how"><span class="medoc-how-l">🥄 Comment l'administrer</span><div class="medoc-chips">${methodeChipsHTML(row.meth)}</div></div>` : ""}
         ${hasAlt ? `<div class="medoc-alt"><span class="medoc-alt-l">💡 Alternative galénique</span><div>${escapeHtml(row.alt).replace(/\n/g, "<br>")}</div></div>` : ""}
+        ${mxExtrasHTML(row)}
         ${rows.length ? `<details class="medoc-more"><summary>Détails : sécabilité, RCP, laboratoire</summary>${rows.join("")}</details>` : ""}
         <div class="medoc-foot">Liste nationale OMéDIT Normandie / SFPC · avis : ${escapeHtml(row.srcMod || "non précisé")}${row.maj ? " · MAJ " + escapeHtml(row.maj) : ""}</div>
       </div>
@@ -5331,16 +5359,25 @@ function renderMedocResults(){
   const q = (state.medocQuery || "").trim();
   const f = state.medocFilter || null;
   if(clr) clr.style.visibility = q || f ? "visible" : "hidden";
-
   const qn = normalizeSearch(q);
   const base = q ? MEDICAMENTS_ECRASABLES.filter(row => normalizeSearch(row.pa).includes(qn)) : MEDICAMENTS_ECRASABLES;
+  const msBase = q ? medsensMatchQuery(q) : MEDSENS_BDPM;
+  const rbBase = q ? rembMatchQuery(q) : REMB15;
+  const count = x => x.kind === "ecr" ? base.filter(x.test).length : x.kind === "medsens" ? msBase.filter(x.test).length : rbBase.length;
   if(fEl){
-    fEl.innerHTML = MEDOC_FILTERS.map(x => `<button type="button" class="medsens-filter ${f === x.id ? "medsens-filter-on" : ""}" onclick="setMedocFilter('${x.id}')">${x.label} <span>${base.filter(x.test).length}</span></button>`).join("");
+    const chip = x => `<button type="button" class="medsens-filter ${f === x.id ? "medsens-filter-on" : ""}" onclick="setMedocFilter('${x.id}')">${x.label} <span>${count(x)}</span></button>`;
+    fEl.innerHTML = `<div class="mx-frow"><span class="mx-flab">Écraser</span>${MEDOC_FILTERS.filter(x => x.g === "e").map(chip).join("")}</div>
+      <div class="mx-frow"><span class="mx-flab">Prescrire · Rembourser</span>${MEDOC_FILTERS.filter(x => x.g === "p").map(chip).join("")}</div>`;
   }
 
   if(!q && !f){
     const quick = MEDOC_QUICK.filter(n => MEDICAMENTS_ECRASABLES.some(r => normalizeSearch(r.pa).includes(normalizeSearch(n))));
     resultsEl.innerHTML = `
+      <div class="mx-news">
+        <p class="mx-news-t">💶 Nouveau au 1er octobre 2026 — médicaments à SMR faible et ALD</p>
+        <p>Les médicaments remboursés à <strong>15 %</strong> (service médical rendu faible) ne sont plus pris en charge à 100 % au titre de l'ALD : <strong>15 % pour tous</strong>. Les autres soins en lien avec l'ALD restent à 100 %. En établissement : zopiclone, zolpidem, dompéridone, trimébutine, phloroglucinol, vildagliptine, saxagliptine, rivaroxaban 2,5 mg… <button type="button" class="acb-link" onclick="setMedocFilter('r15')">Voir les ${REMB15.length} molécules concernées</button></p>
+        <p class="mx-src">Décret n° 2026-285 du 16 avril 2026 ; information Assurance Maladie (ameli.fr) ; taux par présentation : base de données publique des médicaments du ${REMB15_MAJ}.</p>
+      </div>
       <div class="medoc-legend">
         ${[["emerald", ICO_SVG.ecrase, "Écrasable", "avec la méthode indiquée"], ["teal", ICO_SVG.gelule, "Gélule ouvrable", "contenu à mélanger"], ["amber", ICO_SVG.geluleWarn, "Ouvrable sans écraser", "microgranules à garder intacts"], ["red", "<span class=\"ico-emoji\">⛔</span>", "Ne pas écraser / ouvrir", "LP, gastro-résistant, toxique…"], ["sky", ICO_SVG.secable, "Comprimé sécable", "barre de cassure : peut être coupé"], ["slate", "<span class=\"ico-emoji\">🤷</span>", "Donnée incertaine", "avis du pharmacien"]].map(([col, ic, t, s2]) => {
           const cc = colorVars(col);
@@ -5353,30 +5390,45 @@ function renderMedocResults(){
   }
 
   const flt = f ? MEDOC_FILTERS.find(x => x.id === f) : null;
-  const matches = flt ? base.filter(flt.test) : base;
-
-  if(matches.length === 0){
-    const seuls = q ? BDPM_SPEC.m.filter(e => normalizeSearch(e[0]).includes(qn)).slice(0, 30) : [];
-    resultsEl.innerHTML = seuls.length && !f ? `
-      <p class="medoc-count medoc-count-bdpm">Absent de la liste OMéDIT — ${seuls.length} forme${seuls.length > 1 ? "s" : ""} trouvée${seuls.length > 1 ? "s" : ""} dans la base publique des médicaments</p>
-      <div class="medoc-list">${seuls.map(bdpmCardHTML).join("")}</div>`
-      : `<div class="empty-state">Aucun médicament ne correspond${q ? ` à « ${escapeHtml(q)} »` : ""}${f ? " avec ce filtre" : ""}${f ? "" : ", ni dans la liste OMéDIT, ni parmi les formes orales solides commercialisées de la base publique"}.</div>`;
+  // Filtre « Prescrire » ou « Rembourser » : liste dédiée
+  if(flt && flt.kind === "medsens"){
+    const list = msBase.filter(flt.test);
+    resultsEl.innerHTML = list.length ? `<p class="medoc-count">${list.length} molécule${list.length > 1 ? "s" : ""} — ${flt.label}</p>${list.slice(0, 80).map(medsensCardHTML).join("")}`
+      : `<div class="empty-state">Aucune molécule ne correspond.</div>`;
+    return;
+  }
+  if(flt && flt.kind === "remb"){
+    const list = rbBase;
+    resultsEl.innerHTML = list.length ? `<p class="medoc-count">${list.length} molécule${list.length > 1 ? "s" : ""} ou association${list.length > 1 ? "s" : ""} avec au moins une spécialité remboursée à 15 % — toutes voies</p><div class="medoc-list">${list.map(rembCardHTML).join("")}</div>`
+      : `<div class="empty-state">Aucun médicament remboursé à 15 % ne correspond${q ? ` à « ${escapeHtml(q)} »` : ""}.</div>`;
     return;
   }
 
+  const matches = flt ? base.filter(flt.test) : base;
   const shown = matches.slice(0, 40);
+  // Molécules couvertes par les cartes affichées : pas de doublon plus bas
+  const molsShown = new Set(shown.map(r => mxNorm(mxMol(r))));
+  const rembShown = new Set(shown.flatMap(r => rembForRow(r)).map(g => g.k));
+  const msExtra = q && !f ? msBase.filter(m => !molsShown.has(mxNorm(m.m))).slice(0, 12) : [];
+  const rbExtra = q && !f ? rbBase.filter(g => !rembShown.has(g.k)).slice(0, 12) : [];
   const dejaVu = shown.map(r => normalizeSearch(r.pa));
-  const extra = q && !f ? BDPM_SPEC.m
+  const bdpm = q && !f ? BDPM_SPEC.m
     .filter(e => normalizeSearch(e[0]).includes(qn))
     .filter(e => !dejaVu.some(pa => pa.includes(normalizeSearch(e[0]))))
     .slice(0, 30) : [];
 
+  if(!shown.length && !msExtra.length && !rbExtra.length && !bdpm.length){
+    resultsEl.innerHTML = `<div class="empty-state">Aucun médicament ne correspond${q ? ` à « ${escapeHtml(q)} »` : ""}${f ? " avec ce filtre" : ""}${f ? "" : " : ni dans la liste OMéDIT, ni dans la base publique (formes orales solides), ni parmi les règles de prescription ou les médicaments remboursés à 15 %"}.</div>`;
+    return;
+  }
   resultsEl.innerHTML = `
-    <p class="medoc-count">${matches.length} résultat${matches.length > 1 ? "s" : ""} dans la liste OMéDIT${matches.length > 40 ? " — 40 premiers affichés, affinez la recherche" : ""}</p>
-    <div class="medoc-list">${shown.map(medocCardHTML).join("")}</div>
-    ${extra.length ? `
-      <p class="medoc-count medoc-count-bdpm">${extra.length} autre${extra.length > 1 ? "s" : ""} forme${extra.length > 1 ? "s" : ""} trouvée${extra.length > 1 ? "s" : ""} dans la base publique des médicaments — hors liste OMéDIT</p>
-      <div class="medoc-list">${extra.map(bdpmCardHTML).join("")}</div>` : ""}
+    ${shown.length ? `<p class="medoc-count">${matches.length} résultat${matches.length > 1 ? "s" : ""} dans la liste OMéDIT${matches.length > 40 ? " — 40 premiers affichés, affinez la recherche" : ""}</p>
+    <div class="medoc-list">${shown.map(medocCardHTML).join("")}</div>` : ""}
+    ${rbExtra.length ? `<p class="medoc-count mx-count-remb">💶 Remboursés à 15 % (SMR faible) — hors liste des écrasables</p><div class="medoc-list">${rbExtra.map(rembCardHTML).join("")}</div>` : ""}
+    ${msExtra.length ? `<p class="medoc-count medoc-count-bdpm">📋 Règles de prescription — autres molécules ou voies</p>${msExtra.map(medsensCardHTML).join("")}` : ""}
+    ${bdpm.length ? `
+      <p class="medoc-count medoc-count-bdpm">${bdpm.length} autre${bdpm.length > 1 ? "s" : ""} forme${bdpm.length > 1 ? "s" : ""} trouvée${bdpm.length > 1 ? "s" : ""} dans la base publique des médicaments — hors liste OMéDIT</p>
+      <div class="medoc-list">${bdpm.map(bdpmCardHTML).join("")}</div>` : ""}
   `;
 }
 
@@ -5387,12 +5439,13 @@ function renderMedocsPanel(cat){
     <div class="tool-hero" style="--pill:${c.pill}">
       <span class="tool-hero-icon">💊</span>
       <div class="tool-hero-body">
-        <p class="tool-hero-title">Écraser, ouvrir, couper ?</p>
-        <p class="tool-hero-sub">Tape un médicament : la réponse s'affiche en couleur, avec la façon de l'administrer et, s'il ne faut pas l'écraser, l'alternative galénique.</p>
+        <p class="tool-hero-title">Écraser · Prescrire · Rembourser</p>
+        <p class="tool-hero-sub">Tape un médicament : peut-on l'écraser ou ouvrir la gélule, comment le prescrire (liste, durée maximale, ordonnance sécurisée) et comment il est remboursé (SMR faible : fin du 100 % ALD au 1er octobre 2026).</p>
         <div class="tool-hero-stats">
           <span class="tool-hero-stat">${MEDICAMENTS_ECRASABLES.length} médicaments OMéDIT / SFPC</span>
           <span class="tool-hero-stat">+ ${BDPM_SPEC.m.length} formes de la base publique</span>
-          <span class="tool-hero-stat">Sécabilité par dosage</span>
+          <span class="tool-hero-stat">${MEDSENS_BDPM.length} règles de prescription</span>
+          <span class="tool-hero-stat">${REMB15.length} molécules à 15 % (SMR faible)</span>
         </div>
       </div>
     </div>
@@ -5403,7 +5456,7 @@ function renderMedocsPanel(cat){
     </div>
     <div class="medsens-filters" id="medocFilters"></div>
     <div id="medocResults"></div>
-    <p class="doc-note" style="margin-top:18px;">Ne remplace pas le RCP ni le jugement clinique ; en l'absence d'information, demander l'avis du pharmacien. Écraser un médicament « à ne pas écraser » peut entraîner un surdosage (formes LP), une perte d'efficacité (gastro-résistants) ou exposer le soignant (cytotoxiques).</p>
+    <p class="doc-note" style="margin-top:18px;">Sources : liste OMéDIT Normandie / SFPC (avis HUG relayés par cette liste) ; base de données publique des médicaments (conditions de prescription, taux de remboursement, avis SMR de la HAS) du ${REMB15_MAJ} ; décret n° 2026-285 du 16/04/2026. Ne remplace pas le RCP ni le jugement clinique ; en l'absence d'information, demander l'avis du pharmacien. Écraser un médicament « à ne pas écraser » peut entraîner un surdosage (formes LP), une perte d'efficacité (gastro-résistants) ou exposer le soignant (cytotoxiques).</p>
   </div>`;
 
   const medocSearchEl = document.getElementById("medocSearch");
@@ -16828,6 +16881,114 @@ if(musicPrefs().on){ MUSIC.pending = true; musicArmGesture(); }
 setTimeout(musicUI, 0);
 /* fin Musique */
 
+/* =====================================================================
+   MÉDICAMENT EXPRESS — une seule recherche, trois réponses par molécule :
+   ÉCRASER (liste OMéDIT/SFPC, avis HUG relayé quand il diverge),
+   PRESCRIRE (BDPM : liste, durée maximale, ordonnance sécurisée,
+   restrictions — ex-outil « Médicaments sensibles »),
+   REMBOURSER (BDPM : présentations remboursées à 15 % = SMR faible ;
+   depuis le 01/10/2026, plus d'exonération ALD — décret n° 2026-285
+   du 16/04/2026).
+   ===================================================================== */
+/* Généré par build/remb_gen.py (BDPM : CIS, CIS_CIP, CIS_COMPO, CIS_HAS_SMR du 01/10/2026). Ne pas éditer à la main. */
+const REMB15_MAJ = "01/10/2026";
+const REMB15 = [{"k":"ACETONIDE DE FLUOCINOLONE / NEOMYCINE / POLYMYXINE B","st":[["FLUOCINOLONE"],["NEOMYCINE"],["POLYMYXINE"]],"br":["ANTIBIO"],"sp":["ANTIBIO SYNALAR, solution pour instillation auriculaire"],"n":1,"v":["auriculaire"],"a":[],"smr":["Faible","09/11/2017","Le service médical rendu par ANTIBIO SYNALAR, solution pour instillation auriculaire, devient faible dans l’indication de l’AMM. ;"]},{"k":"AGOMELATINE","st":[["AGOMELATINE"]],"br":["VALDOXAN"],"sp":["AGOMELATINE BIOGARAN 25 mg, comprimé pelliculé","AGOMELATINE EG 25 mg, comprimé pelliculé","AGOMELATINE VIATRIS 25 mg, comprimé pelliculé","AGOMELATINE ZENTIVA 25 mg, comprimé pelliculé","VALDOXAN 25 mg, comprimé pelliculé"],"n":5,"v":["orale"],"a":[],"smr":["Faible","21/10/2015","Le service médical rendu par VALDOXAN est faible dans l’indication de l’AMM. ;"]},{"k":"ALGINATE DE SODIUM / BICARBONATE DE SODIUM","st":[["ALGINATE"],["BICARBONATE"]],"br":["GAVISCON"],"sp":["ALGINATE DE SODIUM/BICARBONATE DE SODIUM ARROW LAB 500 mg/267 mg pour 10 mL, suspension buvable en sachet","ALGINATE DE SODIUM/BICARBONATE DE SODIUM BGR 500 mg/267 mg pour 10 ml, suspension buvable en sachet","ALGINATE DE SODIUM/BICARBONATE DE SODIUM CRISTERS 500 mg/267 mg pour 10 ml, suspension buvable en sachet","ALGINATE DE SODIUM/BICARBONATE DE SODIUM EG 500 mg/267 mg pour 10 mL, suspension buvable en sachet","ALGINATE DE SODIUM/BICARBONATE DE SODIUM SANDOZ 500 mg/267 mg, suspension buvable en sachet","ALGINATE DE SODIUM/BICARBONATE DE SODIUM VIATRIS 500 mg/267 mg, suspension buvable en sachet","ALGINATE DE SODIUM/BICARBONATE DE SODIUM ZENTIVA 500 mg/267 mg, suspension buvable en sachet","GAVISCON, suspension buvable en flacon","GAVISCON, suspension buvable en sachet"],"n":9,"v":["orale"],"a":["65%"],"smr":["Faible","29/06/2016","Le service médical rendu par GAVISCON reste faible chez l’adulte. ;"]},{"k":"ALIMEMAZINE","st":[["ALIMEMAZINE"]],"br":["THERALENE"],"sp":["THERALENE 4 POUR CENT, solution buvable","THERALENE 5 mg, comprimé pelliculé sécable"],"n":2,"v":["orale"],"a":[],"smr":["Faible","19/10/2016","Le service médical rendu par les spécialités THERALENE reste faible dans les insomnies occasionnelles et les insomnies transitoires. ;"]},{"k":"ALPHA CETO DL ISOLEUCINE DE CALCIUM / ALPHA CETO VALINE DE CALCIUM / CETOLEUCINE CALCIQUE / CETOPHENYLALANINE CALCIQUE / DL-ALPHA-HYDROXYMETHIONINATE DE CALCIUM / HISTIDINE / LYSINE / THREONINE / TRYPTOPHANE L / TYROSINE","st":[["ISOLEUCINE"],["VALINE"],["CALCIQUE","CETOLEUCINE"],["CALCIQUE","CETOPHENYLALANINE"],["HYDROXYMETHIONINATE"],["HISTIDINE"],["LYSINE"],["THREONINE"],["TRYPTOPHANE"],["TYROSINE"]],"br":["KETOSTERIL"],"sp":["KETOSTERIL, comprimé enrobé"],"n":1,"v":["orale"],"a":[],"smr":["Faible","29/04/2015","Le service médical rendu par KETOSTERIL est faible dans l’indication de l’AMM. ;"]},{"k":"ALPROSTADIL","st":[["ALPROSTADIL"]],"br":["VITAROS"],"sp":["VITAROS 300 microgrammes, crème"],"n":1,"v":["urétrale"],"a":["30%"],"smr":["Faible","18/03/2015","Le service médical rendu par VITAROS est faible en tant que traitement de seconde intention dans le traitement des dysfonctions érectiles d’origine organique visées par la demande de remboursement :<br>• paraplégie et tétraplégie quelle qu’en soit…"]},{"k":"ALUMINIUM / ALUMINIUM (OXYDE D') / GOMME GUAR / HYDROXYDE DE MAGNESIUM","st":[["ALUMINIUM"],["ALUMINIUM"]],"br":["MOXYDAR"],"sp":["MOXYDAR, comprimé pour suspension buvable"],"n":1,"v":["orale"],"a":[],"smr":["Faible","20/03/2019","Le service médical rendu par MOXYDAR reste faible dans l’indication de l’AMM. ;"]},{"k":"ALVERINE / SIMETICONE","st":[["ALVERINE"],["SIMETICONE"]],"br":["METEOSPASMYL"],"sp":["METEOSPASMYL, capsule molle"],"n":1,"v":["orale"],"a":[],"smr":["Faible","22/11/2017","Le service médical rendu par METEOSPASMYL, capsule reste faible dans l’indication de l’AMM. ;"]},{"k":"ANDROSTANOLONE","st":[["ANDROSTANOLONE"]],"br":["ANDRACTIM"],"sp":["ANDRACTIM, gel pour application locale"],"n":1,"v":["cutanée;transdermique"],"a":[],"smr":["Faible","18/09/2013","Le service médical rendu par ANDRACTIM reste faible dans le traitement local de la gynécomastie idiopathique chez l’homme. ;"]},{"k":"ANETHOLTRITHIONE","st":[["ANETHOLTRITHIONE"]],"br":["SULFARLEM"],"sp":["SULFARLEM 12,5 mg, comprimé enrobé","SULFARLEM S 25 mg, comprimé enrobé"],"n":2,"v":["orale"],"a":[],"smr":["Faible","09/03/2011","Le service médical rendu par cette spécialité reste faible dans le traitement d'appoint des hyposialies : médicamenteuses, post-radiothérapiques, hyposialies de la sénescence. ;"]},{"k":"BACLOFENE","st":[["BACLOFENE"]],"br":["BACLOCUR"],"sp":["BACLOCUR 10 mg, comprimé pelliculé sécable","BACLOCUR 20 mg, comprimé pelliculé sécable","BACLOCUR 30 mg, comprimé pelliculé sécable","BACLOCUR 40 mg, comprimé pelliculé sécable"],"n":4,"v":["orale"],"a":["30%"],"smr":["Faible","20/11/2019","Le service médical rendu par BACLOCUR est faible dans l’indication et dans le respect strict de la posologie de l’AMM (dose maximale de 80 mg par jour), dans l’attente de données nouvelles. ;"]},{"k":"BENZALKONIUM / DIGLUCONATE DE CHLORHEXIDINE","st":[["BENZALKONIUM"],["CHLORHEXIDINE"]],"br":["DERMOBACTER"],"sp":["DERMOBACTER, solution pour application cutanée"],"n":1,"v":["cutanée"],"a":[],"smr":["Faible","16/12/2015","Le service médical rendu par DERMOBACTER reste faible dans l’indication de l’AMM. ;"]},{"k":"BROMURE D'IPRATROPIUM","st":[["IPRATROPIUM"]],"br":["ATROVENT"],"sp":["ATROVENT NASAL 0,03 POUR CENT, solution nasale en flacon pulvérisateur"],"n":1,"v":["nasale"],"a":["65%"],"smr":["Faible","24/01/2018","Le service médical rendu par ATROVENT NASAL reste faible dans les indications de l’AMM. ;"]},{"k":"BROMURE DE PINAVERIUM","st":[["PINAVERIUM"]],"br":["DICETEL"],"sp":["DICETEL 100 mg, comprimé pelliculé","DICETEL 50 mg, comprimé pelliculé","PINAVERIUM ARROW 100 mg, comprimé pelliculé","PINAVERIUM BIOGARAN 100 mg, comprimé pelliculé","PINAVERIUM EG 100 mg, comprimé pelliculé","PINAVERIUM VIATRIS 100 mg, comprimé pelliculé"],"n":6,"v":["orale"],"a":[],"smr":["Faible","11/05/2016","Le service médical rendu par DICETEL reste faible dans le traitement symptomatique des douleurs, des troubles du transit et de l'inconfort intestinal liés aux troubles fonctionnels intestinaux. ;"]},{"k":"CALCIUM / MAGNESIUM (CHLORURE DE) HEXAHYDRATE / PHOSPHATE DIPOTASSIQUE / PHOSPHATE MONOPOTASSIQUE / POTASSIUM / SODIUM","st":[["DIPOTASSIQUE"],["MONOPOTASSIQUE"]],"br":["ARTISIAL"],"sp":["ARTISIAL, solution pour pulvérisation endo-buccale"],"n":1,"v":["voie buccale autre"],"a":[],"smr":["Faible","04/04/2018","Le service médical rendu par ARTISIAL reste faible dans l’indication « traitement des hyposialies ou asialies, notamment celles secondaires à l'irradiation des voies supérieures aéro-digestives ». ;"]},{"k":"CHARBON ACTIVE / MAGNESIUM (OXYDE DE) LOURD / SIMETICONE","st":[["CHARBON"],["SIMETICONE"]],"br":["CARBOSYMAG"],"sp":["CARBOSYMAG, gélule"],"n":1,"v":["orale"],"a":[],"smr":["Faible","20/04/2016","Le service médical rendu par CARBOSYMAG reste faible dans l’indication de l’AMM. ;"]},{"k":"CHLORHEXIDINE (DIGLUCONATE DE), SOLUTION DE / CHLOROBUTANOL","st":[["CHLORHEXIDINE"],["CHLOROBUTANOL"]],"br":[],"sp":["CHLORHEXIDINE/CHLOROBUTANOL SANDOZ 0,5 ml/0,5 g pour 100 ml, solution pour bain de bouche en flacon"],"n":1,"v":["voie buccale autre"],"a":[],"smr":null},{"k":"CHLOROBUTANOL / DIGLUCONATE DE CHLORHEXIDINE","st":[["CHLOROBUTANOL"],["CHLORHEXIDINE"]],"br":["ELUDRIL"],"sp":["ELUDRIL 0,5 ml/0,5 g pour 100 ml, solution pour bain de bouche"],"n":1,"v":["voie buccale autre"],"a":[],"smr":null},{"k":"CHLOROBUTANOL / SOLUTION DE DIGLUCONATE DE CHLORHEXIDINE","st":[["CHLOROBUTANOL"],["CHLORHEXIDINE"]],"br":[],"sp":["CHLORHEXIDINE/CHLOROBUTANOL ARROW 0,5 mL/0,5 g pour 100 mL, solution pour bain de bouche en flacon","CHLORHEXIDINE/CHLOROBUTANOL BIOGARAN 0,5 mL/0,5 g pour 100 mL, solution pour bain de bouche en flacon","CHLORHEXIDINE/CHLOROBUTANOL EG 0,5 ml/0,5 g pour 100 ml, solution pour bain de bouche en flacon","CHLORHEXIDINE/CHLOROBUTANOL TEVA 0,5 ml/0,5 g pour 100 ml, solution pour bain de bouche en flacon","CHLORHEXIDINE/CHLOROBUTANOL VIATRIS 0,5 mL/0,5 g pour 100 mL, solution pour bain de bouche en flacon"],"n":5,"v":["voie buccale autre"],"a":[],"smr":null},{"k":"CHLOROCRESOL / DIISETIONATE D'HEXAMIDINE / SOLUTION DE DIGLUCONATE DE CHLORHEXIDINE","st":[["CHLOROCRESOL"],["HEXAMIDINE"],["CHLORHEXIDINE"]],"br":["CYTEAL"],"sp":["CYTEAL, solution moussante"],"n":1,"v":["cutanée"],"a":[],"smr":["Faible","21/11/2018","le service médical rendu par CYTEAL reste faible dans l’indication de l’AMM. ;"]},{"k":"CICLOSPORINE","st":[["CICLOSPORINE"]],"br":["VEVIZYE"],"sp":["VEVIZYE 1 mg/mL, collyre en solution"],"n":1,"v":["ophtalmique"],"a":["100%","65%"],"smr":["Faible","05/11/2025","Le service médical rendu par VEVIZYE 1 mg/mL (ciclosporine), collyre en solution, est faible dans l’indication de l’AMM. ;"]},{"k":"CIPROFLOXACINE / DEXAMETHASONE","st":[["CIPROFLOXACINE"],["DEXAMETHASONE"]],"br":["CILOXADEX"],"sp":["CILOXADEX 3 mg/1 mg par mL, suspension pour instillation auriculaire"],"n":1,"v":["auriculaire"],"a":[],"smr":["Faible","07/03/2018","Le service médical rendu par CILOXADEX 3 mg/1 mg, solution pour instillation auriculaire est faible dans le traitement des otorrhées sur aérateurs transtympaniques chez l’enfant et l’adulte. ;"]},{"k":"CLADRIBINE","st":[["CLADRIBINE"]],"br":["MAVENCLAD"],"sp":["MAVENCLAD 10 mg, comprimé"],"n":1,"v":["orale"],"a":["100%"],"smr":["Faible","14/05/2025","Le service médical rendu par MAVENCLAD (cladribine) reste faible dans l’indication de l’AMM. ;"]},{"k":"DEXAMETHASONE / FRAMYCETINE / POLYMYXINE B","st":[["DEXAMETHASONE"],["FRAMYCETINE"],["POLYMYXINE"]],"br":["FRAMYXONE"],"sp":["FRAMYXONE, solution pour instillation auriculaire"],"n":1,"v":["auriculaire"],"a":[],"smr":["Faible","09/11/2017","Le service médical rendu par FRAMYXONE, solution pour instillation auriculaire, devient faible dans l’indication de l’AMM. ;"]},{"k":"DIGLUCONATE DE CHLORHEXIDINE","st":[["CHLORHEXIDINE"]],"br":["DIASEPTYL","ELUDRILPERIO","PAROEX","SEPTEAL","SEPTIVON"],"sp":["CHLORHEXIDINE ARROW 0,12 %, solution pour bain de bouche","CHLORHEXIDINE BIOGARAN 0,12 %, solution pour bain de bouche","DIASEPTYL 0,5 %, solution pour application cutanée","ELUDRILPERIO 0,20 %, solution pour bain de bouche","PAROEX 0,12 POUR CENT, solution pour bain de bouche","SEPTEAL, solution pour application cutanée","SEPTIVON 1,5 %, solution pour application cutanée"],"n":7,"v":["cutanée","voie buccale autre"],"a":[],"smr":["Faible","17/11/2021","Le service médical rendu par CHLORHEXIDINE ARROW 0,12 % (digluconate de chlorhexidine), solution pour bain de bouche, est faible dans l’indication de l’AMM. ;"]},{"k":"DOMPERIDONE","st":[["DOMPERIDONE"]],"br":[],"sp":["DOMPERIDONE ARROW 10 mg, comprimé orodispersible","DOMPERIDONE ARROW 10 mg, comprimé pelliculé","DOMPERIDONE BIOGARAN 10 mg, comprimé orodispersible","DOMPERIDONE BIOGARAN 10 mg, comprimé pelliculé","DOMPERIDONE EG 10 mg, comprimé orodispersible","DOMPERIDONE TEVA 10 mg, comprimé pelliculé","DOMPERIDONE VIATRIS 10 mg, comprimé orodispersible","DOMPERIDONE VIATRIS 10 mg, comprimé pelliculé","DOMPERIDONE ZYDUS 10 mg, comprimé pelliculé"],"n":9,"v":["orale"],"a":[],"smr":["Faible","13/06/2018","Le service médical rendu par les spécialités à base de dompéridone est faible dans les indications de l'AMM. ;"]},{"k":"DUTASTERIDE / TAMSULOSINE","st":[["DUTASTERIDE"],["TAMSULOSINE"]],"br":["COMBODART"],"sp":["COMBODART 0,5 mg/0,4 mg, gélule","DUTASTERIDE/TAMSULOSINE ACCORD 0,5 mg/0,4 mg, gélule","DUTASTERIDE/TAMSULOSINE ARROW 0,5 mg/0,4 mg, gélule","DUTASTERIDE/TAMSULOSINE BIOGARAN 0,5 mg/0,4 mg, gélule","DUTASTERIDE/TAMSULOSINE CRISTERS 0,5 mg/0,4 mg, gélule","DUTASTERIDE/TAMSULOSINE EG 0,5 mg/0,4 mg, gélule","DUTASTERIDE/TAMSULOSINE SANDOZ 0,5 mg/0,4 mg, gélule","DUTASTERIDE/TAMSULOSINE VIATRIS 0,5 mg/0,4 mg, gélule","DUTASTERIDE/TAMSULOSINE ZENTIVA 0,5 mg/0,4 mg, gélule"],"n":9,"v":["orale"],"a":[],"smr":["Faible","14/12/2016","Le service médical rendu de COMBODART reste faible lorsqu’il est prescrit en remplacement de la prise séparée de tamsulosine et de dutastéride et à la condition que cette association ait été bien tolérée durant au moins 6 mois de traitement. ;"]},{"k":"EPHEDRINE / PHENOL / PROCAINE / TETRACAINE","st":[["EPHEDRINE"],["PHENOL"],["PROCAINE"],["TETRACAINE"]],"br":["OTYLOL"],"sp":["OTYLOL, solution pour instillation auriculaire"],"n":1,"v":["auriculaire"],"a":[],"smr":null},{"k":"ERYTHROMYCINE","st":[["ERYTHROMYCINE"]],"br":["ERYTHROGEL"],"sp":["ERYTHROGEL 4 %, gel pour application cutanée"],"n":1,"v":["cutanée"],"a":[],"smr":["Faible","17/10/2018","le service médical rendu par ERYTROMYCINE BAILLEUL 4%, solution pour application cutanée et ERYTHOGEL 4%, gel pour application cutanée reste faible dans l’indication de l’AMM. ;"]},{"k":"ESTAZOLAM","st":[["ESTAZOLAM"]],"br":["NUCTALON"],"sp":["NUCTALON 2 mg, comprimé"],"n":1,"v":["orale"],"a":[],"smr":["Faible","25/06/2014","Le service médical rendu par les benzodiazépines hypnotiques et molécules apparentées (NUCTALON, HAVLANE, NOCTAMIDE, MOGADON, NORMISON, IMOVANE et génériques, STILNOX et génériques) est faible dans le traitement des « troubles sévères du sommeil dans les…"]},{"k":"ESTRIOL","st":[["ESTRIOL"]],"br":["PHYSIOGINE"],"sp":["PHYSIOGINE 0,5 mg, ovule"],"n":1,"v":["vaginale"],"a":["30%"],"smr":["Faible","03/12/2014","le service médical rendu par PHYSIOGINE ovule, reste faible dans l’indication « Affections vulvo-vaginales dues au déficit estrogénique de la post-ménopause naturelle ou chirurgicale ». ;"]},{"k":"EXTRAIT ALLERGENIQUE DE DERMATOPHAGOIDES FARINAE / EXTRAIT ALLERGENIQUE DE DERMATOPHAGOIDES PTERONYSSINUS","st":[["DERMATOPHAGOIDES","FARINAE"],["DERMATOPHAGOIDES","PTERONYSSINUS"]],"br":["ACARIZAX","ORYLMYTE"],"sp":["ACARIZAX 12 SQ-HDM, lyophilisat sublingual","ORYLMYTE 100 IR, comprimé sublingual","ORYLMYTE 100 IR, comprimé sublingual. ORYLMYTE 300 IR, comprimé sublingual","ORYLMYTE 300 IR, comprimé sublingual"],"n":4,"v":["sublinguale"],"a":[],"smr":["Faible","01/04/2026","Le service médical rendu par ACARIZAX est faible dans l’indication de l’AMM. ;"]},{"k":"EXTRAIT ALLERGENIQUE DE POLLEN D'IVRAIE VIVACE / EXTRAIT ALLERGENIQUE DE POLLEN DE DACTYLE AGGLOMERE / EXTRAIT ALLERGENIQUE DE POLLEN DE FLEOLE DES PRES / EXTRAIT ALLERGENIQUE DE POLLEN DE FLOUVE ODORANTE / EXTRAIT ALLERGENIQUE DE POLLEN DE PATURIN DES PRES","st":[["IVRAIE","VIVACE"],["AGGLOMERE","DACTYLE"],["FLEOLE"],["FLOUVE","ODORANTE"],["PATURIN"]],"br":["ORALAIR"],"sp":["ORALAIR 100 IR & 300 IR, comprimé sublingual","ORALAIR 300 IR, comprimés sublinguaux"],"n":2,"v":["sublinguale"],"a":[],"smr":["Faible","05/12/2018","Le service médical rendu par ORALAIR 300 IR et ORALAIR 100 IR & 300 IR, comprimé sublingual, reste faible dans l’indication de l’AMM. ;"]},{"k":"EXTRAIT ALLERGENIQUE DE POLLEN DE BOULEAU BLANC","st":[["BLANC","BOULEAU"]],"br":["ITULAZAX"],"sp":["ITULAZAX 12 SQ-Bet, lyophilisat sublingual"],"n":1,"v":["sublinguale"],"a":[],"smr":["Faible","07/10/2020","Le service médical rendu par ITULAZAX (extrait allergénique standardisé de pollen de bouleau) est faible dans l’indication de l’AMM. ;"]},{"k":"EXTRAIT ALLERGENIQUE DE POLLEN DE FLEOLE DES PRES","st":[["FLEOLE"]],"br":["GRAZAX"],"sp":["GRAZAX 75 000 SQ-T, lyophilisat sublingual"],"n":1,"v":["sublinguale"],"a":[],"smr":["Faible","20/01/2016","Le service médical rendu par GRAZAX reste faible dans l’indication de l’AMM. ;"]},{"k":"FAMOTIDINE","st":[["FAMOTIDINE"]],"br":[],"sp":["FAMOTIDINE EG 20 mg, comprimé pelliculé","FAMOTIDINE EG 40 mg, comprimé pelliculé"],"n":2,"v":["orale"],"a":[],"smr":["Faible","19/10/2011","Générique de PEPDINE, les conclusions s'appliquent : Le service médical rendu par PEPDINE 20 mg, comprimé pelliculé et PEPDINE 40 mg, comprimé pelliculé reste faible dans les indications : « Ulcère duodénal », « Ulcère gastrique bénin », « oesophagite par…"]},{"k":"FAMPRIDINE","st":[["FAMPRIDINE"]],"br":["FAMPYRA"],"sp":["FAMPRIDINE ACCORD 10 mg, comprimé à libération prolongée","FAMPRIDINE ARROW LP 10 mg, comprimé à libération prolongée","FAMPRIDINE BIOGARAN LP 10 mg, comprimé à libération prolongée","FAMPRIDINE EG LP 10 mg, comprimé à libération prolongée","FAMPRIDINE TEVA LP 10 mg, comprimé à libération prolongée","FAMPRIDINE VIATRIS LP 10 mg, comprimé à libération prolongée","FAMPRIDINE ZENTIVA LP 10 mg, comprimé à libération prolongée","FAMPYRA 10 mg, comprimé à libération prolongée"],"n":8,"v":["orale"],"a":[],"smr":["Faible","23/04/2025","Le service médical rendu par FAMPYRA (fampridine) est faible dans l’indication de l’AMM. ;"]},{"k":"FLUDROCORTISONE / LIDOCAINE / NEOMYCINE / POLYMYXINE B","st":[["FLUDROCORTISONE"],["LIDOCAINE"],["NEOMYCINE"],["POLYMYXINE"]],"br":["PANOTILE"],"sp":["PANOTILE, solution pour instillation auriculaire"],"n":1,"v":["auriculaire"],"a":[],"smr":["Faible","09/11/2017","Le service médical rendu par PANOTILE, solution pour instillation auriculaire, devient faible dans l’indication de l’AMM. ;"]},{"k":"FLUOROURACILE","st":[["FLUOROURACILE"]],"br":["TOLAK"],"sp":["TOLAK 40 mg/g, crème"],"n":1,"v":["cutanée"],"a":["65%"],"smr":["Faible","21/10/2020","Le service médical rendu par TOLAK 40 mg/g (5-fluorouracile), crème est faible dans l’indication de l’AMM. ;"]},{"k":"FOSTAMATINIB","st":[["FOSTAMATINIB"]],"br":["TAVLESSE"],"sp":["TAVLESSE 100 mg, comprimé pelliculé","TAVLESSE 150 mg, comprimé pelliculé"],"n":2,"v":["orale"],"a":[],"smr":["Faible","16/12/2020","Le service médical rendu par TAVLESSE (fostamatinib) est faible dans l’indication de l’AMM. ;"]},{"k":"GEL DE PHOSPHATE D'ALUMINIUM","st":[["ALUMINIUM"]],"br":["PHOSPHALUGEL"],"sp":["PHOSPHALUGEL, suspension buvable en sachet dose"],"n":1,"v":["orale"],"a":[],"smr":["Faible","25/10/2017","Le service médical rendu par PHOSPHALUGEL, suspension buvable reste faible dans l’indication de l’AMM. ;"]},{"k":"GLUCONATE DE CHLORHEXIDINE","st":[["CHLORHEXIDINE"]],"br":["DOSISEPTINE","PLUREXID","PREXIDINE"],"sp":["DOSISEPTINE 0,05 POUR CENT, solution pour application cutanée en récipient unidose","PLUREXID 1,5 POUR CENT, solution pour application cutanée","PREXIDINE 0,12 POUR CENT, solution pour bain de bouche"],"n":3,"v":["cutanée","voie buccale autre"],"a":[],"smr":["Faible","18/09/2019","Le service médical rendu par PLUREXID reste faible dans l’indication de l’AMM. ;"]},{"k":"GLYCEROL / PARAFFINE LIQUIDE / VASELINE","st":[["GLYCEROL"],["PARAFFINE"],["VASELINE"]],"br":[],"sp":["GLYCEROL/VASELINE/PARAFFINE ARROW 15 %/8 %/2 %, crème","GLYCEROL/VASELINE/PARAFFINE BIOGARAN 15 %/8 %/2 %, crème","GLYCEROL/VASELINE/PARAFFINE CRISTERS 15 %/8 %/2 %, crème","GLYCEROL/VASELINE/PARAFFINE EG 15 %/8 %/2 %, crème","GLYCEROL/VASELINE/PARAFFINE PIERRE FABRE SANTE 15 %/8 %/2 %, crème","GLYCEROL/VASELINE/PARAFFINE SANDOZ 15 %/8 %/2 %, crème","GLYCEROL/VASELINE/PARAFFINE TEVA 15 %/8 %/2 %, crème","GLYCEROL/VASELINE/PARAFFINE VIATRIS 15 %/8 %/2 %, crème","GLYCEROL/VASELINE/PARAFFINE ZENTIVA 15 %/8 %/2 %, crème","GLYCEROL/VASELINE/PARAFFINE ZYDUS 15 %/8 %/2 %, crème"],"n":10,"v":["cutanée"],"a":[],"smr":["Faible","29/06/2022","Le service médical rendu par GLYCEROL/VASELINE/PARAFFINE ZYDUS 15 % 8 % 2 % (glycé-rol, vaseline, paraffine), crème est :<br>• faible dans la dermatite atopique et dans l’ichtyose. ;"]},{"k":"HELICIDINE","st":[["HELICIDINE"]],"br":[],"sp":["HELICIDINE 10 POUR CENT SANS SUCRE, sirop édulcoré à la saccharine sodique et au maltitol liquide"],"n":1,"v":["orale"],"a":[],"smr":["Faible","07/10/2015","Le service médical rendu par HELICIDINE reste faible dans les indications de l’AMM. ;"]},{"k":"HYDROXYDE D'ALUMINIUM / HYDROXYDE DE MAGNESIUM","st":[["ALUMINIUM"]],"br":["XOLAAM"],"sp":["XOLAAM, comprimé à croquer ou à sucer"],"n":1,"v":["orale"],"a":[],"smr":["Faible","07/04/2010","Le service médical rendu par ces spécialités reste faible dans l'indication de l'AMM. ;"]},{"k":"HYDROXYDE D'ALUMINIUM / HYDROXYDE DE MAGNESIUM / MONMECTITE","st":[["ALUMINIUM"],["MONMECTITE"]],"br":["GELOX"],"sp":["GELOX, suspension buvable en sachet"],"n":1,"v":["orale"],"a":[],"smr":["Faible","20/03/2019","Le service médical rendu par GELOX reste faible dans l’indication de l’AMM. ;"]},{"k":"IMIQUIMOD","st":[["IMIQUIMOD"]],"br":["ZYCLARA"],"sp":["ZYCLARA 3,75 %, crème"],"n":1,"v":["cutanée"],"a":["65%"],"smr":["Faible","04/11/2015","Le service médical rendu par ZYCLARA est faible dans l’indication de l’AMM. ;"]},{"k":"KETOTIFENE BASE","st":[["KETOTIFENE"]],"br":["ZADITEN"],"sp":["ZADITEN 1 mg/5 ml, solution buvable","ZADITEN L.P. 2 mg, comprimé pelliculé à libération prolongée"],"n":2,"v":["orale"],"a":[],"smr":["Faible","06/07/2016","Le service médical rendu par ZADITEN reste faible dans les indications de l’AMM. ;"]},{"k":"LATANOPROST / NETARSUDIL","st":[["LATANOPROST"],["NETARSUDIL"]],"br":["ROCLANDA"],"sp":["ROCLANDA 50 microgrammes/mL + 200 microgrammes/mL, collyre en solution"],"n":1,"v":["ophtalmique"],"a":[],"smr":["Faible","05/07/2023","Le service médical rendu par ROCLANDA 50 µg/mL + 200 µg/mL (latanoprost, nétarsudil), collyre en solution est faible dans l’indication de l’AMM. ;"]},{"k":"LEVOTHYROXINE SODIQUE / LIOTHYRONINE","st":[["LEVOTHYROXINE"],["LIOTHYRONINE"]],"br":["EUTHYRAL"],"sp":["EUTHYRAL 100 microgrammes/20 microgrammes, comprimé sécable"],"n":1,"v":["orale"],"a":[],"smr":["Faible","12/06/2019","Le service médical rendu par EUTHYRAL reste faible dans les indications de l’AMM. ;"]},{"k":"LIDOCAINE / NIFEDIPINE","st":[["LIDOCAINE"],["NIFEDIPINE"]],"br":["NIFEXINE"],"sp":["NIFEXINE, crème rectale"],"n":1,"v":["rectale"],"a":[],"smr":["Faible","01/02/2023","Le service médical rendu (SMR) par NIFEXINE (nifédipine/chlorhydrate de lidocaïne) est faible dans l’indication de l’AMM. ;"]},{"k":"LIDOCAINE / PHENAZONE","st":[["LIDOCAINE"],["PHENAZONE"]],"br":["OTIPAX"],"sp":["OTIPAX, solution pour instillation auriculaire"],"n":1,"v":["auriculaire"],"a":[],"smr":["Faible","07/03/2018","Le service médical rendu par OTIPAX reste faible dans l’indication de l’AMM. ;"]},{"k":"LOPRAZOLAM","st":[["LOPRAZOLAM"]],"br":["HAVLANE"],"sp":["HAVLANE, comprimé sécable"],"n":1,"v":["orale"],"a":[],"smr":["Faible","21/09/2016","Le service médical rendu par HAVLANE reste faible dans le traitement des « troubles sévères du sommeil dans les cas suivants : insomnie occasionnelle, insomnie transitoire. » ;"]},{"k":"LORMETAZEPAM","st":[["LORMETAZEPAM"]],"br":[],"sp":["LORMETAZEPAM ARROW 1 mg, comprimé sécable","LORMETAZEPAM ARROW 2 mg, comprimé sécable"],"n":2,"v":["orale"],"a":[],"smr":null},{"k":"MEBEVERINE","st":[["MEBEVERINE"]],"br":[],"sp":["MEBEVERINE ZYDUS 200 mg, comprimé sécable"],"n":1,"v":["orale"],"a":[],"smr":["Faible","16/12/2015","Le service médical rendu par MEBEVERINE ZYDUS 200 mg, comprimé sécable reste faible dans le traitement symptomatique des douleurs et de l'inconfort intestinal liés aux troubles fonctionnels du tube digestif. ;"]},{"k":"METASULFOBENZOATE SODIQUE DE DEXAMETHASONE / NEOMYCINE / POLYMYXINE B","st":[["DEXAMETHASONE"],["NEOMYCINE"],["POLYMYXINE"]],"br":["POLYDEXA"],"sp":["POLYDEXA, solution auriculaire, gouttes"],"n":1,"v":["auriculaire"],"a":[],"smr":null},{"k":"METFORMINE / VILDAGLIPTINE","st":[["METFORMINE"],["VILDAGLIPTINE"]],"br":["EUCREAS"],"sp":["EUCREAS 50 mg/1000 mg, comprimé pelliculé","VILDAGLIPTINE/METFORMINE BIOGARAN 50 mg/1000 mg, comprimé pelliculé","VILDAGLIPTINE/METFORMINE CHLORHYDRATE ACCORD 50 mg/1000 mg, comprimé pelliculé","VILDAGLIPTINE/METFORMINE EG 50 mg/1000 mg, comprimé pelliculé","VILDAGLIPTINE/METFORMINE SANDOZ 50 mg/1000 mg, comprimé pelliculé","VILDAGLIPTINE/METFORMINE VIATRIS 50 mg/1000 mg comprimé pelliculé","VILDAGLIPTINE/METFORMINE ZENTIVA 50 mg/1 000 mg, comprimé pelliculé"],"n":7,"v":["orale"],"a":[],"smr":["Faible","21/07/2021","Le service médical rendu par GALVUS (vildagliptine) est : <br>Faible uniquement dans les indications :<br>o en bithérapie en association avec la metformine, <br>o en bithérapie en association avec un sulfamide hypoglycémiant, <br>o en trithérapie en…"]},{"k":"METRONIDAZOLE / NEOMYCINE / NYSTATINE","st":[["METRONIDAZOLE"],["NEOMYCINE"],["NYSTATINE"]],"br":["TERGYNAN"],"sp":["TERGYNAN, comprimé vaginal"],"n":1,"v":["vaginale"],"a":[],"smr":["Faible","22/05/2019","Le service médical rendu par TERGYNAN reste faible dans l’indication de l’AMM. ;"]},{"k":"NALDEMEDINE","st":[["NALDEMEDINE"]],"br":["RIZMOIC"],"sp":["RIZMOIC 200 microgrammes, comprimé pelliculé"],"n":1,"v":["orale"],"a":[],"smr":["Faible","27/08/2025","Le service médical rendu par RIZMOIC 200 µg (naldémédine), comprimé pelliculé en boîte de 30 comprimés unidoses, est faible dans le traitement de la constipation induite par les opioïdes (CIO) chez les patients adultes ayant été traités préalablement par…"]},{"k":"NALOXEGOL","st":[["NALOXEGOL"]],"br":["MOVENTIG"],"sp":["MOVENTIG 12,5 mg, comprimé pelliculé","MOVENTIG 25 mg, comprimé pelliculé"],"n":2,"v":["orale"],"a":[],"smr":["Faible","02/12/2020","Le service médical rendu par MOVENTIG (naloxégol) reste faible dans l’indication de l’AMM. ;"]},{"k":"NEOMYCINE / NYSTATINE / POLYMYXINE B","st":[["NEOMYCINE"],["NYSTATINE"],["POLYMYXINE"]],"br":["POLYGYNAX"],"sp":["POLYGYNAX VIRGO, capsule vaginale","POLYGYNAX, capsule vaginale"],"n":2,"v":["vaginale"],"a":[],"smr":["Faible","17/04/2019","Le service médical rendu par POLYGYNAX et POLYGYNAX VIRGO reste faible dans l’indication de l’AMM. ;"]},{"k":"NYSTATINE / OXYTETRACYCLINE / PHOSPHATE SODIQUE DE DEXAMETHASONE / POLYMYXINE B","st":[["NYSTATINE"],["OXYTETRACYCLINE"],["DEXAMETHASONE"],["POLYMYXINE"]],"br":["AURICULARUM"],"sp":["AURICULARUM, poudre et solvant pour suspension pour instillation auriculaire"],"n":1,"v":["auriculaire"],"a":[],"smr":["Faible","21/03/2018","Le service médical rendu par AURICULARUM, poudre et solvant pour suspension pour instillation auriculaire, est faible dans le traitement local des otites chroniques :<br>• en préopératoire pour assèchement,<br>• en post-opératoire pour les cavités…"]},{"k":"OSELTAMIVIR","st":[["OSELTAMIVIR"]],"br":["EBILFUMIN","TAMIFLU"],"sp":["EBILFUMIN 30 mg, gélule","EBILFUMIN 45 mg, gélule","EBILFUMIN 75 mg, gélule","TAMIFLU 6 mg/ml, poudre pour suspension buvable","TAMIFLU 75 mg, gélule"],"n":5,"v":["orale"],"a":["30%"],"smr":["Faible","18/02/2026","Le service médical rendu par TAMIFLU (oseltamivir) est faible :<br>• chez les personnes ayant des facteurs de risque de formes sévères ou compliquées et/ou d’emblée graves dans le cadre d’un traitement curatif de la grippe en cas d’épidémie…"]},{"k":"OXOMEMAZINE","st":[["OXOMEMAZINE"]],"br":[],"sp":["OXOMEMAZINE ARROW 0,33 mg/ml SANS SUCRE, solution buvable édulcorée à l'acésulfame potassique","OXOMEMAZINE ARROW 0,33 mg/ml, sirop","OXOMEMAZINE ARROW CONSEIL 0,33 mg/mL, solution buvable édulcorée à lacésulfame potassique et au maltitol liquide","OXOMEMAZINE BENTA SANS SUCRE 0,33 mg/ml, solution buvable édulcorée à lacésulfame potassique","OXOMEMAZINE BIOGARAN 0,33 mg/mL SANS SUCRE, solution buvable édulcorée à l'acésulfame potassique","OXOMEMAZINE BIOGARAN 0,33 mg/mL, sirop","OXOMEMAZINE CRISTERS 0,33 mg/ml SANS SUCRE, solution buvable édulcorée à lacésulfame potassique en flacon","OXOMEMAZINE EG 0,33 mg/ml SANS SUCRE, solution buvable édulcorée à l'acésulfame potassique","OXOMEMAZINE EG 0,33 mg/ml, sirop","OXOMEMAZINE SANDOZ 0,33 mg/ml SANS SUCRE, solution buvable édulcorée à l'acésulfame potassique","OXOMEMAZINE SANDOZ 0,33 mg/ml, sirop","OXOMEMAZINE TEVA 0,33 mg/ml SANS SUCRE, solution buvable édulcorée à l'acésulfame potassique","OXOMEMAZINE TEVA 0,33 mg/ml, sirop","OXOMEMAZINE VIATRIS 0,33 mg/mL SANS SUCRE, solution buvable édulcorée à l'acésulfame potassique"],"n":17,"v":["orale"],"a":[],"smr":["Faible","24/09/2025","Le service médical rendu par OXOMEMAZINE BENTA SANS SUCRE 0,33 mg/mL, solution buvable édulcorée à l'acésulfame potassique (oxomémazine), est faible dans l’indication de l'AMM. ;"]},{"k":"OXYDE DE ALUMINIUM","st":[["ALUMINIUM"]],"br":["ROCGEL"],"sp":["ROCGEL 1,2 g, suspension buvable en sachet-dose"],"n":1,"v":["orale"],"a":[],"smr":["Faible","18/12/2013","Le service médical rendu par ROCGEL reste faible dans l’indication de l’AMM. ;"]},{"k":"OXYMETAZOLINE","st":[["OXYMETAZOLINE"]],"br":["PERNAZENE"],"sp":["PERNAZENE 0,05 POUR CENT, solution pour pulvérisation nasale"],"n":1,"v":["nasale"],"a":[],"smr":["Faible","23/09/2015","Le service médical rendu par PERNAZENE 0,05 %, solution pour pulvérisation nasale reste faible dans l’indication de l’AMM. ;"]},{"k":"PENTOSANE POLYSULFATE SODIQUE","st":[["PENTOSANE","POLYSULFATE"]],"br":["ELMIRON"],"sp":["ELMIRON 100 mg, gélule"],"n":1,"v":["orale"],"a":[],"smr":["Faible","31/01/2018","Le service médical rendu par ELMIRON 100 mg, gélule est faible dans l’indication de l’AMM. ;"]},{"k":"PHLOROGLUCINOL","st":[["PHLOROGLUCINOL"]],"br":["SPASFON"],"sp":["PHLOROGLUCINOL ARROW 160 mg, comprimé orodispersible","PHLOROGLUCINOL ARROW 80 mg, comprimé orodispersible","PHLOROGLUCINOL BGR 80 mg, comprimé orodispersible","PHLOROGLUCINOL BIOGARAN 160 mg, comprimé orodispersible","PHLOROGLUCINOL CRISTERS 80 mg, comprimé orodispersible","PHLOROGLUCINOL EG 160 mg, comprimé orodispersible","PHLOROGLUCINOL EG 80 mg, comprimé orodispersible","PHLOROGLUCINOL TEVA 80 mg, comprimé orodispersible","PHLOROGLUCINOL VIATRIS 160 mg, comprimé orodispersible","PHLOROGLUCINOL VIATRIS 80 mg, comprimé orodispersible","PHLOROGLUCINOL ZENTIVA 160 mg, comprimé orodispersible","PHLOROGLUCINOL ZENTIVA 80 mg, comprimé orodispersible","SPASFON LYOC 160 mg, lyophilisat oral","SPASFON LYOC 80 mg, lyophilisat oral"],"n":14,"v":["orale","orale;sublinguale"],"a":[],"smr":["Faible","27/09/2017","Le service médical rendu par les spécialités SPASFON reste faible dans :<br>• le traitement symptomatique des douleurs liées aux troubles fonctionnels du tube digestif,<br>• le traitement des manifestations spasmodiques et douloureuses aiguës des voies…"]},{"k":"PHLOROGLUCINOL / PHLOROGLUCINOL (TRIMETHYL ETHER DU)","st":[["PHLOROGLUCINOL"],["PHLOROGLUCINOL"]],"br":["SPASFON"],"sp":["SPASFON, comprimé enrobé"],"n":1,"v":["orale"],"a":[],"smr":["Faible","27/09/2017","Le service médical rendu par les spécialités SPASFON reste faible dans :<br>• le traitement symptomatique des douleurs liées aux troubles fonctionnels du tube digestif,<br>• le traitement des manifestations spasmodiques et douloureuses aiguës des voies…"]},{"k":"PHLOROGLUCINOL / SIMETICONE","st":[["PHLOROGLUCINOL"],["SIMETICONE"]],"br":["METEOXANE"],"sp":["METEOXANE, gélule"],"n":1,"v":["orale"],"a":[],"smr":["Faible","22/11/2017","Le service médical rendu par METEOXANE reste faible dans l’indication de l’AMM. ;"]},{"k":"PHLOROGLUCINOL / TRIMETHYLPHLOROGLUCINOL","st":[["PHLOROGLUCINOL"],["TRIMETHYLPHLOROGLUCINOL"]],"br":["SPASFON"],"sp":["SPASFON, solution injectable en ampoule","SPASFON, suppositoire"],"n":2,"v":["intramusculaire;intraveineuse","rectale"],"a":[],"smr":["Faible","05/12/2018","le service médical rendu par SPASFON solution injectable est faible dans les indications suivantes : <br>• Traitement symptomatique des douleurs aiguës liées aux troubles fonctionnels du tube digestif <br>• Traitement des manifestations spasmodiques et…"]},{"k":"PIRACETAM","st":[["PIRACETAM"]],"br":["NOOTROPYL"],"sp":["NOOTROPYL 20 %, solution buvable"],"n":1,"v":["orale"],"a":[],"smr":["Faible","19/04/2017","Le service médical rendu par NOOTROPYL 20%, solution buvable reste faible dans l’indication AMM « chez l’adulte, myoclonies d’origine corticale ». ;"]},{"k":"PRIMIDONE","st":[["PRIMIDONE"]],"br":["MYSOLINE"],"sp":["MYSOLINE 250 mg, comprimé sécable"],"n":1,"v":["orale"],"a":[],"smr":["Faible","07/12/2016","Le service médical rendu par MYSOLINE, comprimé sécable reste faible dans les indications de l’AMM. ;"]},{"k":"RIVAROXABAN","st":[["RIVAROXABAN"]],"br":["XARELTO"],"sp":["RIVAROXABAN VIATRIS 2,5 mg, comprimé pelliculé","RIVAROXABAN ZENTIVA 2,5 mg, comprimé pelliculé","XARELTO 2,5 mg, comprimé pelliculé"],"n":3,"v":["orale"],"a":["65%"],"smr":["Faible","21/09/2022","Le service médical rendu par XARELTO 2,5 mg (rivaroxaban), en association avec l’acide acétylsalicylique (AAS), pour la prévention des événements athérothrombotiques chez les patients adultes présentant une maladie coronarienne (MC) ou une maladie…"]},{"k":"SAXAGLIPTINE","st":[["SAXAGLIPTINE"]],"br":["ONGLYZA"],"sp":["ONGLYZA 5 mg, comprimé pelliculé","SAXAGLIPTINE ARROW 5 mg, comprimé pelliculé","SAXAGLIPTINE BIOGARAN 5 mg, comprimé pelliculé"],"n":3,"v":["orale"],"a":[],"smr":["Faible","21/07/2021","Le service médical rendu par ONGLYZA (saxagliptine) est FAIBLE dans le traitement des adultes atteints de diabète de type 2 insuffisamment contrôlé par une monothérapie par la metformine ou un sulfamide hypoglycémiant, en complément du régime alimentaire…"]},{"k":"SULFADIAZINE ARGENTIQUE","st":[["SULFADIAZINE"]],"br":["FLAMMAZINE"],"sp":["FLAMMAZINE, crème"],"n":1,"v":["cutanée"],"a":[],"smr":["Faible","21/04/2021","Le service médical rendu par FLAMMAZINE, crème (sulfadiazine argentique) est faible dans la nouvelle indication de l’AMM. ;"]},{"k":"TACROLIMUS","st":[["TACROLIMUS"]],"br":["PROTOPIC","TAKROZEM"],"sp":["PROTOPIC 0,03 %, pommade","PROTOPIC 0,1 %, pommade","TAKROZEM 0,1 %, pommade"],"n":3,"v":["cutanée"],"a":["100%"],"smr":["Faible","20/07/2022","Le service médical rendu par PROTOPIC 0,03 % et 0,1 % (tacrolimus monohydrate), pommade, dans le traitement des poussées de la dermatite atopique de l’adulte, de l’adolescent (à partir de 16 ans) en cas de <br>réponse inadéquate ou d’intolérance aux…"]},{"k":"TOLCAPONE","st":[["TOLCAPONE"]],"br":["TASMAR"],"sp":["TASMAR 100 mg, comprimé pelliculé"],"n":1,"v":["orale"],"a":[],"smr":["Faible","20/01/2016","Le service médical rendu par TASMAR reste faible dans l’indication de l’AMM. ;"]},{"k":"TRIMEBUTINE","st":[["TRIMEBUTINE"]],"br":["DEBRIDAT"],"sp":["DEBRIDAT 100 mg, comprimé pelliculé","DEBRIDAT 200 mg, comprimé pelliculé","TRIMEBUTINE ALMUS 100 mg, comprimé","TRIMEBUTINE ALMUS 200 mg, comprimé","TRIMEBUTINE ARROW 200 mg, comprimé","TRIMEBUTINE ARROW GENERIQUES 100 mg, comprimé","TRIMEBUTINE BIOGARAN 100 mg, comprimé","TRIMEBUTINE BIOGARAN 200 mg, comprimé","TRIMEBUTINE CRISTERS 200 mg, comprimé","TRIMEBUTINE EG 100 mg, comprimé","TRIMEBUTINE EG 200 mg, comprimé","TRIMEBUTINE EVOLUGEN 200 mg, comprimé","TRIMEBUTINE MEDISOL 50 mg/5 mL, solution injectable","TRIMEBUTINE PFIZER 100 mg, comprimé pelliculé"],"n":25,"v":["intramusculaire;intraveineuse","orale"],"a":[],"smr":["Faible","19/04/2023","Le service médical rendu par TRIMEBUTINE MEDISOL (trimébutine) est faible dans l’indication de l’AMM. ;"]},{"k":"VILDAGLIPTINE","st":[["VILDAGLIPTINE"]],"br":["GALVUS"],"sp":["GALVUS 50 mg, comprimé","VILDAGLIPTINE ACCORD 50 mg, comprimé","VILDAGLIPTINE ARROW 50 mg, comprimé","VILDAGLIPTINE BIOGARAN 50 mg, comprimé","VILDAGLIPTINE EG 50 mg, comprimé","VILDAGLIPTINE SANDOZ 50 mg, comprimé","VILDAGLIPTINE TEVA 50 mg, comprimé","VILDAGLIPTINE VIATRIS 50 mg, comprimé","VILDAGLIPTINE ZENTIVA 50 mg, comprimé","VILDAGLIPTINE ZYDUS 50 mg, comprimé"],"n":10,"v":["orale"],"a":[],"smr":["Faible","21/07/2021","Le service médical rendu par GALVUS (vildagliptine) est : <br>Faible uniquement dans les indications :<br>o en bithérapie en association avec la metformine, <br>o en bithérapie en association avec un sulfamide hypoglycémiant, <br>o en trithérapie en…"]},{"k":"ZOLPIDEM","st":[["ZOLPIDEM"]],"br":["STILNOX"],"sp":["STILNOX 10 mg, comprimé pelliculé sécable","ZOLPIDEM ALMUS 10 mg, comprimé pelliculé sécable","ZOLPIDEM ARROW 10 mg, comprimé pelliculé sécable","ZOLPIDEM BIOGARAN 10 mg, comprimé pelliculé sécable","ZOLPIDEM CRISTERS 10 mg, comprimé pelliculé sécable","ZOLPIDEM EG 10 mg, comprimé pelliculé sécable","ZOLPIDEM SANDOZ 10 mg, comprimé pelliculé sécable","ZOLPIDEM TEVA SANTE 10 mg, comprimé pelliculé sécable","ZOLPIDEM VIATRIS 10 mg, comprimé pelliculé sécable","ZOLPIDEM ZENTIVA 10 mg, comprimé pelliculé sécable","ZOLPIDEM ZYDUS 10 mg, comprimé pelliculé sécable"],"n":11,"v":["orale"],"a":[],"smr":["Faible","08/02/2017","Le service médical rendu de STILNOX et ses génériques est faible dans le traitement des « troubles sévères du sommeil dans les cas suivants : insomnie occasionnelle, insomnie transitoire ». ;"]},{"k":"ZOPICLONE","st":[["ZOPICLONE"]],"br":["IMOVANE"],"sp":["IMOVANE 7,5 mg, comprimé pelliculé sécable","ZOPICLONE ARROW LAB 3,75 mg, comprimé pelliculé","ZOPICLONE ARROW LAB 7,5 mg, comprimé pelliculé sécable","ZOPICLONE BIOGARAN 7,5 mg, comprimé pelliculé sécable","ZOPICLONE CRISTERS PHARMA 7,5 mg, comprimé pelliculé sécable","ZOPICLONE EG 7,5 mg, comprimé pelliculé sécable","ZOPICLONE EVOLUGEN 7,5 mg, comprimé pelliculé sécable","ZOPICLONE SANDOZ 7,5 mg, comprimé pelliculé sécable","ZOPICLONE TEVA SANTE 7,5 mg, comprimé pelliculé sécable","ZOPICLONE VIATRIS 7,5 mg, comprimé pelliculé sécable","ZOPICLONE ZENTIVA 7,5 mg, comprimé pelliculé sécable","ZOPICLONE ZYDUS 7,5 mg, comprimé pelliculé sécable"],"n":12,"v":["orale"],"a":[],"smr":["Faible","15/05/2019","Le service médical rendu par ZOPICLONE ARROW LAB 7,5 mg, comprimé pelliculé sécable est faible dans l’indication de l’AMM. ;"]}];
+const MX_ROUTES_ORALES = /orale|sublinguale|buccale/i;
+function mxNorm(s){ return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase(); }
+function mxTokens(s){ return new Set(mxNorm(s).match(/[A-Z0-9]+/g) || []); }
+function mxMol(row){ return String(row.pa).split(" (")[0].split(/\s(?=\d)/)[0].replace(/\s+/g, " ").trim(); }
+
+/* REMB15 : groupes concernés par une ligne de la liste des écrasables (voie orale). */
+function rembForRow(row){
+  const t = mxTokens(row.pa);
+  return REMB15.filter(g => g.v.some(v => MX_ROUTES_ORALES.test(v)) &&
+    (g.br.some(b => t.has(b)) || (g.st.length && g.st.every(list => list.some(w => t.has(w))))));
+}
+function rembMatchQuery(qn){
+  const Q = mxNorm(qn);
+  return REMB15.filter(g => mxNorm(g.k).includes(Q) || g.sp.some(n => mxNorm(n).includes(Q)) || g.br.some(b => b.includes(Q)));
+}
+function medsensForRow(row){
+  const mol = mxNorm(mxMol(row));
+  return MEDSENS_BDPM.find(m => mxNorm(m.m) === mol) || null;
+}
+function medsensMatchQuery(q){
+  const qn = normalizeMedsens(q);
+  const score = m => {
+    const dn = normalizeMedsens(m.m), bn = m.b.map(normalizeMedsens);
+    if(dn === qn || bn.includes(qn)) return 0;
+    if(dn.startsWith(qn) || bn.some(b => b.startsWith(qn))) return 1;
+    if(dn.includes(qn) || bn.some(b => b.includes(qn))) return 2;
+    return 9;
+  };
+  return MEDSENS_BDPM.map(m => [score(m), m]).filter(x => x[0] < 9).sort((a, b) => a[0] - b[0] || a[1].m.localeCompare(b[1].m)).map(x => x[1]);
+}
+
+/* Avis HUG (relayé par la colonne « autre source » de la liste OMéDIT) qui
+   contredit le verdict OMéDIT : affiché en clair, pas tranché à la place du médecin. */
+function medocHug(row){
+  const a = String(row.autreSrc || "");
+  if(!/HUG/i.test(a)) return null;
+  const says = /ouvrable/i.test(a) ? "ouvrable" : (/[ée]crasable/i.test(a) && !/non\s+[ée]crasable/i.test(a) ? "écrasable" : null);
+  if(!says) return null;
+  const k = medocVerdict(row.mod).k;
+  if(k === "ok" || k === "mix") return null;
+  const d = (a.match(/HUG\s*(\d{2}\/\d{4})/i) || [])[1] || "";
+  const noStudy = /pas d['’]?\s*[ée]tude|pas de donn[ée]es|absence de donn/i.test(String(row.labo || ""));
+  return { says, k, d, noStudy };
+}
+function medocHugHTML(h){
+  const om = h.k === "no" ? "ne pas écraser / ne pas ouvrir" : "pas d'avis tranché";
+  return `<div class="mx-div">
+    <p class="mx-div-t">⚖️ Avis divergents</p>
+    <div class="mx-div-row"><span class="mx-div-src">OMéDIT / SFPC</span><strong>${om}</strong></div>
+    <div class="mx-div-row"><span class="mx-div-src">HUG Genève${h.d ? " " + h.d : ""}</span><strong>${h.says}</strong></div>
+    <p class="mx-div-n">${h.noStudy ? "Ici, le « ne pas écraser » de la liste française repose sur l'absence d'étude du laboratoire, non sur une contre-indication galénique démontrée. " : ""}En cas de trouble de la déglutition sans alternative galénique : décision au cas par cas avec le pharmacien, tracée dans le dossier.</p>
+  </div>`;
+}
+
+function mxPrescHTML(m){
+  if(!m) return "";
+  const q = m.p[0] || null;
+  if(!q) return "";
+  const multi = m.p.length > 1;
+  const chip = (txt, col) => { const c = colorVars(col); return `<span class="mx-chip" style="--pill:${c.pill};--pillbg:${c.pillbg}">${txt}</span>`; };
+  const stCol = q.s === "Stupéfiant" ? "red" : (q.s === "Liste I" ? "amber" : (q.s === "Liste II" ? "teal" : "slate"));
+  return `<div class="mx-block mx-presc">
+    <p class="mx-block-t">📋 Prescrire</p>
+    <div class="mx-chips">${chip(escapeHtml(q.s), stCol)}${chip("⏱ " + escapeHtml(q.d), q.l ? "amber" : "slate")}${chip(q.sec ? "🔒 Ordonnance sécurisée" : "Ordonnance simple", q.sec ? "red" : "teal")}</div>
+    ${q.c.length ? `<ul class="mx-conds">${q.c.map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>` : ""}
+    ${m.note ? `<p class="mx-note">💡 ${escapeHtml(m.note)}</p>` : ""}
+    ${multi || m.h ? `<details class="medoc-more"><summary>${multi ? "Conditions différentes selon la spécialité ou le dosage" : "Détail"}</summary>${medsensCardHTML(m)}</details>` : ""}
+  </div>`;
+}
+function mxRembHTML(groups){
+  if(!groups.length) return "";
+  return groups.map(g => {
+    const tout = !g.a.length;
+    const list = g.sp.map(escapeHtml).join(" · ") + (g.n > g.sp.length ? ` (+ ${g.n - g.sp.length})` : "");
+    return `<div class="mx-block mx-remb ${tout ? "mx-remb-all" : "mx-remb-part"}">
+      <p class="mx-block-t">💶 Rembourser — ${tout ? "remboursé à 15 % (SMR faible)" : "certaines spécialités à 15 % (SMR faible)"}</p>
+      <p class="mx-remb-alert">${tout ? "Depuis le <strong>1er octobre 2026</strong>, plus de prise en charge à 100 % au titre de l'ALD : <strong>15 % pour tous</strong>, patients en ALD compris." : `Depuis le <strong>1er octobre 2026</strong>, les spécialités ci-dessous ne sont plus prises en charge à 100 % au titre de l'ALD (15 %) ; les autres de la même molécule restent remboursées à ${g.a.map(escapeHtml).join(" / ")}.`}</p>
+      <details class="medoc-more"${tout ? "" : " open"}><summary>${g.n} spécialité${g.n > 1 ? "s" : ""} concernée${g.n > 1 ? "s" : ""}</summary><p class="mx-sp">${list}</p></details>
+      ${g.smr ? `<p class="mx-smr">Avis HAS ${escapeHtml(g.smr[1])} : SMR ${escapeHtml(g.smr[0].toLowerCase())}${g.smr[2] ? ` — « ${escapeHtml(g.smr[2])} »` : ""}</p>` : ""}
+    </div>`;
+  }).join("");
+}
+function rembCardHTML(g){
+  return `<div class="medoc-card mx-card-remb">
+    <div class="medoc-card-in">
+      <div class="medoc-head"><div class="medoc-name">${escapeHtml(g.k.charAt(0) + g.k.slice(1).toLowerCase())}${g.br.length ? `<span class="medoc-brand">${escapeHtml(g.br.map(b => b.charAt(0) + b.slice(1).toLowerCase()).join(", "))}</span>` : ""}</div></div>
+      <div class="medoc-meta">${escapeHtml(g.v.join(" · "))}</div>
+      ${mxRembHTML([g])}
+    </div>
+  </div>`;
+}
+function mxExtrasHTML(row){
+  return mxPrescHTML(medsensForRow(row)) + mxRembHTML(rembForRow(row));
+}
+/* fin Médicament express */
+
 /* Rubriques marquées « wip » : grand bandeau d'alerte en tête de page, dans la
    rubrique comme dans ses outils et documents. Appelé après chaque rendu, y
    compris les rendus internes des outils (voir les enveloppes plus bas). */
@@ -17000,7 +17161,7 @@ function render(){
   }else if(state.activeDoc === "chariot-urgence" && state.explorerMode){
     renderChariotPanel();
   }else if(state.activeDoc === "medicaments-sensibles" && state.explorerMode){
-    renderMedsensPanel();
+    state.activeDoc = null; state.explorerMode = false; state.activeId = "medicaments-ecrasables"; render(); return;
   }else if(state.activeDoc === "certif-handisport" && state.explorerMode){
     renderHandisportPanel();
   }else if(state.activeDoc === "contention-outil" && state.explorerMode){
