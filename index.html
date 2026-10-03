@@ -2798,6 +2798,26 @@
   .calc-reset-bar{display:flex; justify-content:flex-end; margin:-4px 0 8px;}
   .fill-box-fields textarea, .zip-fill-fields textarea{font-family:inherit; font-size:14px; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:8px 11px; background:var(--bg); resize:vertical; width:100%; box-sizing:border-box; line-height:1.35;}
   .fill-box-fields textarea:focus, .zip-fill-fields textarea:focus{outline:2px solid var(--blue-light); outline-offset:1px;}
+  .medoc-brand{font-size:15px !important; font-weight:800 !important; color:var(--blue) !important; background:var(--sky-bg) !important; border:1.5px solid #BFD6F5; padding:2px 11px !important; margin-left:10px !important; letter-spacing:.01em;}
+  .mx-gal{display:flex; align-items:center; gap:10px; margin:8px 0 2px; padding:7px 10px; background:var(--slate-bg); border-radius:10px;}
+  .mx-gal-ic{width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center; background:#fff; border-radius:9px; flex:none; box-shadow:0 1px 2px rgba(11,37,69,.12);}
+  .mx-gal-tx{display:flex; flex-direction:column; line-height:1.25;} .mx-gal-tx strong{font-size:14.5px; color:var(--navy);} .mx-gal-tx em{font-style:normal; font-size:12px; color:var(--text-muted);}
+  .mx-dsec{margin:8px 0 2px; padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:var(--card-bg);}
+  .mx-dsec-t{display:flex; align-items:center; gap:6px; margin:0 0 6px; font-weight:800; font-size:12.5px; color:var(--navy); text-transform:uppercase; letter-spacing:.04em;}
+  .mx-dsec-ic svg{width:18px; height:18px; display:block;}
+  .mx-dsec-list{display:flex; flex-wrap:wrap; gap:6px;}
+  .mx-dsec-c{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; padding:4px 10px; border-radius:999px; border:1.5px solid;}
+  .mx-dsec-c b{font-weight:800; font-size:13px;}
+  .mx-dsec-ok{color:#1B6B4A; background:var(--emerald-bg); border-color:#9FD3B8;}
+  .mx-dsec-no{color:#9B2C22; background:var(--red-bg); border-color:#EDB5AE;}
+  .mx-dsec-mix{color:#8A5A0B; background:var(--amber-bg); border-color:#EAC77E;}
+  .mx-dsec-n{margin:6px 0 0; font-size:11px; color:var(--text-muted); line-height:1.4;}
+  .mx-fbar{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:10px 0 4px;}
+  .mx-ftoggle{font:inherit; font-size:13px; font-weight:700; color:var(--navy); background:var(--card-bg); border:1px solid var(--border); border-radius:999px; padding:6px 14px; cursor:pointer;}
+  .mx-ftoggle:hover, .mx-ftoggle-on{background:var(--sky-bg); border-color:#BFD6F5;}
+  .mx-fact{display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:700; background:var(--sky-bg); color:var(--blue); border-radius:999px; padding:5px 6px 5px 12px;}
+  .mx-fact i{width:8px; height:8px; border-radius:50%;} .mx-fact b{color:var(--text-muted); font-size:12px;}
+  .mx-fact button{border:none; background:#fff; color:var(--text-muted); width:22px; height:22px; border-radius:50%; cursor:pointer; font-size:12px;}
   /* fin Corrections 02/10/2026 */
   /* ---------- Calculateurs : bulles de contexte ---------- */
   .calc-ctx-lead{font-size:14.5px; font-weight:700; color:var(--text); margin:20px 0 10px;}
@@ -5127,8 +5147,8 @@ function renderEmbedPage(id){
 /* Coordonnées (en points PDF, origine en bas à gauche) des zones de saisie,
    identiques sur tous les protocoles AS/Éduc & IDE (même gabarit). */
 const FILL_ZONES = {
-  etablissement: { x: 48,  y: 783, maxWidth: 205, size: 10, lineHeight: 12 },   // encadré "Établissement" : nom + adresse (3 à 4 lignes)
-  medecin:       { x: 320, y: 783, maxWidth: 205, size: 10, lineHeight: 12 },   // encadré "Médecin" : nom + adresse (3 à 4 lignes)
+  etablissement: { x: 55,  y: 773, maxWidth: 200, size: 10, lineHeight: 12 },   // encadré "Établissement" : nom + adresse (3 à 4 lignes)
+  medecin:       { x: 322, y: 773, maxWidth: 200, size: 10, lineHeight: 12 },   // encadré "Médecin" : nom + adresse (3 à 4 lignes)
   lieu:          { x: 95,  y: 127, size: 9.5 },  // au-dessus des pointillés "Fait à ...................."
   jour:          { x: 291, y: 127, size: 10 },   // au-dessus des pointillés "Le : .... /"
   mois:          { x: 335, y: 127, size: 10 },   // au-dessus des pointillés " .... /"
@@ -5146,7 +5166,7 @@ function isFillableDoc(id, doc){
 /* Encadrés « Établissement » et « Médecin » : nom en gras puis adresse ; la taille
    diminue (10 → 7,5 pt) pour que tout tienne dans le cadre (3 ou 4 lignes). */
 function fillBoxText(page, text, x0, font, bold, color){
-  const W = 205, TOP = 783, BOTTOM = 750;
+  const W = 200, TOP = 773, BOTTOM = 748;
   const raw = String(text || "").split(/\n+/).map(l => l.trim()).filter(Boolean);
   if(!raw.length) return;
   for(const size of [10, 9.5, 9, 8.5, 8, 7.5]){
@@ -5328,6 +5348,7 @@ function bdpmCardHTML(entry){
           <span class="medoc-badge" style="--pill:${c.pill};--pillbg:${c.pillbg}">${escapeHtml(lg.label)}</span>
         </div>
       </div>
+      ${mxGalHTML(forme, "")}
       ${doses.length ? `<div class="medoc-row"><span class="medoc-label">Dosages commercialisés</span><div>${escapeHtml(doses.join(" · "))}</div></div>` : ""}
       <div class="medoc-row"><span class="medoc-label">Sécabilité</span><div>${escapeHtml(lg.label)} — ${escapeHtml(sec.detail)}</div></div>
       <div class="medoc-row"><span class="medoc-label">Écrasement</span><div>${r
@@ -5456,6 +5477,8 @@ const MEDOC_FILTERS = [
   { id: "res", g: "p", kind: "medsens", col: "var(--teal)", label: "Prescription restreinte", test: m => medsensFlags(m).res },
   { id: "r15", g: "r", kind: "remb", col: "var(--amber)", label: "Remboursés à 15 % (SMR faible)", test: () => true }
 ];
+function mxToggleFilters(){ state.mxFOpen = !state.mxFOpen; renderMedocResults(); }
+window.mxToggleFilters = mxToggleFilters;
 const MX_GROUPS = [["e", "Écraser", "liste OMéDIT / SFPC"], ["p", "Prescrire", "base publique des médicaments"], ["r", "Rembourser", "depuis le 1er octobre 2026"]];
 function mxNewsHTML(){
   return `<div class="mx-info"><strong>Depuis le 1er octobre 2026</strong>, les médicaments remboursés à 15 % (service médical rendu faible) ne sont plus pris en charge à 100 % au titre de l'ALD : 15 % pour tous, patients en ALD compris. Les autres soins liés à l'ALD restent à 100 %.<span class="mx-info-src">Décret n° 2026-285 du 16/04/2026 ; Assurance Maladie ; taux par présentation : base publique des médicaments du ${REMB15_MAJ}.</span></div>`;
@@ -5464,6 +5487,58 @@ function setMedocQuick(q){ state.medocQuery = q; const el = document.getElementB
 function setMedocFilter(id){ state.medocFilter = state.medocFilter === id ? null : id; renderMedocResults(); }
 function clearMedocSearch(){ state.medocQuery = ""; state.medocFilter = null; const el = document.getElementById("medocSearch"); if(el){ el.value = ""; el.focus(); } renderMedocResults(); }
 window.setMedocQuick = setMedocQuick; window.setMedocFilter = setMedocFilter; window.clearMedocSearch = clearMedocSearch;
+
+/* Galénique : pictogramme + libellé en clair (LP, GR, LM développés). */
+const MX_GAL_SVG = {
+  comprime: '<svg viewBox="0 0 32 32" width="30" height="30"><ellipse cx="16" cy="18" rx="12" ry="7" fill="#C9D7EA"/><ellipse cx="16" cy="15" rx="12" ry="7" fill="#fff" stroke="#3B6FB6" stroke-width="1.8"/></svg>',
+  secable: '<svg viewBox="0 0 32 32" width="30" height="30"><ellipse cx="16" cy="18" rx="12" ry="7" fill="#C9D7EA"/><ellipse cx="16" cy="15" rx="12" ry="7" fill="#fff" stroke="#3B6FB6" stroke-width="1.8"/><line x1="16" y1="8.6" x2="16" y2="21.4" stroke="#3B6FB6" stroke-width="1.8"/></svg>',
+  gelule: '<svg viewBox="0 0 32 32" width="30" height="30"><g transform="rotate(-35 16 16)"><rect x="4" y="10.5" width="24" height="11" rx="5.5" fill="#fff" stroke="#3B6FB6" stroke-width="1.8"/><path d="M16 10.5h6.5a5.5 5.5 0 0 1 0 11H16z" fill="#E8735A" stroke="#3B6FB6" stroke-width="1.8"/></g></svg>',
+  capsule: '<svg viewBox="0 0 32 32" width="30" height="30"><ellipse cx="16" cy="16" rx="11" ry="7.5" fill="#F6C453" stroke="#B7791F" stroke-width="1.8"/><ellipse cx="12.5" cy="13.5" rx="3" ry="1.5" fill="#fff" opacity=".7"/></svg>',
+  sachet: '<svg viewBox="0 0 32 32" width="30" height="30"><path d="M8 5h16l-1 3 1 3v16H8V11l1-3z" fill="#fff" stroke="#3B6FB6" stroke-width="1.8" stroke-linejoin="round"/><circle cx="13" cy="17" r="1.4" fill="#3B6FB6"/><circle cx="18" cy="15" r="1.4" fill="#3B6FB6"/><circle cx="16.5" cy="20.5" r="1.4" fill="#3B6FB6"/><circle cx="20" cy="21" r="1.2" fill="#3B6FB6"/></svg>',
+  flacon: '<svg viewBox="0 0 32 32" width="30" height="30"><rect x="12.5" y="3.5" width="7" height="5" rx="1" fill="#3B6FB6"/><path d="M11 9h10l1.5 3v15.5h-13V12z" fill="#fff" stroke="#3B6FB6" stroke-width="1.8" stroke-linejoin="round"/><path d="M10.5 17h11v10.5h-11z" fill="#9CC3EE"/></svg>'
+};
+function mxGalKind(forme){
+  const f = String(forme || "").toLowerCase();
+  if(/gélule|gelule/.test(f)) return "gelule";
+  if(/capsule/.test(f)) return "capsule";
+  if(/granul|sachet|poudre/.test(f)) return "sachet";
+  if(/solution|sirop|suspension|buvable|goutte/.test(f)) return "flacon";
+  return /sécable/.test(f) ? "secable" : "comprime";
+}
+function mxGalLabel(forme){
+  return String(forme || "").replace(/\bLP\b/g, "à libération prolongée").replace(/\bGR\b/g, "gastro-résistant(e)").replace(/\bLM\b/g, "à libération modifiée");
+}
+function mxGalHTML(forme, extra){
+  if(!forme) return extra ? `<div class="medoc-meta">${escapeHtml(extra)}</div>` : "";
+  return `<div class="mx-gal"><span class="mx-gal-ic">${MX_GAL_SVG[mxGalKind(forme)]}</span><span class="mx-gal-tx"><strong>${escapeHtml(mxGalLabel(forme))}</strong>${extra ? `<em>${escapeHtml(extra)}</em>` : ""}</span></div>`;
+}
+/* Sécabilité dosage par dosage, d'après la base publique des médicaments
+   (formes « comprimé » des spécialités commercialisées). */
+function mxDoseSecHTML(pa, forme){
+  if(!/comprim/i.test(forme || "")) return "";
+  const raw = BDPM_SEC.m[pa];
+  if(!raw) return "";
+  const m = new Map();
+  raw.forEach(([d, fi]) => {
+    const f = BDPM_SEC.f[fi] || "";
+    if(!/comprim/i.test(f)) return;
+    const k = d || "dosage non précisé";
+    if(!m.has(k)) m.set(k, { s: 0, n: 0 });
+    m.get(k)[/sécable/i.test(f) ? "s" : "n"]++;
+  });
+  if(!m.size) return "";
+  const num = x => parseFloat(String(x).replace(",", ".")) || 0;
+  const list = [...m.entries()].sort((a, b) => num(a[0]) - num(b[0]));
+  const anyMix = list.some(([, o]) => o.s && o.n);
+  return `<div class="mx-dsec"><p class="mx-dsec-t">${ICO_SVG.secable ? `<span class="mx-dsec-ic">${ICO_SVG.secable}</span>` : ""}Sécabilité par dosage</p>
+    <div class="mx-dsec-list">${list.map(([d, o]) => {
+      const k = o.s && !o.n ? "ok" : (!o.s ? "no" : "mix");
+      const t = k === "ok" ? "sécable" : k === "no" ? "non sécable" : "selon la spécialité";
+      return `<span class="mx-dsec-c mx-dsec-${k}"><b>${escapeHtml(d)}</b>${k === "ok" ? "✂ " : ""}${t}</span>`;
+    }).join("")}</div>
+    <p class="mx-dsec-n">${anyMix ? "« Selon la spécialité » : un même dosage existe en version sécable et non sécable selon le laboratoire — vérifier la boîte. " : ""}Base publique des médicaments, spécialités commercialisées (${BDPM_SEC.maj}).</p>
+  </div>`;
+}
 
 function medocCardHTML(row){
   const v = medocVerdict(row.mod, row.meth, row.alt && !/^Non\b/i.test(row.alt.trim()));
@@ -5495,7 +5570,8 @@ function medocCardHTML(row){
             ${row.gout === "G" ? `<span class="medoc-badge medoc-badge-plain">👅 Goût désagréable</span>` : ""}
           </div>
         </div>
-        <div class="medoc-meta">${[row.forme, row.atc3].filter(Boolean).map(escapeHtml).join(" · ")}</div>
+        ${mxGalHTML(row.forme, row.atc3)}
+        ${mxDoseSecHTML(row.pa, row.forme)}
         ${row.meth ? `<div class="medoc-how"><span class="medoc-how-l">🥄 Comment l'administrer</span><div class="medoc-chips">${methodeChipsHTML(row.meth)}</div></div>` : ""}
         ${hasAlt ? `<div class="medoc-alt"><span class="medoc-alt-l">💡 Alternative galénique</span><div>${escapeHtml(row.alt).replace(/\n/g, "<br>")}</div></div>` : ""}
         ${mxExtrasHTML(row)}
@@ -5520,7 +5596,9 @@ function renderMedocResults(){
   const rbBase = q ? rembMatchQuery(q) : REMB15;
   const count = x => x.kind === "ecr" ? base.filter(x.test).length : x.kind === "medsens" ? msBase.filter(x.test).length : rbBase.length;
   if(fEl){
-    fEl.innerHTML = `<div class="mx-fcard">${MX_GROUPS.map(([g, t, st]) => `<div class="mx-fcol"><p class="mx-fcol-t">${t}<span>${st}</span></p>${MEDOC_FILTERS.filter(x => x.g === g).map(x => `<button type="button" class="mx-fopt ${f === x.id ? "mx-fopt-on" : ""}" onclick="setMedocFilter('${x.id}')"><i style="background:${x.col}"></i><span>${x.label}</span><b>${count(x)}</b></button>`).join("")}</div>`).join("")}</div>`;
+    const act = f ? MEDOC_FILTERS.find(x => x.id === f) : null;
+    const open = !!state.mxFOpen;
+    fEl.innerHTML = `<div class="mx-fbar"><button type="button" class="mx-ftoggle ${open ? "mx-ftoggle-on" : ""}" onclick="mxToggleFilters()" aria-expanded="${open}">${open ? "▾" : "▸"} Filtrer : Écraser · Prescrire · Rembourser</button>${act ? `<span class="mx-fact"><i style="background:${act.col}"></i>${act.label} <b>${count(act)}</b><button type="button" onclick="setMedocFilter('${act.id}')" aria-label="Retirer le filtre" title="Retirer le filtre">✕</button></span>` : ""}</div>` + (!open ? "" : `<div class="mx-fcard">${MX_GROUPS.map(([g, t, st]) => `<div class="mx-fcol"><p class="mx-fcol-t">${t}<span>${st}</span></p>${MEDOC_FILTERS.filter(x => x.g === g).map(x => `<button type="button" class="mx-fopt ${f === x.id ? "mx-fopt-on" : ""}" onclick="state.mxFOpen = false; setMedocFilter('${x.id}')"><i style="background:${x.col}"></i><span>${x.label}</span><b>${count(x)}</b></button>`).join("")}</div>`).join("")}</div>`);
   }
 
   if(!q && !f){
