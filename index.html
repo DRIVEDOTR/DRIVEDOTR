@@ -13396,6 +13396,24 @@ async function tcPdf(full){
   }
 }
 
+/* Noms de fichiers : lettres sans accents (é→e, ç→c, œ→oe, æ→ae, ß→ss), pour tous les téléchargements
+   (liens a[download] et noms des fichiers dans les ZIP) — évite les noms cassés selon le navigateur ou le système */
+function asciiFileName(n){
+  return String(n || "").replace(/[œŒæÆß]/g, c => ({ "œ": "oe", "Œ": "OE", "æ": "ae", "Æ": "AE", "ß": "ss" })[c])
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’‘]/g, "'").replace(/[«»]/g, "").replace(/[^\x20-\x7E]/g, "").replace(/\s+/g, " ").trim();
+}
+document.addEventListener("click", e => {
+  const a = e.target && e.target.closest ? e.target.closest("a[download]") : null;
+  if(a && a.getAttribute("download")) a.setAttribute("download", asciiFileName(a.getAttribute("download")));
+}, true);
+(function patchZip(){
+  const Z = window.JSZip;
+  if(!Z || !Z.prototype || Z.prototype.__ascii) return;
+  const f = Z.prototype.file;
+  Z.prototype.file = function(name, data, o){ return (typeof name === "string" && arguments.length > 1) ? f.call(this, asciiFileName(name), data, o) : f.apply(this, arguments); };
+  Z.prototype.__ascii = true;
+})();
+/* fin noms de fichiers ASCII */
 function triggerDownload(blob, filename){
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
