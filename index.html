@@ -2882,6 +2882,11 @@
   .sig-card-act{display:flex; flex-wrap:wrap; align-items:center; gap:8px;}
   .sig-fn{flex:1; min-width:160px; font-weight:800; font-size:13.5px; color:var(--navy); overflow-wrap:anywhere;}
   @media (max-width:640px){ .sig-card{flex-direction:column;} .sig-card-row{grid-template-columns:1fr;} .sig-card-prev, .sig-card-prev img{width:100%;} }
+  .sig-toolbar{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:12px 0 4px; font-size:13.5px; color:var(--text-muted);}
+  .sig-toolbar strong{color:var(--navy);}
+  .sig-reset-btn{font:inherit; font-size:13.5px; font-weight:700; cursor:pointer; color:#D92D20; background:var(--card-bg); box-shadow:0 2px 8px rgba(217,45,32,.15); border:1.5px solid #F04438; border-radius:999px; padding:7px 16px; transition:background .15s, transform .15s;}
+  .sig-reset-btn:hover:not(:disabled){background:rgba(240,68,56,.16); transform:translateY(-1px);}
+  .sig-reset-btn:disabled{opacity:.4; cursor:default;}
   /* fin Signature CSS */
   /* ---------- Calculateurs : bulles de contexte ---------- */
   .calc-ctx-lead{font-size:14.5px; font-weight:700; color:var(--text); margin:20px 0 10px;}
@@ -18456,11 +18461,11 @@ const SIG_PROFILES = [
       pages.forEach((pg, i) => {
         const v = pg.lines.find(l => /Valid[ée]e num[ée]riquement/i.test(l.text));
         const ip = pg.lines.find(l => /Identification du prescripteur/i.test(l.text));
-        if(o.stampTop && ip) out.push({ page: i, kind: "stamp", box: { x: 34, y: ip.y - 75, w: 148, h: 46 }, align: "left" });
+        if(o.stampTop && ip) out.push({ page: i, kind: "stamp", box: { x: 34, y: ip.y - 75, w: 148, h: 46 }, align: "left", zone: "haut" });
         if(v){
           const b = v.y;
-          if(o.stampBottom) out.push({ page: i, kind: "stamp", box: { x: 372, y: b + 31, w: 120, h: 36 }, align: "left" });
-          if(o.sig) out.push({ page: i, kind: "sig", box: { x: o.stampBottom ? 440 : 400, y: b + 29, w: o.stampBottom ? 115 : 155, h: 42 }, align: "right" });
+          if(o.stampBottom) out.push({ page: i, kind: "stamp", box: { x: 372, y: b + 31, w: 120, h: 36 }, align: "left", zone: "bas" });
+          if(o.sig) out.push({ page: i, kind: "sig", box: { x: o.stampBottom ? 440 : 400, y: b + 29, w: o.stampBottom ? 115 : 155, h: 42 }, align: "right", zone: "bas" });
         }
       });
       if(!pages.some(pg => pg.lines.some(l => /Valid[ée]e num[ée]riquement/i.test(l.text)))) notes.push("repère « Validée numériquement » non trouvé");
@@ -18475,8 +18480,8 @@ const SIG_PROFILES = [
         const a = pg.lines.find(l => /Sign[ée]e dans\s*NET/i.test(l.text));
         if(!a) return;
         const s = a.y, R = a.xMax;
-        if(o.stamp) out.push({ page: i, kind: "stamp", box: { x: R - 211, y: s - 68, w: 118, h: 39 }, align: "left" });
-        if(o.sig) out.push({ page: i, kind: "sig", box: { x: o.stamp ? R - 120 : R - 160, y: s - 70, w: o.stamp ? 110 : 150, h: 43 }, align: "right" });
+        if(o.stamp) out.push({ page: i, kind: "stamp", box: { x: R - 211, y: s - 68, w: 118, h: 39 }, align: "left", zone: "bas" });
+        if(o.sig) out.push({ page: i, kind: "sig", box: { x: o.stamp ? R - 120 : R - 160, y: s - 70, w: o.stamp ? 110 : 150, h: 43 }, align: "right", zone: "bas" });
       });
       if(!out.length && (o.stamp || o.sig)) notes.push("repère « Signée dans NETSoins / NETVie » non trouvé");
       return { out, notes };
@@ -18615,6 +18620,8 @@ function sigDrop(ev){ ev.preventDefault(); ev.currentTarget.classList.remove("si
 function sigPick(input){ sigAddFiles(input.files); input.value = ""; }
 function sigRemove(id){ const S = sigS(); S.files = S.files.filter(f => f.id !== id); renderSignPanel(); }
 function sigClear(){ sigS().files = []; renderSignPanel(); }
+/* Réinitialiser : on vide toutes les ordonnances chargées et on revient aux réglages par défaut */
+function sigReset(){ state.sign = null; renderSignPanel(); const m = document.getElementById("sigMsg"); if(m) m.textContent = "C'est tout propre : dépose la série suivante."; }
 async function sigSetProfile(id){
   const S = sigS();
   S.profile = id;
@@ -18624,7 +18631,7 @@ async function sigSetProfile(id){
 async function sigSetFileProfile(fid, id){ const f = sigS().files.find(x => x.id === fid); if(!f) return; f.profile = id || null; await sigSignOne(f); renderSignPanel(); }
 async function sigSetOpt(pid, k, v){ sigS().opts[pid][k] = v; await sigSignAll(); }
 function sigSetName(fid, k, v){ const f = sigS().files.find(x => x.id === fid); if(!f) return; f[k] = v; const el = document.getElementById("sigFn" + fid); if(el) el.textContent = sigFileName(f); }
-window.sigDrop = sigDrop; window.sigPick = sigPick; window.sigRemove = sigRemove; window.sigClear = sigClear;
+window.sigDrop = sigDrop; window.sigPick = sigPick; window.sigRemove = sigRemove; window.sigClear = sigClear; window.sigReset = sigReset;
 window.sigSetProfile = sigSetProfile; window.sigSetFileProfile = sigSetFileProfile; window.sigSetOpt = sigSetOpt; window.sigSetName = sigSetName;
 
 function sigFileName(f){
@@ -18636,6 +18643,31 @@ function sigFileName(f){
 }
 
 /* ------------------------------------------------------------ signature */
+/* Image recadrée au plus près de l'encre (fond blanc rendu transparent, marges retirées) :
+   permet de doser exactement le chevauchement tampon / signature. */
+const SIG_TIGHT = {};
+const SIG_OVERLAP = 6;   // chevauchement visé entre le bord droit du tampon et la signature (pt)
+async function sigTight(dataUrl){
+  if(SIG_TIGHT[dataUrl]) return SIG_TIGHT[dataUrl];
+  const t = await signTransparent(dataUrl);
+  const img = new Image(); img.src = t;
+  await (img.decode ? img.decode() : new Promise((ok, ko) => { img.onload = ok; img.onerror = ko; }));
+  const W = img.naturalWidth, H = img.naturalHeight;
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+  const ctx = cv.getContext("2d"); ctx.drawImage(img, 0, 0);
+  const px = ctx.getImageData(0, 0, W, H).data;
+  let x0 = W, y0 = H, x1 = -1, y1 = -1;
+  for(let y = 0; y < H; y++) for(let x = 0; x < W; x++) if(px[(y * W + x) * 4 + 3] > 40){ if(x < x0) x0 = x; if(x > x1) x1 = x; if(y < y0) y0 = y; if(y > y1) y1 = y; }
+  if(x1 < 0) return (SIG_TIGHT[dataUrl] = t);
+  const pad = 2; x0 = Math.max(0, x0 - pad); y0 = Math.max(0, y0 - pad); x1 = Math.min(W - 1, x1 + pad); y1 = Math.min(H - 1, y1 + pad);
+  const c2 = document.createElement("canvas"); c2.width = x1 - x0 + 1; c2.height = y1 - y0 + 1;
+  c2.getContext("2d").drawImage(cv, x0, y0, c2.width, c2.height, 0, 0, c2.width, c2.height);
+  return (SIG_TIGHT[dataUrl] = c2.toDataURL("image/png"));
+}
+async function sigEmbed(pdfDoc, dataUrl){
+  try{ return await pdfDoc.embedPng(base64ToBytes((await sigTight(dataUrl)).split(",")[1])); }
+  catch(e){ console.warn(e); return signEmbedData(pdfDoc, dataUrl); }
+}
 async function sigSignOne(f){
   f.signed = null; f.preview = ""; f.zooms = []; f.notes = []; f.placed = 0;
   if(f.err || !f.an) return;
@@ -18648,14 +18680,22 @@ async function sigSignOne(f){
   const { PDFDocument } = PDFLib;
   const pdfDoc = await PDFDocument.load(f.bytes.slice(0));
   const img = {};
-  try{ if(p.signature) img.sig = await signEmbedData(pdfDoc, p.signature); }catch(e){ console.warn(e); }
-  try{ if(p.tampon) img.stamp = await signEmbedData(pdfDoc, p.tampon); }catch(e){ console.warn(e); }
+  try{ if(p.signature) img.sig = await sigEmbed(pdfDoc, p.signature); }catch(e){ console.warn(e); }
+  try{ if(p.tampon) img.stamp = await sigEmbed(pdfDoc, p.tampon); }catch(e){ console.warn(e); }
   const pages = pdfDoc.getPages();
-  // le tampon d'abord, la signature par-dessus (elle déborde un peu sur le tampon)
+  // le tampon d'abord ; la signature démarre juste au bord droit réel du tampon (léger chevauchement SIG_OVERLAP)
+  const drawn = {};
   out.sort((a, b) => (a.kind === "stamp" ? 0 : 1) - (b.kind === "stamp" ? 0 : 1)).forEach(pl => {
     const im = img[pl.kind], pg = pages[pl.page];
     if(!im || !pg) return;
-    signFit(pg, im, pl.box, pl.align);
+    const st = pl.kind === "sig" ? drawn[pl.page + ":" + pl.zone] : null;
+    if(st){
+      const right = pl.box.x + pl.box.w, x = st.x + st.w - SIG_OVERLAP;
+      pl.box = { x, y: pl.box.y, w: Math.max(50, right - x), h: pl.box.h };
+      pl.align = "left";
+    }
+    const r = signFit(pg, im, pl.box, pl.align);
+    if(pl.kind === "stamp" && r) drawn[pl.page + ":" + pl.zone] = r;
     f.placed++;
   });
   if((opts.sig || opts.stamp || opts.stampTop || opts.stampBottom) && !p.signature && !p.tampon) f.notes.push("aucune signature ni tampon dans Mes paramètres");
@@ -18755,6 +18795,8 @@ function renderSignPanel(){
       <div class="tool-hero sig-hero"><span class="tool-hero-icon">✍️</span><div class="tool-hero-body"><p class="tool-hero-title">Signature des ordonnances</p><p class="tool-hero-sub">Dépose une ou plusieurs ordonnances PDF : le logiciel est reconnu, ta signature et ton tampon se placent au bon endroit, le fichier est renommé « NOM Prénom ${sigToday()} ». Rien ne quitte ton ordinateur.</p><div class="tool-hero-stats"><span class="tool-hero-stat">${SIG_PROFILES.length} logiciels</span><span class="tool-hero-stat">Plusieurs fichiers d'un coup</span><span class="tool-hero-stat">Fonctionne hors ligne</span><span class="tool-hero-stat">Rien n'est enregistré</span></div></div></div>
       ${missing ? `<div class="cont-alerts"><div class="cont-alert cont-alert-hot">Ajoute d'abord ta signature et ton tampon dans <button type="button" class="acb-link" onclick="openExplorer('parametres-medecin')">⚙️ Mes paramètres</button> (images PNG ou JPG ; le fond blanc est rendu transparent automatiquement).</div></div>` : ""}
 
+      <div class="sig-toolbar"><span>${S.files.length ? `<strong>${S.files.length}</strong> ordonnance${S.files.length > 1 ? "s" : ""} chargée${S.files.length > 1 ? "s" : ""}` : "Aucune ordonnance chargée"}</span>
+        <button type="button" class="sig-reset-btn" ${S.files.length ? "" : "disabled"} onclick="sigReset()" title="Vider toutes les ordonnances chargées et repartir de zéro">↺ Réinitialiser</button></div>
       <label class="sig-drop" ondragover="event.preventDefault(); this.classList.add('sig-drop-on')" ondragleave="this.classList.remove('sig-drop-on')" ondrop="sigDrop(event)">
         <input type="file" accept="application/pdf,.pdf" multiple onchange="sigPick(this)" />
         <span class="sig-drop-ico">📥</span>
@@ -18774,7 +18816,7 @@ function renderSignPanel(){
         <div class="sig-list-head"><p class="neurolep-label" style="margin:0">Ordonnances (${S.files.length})</p>
           <span class="ax-tabs-sp"></span>
           <button type="button" class="bio-copy-btn" onclick="sigDownloadAll()">⬇ ${S.files.filter(f => f.signed).length > 1 ? "Tout télécharger (ZIP)" : "Télécharger"}</button>
-          <button type="button" class="bio-reset-btn" onclick="sigClear()">Tout retirer</button></div>
+          <button type="button" class="sig-reset-btn" onclick="sigReset()">↺ Réinitialiser</button></div>
         <div class="sig-list">${S.files.map(fileCard).join("")}</div>` : ""}
 
       <p class="mz-src">Le nom et le prénom sont lus sur l'ordonnance (Ogirys : « Identification du patient » ; Netsoins / Netvie : « Nom utilisé », « Prénom utilisé ») : à vérifier avant téléchargement. Une ordonnance scannée (image) ne contient pas de texte : le nom est à saisir. On appose ici une image de la signature et du tampon, comme à la main : ce n'est pas une signature électronique au sens réglementaire, et cela ne remplace pas l'ordonnance sécurisée papier lorsqu'elle est exigée.</p>
