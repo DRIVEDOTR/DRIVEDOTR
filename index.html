@@ -2888,6 +2888,120 @@
   .sig-reset-btn:hover:not(:disabled){background:rgba(240,68,56,.16); transform:translateY(-1px);}
   .sig-reset-btn:disabled{opacity:.4; cursor:default;}
   /* fin Signature CSS */
+  /* ---------- PATHOS outil ---------- */
+  .pth-panel{background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:14px 16px; box-shadow:0 6px 20px rgba(20,40,90,.08);}
+  .pth-quick{display:flex; flex-wrap:wrap; align-items:flex-end; gap:12px; background:var(--indigo-bg); border:1.5px solid var(--indigo); border-radius:14px; padding:10px 14px; margin:0 0 12px;}
+  .pth-quick-f{flex:0 0 260px; margin:0;}
+  .pth-quick-out{flex:1; min-width:220px; font-size:14px; line-height:1.5; padding-bottom:8px;}
+  .pth-q-ok{color:var(--emerald); font-weight:700;} .pth-q-ko{color:var(--red); font-weight:700;} .pth-q-warn{color:var(--amber); font-weight:700;}
+  .pth-legend{display:flex; flex-wrap:wrap; align-items:center; gap:3px; margin:6px 0 10px;}
+  .pth-chip{display:inline-flex; align-items:center; justify-content:center; min-width:27px; height:21px; padding:0 4px; border-radius:6px; font-size:11px; font-weight:800; color:#fff; background:var(--pill); letter-spacing:.2px;}
+  .pth-chip-off{background:transparent; color:var(--border); box-shadow:inset 0 0 0 1px var(--border);}
+  .pth-chip-obs{background:transparent; color:var(--text-muted); box-shadow:inset 0 0 0 1px var(--border); text-decoration:line-through;}
+  .pth-chip-big{min-width:36px; height:26px; font-size:13px;}
+  .pth-dom{font-family:'Space Grotesk','IBM Plex Sans',sans-serif; font-weight:700; font-size:14px; color:var(--indigo); margin:16px 0 6px; text-transform:uppercase; letter-spacing:.4px;}
+  .pth-et{background:var(--card-bg); border:1px solid var(--border); border-radius:12px; margin-bottom:6px; overflow:hidden;}
+  .pth-et-open{border-color:var(--indigo); box-shadow:0 4px 14px rgba(60,60,140,.10);}
+  .pth-et-head{display:flex; align-items:center; gap:10px; width:100%; font:inherit; text-align:left; background:none; border:0; padding:8px 12px; cursor:pointer; color:inherit;}
+  .pth-et-head:hover{background:var(--indigo-bg);}
+  .pth-num{display:inline-flex; align-items:center; justify-content:center; width:34px; height:28px; border-radius:8px; background:var(--indigo); color:#fff; font-weight:800; font-size:14px; flex:none;}
+  .pth-et-lib{flex:1; font-weight:600; font-size:14px; min-width:160px;}
+  .pth-in{display:inline-block; margin-left:6px; font-size:11.5px; font-weight:800; color:var(--emerald); background:var(--emerald-bg); border-radius:999px; padding:0 8px;}
+  .pth-grid{display:flex; gap:2px; flex:none;}
+  .pth-caret{color:var(--text-muted); flex:none;}
+  .pth-et-body{padding:4px 14px 14px; border-top:1px solid var(--border);}
+  .pth-reg{font-size:13.5px; margin:10px 0 6px;}
+  .pth-gen p{font-size:13px; margin:4px 0; background:var(--amber-bg); border-radius:8px; padding:6px 10px;}
+  .pth-profs{display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:8px;}
+  .pth-prof{border:1px solid var(--border); border-left:4px solid var(--pill); border-radius:10px; padding:8px 10px; background:var(--card-bg);}
+  .pth-prof-h{display:flex; align-items:center; gap:8px; font-size:14px;}
+  .pth-spec, .pth-def{font-size:13px; margin:6px 0 0; line-height:1.45;}
+  .pth-def{color:var(--text-muted);}
+  .pth-mini{font:inherit; font-size:12px; font-weight:700; cursor:pointer; color:var(--indigo); background:var(--indigo-bg); border:1px solid var(--indigo); border-radius:999px; padding:3px 10px; white-space:nowrap;}
+  .pth-mini:hover{background:var(--indigo); color:#fff;}
+  .pth-mini-on{background:var(--emerald); border-color:var(--emerald); color:#fff;}
+  .pth-pgrid{display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:10px;}
+  .pth-pcard{background:var(--card-bg); border:1px solid var(--border); border-top:4px solid var(--pill); border-radius:12px; padding:10px 12px;}
+  .pth-pcard .pth-def{color:inherit;}
+  .pth-trace{font-size:12.5px; background:var(--pillbg); border-radius:8px; padding:6px 9px; margin:6px 0 0;}
+  .pth-res{display:flex; flex-direction:column; gap:6px;}
+  .pth-res-row{display:flex; align-items:center; gap:10px; background:var(--card-bg); border:1px solid var(--border); border-radius:10px; padding:6px 10px;}
+  .pth-res-lib{flex:1; font-weight:600; font-size:14px; display:flex; flex-direction:column; gap:4px;}
+  .pth-res-row select{font:inherit; font-weight:700; border:1.5px solid var(--indigo); border-radius:8px; padding:4px 8px; background:var(--card-bg); color:var(--indigo);}
+  .pth-clair{font:inherit; font-weight:400; font-size:13px; border:1px solid var(--border); border-radius:6px; padding:4px 8px;}
+  .pth-x{font:inherit; cursor:pointer; background:none; border:0; color:var(--text-muted); font-size:15px;}
+  .pth-x:hover{color:var(--red);}
+  .pth-ag{display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:8px;}
+  .pth-ok-all{font-size:13.5px; color:var(--emerald); font-weight:600; margin:0;}
+  .pth-toast{position:fixed; left:50%; bottom:24px; transform:translate(-50%, 20px); opacity:0; pointer-events:none; background:var(--navy); color:#fff; font-weight:700; font-size:14px; border-radius:999px; padding:9px 18px; transition:opacity .2s, transform .2s; z-index:50;}
+  .pth-toast-on{opacity:1; transform:translate(-50%, 0);}
+  @media (max-width:760px){ .pth-grid{display:none;} .pth-quick-f{flex:1 1 100%;} }
+  .pth-step{font-family:'Space Grotesk','IBM Plex Sans',sans-serif; font-weight:700; font-size:15px; color:var(--indigo); margin:18px 0 8px; padding-top:12px; border-top:1px solid var(--border);}
+  .pth-step:first-child{margin-top:0; padding-top:0; border-top:0;}
+  .pth-step em{font-family:'IBM Plex Sans',sans-serif; font-style:normal; font-weight:500; font-size:12.5px; color:var(--text-muted);}
+  .pth-two{display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:10px; align-items:start;}
+  @media (max-width:760px){ .pth-two{grid-template-columns:1fr;} }
+  .pth-fast{display:flex; flex-wrap:wrap; align-items:flex-end; gap:10px; margin:0 0 10px;}
+  .pth-fast .pth-mini{margin-bottom:8px;}
+  .pth-res-row{border-left:4px solid var(--pill);}
+  .pth-res-pn{font-style:normal; font-weight:700; font-size:12px; color:var(--pill); background:var(--pillbg); border-radius:999px; padding:1px 8px; align-self:flex-start;}
+  .pth-res-note{font-weight:400; font-size:12.5px; color:var(--text-muted); line-height:1.4;}
+  .bio-copy-btn.pth-btn-2{background:var(--card-bg); color:var(--emerald); border:1.5px solid var(--emerald);}
+  /* fin PATHOS outil CSS */
+  /* ---------- MedCo AGGIR / coupe ---------- */
+  .ag-legend{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--text-muted); margin:0 0 10px;}
+  .ag-legend span{display:inline-flex; align-items:center; gap:6px;}
+  .ag-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); gap:10px;}
+  @media (max-width:520px){ .ag-grid{grid-template-columns:1fr;} }
+  .ag-var{border:1px solid var(--border); border-left:4px solid var(--indigo); border-radius:12px; padding:10px 12px; background:var(--card-bg);}
+  .ag-var-ill{border-left-color:var(--slate);}
+  .ag-var-h{display:flex; align-items:center; gap:8px; font-size:14.5px;}
+  .ag-n{display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:7px; background:var(--indigo); color:#fff; font-weight:800; font-size:12px;}
+  .ag-var-ill .ag-n{background:var(--slate);}
+  .ag-tag{font-size:10.5px; font-weight:700; color:var(--indigo); background:var(--indigo-bg); border-radius:999px; padding:1px 8px;}
+  .ag-tag-ill{color:var(--slate); background:var(--slate-bg);}
+  .ag-def{font-size:12.5px; color:var(--text-muted); margin:5px 0 6px; line-height:1.4;}
+  .ag-sub{border-top:1px dashed var(--border); padding:6px 0;}
+  .ag-sub-h{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .ag-sub-l{flex:1; font-weight:600; font-size:13.5px; min-width:120px;}
+  .ag-q{font:inherit; font-size:11.5px; cursor:pointer; color:var(--indigo); background:none; border:0; text-decoration:underline; padding:0;}
+  .ag-abc{display:inline-flex; gap:4px;}
+  .ag-b{display:inline-flex; align-items:center; justify-content:center; width:32px; height:28px; font:inherit; font-weight:800; font-size:13px; border-radius:8px; cursor:pointer; border:1.5px solid var(--border); background:var(--card-bg); color:var(--text-muted);}
+  .ag-b-A.ag-b-on{background:#0F7A57; border-color:#0F7A57; color:#fff;} .ag-b-B.ag-b-on{background:#B26A00; border-color:#B26A00; color:#fff;} .ag-b-C.ag-b-on{background:#C2362B; border-color:#C2362B; color:#fff;}
+  b.ag-b{width:24px; height:20px; font-size:11px; cursor:default;}
+  .ag-final{display:inline-flex; align-items:center; justify-content:center; min-width:34px; height:28px; border-radius:8px; font-weight:800; background:var(--slate-bg); color:var(--text-muted); border:2px solid var(--border);}
+  .ag-final-A{background:#0F7A57; color:#fff; border-color:#0F7A57;} .ag-final-B{background:#B26A00; color:#fff; border-color:#B26A00;} .ag-final-C{background:#C2362B; color:#fff; border-color:#C2362B;}
+  .ag-rule{font-size:11.5px; color:var(--text-muted); margin:4px 0 0;}
+  .ag-qs{background:var(--indigo-bg); border-radius:10px; padding:8px 10px; margin-top:6px;}
+  .ag-step{font-size:12.5px; margin:4px 0;}
+  .ag-yn{display:inline-flex; gap:4px;}
+  .ag-yn button{font:inherit; font-size:12px; font-weight:700; cursor:pointer; border:1.5px solid var(--indigo); color:var(--indigo); background:var(--card-bg); border-radius:999px; padding:2px 10px;}
+  .ag-yn button.ag-yn-on{background:var(--indigo); color:#fff;}
+  .ag-yn button.ag-yn-on.ag-yn-no{background:#C2362B; border-color:#C2362B;}
+  .ag-adv{display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:12.5px; padding:4px 0; border-bottom:1px solid rgba(0,0,0,.05);}
+  .ag-res{display:flex; gap:14px; align-items:flex-start; border:2px solid var(--indigo); border-radius:14px; padding:12px 14px; background:var(--indigo-bg);}
+  .ag-res-wait{display:block; border-style:dashed; background:var(--card-bg);}
+  .ag-gir{display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:86px; height:86px; border-radius:16px; background:var(--indigo); color:#fff;}
+  .ag-gir span{font-size:12px; font-weight:700; letter-spacing:1px;} .ag-gir strong{font-size:40px; line-height:1;}
+  .ag-res-b{flex:1;} .ag-res-b p{margin:0 0 6px; font-size:13.5px;}
+  .ag-res-t{font-weight:800; color:var(--indigo); font-size:14.5px;}
+  .mco-imp{display:flex; flex-wrap:wrap; align-items:center; gap:10px; background:var(--indigo-bg); border-radius:10px; padding:8px 10px; margin:0 0 10px;}
+  .mco-file{position:relative; overflow:hidden; cursor:pointer;}
+  .mco-file input{position:absolute; inset:0; opacity:0; cursor:pointer;}
+  .mco-imp-msg{flex:1; min-width:220px; font-size:12.5px; color:var(--text-muted);}
+  .cp-prog{display:flex; align-items:center; gap:10px; margin:6px 0 12px;}
+  .cp-bar{flex:1; height:10px; border-radius:999px; background:var(--slate-bg); overflow:hidden;}
+  .cp-bar span{display:block; height:100%; background:linear-gradient(90deg, var(--indigo), #0F7A57); transition:width .3s;}
+  .cp-sec{border:1px solid var(--border); border-top:4px solid var(--cpc); border-radius:12px; padding:8px 12px; margin-bottom:10px;}
+  .cp-sec-t{display:flex; align-items:center; gap:8px; font-family:'Space Grotesk','IBM Plex Sans',sans-serif; font-weight:700; font-size:15px; color:var(--cpc); margin:2px 0 6px;}
+  .cp-sec-t span{display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; background:var(--cpc); color:#fff; font-size:12px;}
+  .cp-sec-t em{margin-left:auto; font-style:normal; font-size:12px; color:var(--text-muted);}
+  .cp-item{display:flex; align-items:flex-start; gap:10px; font-size:13.5px; line-height:1.45; padding:6px 4px; border-radius:8px; cursor:pointer;}
+  .cp-item:hover{background:var(--slate-bg);}
+  .cp-item input{margin-top:3px; width:16px; height:16px; accent-color:var(--cpc); flex:none;}
+  .cp-item em{display:block; font-style:normal; font-size:11px; color:var(--text-muted);}
+  .cp-item-on span{color:var(--text-muted); text-decoration:line-through; text-decoration-color:rgba(0,0,0,.25);}
+  /* fin MedCo AGGIR CSS */
   /* ---------- Calculateurs : bulles de contexte ---------- */
   .calc-ctx-lead{font-size:14.5px; font-weight:700; color:var(--text); margin:20px 0 10px;}
   .calc-ctx-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:16px;}
@@ -3115,6 +3229,13 @@ const CATEGORIES = [
     description: "Certificats médicaux (rédaction guidée et référentiel : qui peut signer, quel support), formulaires officiels (CERFA) et tutoriels pratiques."
   },
   {
+    id: "medco",
+    label: "MedCo",
+    icon: "medco",
+    color: "indigo",
+    description: "Outils du médecin coordonnateur. Codage PATHOS (guide CNSA 2022) : les 50 états pathologiques et leurs profils possibles, les 12 profils de soins, la vérification d'un couple, le codage d'un résident avec les alertes croisées AGGIR-PATHOS et son récapitulatif PDF."
+  },
+  {
     id: "materiel",
     label: "Matériel médical",
     icon: "materiel",
@@ -3178,6 +3299,8 @@ const CATEGORY_ICONS = {
   telemedecine: '<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M9 8v2.2a2.8 2.8 0 0 0 5.6 0V8"/><path d="M9 8h.01"/><path d="M14.6 8h.01"/><circle cx="16.8" cy="12.4" r="1.2"/>',
   /* Ceinture et sa boucle : contention */
   contention: '<path d="M3 10h6"/><path d="M15 10h6"/><path d="M3 14h6"/><path d="M15 14h6"/><rect x="9" y="7" width="6" height="10" rx="1.6"/><path d="M12 10v4"/>',
+  /* Pièces de puzzle / grille de codage : MedCo (PATHOS) */
+  medco: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="m14.5 17.5 2 2 4-4"/>',
   /* Maillon de chaîne : liens et ressources externes */
   ressources: '<path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1-1"/>'
 };
@@ -3993,6 +4116,24 @@ const DOCUMENTS = {
     interactive: true,
     filename: "Neuroleptiques_classiques_posologies_OMEDIT.pdf",
     path: "medicaments-securite/Neuroleptiques_classiques_posologies_OMEDIT.pdf"
+  },
+  "aggir-gir": {
+    title: "Grille AGGIR — calcul du GIR",
+    category: "medco",
+    meta: "Les 17 variables du guide officiel avec « ne fait pas » et les 4 adverbes, codage final des sous-variables, GIR par l'algorithme réglementaire, contrôles de cohérence, fiche PDF et report dans le Codage PATHOS",
+    interactive: true
+  },
+  "pathos-codage": {
+    title: "Codage PATHOS — aide au codage (guide CNSA 2022)",
+    category: "medco",
+    meta: "Les 50 états pathologiques et leurs profils possibles, les 12 profils expliqués, « ce couple existe-t-il ? » (ex. 32 R2), codage d'un résident avec les alertes croisées AGGIR-PATHOS, récapitulatif PDF signable ou à copier",
+    interactive: true
+  },
+  "coupe-preparation": {
+    title: "Préparer la coupe AGGIR-PATHOS — check-list",
+    category: "medco",
+    meta: "De la formation validante au procès-verbal : périmètre, AGGIR, traçabilité PATHOS, GALAAD, jour de validation — chaque point sourcé CNSA, état d'avancement en PDF",
+    interactive: true
   },
   "anxiolyse-esms": {
     title: "Anxiolyse en ESMS — crise, anxiété durable, « si besoin », arrêt",
@@ -18825,6 +18966,1231 @@ function renderSignPanel(){
 window.renderSignPanel = renderSignPanel;
 /* fin Signature */
 
+/* =====================================================================
+   CODAGE PATHOS — OUTIL INTERACTIF (07/10/2026)
+   Source unique : CNSA, « Le modèle PATHOS — Guide d'utilisation 2022 »
+   (septembre 2022) et CNSA, « Recommandations de codage PATHOS —
+   Formation 2022 » (14/11/2022). Aucune donnée patient conservée.
+   ===================================================================== */
+const PTH_PROFILS = [
+  { id: "T1", g: "T", nom: "Pronostic vital en jeu", court: "Soins importants et multiples, surveillance médicale constante",
+    def: "Pronostic vital en jeu dans l'immédiat : soins techniques et médicaux importants et multiples, surveillance médicale constante (temps médical quotidien > 20 min). On pourrait revendiquer une prise en charge en réanimation.",
+    crit: ["Facteurs de risque vitaux, le plus souvent aigus", "Temps médical quotidien > 20 minutes", "Très exceptionnel en EHPAD : hospitalisation d'urgence nécessaire"],
+    trace: "Évènement aigu, gravité, décision (hospitalisation)." },
+  { id: "T2", g: "T", nom: "Équilibration et surveillance rapprochée", court: "Médecin pluri-hebdomadaire + permanence IDE + soins techniques journaliers",
+    def: "État préoccupant imposant une surveillance médicale pluri-hebdomadaire (> 1 h/semaine), une surveillance infirmière pluriquotidienne, le plus souvent une permanence infirmière 24 h/24 (présence ou astreinte joignable), et des soins techniques infirmiers journaliers. Couvre aussi la prévention de l'aggravation des états instables (ex. insuffisance cardiaque NYHA III–IV équilibrée au prix d'une surveillance rapprochée).",
+    crit: ["Surveillance médicale pluri-hebdomadaire ET permanence infirmière ET soins techniques infirmiers journaliers", "Pathologie aiguë, état précaire, ou état instable à rechutes fréquentes stabilisé au prix de cette surveillance", "Ajustements thérapeutiques fréquents, non protocolisés"],
+    trace: "Surveillances prescrites et leurs résultats (poids, PA, saturation, glycémies, biologie…), ajustements thérapeutiques datés, interventions médicales." },
+  { id: "P1", g: "P", nom: "Psychiatrie de crise", court: "Crise ou rechutes très fréquentes, psychiatre pluri-hebdomadaire",
+    def: "Prise en charge psychiatrique d'un état de crise : soins psychiatriques et psychothérapiques individuels importants, quotidiens, pour des situations graves aiguës, en équilibration, ou très instables à rechutes très fréquentes. La notion de mise en danger est importante. Mobiliserait fortement le psychiatre et l'équipe, qu'il y ait ou non un psychiatre consultant.",
+    crit: ["Mise en danger (ex. tentative de suicide), troubles productifs mobilisant l'équipe jour et nuit", "Intervention psychiatrique (ou gériatre formé) pluri-hebdomadaire requise", "Troubles du comportement : NPI-ES > 7 et retentissement 4 à 5"],
+    trace: "Description des épisodes, fréquence, gravité, échelles (NPI-ES, RUD…), interventions médicales." },
+  { id: "P2", g: "P", nom: "Psychothérapie de soutien", court: "Prise en charge institutionnelle d'un trouble diagnostiqué",
+    def: "Soins psychiatriques et psychothérapiques requis pour des troubles neuro-psychiatriques diagnostiqués et contrôlés, mobilisant surtout les paramédicaux et l'équipe : prise en charge institutionnelle, y compris la gestion médicamenteuse et non médicamenteuse des symptômes psycho-comportementaux d'un trouble neurocognitif majeur. Codable même sans psychologue ni psychomotricien sur place (soin requis).",
+    crit: ["État pathologique caractérisé et diagnostiqué, pas un simple symptôme", "Un seul état psychiatrique en P2 : celui qui mobilise le plus l'équipe ; les autres en S1", "Troubles du comportement : NPI-ES > 3 et retentissement 2 à 4 ; incompatible avec Cohérence A et Orientation A"],
+    trace: "Évaluation et prescription médicales ; troubles du comportement : forte sollicitation de l'équipe décrite et effet de la prise en charge relationnelle ; démence : séances de stimulation et participation du résident ; projet psychologique ou psychomoteur." },
+  { id: "R1", g: "R", nom: "Rééducation intensive", court: "Rééducateur 2 × 20–25 min/j, de type SSR",
+    def: "Rééducation-réadaptation fonctionnelle intensive, quotidienne et individuelle (2 × 20–25 min/j, voire plus ; > 45 min/j sur une semaine), impliquant le médecin MPR, kinésithérapeute, ergothérapeute, orthophoniste. Inclut, sans alternative R2 : rééducation du lymphœdème, kinésithérapie respiratoire, rééducation de l'incontinence urinaire.",
+    crit: ["Le résident supporte la rééducation et coopère", "Capacités cognitives suffisantes pour comprendre les consignes et apprendre les exercices", "Peu compatible avec P1, T2, les troubles du comportement productifs, et un codage C (communication, comportement) dans AGGIR"],
+    trace: "Bilan du rééducateur, prescription argumentée, plan de soins, évolution." },
+  { id: "R2", g: "R", nom: "Rééducation d'entretien ou allégée", court: "Rééducateur 20–30 min/j, au moins 5 j/7",
+    def: "Rééducation par un rééducateur de 20 à 30 minutes par jour, au moins 5 jours sur 7, discontinue ou allégée, chez un résident ne pouvant pas supporter une rééducation intensive. Peut succéder à une phase R1. Question clé : la compétence d'un rééducateur est-elle nécessaire ?",
+    crit: ["Possible : le résident coopère et comprend les consignes", "Légitime et utile à son état, avec un objectif (récupération, prévention active)", "Rééducateur 20–30 min/j, ≥ 5 j/7 — même s'il n'intervient pas actuellement", "GIR 1 ou communication C dans AGGIR : généralement S1"],
+    trace: "Prescription médicale, bilan initial du rééducateur, plan de soins, bilans de réévaluation." },
+  { id: "CH", g: "C", nom: "Soins locaux complexes et longs", court: "IDE ≥ 20 min tous les jours ou tous les 2 jours",
+    def: "Pansements de plaies importantes ou lésions cutanées nécessitant des soins locaux lourds (opérés récents, escarres, ulcères, gangrène, dermatoses) mobilisant l'infirmière au moins 20 minutes tous les jours ou tous les deux jours (installation comprise, hors préparation du chariot). La prémédication antalgique est comprise.",
+    crit: ["≥ 20 min d'IDE tous les jours ou tous les 2 jours", "Souvent une détersion, une antalgie avant ou pendant le soin", "La multiplication de pansements simples peut aussi le justifier", "Pansement léger (ex. ulcère variqueux simple) : S1"],
+    trace: "Description de la plaie (stade, surface), protocole de pansement, fréquence et durée, antalgie." },
+  { id: "DG", g: "D", nom: "Démarche diagnostique", court: "Le médecin détermine la conduite à tenir",
+    def: "Démarche médicale en cours pour déterminer la conduite à tenir devant une pathologie récente non diagnostiquée ou d'évolution récente. Débute quand le symptôme est signalé au médecin, s'arrête dès que l'orientation diagnostique ou thérapeutique est arrêtée (même sans diagnostic confirmé). Situations « froides » ; pour les situations « chaudes », préférer T2.",
+    crit: ["Symptôme ou fait nouveau récent, objectivé", "Le résident peut en tirer bénéfice, l'accepte et peut supporter les investigations", "Ce n'est PAS DG : simple rendez-vous chez un spécialiste, bilan systématique de coupe, pathologie ancienne non explorée, suivi d'une conduite décidée par un autre médecin"],
+    trace: "Signalement, examen initial, démarche engagée (avis, bilan) et sa date." },
+  { id: "M1", g: "M", nom: "Soins palliatifs lourds", court: "Uniquement avec 48 — techniques continus et relationnels plurijournaliers",
+    def: "Uniquement associé à l'état pathologique 48 « État terminal ». Accompagnement pluriprofessionnel de fin de vie avec soins relationnels plurijournaliers et soutien du résident et de l'entourage, et soins techniques pour contrôler la douleur (morphiniques en SAP sous-cutanée ou per os) et les symptômes (vomissements, hoquet, constipation, encombrement…). La lucidité n'est pas obligatoire.",
+    crit: ["Passage aux soins palliatifs formalisé dans le dossier", "Soins techniques lourds continus et/ou relationnels plurijournaliers"],
+    trace: "Décision collégiale, information de la famille, anticipation (EMSP, HAD, fiche SAMU-Pallia), prescriptions de confort." },
+  { id: "M2", g: "M", nom: "Soins palliatifs d'accompagnement", court: "Uniquement avec 48 — confort, sans soins techniques lourds",
+    def: "Uniquement associé à l'état pathologique 48. Résident ne posant pas de problème de soins techniques particuliers : soins de base et de confort, hydratation buccale, contrôle d'un encombrement éventuel, antalgiques si besoin.",
+    crit: ["Passage aux soins de confort formalisé", "Pas de soins techniques lourds", "M2 + P2 possible si la prise en charge psychologique est lourde"],
+    trace: "Décision et projet de confort tracés, information de la famille." },
+  { id: "S1", g: "S", nom: "Surveillance programmée", court: "Affection chronique stabilisée et son traitement",
+    def: "Surveillance programmée au long cours des pathologies chroniques stabilisées et de leur traitement : préparation et dispensation des médicaments par l'IDE, vérification de la prise, traçabilité, surveillances cliniques et biologiques programmées, pansements simples, prévention des complications.",
+    crit: ["Traitement de fond, suivi mensuel à trimestriel par le médecin traitant", "Ajustements protocolisés (ex. insuline selon glycémies modérément variables)", "Ce n'est PAS S1 : pathologie stable non traitée sans impact sur le traitement ; plusieurs S1 pour un même traitement"],
+    trace: "Traitement en cours, surveillances programmées et leurs résultats." },
+  { id: "S0", g: "S", nom: "Absence de soins", court: "Pathologie séquellaire, sans traitement ni surveillance",
+    def: "État pathologique sans administration de médicament ni surveillance particulière : stabilisé ou séquellaire (pouvant expliquer une perte d'autonomie), sans traitement efficace ou prioritaire (ex. trouble neurocognitif très évolué, incontinence gérée par les seuls soins de base, mourant ne prenant plus son antihypertenseur).",
+    crit: ["Aucun traitement ni surveillance technique", "La pathologie reste utile à coder : elle explique l'état du résident"],
+    trace: "Antécédent ou séquelle documentés." }
+];
+const PTH_DOM = [
+  ["cardio", "Affections cardio-vasculaires"], ["neuro", "Affections neuro-psychiatriques et troubles psycho-comportementaux"],
+  ["pneumo", "Affections broncho-pulmonaires"], ["infect", "Pathologies infectieuses"], ["dermato", "Affections dermatologiques"],
+  ["osteo", "Affections ostéo-articulaires"], ["gastro", "Affections gastro-entérologiques"], ["endoc", "Affections endocriniennes"],
+  ["uro", "Affections uro-néphrologiques"], ["autres", "Autres domaines pathologiques"]
+];
+/* n, domaine, libellé, mots-clés, profils retenus, profils « plus utilisés en pratique », ce que regroupe la rubrique, consignes [profil ou "", texte] */
+const PTH_ETATS = [
+  [1, "cardio", "Insuffisance cardiaque", "IC OAP decompensation cardiaque NYHA", "T1 T2 DG S1", "",
+    "IC droite, gauche ou globale, quelle qu'en soit l'étiologie. Comprend tous ses signes (dyspnée, œdèmes, toux, tachycardie…) qu'on ne code pas à part.",
+    [["T2", "Poussée ou IC difficile à équilibrer ; aussi IC NYHA III–IV qui n'est équilibrée qu'au prix d'une surveillance rapprochée tracée (poids, œdèmes, auscultation, PA, saturation, biologie) avec décompensations dans les mois précédents."], ["S1", "IC équilibrée par un traitement de fond."], ["", "Un IEC et un bêtabloquant prescrits pour l'IC ne font pas coder « HTA »."]]],
+  [2, "cardio", "Coronaropathie", "angor infarctus IDM coronarien stent pontage", "T1 T2 DG S1 S0", "",
+    "Toutes les pathologies coronariennes, aiguës (IDM) ou chroniques, opérées ou non, en poussée (angor) ou sous traitement de fond.", []],
+  [3, "cardio", "Hypertension artérielle", "HTA tension", "T1 T2 DG S1 S0", "",
+    "Toutes les HTA (systolique, diastolique, systolo-diastolique), quelle qu'en soit l'étiologie.",
+    [["T2", "Réservé aux HTA difficiles à équilibrer, symptomatiques, justifiant une surveillance pluriquotidienne."], ["S1", "Les réajustements thérapeutiques sont codés S1."], ["T1", "Ne se rencontre pas en établissement."]]],
+  [4, "cardio", "Troubles du rythme", "FA fibrillation auriculaire flutter BAV pacemaker anticoagulant AVK AOD", "T1 T2 DG S1 S0", "",
+    "Troubles du rythme ou de la conduction cliniquement pertinents, traités ou non, appareillés ou non (FA, flutter, maladie de l'oreillette, BAV). Pas les simples extrasystoles.",
+    [["T2", "Mise en place ou adaptation d'un anticoagulant (risque thrombotique ou hémorragique élevé), avec surveillance biologique et clinique tracée."], ["S1", "Modifications protocolisées d'un anticoagulant ; surveillance d'un traitement équilibré."]]],
+  [5, "cardio", "Phlébites, lymphœdème, insuffisance veineuse", "phlebite TVP thrombose veineuse lymphoedeme bas de contention HBPM", "T1 T2 R1 DG S1", "",
+    "Phlébites et leurs conséquences locales (cliniques ou confirmées par Doppler), y compris la prévention pharmacologique.",
+    [["S1", "Prévention pharmacologique ; pose de bas de contention."], ["R1", "Rééducation du lymphœdème (ex. secondaire à un cancer)."]]],
+  [6, "cardio", "Embolies et thromboses artérielles, gangrène, amputation", "ischemie aigue amputation gangrene embolie arterielle", "T1 T2 R1 R2 CH DG S1 S0", "",
+    "Accidents artériels périphériques emboliques ou thrombotiques, opérés ou non. Ni les AVC emboliques (10), ni les embolies pulmonaires (21).",
+    [["S0", "Ex. amputation ancienne notée car elle retentit sur l'autonomie."], ["CH", "Amputé récent avec pansements lourds : 06 CH, et la rééducation se code sur 47 (troubles de la marche R1 ou R2)."]]],
+  [7, "cardio", "Artériopathies chroniques", "AOMI arterite claudication Horton", "T2 DG S1 S0", "",
+    "Toutes les artériopathies, y compris inflammatoires (Horton) ; claudication stades 2 et 3 traitée.",
+    [["S0", "Claudication stade 1 non traitée."]]],
+  [8, "cardio", "Hypotension orthostatique", "hypotension chutes", "S1 S0", "",
+    "Hypotensions graves, primitives ou iatrogènes. Celles dues au traitement d'une HTA se codent en 03.",
+    [["S1", "Pose de bas de contention et/ou suivi médicamenteux."], ["", "Si elle provoque des chutes, coder aussi 09 avec son profil."]]],
+  [9, "neuro", "Malaises, vertiges, perte de connaissance brève, chutes", "malaise vertige syncope chute chuteur", "R1 R2 DG S1 S0", "P1",
+    "Ces symptômes, quelle que soit leur étiologie.",
+    [["", "Si une étiologie est trouvée, garder 09 en plus de la cause tant que les symptômes persistent (ex. syncope sur BAV : 09 + 04)."], ["P1", "Plus utilisé en pratique."]]],
+  [10, "neuro", "Accidents vasculaires cérébraux", "AVC AIT hemiplegie hematome sous dural aphasie", "T1 T2 R1 R2 DG S1 S0", "",
+    "AIT ou AVC ischémiques, hémorragiques, aigus ou séquellaires ; thrombophlébites cérébrales ; hématomes intracérébraux, sous-duraux.",
+    [["R1", "Si l'état justifie ≥ 30 min/j de rééducation ou une rééducation couplée à l'orthophonie, et que le résident la supporte."], ["R2", "Au long cours si autonomie partiellement récupérée, dans l'objectif de l'améliorer ; la poursuite doit être justifiée par des évaluations tracées."], ["S1", "Au début, un AVC flasque peut ne requérir que du soin positionnel fait ou surveillé par l'IDE."], ["", "La prévention secondaire se code sur la pathologie causale (04, 07…), pas sur 10. La rééducation cognitive se code 18 P2."]]],
+  [11, "neuro", "Épilepsie, comitialité focale ou généralisée", "epilepsie convulsion crise comitiale antiepileptique", "T1 T2 DG S1 S0", "",
+    "Maladie épileptique, crises focales ou généralisées. Si l'AVC causal a des séquelles ou un suivi, il se code en plus.",
+    [["T2", "Mise en route d'un antiépileptique avec équilibration et surveillance rapprochée."], ["DG", "Modification clinique : réflexion sur la conduite à tenir, puis S1 ou T2."], ["S0", "Crise isolée lors d'un AIT, non traitée."]]],
+  [12, "neuro", "Syndrome parkinsonien et maladies neurologiques chroniques évolutives", "Parkinson SLA Charcot SEP sclerose en plaques PSP", "T2 R1 R2 DG S1 S0", "",
+    "Parkinson à tous les stades et syndromes parkinsoniens (y compris iatrogènes), SLA, SEP, paralysie supranucléaire progressive.",
+    [["S1", "Affection traitée au long cours."], ["T2", "Fluctuations de début et de fin de dose, difficultés d'équilibration."], ["S0", "Traitements antiparkinsoniens devenus inefficaces."], ["R2", "Au long cours si autonomie encore présente (GIR 2–3) et pas de C en cohérence AGGIR, pour la maintenir."], ["", "Les symptômes psycho-comportementaux associés se codent en 14."]]],
+  [13, "neuro", "Syndrome confusionnel", "confusion delirium agitation aigue", "T1 T2", "P1 DG",
+    "États aigus, brutaux (souffrance cérébrale diffuse), différents d'une évolution démentielle progressive.",
+    [["", "Après la phase diagnostique, c'est l'étiologie qui se code avec son profil ; les troubles du comportement persistants se codent en 14."], ["P1", "Plus utilisé en pratique (ainsi que DG)."]]],
+  [14, "neuro", "Troubles chroniques du comportement", "agitation agressivite deambulation fugue apathie opposition cris NPI", "S1 P1 P2", "",
+    "Symptômes psycho-comportementaux tracés depuis au moins 1 mois : agitation, agressivité, déambulation, fugues, refus de soins, apathie, symptômes anxio-dépressifs, idées délirantes, hallucinations, troubles graves du sommeil… (à ne pas recoder en 15, 16 ou 17). Grilles NPI-ES, Cohen-Mansfield.",
+    [["S1", "Résident équilibré par les thérapeutiques médicamenteuses et environnementales."], ["P2", "Item NPI-ES > 3 et retentissement 2 à 4 ; prise en charge psychologique et/ou psychomotrice requise ; forte sollicitation de l'équipe décrite dans le dossier. Incompatible avec Cohérence A et Orientation A (AGGIR)."], ["P1", "NPI-ES > 7 et retentissement 4 à 5 ; troubles graves à rechutes fréquentes, psychiatre pluri-hebdomadaire, mobilisation jour et nuit (relèveraient d'une UHR ou UCC)."], ["", "Apathie : P2, exceptionnellement P1. Rechercher et coder la cause (18, 15, 17, confusion…)."]]],
+  [15, "neuro", "États dépressifs", "depression melancolie antidepresseur", "T2 P1 P2 S1", "",
+    "États dépressifs caractérisés (DSM-5), pas la simple tristesse. Rechercher une cause organique (hypothyroïdie) ou un trouble neurocognitif, à coder en plus.",
+    [["P1", "Phase aiguë ou très instable, à haut risque de rechute : psychiatre et psychologue quotidiens ou pluri-hebdomadaires (ex. tentative de suicide)."], ["P2", "Psychologue et/ou équipe de l'institution au long cours."], ["S1", "Traitement chronique et surveillance."]]],
+  [16, "neuro", "États anxieux", "anxiete angoisse phobie TOC panique", "T2 P1 P2 DG S1", "",
+    "Anxiété pathologique au long cours (sans objet, pour des situations passées, pour des futilités) : névroses, phobies, obsessions, attaques de panique.",
+    [["P2", "États anxieux sévères au long cours mobilisant médecins et équipe."], ["DG", "Somatisations : démarche diagnostique."], ["P1", "Phase aiguë ou très instable, psychiatre et psychologue quotidiens ou pluri-hebdomadaires."]]],
+  [17, "neuro", "Psychoses, délires, hallucinations", "schizophrenie bipolaire paranoia delire psychose", "P1 P2 S1", "T1 T2",
+    "États psychotiques caractérisés (schizophrénie, paranoïa, psychose hallucinatoire chronique, troubles bipolaires), maladies délirantes et hallucinatoires. Les symptômes d'une démence se codent en 14.",
+    [["P1", "Phase aiguë (diagnostic psychiatrique et instauration du traitement) ou très instable."], ["P2", "Prise en charge institutionnelle au long cours (délires stabilisés mobilisant lourdement l'équipe)."], ["S1", "Pathologie enkystée : surveillance d'un traitement stable et de son observance."], ["T1", "T1 et T2 : plus utilisés en pratique."]]],
+  [18, "neuro", "Syndrome démentiel", "Alzheimer demence trouble neurocognitif majeur TNC MMSE corps de Lewy", "S0 S1 P2 DG", "T2 P1",
+    "Troubles neurocognitifs majeurs (Alzheimer ou apparentés). Ne code que le volet cognitif ; les troubles du comportement se codent en plus en 14.",
+    [["S0", "Pas de traitement spécifique ; démence très évoluée."], ["S1", "Surveillance et réévaluation avec fiche de suivi, éventuel traitement spécifique selon l'AMM (rendu improbable par la Commission de la transparence) ; non accessible à la réhabilitation ; peut bénéficier de l'animation."], ["P2", "Stimulation cognitive prescrite, en ateliers plusieurs fois par semaine, par du personnel formé (psychologue, psychomotricien, ergothérapeute, ASG) ; stade léger à modéré (MMSE ≥ 20 léger, 10 à 19 modéré) ; résident qui le veut et le peut, sans troubles graves du comportement ni refus ; pas C aux 2 sous-items de Cohérence (AGGIR)."], ["DG", "Décision sur l'intérêt d'une recherche étiologique ; pas dans l'attente d'un rendez-vous en consultation mémoire ; plus requis dans les formes évoluées."], ["T2", "T2 et P1 : plus utilisés en pratique."]]],
+  [19, "pneumo", "Broncho-pleuro-pneumopathies", "pneumopathie bronchite BPCO pleuresie inhalation tuberculose", "T1 T2 R1 DG S1 S0", "",
+    "Bronchites aiguës, surinfections, pneumopathies, pleurésies ; bronchopathies chroniques ; tuberculose.",
+    [["T2", "Comprend médecin, IDE, kiné, imagerie, biologie, antibiothérapie : ne pas coder en plus 22. L'oxygène seul ne justifie pas T2."], ["R1", "Kinésithérapie respiratoire individuelle, si le résident la supporte et y participe."], ["", "Broncho-pneumopathie T2 englobe R1 s'il n'y a pas d'insuffisance respiratoire."]]],
+  [20, "pneumo", "Insuffisances respiratoires", "IRC oxygene oxygenotherapie tracheotomie", "T1 T2 R1 DG S1 S0", "",
+    "Insuffisance respiratoire aiguë ; IRC grave (PaO₂ de repos < 55 mmHg à 2 reprises à 15 jours, VEMS < 50 %).",
+    [["T2", "Oxygénothérapie sur état général altéré avec surveillance prescrite et tracée (saturation, FR, PA…) et réajustements plusieurs fois par semaine ; trachéotomie avec aspirations IDE plusieurs fois par jour."], ["S1", "IRC non compliquée traitée (y compris oxygène) et surveillée ; trachéotomie en simple surveillance et changement de canule."], ["R1", "Kinésithérapie respiratoire individuelle."]]],
+  [21, "pneumo", "Embolies pulmonaires", "embolie pulmonaire EP", "T1 T2 DG S1", "",
+    "Toutes les formes de migration aiguë et/ou récidivante. Coder aussi la phlébite (05) et la FA (04) avec leur profil.",
+    [["T2", "Période de soins sans pronostic vital en jeu."], ["S1", "Traitement de fond après l'embolie."]]],
+  [22, "infect", "Syndromes infectieux généraux bactériens ou viraux", "sepsis septicemie pyelonephrite virose endocardite", "T1 T2 DG S1", "",
+    "États infectieux généralisés aigus ou chroniques, viroses, pyélonéphrite ; hors broncho-pneumopathie (19).",
+    [["S1", "Antibiothérapie orale de consolidation."], ["", "Les épidémies et les campagnes de vaccination ne se codent pas."]]],
+  [23, "infect", "Syndromes infectieux locaux", "zona erysipele abces", "T1 T2 CH S1", "",
+    "Zona, érysipèle, abcès des parties molles, lésions cutanéo-muqueuses infectieuses (os : 30 ; œil : 46).",
+    [["CH", "Soins locaux lourds (≥ 20 min IDE tous les jours ou tous les 2 jours)."], ["S1", "Soins locaux simples."]]],
+  [24, "infect", "Infections urinaires basses", "cystite infection urinaire BMR ECBU sonde", "DG S1 S0", "",
+    "Infections urinaires sans signes généraux, cliniquement pertinentes, souvent récidivantes (y compris sur sonde). La pyélonéphrite se code 22.",
+    [["S1", "Germe multirésistant asymptomatique : S1 (mesures d'hygiène), jamais T2."], ["S0", "Infection connue « banale » sans traitement ni surveillance."], ["DG", "Prescrire un ECBU et en attendre le résultat ne justifie pas DG."]]],
+  [25, "dermato", "Escarres, ulcères et autres plaies", "escarre ulcere plaie pansement Braden", "CH S1", "",
+    "Lésions cutanées avec perte de substance et traitement prolongé, toutes localisations.",
+    [["CH", "≥ 20 min d'IDE tous les jours ou tous les 2 jours (installation comprise, hors chariot) ; détersion, antalgie avant le pansement, ou multiplication de pansements simples."], ["S1", "Lésion débutante (stade 1, rougeur tracée) ou Braden ≤ 17 justifiant une surveillance IDE ; soin simple."], ["", "La prévention des escarres sans lésion relève d'AGGIR. Tous les grabataires ne sont pas « escarres S1 ». En état terminal, l'escarre se code obligatoirement."]]],
+  [26, "dermato", "Autres lésions cutanées graves", "brulure psoriasis eczema pemphigoide bulleuse", "CH DG S1", "",
+    "Dermatoses bulleuses, brûlures, grands psoriasis, eczémas suintants… générant des soins techniques.",
+    [["DG", "Le médecin s'interroge sur la conduite à tenir (avis spécialisé, biopsie)."], ["S1", "Simple rendez-vous chez un dermatologue."]]],
+  [27, "osteo", "Pathologie de la hanche", "fracture col femur PTH prothese hanche coxarthrose", "T2 R1 R2 DG S1 S0", "",
+    "Fractures (opérées ou non), arthroses, arthropathies, infections, nécrose de la hanche. Le bassin se code en 30.",
+    [["R2", "Surtout en postopératoire ; après une prothèse de hanche, ne pas coder à la fois R2 hanche et R2 troubles de la marche (47)."]]],
+  [28, "osteo", "Pathologie de l'épaule", "epaule fracture tendinopathie PPR capsulite", "T2 R1 R2 DG S1 S0", "",
+    "Fractures, arthrites, tendinopathies, microcristallines de l'épaule ; PPR à prédominance scapulaire.", []],
+  [29, "osteo", "Pathologie vertébro-discale", "tassement vertebral osteoporose rachis scoliose cyphose lombalgie", "T2 R1 R2 DG S1 S0", "",
+    "Fractures vertébrales, cyphoses et scolioses, ostéoporose rachidienne à risque de tassement, lésions discales, infections vertébrales.",
+    [["T2", "Phase aiguë (ex. douleur instable d'une métastase vertébrale : 29 T2 et 43 S0 si pas de traitement du cancer)."], ["S1", "Vitamine D-calcium, traitements anti-ostéoporotiques."], ["S0", "Cyphoscoliose ancienne responsable d'une insuffisance respiratoire : 20 avec son profil et 29 S0."]]],
+  [30, "osteo", "Pathologies osseuses d'autres localisations", "fracture bassin cotes os crane dents", "T2 R1 R2 DG S1 S0", "",
+    "Lésions osseuses non articulaires hors cancer : côtes, bassin, crâne, sinus, maxillaires, dents…", []],
+  [31, "osteo", "Polyarthrite, pathologies articulaires d'autres localisations", "polyarthrite goutte chondrocalcinose genou gonarthrose", "T2 R1 R2 DG S1 S0", "",
+    "Polyarthrite rhumatoïde, goutte, chondrocalcinose ; atteintes des genoux, mains, chevilles…", []],
+  [32, "gastro", "Syndromes digestifs hauts", "RGO oesophagite gastrite ulcere fausses routes deglutition gastrostomie", "T1 T2 CH DG S1 S0", "",
+    "Hernie hiatale, œsophagite, gastrite, ulcère ; troubles de la déglutition récidivants. Cancers : 43.",
+    [["S1", "Fausses routes ponctuelles : surveillance IDE des prises orales, textures adaptées, position assise ; gastrostomie bien tolérée."], ["T2", "Fausses routes récidivantes (plusieurs fois par semaine, tracées) ou pneumopathies de déglutition récidivantes nécessitant le médecin ; gastrostomie avec altération de l'état général."], ["CH", "Soins locaux postopératoires."], ["", "La rééducation de la déglutition (kiné, orthophoniste) se code en R sur la pathologie causale (ex. 10, 12), pas en 32."]]],
+  [33, "gastro", "Syndromes abdominaux", "constipation diarrhee occlusion fecalome sigmoidite diverticule colite hernie", "T1 T2 DG CH S1 S0", "",
+    "Symptômes abdominaux et pathologies bénignes du côlon (constipation opiniâtre, diarrhée, occlusion, sigmoïdite…), pathologies gynécologiques et vésicales bénignes. Cancers : 43.",
+    [["T2", "Intervention d'un médecin nécessaire pour suivre l'évolution à court terme."], ["CH", "Soins locaux importants en postopératoire."]]],
+  [34, "gastro", "Pathologie hépatique, biliaire, pancréatique", "cirrhose hepatite lithiase pancreatite cholecystite", "T1 T2 CH DG S1 S0", "",
+    "Arbre biliaire, foie (iatrogène ou non, cirrhoses, hépatites), pancréas bénin. Cancers : 43.", []],
+  [35, "gastro", "Dénutrition", "denutrition amaigrissement perte de poids albumine CNO complements", "T2 DG S1 S0", "",
+    "Critères HAS 2021 : au moins 1 critère phénotypique (perte de poids ≥ 5 % en 1 mois ou ≥ 10 % en 6 mois ; IMC < 22 ; sarcopénie confirmée) ET 1 critère étiologique (réduction des apports ≥ 50 % mesurée sur fiches de 3 jours ; malabsorption ; pathologie aiguë, chronique ou maligne). Sévère : IMC < 20, perte ≥ 10 % en 1 mois ou ≥ 15 % en 6 mois, albuminémie ≤ 30 g/L.",
+    [["T2", "Dénutrition récente sévère ou après un évènement aigu, renutrition avec réelles chances de succès : pesée hebdomadaire, fiches alimentaires 3 j, albuminémie régulière, traitement de la cause, alimentation enrichie ou CNO, surveillance médico-infirmière pluri-hebdomadaire. La seule prescription de CNO ne justifie pas T2."], ["DG", "Le médecin envisage une démarche étiologique (pas le simple contexte aigu ou le retour d'hospitalisation)."], ["S1", "Alimentation enrichie, fractionnée, fiche de surveillance, courbe de poids ; prévention chez un résident à risque identifié et tracé ; nutrition entérale simple."], ["S0", "Aucune renutrition utile ni raisonnable ; « Manger » coté B ou C dans AGGIR."]]],
+  [36, "endoc", "Diabète", "diabete insuline hypoglycemie glycemie", "T1 T2 S1", "",
+    "Tout diabète traité et ses accidents (hypoglycémie, acidocétose, coma hyperosmolaire). Les complications se codent dans leur rubrique (02, 07, 10, 40, 46).",
+    [["S1", "Diabète stable même sous insuline ; ajustements protocolisés."], ["T2", "Modifications pour des glycémies dépassant franchement les objectifs ou symptomatiques : avis médical pluri-hebdomadaire, ajustements non protocolisables."]]],
+  [37, "endoc", "Dysthyroïdie", "hypothyroidie hyperthyroidie levothyrox amiodarone", "T2 CH DG S1", "",
+    "Hypothyroïdies traitées (pas les formes biologiques frustes) et hyperthyroïdies. Une FA associée se code en plus (04).",
+    [["T2", "Démarrage du traitement (thyroxine, antithyroïdiens) avec risque cardiaque."], ["S1", "Traitement d'entretien."], ["CH", "Soins locaux lourds après thyroïdectomie."]]],
+  [38, "endoc", "Troubles de l'hydratation", "deshydratation hypodermoclyse perfusion sous cutanee hyponatremie", "T2 DG S1", "",
+    "Tous les troubles de l'hydratation. Coder aussi la cause avec son profil.",
+    [["T2", "Perfusion sous-cutanée chez un résident à l'état général altéré, ionogramme déséquilibré, surveillance clinique et biologique rapprochée."], ["S1", "Simple complément hydrique sous-cutané chez une personne buvant peu ; ou si la cause est déjà codée T1/T2."], ["", "Faire boire, eau gélifiée : AGGIR."]]],
+  [39, "uro", "Rétention urinaire", "retention sonde a demeure sondage globe prostate", "T2 DG S1", "",
+    "Rétentions aiguës ou chroniques, obstacle bénin ou malin (cancer de la prostate : coder aussi 43).",
+    [["S1", "Sonde à demeure ou cathéter sus-pubien : surveillance et changement."]]],
+  [40, "uro", "Insuffisance rénale", "insuffisance renale IRC dialyse DFG", "T1 T2 DG S1 S0", "",
+    "Toutes les insuffisances rénales cliniquement pertinentes, y compris dialysés.",
+    [["T2", "Dialyse péritonéale dans l'établissement."], ["S1", "Hémodialyse hors établissement ; IR sévère non traitée mais surveillée car elle modifie la prescription."], ["S0", "IR non traitée, surveillée par ionogrammes."], ["", "IR stable sans impact sur le traitement : ce n'est pas S1."]]],
+  [41, "uro", "Incontinence", "incontinence urinaire fecale protections calendrier mictionnel", "R1 DG S1 S0", "",
+    "Toutes les incontinences, quel qu'en soit le mécanisme.",
+    [["R1", "Rééducation de l'incontinence."], ["S1", "Traitement médicamenteux ; calendrier mictionnel et accompagnement aux toilettes chez un résident à risque identifié, avec objectif de récupération (pas systématique)."], ["S0", "Simple pose de protections ; accompagnement aux toilettes par les AS (AGGIR)."], ["", "Sonde à demeure : S1 dans le guide ; la formation 2022 la rattache à « Rétention urinaire S1 » (39)."]]],
+  [42, "autres", "Anémies", "anemie carence martiale fer B12 transfusion", "T1 T2 DG S1 S0", "",
+    "Toutes les anémies cliniquement pertinentes. Coder aussi la cause (43, 44, 40, 45).",
+    [["DG", "Anémie de découverte récente, le temps de décider la conduite à tenir. Une anémie connue depuis des mois et non explorée n'est pas DG."], ["T2", "Transfusions répétées dans l'établissement ; anémie aiguë à transfuser sur site."], ["S1", "Transfusions à l'extérieur ; traitement prescrit."]]],
+  [43, "autres", "États cancéreux", "cancer tumeur metastase chimiotherapie hormonotherapie", "T1 T2 CH DG S1 S0", "",
+    "Toutes les tumeurs solides en place ou opérées récemment ; coder aussi leurs conséquences.",
+    [["S1", "Surveillance spécifique, traitement oral (ex. hormonothérapie d'un cancer de la prostate)."], ["DG", "Explorations d'une masse suspecte."], ["S0", "Traitements arrêtés (notamment en état terminal)."], ["T2", "Chimiothérapie lourde, trachéotomie avec aspirations IDE itératives (exceptionnel en EHPAD)."]]],
+  [44, "autres", "Hémopathies malignes", "myelome lymphome leucemie LLC Waldenstrom", "T1 T2 DG S1 S0", "",
+    "Myélome, Waldenström, lymphomes, leucémies aiguës ou chroniques.",
+    [["T2", "Transfusion (surveillance clinique et traçabilité des produits sanguins)."], ["S0", "Traitements spécifiques arrêtés."]]],
+  [45, "autres", "Syndrome inflammatoire ou fièvre inexpliqués", "CRP syndrome inflammatoire fievre", "DG S1 S0", "",
+    "Anomalies biologiques inflammatoires inexpliquées, fièvres prolongées inexpliquées.", []],
+  [46, "autres", "Pathologies oculaires évolutives", "glaucome collyre retinopathie DMLA cataracte cecite zona ophtalmique", "T2 CH DG S1 S0", "",
+    "Glaucomes évolutifs sous collyres, rétinopathies diabétiques explorées, infections, zona ophtalmique.",
+    [["", "Cataracte opérée ou non, cécité : S1 ou S0."]]],
+  [47, "autres", "État grabataire, troubles de la marche", "marche chute equilibre kine reeducation grabataire retractions post chute", "R1 R2 S1", "",
+    "Pathologies de la motricité avec une intervention visant à récupérer la marche ou prévenir son aggravation ; syndrome post-chute. Le résident doit vouloir et pouvoir participer.",
+    [["R1", "Dégrabatisation lourde, reverticalisation et réapprentissage de la marche (type SSR)."], ["R2", "Évalué par un rééducateur, progression objective, participe ; troubles de l'équilibre (chuteur) si prise en charge quotidienne possible et acceptée, réévaluée ; rétractions débutantes prises en charge chaque jour par le kiné."], ["S1", "Prévention de la perte de marche ; mobilisation passive ; maintien de la marche par les AS sous surveillance IDE après une rééducation ; ateliers d'équilibre collectifs ; revalidation refusée ou irréaliste ; rétractions installées ou prévention chez un résident à risque."], ["", "L'entretien de la marche sans perspective d'amélioration relève d'AGGIR. La rééducation d'une pathologie causale lourde se code ici (ex. 06 CH + 47 R1)."]]],
+  [48, "autres", "État terminal", "fin de vie soins palliatifs palliatif agonie", "M1 M2", "",
+    "Uniquement quand toute thérapeutique curative est exclue et que le passage aux soins palliatifs ou de confort est formalisé (EMSP, HAD, fiche SAMU-Pallia…). Les grabataires au long cours ne sont pas 48.",
+    [["M1", "Soins techniques lourds continus et/ou relationnels plurijournaliers ; exceptionnellement associé à une pathologie aiguë T2 (ex. pneumopathie d'inhalation traitée pour le confort)."], ["M2", "Soins de confort sans soins techniques lourds ; M2 + P2 possible si prise en charge psychologique lourde."], ["", "Coder aussi les pathologies causales, habituellement en S1 ou S0, et obligatoirement les escarres (25 S1 ou CH). Une famille difficile ne justifie pas à elle seule M1 ou M2."]]],
+  [49, "autres", "Autres pathologies", "autre", "T1 T2 P1 P2 R1 R2 CH DG M1 M2 S1 S0", "",
+    "Diagnostics non classables ailleurs (< 2 % des situations). À utiliser avec parcimonie, en écrivant le diagnostic en clair : il sera demandé à la validation.", []],
+  [50, "autres", "Aucune pathologie pertinente à retenir", "aucune", "S0", "",
+    "Personne âgée sans pathologie notable (autonome ou non).", []]
+];
+const PTH_PCOL = { T: "red", P: "purple", R: "blue", C: "amber", D: "slate", M: "wine", S: "emerald" };
+const PTH_ORDER = ["T1", "T2", "P1", "P2", "R1", "R2", "CH", "DG", "M1", "M2", "S1", "S0"];
+
+function pthS(){
+  if(!state.pathos) state.pathos = { tab: "etats", q: "", open: null, list: [], seq: 0, ag: { gir: "", coh: "", ori: "", depl: "", alim: "", comm: "" },
+    res: { nom: "", prenom: "", naissance: "", etab: "", date: axToday() } };
+  return state.pathos;
+}
+function pthE(n){ const e = PTH_ETATS.find(x => x[0] === n); return e ? { n: e[0], dom: e[1], lib: e[2], kw: e[3], pr: e[4].split(" "), obs: e[5] ? e[5].split(" ") : [], reg: e[6], notes: e[7] } : null; }
+function pthP(id){ return PTH_PROFILS.find(p => p.id === id); }
+function pthN(n){ return String(n).padStart(2, "0"); }
+function pthNorm(t){ return String(t || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+function pthChip(id, on, extra){
+  const p = pthP(id), c = colorVars(PTH_PCOL[p.g]);
+  return `<span class="pth-chip ${on ? "" : "pth-chip-off"} ${extra || ""}" style="--pill:${c.pill};--pillbg:${c.pillbg}" title="${escapeHtml(p.id + " — " + p.nom)}">${p.id}</span>`;
+}
+/* « 32 R2 », « 18p2 », « 47 », « démence » */
+function pthParse(q){
+  const m = String(q || "").trim().toUpperCase().match(/^(\d{1,2})\s*[-–/ ]?\s*(T1|T2|P1|P2|R1|R2|CH|DG|M1|M2|S1|S0)?$/);
+  if(!m) return null;
+  const n = +m[1];
+  return n >= 1 && n <= 50 ? { n, p: m[2] || null } : null;
+}
+function pthCheck(n, p){
+  const e = pthE(n);
+  if(!e) return { ok: false, t: "Il n'existe pas d'état pathologique n° " + n + " (1 à 50)." };
+  if(!p) return { ok: true, t: "" };
+  if(e.pr.includes(p)) return { ok: true, t: `Le couple ${pthN(n)} ${p} existe : ${e.lib} — ${pthP(p).nom}.` };
+  if(e.obs.includes(p)) return { ok: "obs", t: `Le couple ${pthN(n)} ${p} figure dans le modèle mais n'est plus utilisé en pratique (guide CNSA 2022).` };
+  return { ok: false, t: `Le couple ${pthN(n)} ${p} n'existe pas : pour « ${e.lib} », les profils retenus sont ${e.pr.join(", ")}.` };
+}
+
+/* Consigne du guide propre au couple, sinon ce qu'il faut tracer pour le profil */
+function pthCoupleNote(n, p){
+  const e = pthE(n);
+  return e ? e.notes.filter(([q]) => q === p).map(([, t]) => t).join(" ") : "";
+}
+
+/* Ce qu'il faut retrouver dans le dossier, précisé pour P2 selon l'état (guide 2022) */
+async function pthImport(input){
+  const f = input.files && input.files[0]; input.value = "";
+  const say = (cls, t) => { const o = document.getElementById("pthImpMsg"); if(o) o.innerHTML = `<span class="${cls}">${escapeHtml(t)}</span>`; };
+  if(!f) return;
+  try{
+    const d = await mcoReadPdf(f), P = pthS();
+    const r = Object.assign({ nom: "", prenom: "", naissance: "", etab: "", date: "" }, d.res || {});
+    if(!mcoSamePerson(P.res, r)) throw new Error(`Ce fichier concerne ${mcoWho(r)}, pas ${mcoWho(P.res)}. Réinitialise d'abord si tu changes de résident.`);
+    ["nom", "prenom", "naissance", "etab"].forEach(k => { if(!P.res[k] && r[k]) P.res[k] = r[k]; });
+    let msg;
+    if(d.type === "aggir"){
+      const x = agCodesFrom(d.sub || {});
+      Object.assign(P.ag, { gir: x.g.gir ? String(x.g.gir) : "", coh: x.c.coh || "", comm: x.comm || "", ori: x.c.ori || "", depl: x.c.dpi || "", alim: x.c.ali || "" });
+      msg = `✓ Grille AGGIR du ${pthFr(r.date) || d.saved || "?"} importée : ${x.g.gir ? "GIR " + x.g.gir : "grille incomplète"}.`;
+    }else if(d.type === "pathos"){
+      P.list = (d.list || []).filter(x => pthE(x.n) && pthE(x.n).pr.includes(x.p)).map(x => ({ id: ++P.seq, n: x.n, p: x.p, clair: x.clair || "" }));
+      Object.assign(P.ag, d.ag || {}); if(r.date) P.res.date = r.date;
+      msg = `✓ Codage PATHOS repris : ${P.list.length} couple${P.list.length > 1 ? "s" : ""}.`;
+    }else throw new Error("Type de fichier inconnu.");
+    P.tab = "res"; renderPathosPanel(); say("pth-q-ok", msg);
+  }catch(e){ say("pth-q-ko", e.message || "Fichier illisible."); }
+}
+window.pthImport = pthImport;
+
+function pthTrace(n, p){
+  if(p === "P2" && n === 18) return "Évaluation et prescription médicales de la stimulation cognitive ; séances et participation du résident tracées.";
+  if(p === "P2" && n === 14) return "Troubles décrits (NPI-ES), forte sollicitation de l'équipe dans le dossier de soins, effet de la prise en charge relationnelle.";
+  if(p === "P2") return "Diagnostic posé, évaluation, prise en charge psychologique ou institutionnelle et son suivi.";
+  return pthP(p).trace;
+}
+
+/* ------------------------------------------------------------ actions */
+function pthTab(t){ pthS().tab = t; renderPathosPanel(); }
+function pthQ(v){ const s = pthS(); s.q = v; const p = pthParse(v); if(p && !p.p) s.open = p.n; pthRefreshList(); }
+function pthOpen(n){ const s = pthS(); s.open = s.open === n ? null : n; pthRefreshList(); }
+function pthAdd(n, p){
+  const s = pthS();
+  const i = s.list.findIndex(x => x.n === n);
+  if(i >= 0) s.list[i].p = p; else s.list.push({ id: ++s.seq, n, p, clair: "" });
+  s.list.sort((a, b) => a.n - b.n);
+  pthRefreshList(); pthRefreshCount();
+  const t = document.getElementById("pthToast");
+  if(t){ t.textContent = `✓ ${pthN(n)} ${p} ajouté au codage du résident`; t.classList.add("pth-toast-on"); clearTimeout(pthAdd._t); pthAdd._t = setTimeout(() => t.classList.remove("pth-toast-on"), 1800); }
+}
+function pthDel(id){ const s = pthS(); s.list = s.list.filter(x => x.id !== id); renderPathosPanel(); }
+function pthSetP(id, p){ const x = pthS().list.find(y => y.id === id); if(x){ x.p = p; renderPathosPanel(); } }
+function pthClair(id, v){ const x = pthS().list.find(y => y.id === id); if(x) x.clair = v; }
+function pthAg(k, v){ pthS().ag[k] = v; const el = document.getElementById("pthAlerts"); if(el) el.innerHTML = pthAlertsHTML(); }
+function pthReset(){ const t = pthS().tab; state.pathos = null; pthS().tab = t; renderPathosPanel(); }
+function pthRes(k, v){ pthS().res[k] = v; }
+function pthFast(ev){
+  const inp = ev.target, out = document.getElementById("pthFastOut");
+  if(ev.type === "keydown" && ev.key !== "Enter") return;
+  const v = inp.value.trim(), p = pthParse(v);
+  const say = (cls, t) => { if(out) out.innerHTML = `<span class="${cls}">${escapeHtml(t)}</span>`; };
+  if(!v){ if(out) out.innerHTML = ""; return; }
+  if(!p || !p.p){
+    if(ev.type === "keydown") say("pth-q-ko", "Écris le numéro et le profil, ex. « 35 S1 ».");
+    else if(p){ const e = pthE(p.n); if(out) out.innerHTML = e ? `${pthN(e.n)} ${escapeHtml(e.lib)} : ${e.pr.map(x => pthChip(x, true)).join("")}` : ""; }
+    else if(out) out.innerHTML = "";
+    return;
+  }
+  const r = pthCheck(p.n, p.p);
+  if(ev.type !== "keydown"){ say(r.ok === true ? "pth-q-ok" : r.ok === "obs" ? "pth-q-warn" : "pth-q-ko", (r.ok === true ? "✓ " : "✗ ") + r.t + (r.ok === true ? " — Entrée pour l'ajouter." : "")); return; }
+  if(r.ok !== true){ say("pth-q-ko", r.t); return; }
+  pthAdd(p.n, p.p); renderPathosPanel();
+  const ni = document.getElementById("pthFastIn"); if(ni) ni.focus();
+}
+function pthQuick(){
+  const inp = document.getElementById("pthQuickIn"), out = document.getElementById("pthQuickOut");
+  if(!inp || !out) return;
+  const v = inp.value.trim();
+  if(!v){ out.innerHTML = ""; return; }
+  const p = pthParse(v);
+  if(!p){ out.innerHTML = `<span class="pth-q-ko">Écris un numéro et un profil, par exemple « 32 S1 » ou « 18 P2 ».</span>`; return; }
+  const r = pthCheck(p.n, p.p), e = pthE(p.n);
+  if(!p.p){ out.innerHTML = e ? `<strong>${pthN(e.n)} — ${escapeHtml(e.lib)}</strong> · profils retenus : ${e.pr.map(x => pthChip(x, true)).join("")}` : `<span class="pth-q-ko">${escapeHtml(r.t)}</span>`; return; }
+  out.innerHTML = `<span class="${r.ok === true ? "pth-q-ok" : r.ok === "obs" ? "pth-q-warn" : "pth-q-ko"}">${r.ok === true ? "✓" : r.ok === "obs" ? "⚠️" : "✗"} ${escapeHtml(r.t)}</span>${r.ok === true ? ` <button type="button" class="pth-mini" onclick="pthAdd(${p.n}, '${p.p}')">+ Ajouter au résident</button>` : ""}`;
+}
+Object.assign(window, { pthTab, pthQ, pthOpen, pthAdd, pthDel, pthSetP, pthClair, pthAg, pthReset, pthQuick, pthRes, pthFast });
+
+/* ------------------------------------------------------------ alertes (guide 2022 : alertes croisées AGGIR-PATHOS + consignes) */
+function pthAlertsList(){
+  const s = pthS(), L = s.list, A = s.ag, out = [];
+  const has = (n, p) => L.some(x => x.n === n && (!p || (Array.isArray(p) ? p.includes(x.p) : x.p === p)));
+  const any = p => L.some(x => x.p === p);
+  const add = (lvl, t) => out.push([lvl, t]);
+  if(!L.length) return out;
+  L.forEach(x => { const r = pthCheck(x.n, x.p); if(r.ok !== true) add(r.ok === "obs" ? "warn" : "hot", r.t); });
+  // alertes croisées AGGIR-PATHOS (liste officielle du guide)
+  const cohC = A.coh === "C" && A.ori === "C";
+  if(A.gir === "1" && has(18, ["S0", "S1"]) && L.some(x => x.p === "R1" && ![5, 19, 20].includes(x.n))) add("hot", "Alerte croisée : GIR 1 + syndrome démentiel S0/S1 + R1 sur une autre pathologie que 05, 19 ou 20.");
+  if(cohC && has(18, "P2")) add("hot", "Alerte croisée : Cohérence C et Orientation C avec syndrome démentiel P2.");
+  if(cohC && !has(18)) add("warn", "Alerte croisée : Cohérence C et Orientation C sans syndrome démentiel (18) codé.");
+  if(cohC && any("R1")) add("hot", "Alerte croisée : Cohérence C et Orientation C avec un profil R1.");
+  if(A.coh === "A" && A.ori === "A" && has(14)) add("hot", "Alerte croisée : Cohérence A et Orientation A avec troubles du comportement (14).");
+  if(A.alim === "A" && has(38, ["T2", "S1", "DG"])) add("warn", "Alerte croisée : Alimentation A avec troubles de l'hydratation (38).");
+  if((A.gir === "5" || A.gir === "6") && has(48)) add("hot", "Alerte croisée : GIR 5 ou 6 avec état terminal (48).");
+  if(A.depl === "A"){
+    const inc = [[13, "syndrome confusionnel"], [21, "embolie pulmonaire"], [22, "syndrome infectieux général"], [10, "AVC"], [27, "pathologie de la hanche"], [29, "pathologie vertébro-discale"]].filter(([n]) => has(n, "T2"));
+    if(inc.length) add("hot", "Alerte croisée : Déplacement intérieur A incompatible avec " + inc.map(([n, l]) => pthN(n) + " " + l + " T2").join(", ") + ".");
+  }
+  // consignes du guide
+  if((A.gir === "1" || A.comm === "C") && L.some(x => x.p === "R1" || x.p === "R2")) add("warn", "Profil R chez un résident GIR 1 ou communication C : selon le guide, la rééducation est alors généralement codée S1 (le résident doit comprendre les consignes et coopérer).");
+  if(has(19, ["T2", "R1"]) && has(22)) add("warn", "Broncho-pneumopathie T2 ou R1 : ne pas coder en plus un syndrome infectieux général (22).");
+  if(has(48)){
+    if(!L.some(x => x.n !== 48 && x.n !== 25 && ["S1", "S0", "T2"].includes(x.p))) add("warn", "État terminal : coder aussi la ou les pathologies causales (habituellement S1 ou S0).");
+    if(!has(25)) add("info", "État terminal : penser à coder les escarres s'il y en a (25 S1 ou CH), c'est obligatoire.");
+  }
+  if(has(27, "R2") && has(47, "R2")) add("warn", "Hanche R2 + troubles de la marche R2 : après une prothèse de hanche, on ne code pas les deux.");
+  const r2 = L.filter(x => x.p === "R2" && [10, 12, 27, 47].includes(x.n));
+  if(r2.length > 1) add("info", "Plusieurs R2 parmi AVC, Parkinson, hanche, troubles de la marche : vérifier qu'il s'agit bien de besoins de rééducation distincts.");
+  if(has(14) && !L.some(x => [18, 15, 16, 17, 10, 12, 13].includes(x.n))) add("info", "Troubles du comportement (14) : rechercher et coder la pathologie causale (démence, dépression, psychose, AVC, Parkinson…).");
+  const pP2 = L.filter(x => x.p === "P2" && [15, 16, 17].includes(x.n));
+  if(pP2.length > 1) add("warn", "Plusieurs états psychiatriques en P2 : seul celui qui mobilise le plus l'équipe est P2, les autres en S1.");
+  if(has(18) && L.some(x => [15, 16, 17].includes(x.n)) && has(14)) add("info", "Symptômes anxieux, dépressifs ou délirants d'une démence : ils sont compris dans 14 ; ne coder 15, 16 ou 17 que pour une maladie caractérisée.");
+  if(has(49)) L.filter(x => x.n === 49 && !x.clair.trim()).forEach(() => add("warn", "Autres pathologies (49) : écrire le diagnostic en clair, il sera demandé à la validation."));
+  if(any("DG")) add("info", "DG : vérifier que la démarche diagnostique est récente et tracée (pas un simple rendez-vous ni une pathologie ancienne non explorée).");
+  return out;
+}
+function pthAlertsHTML(){
+  if(!pthS().list.length) return `<p class="mz-note">Ajoute des couples « état pathologique – profil » pour voir les contrôles.</p>`;
+  const out = pthAlertsList();
+  if(!out.length) return `<p class="pth-ok-all">✓ Aucune incohérence détectée avec les règles du guide. La validation reste celle du médecin coordonnateur, sur pièces.</p>`;
+  return `<div class="cont-alerts">${out.map(([l, t]) => `<div class="cont-alert cont-alert-${l === "hot" ? "hot" : l === "warn" ? "warn" : "info"}">${escapeHtml(t)}</div>`).join("")}</div>`;
+}
+
+/* ------------------------------------------------------------ rendu : thésaurus */
+function pthEtatCard(e, open){
+  const s = pthS();
+  const inList = s.list.find(x => x.n === e.n);
+  const head = `<button type="button" class="pth-et-head" onclick="pthOpen(${e.n})" aria-expanded="${open}">
+      <span class="pth-num">${pthN(e.n)}</span>
+      <span class="pth-et-lib">${escapeHtml(e.lib)}${inList ? ` <span class="pth-in">✓ ${inList.p}</span>` : ""}</span>
+      <span class="pth-grid">${PTH_ORDER.map(p => pthChip(p, e.pr.includes(p), e.obs.includes(p) ? "pth-chip-obs" : "")).join("")}</span>
+      <span class="pth-caret">${open ? "▴" : "▾"}</span>
+    </button>`;
+  if(!open) return `<div class="pth-et">${head}</div>`;
+  const gen = e.notes.filter(([p]) => !p);
+  return `<div class="pth-et pth-et-open">${head}
+    <div class="pth-et-body">
+      <p class="pth-reg"><strong>Regroupe :</strong> ${escapeHtml(e.reg)}</p>
+      ${gen.length ? `<div class="pth-gen">${gen.map(([, t]) => `<p>📌 ${escapeHtml(t)}</p>`).join("")}</div>` : ""}
+      <p class="neurolep-label" style="margin:10px 0 6px">Profils possibles — clique pour l'ajouter au codage du résident</p>
+      <div class="pth-profs">${e.pr.map(p => {
+        const P = pthP(p), c = colorVars(PTH_PCOL[P.g]);
+        const spec = e.notes.filter(([q]) => q === p).map(([, t]) => t);
+        return `<div class="pth-prof" style="--pill:${c.pill};--pillbg:${c.pillbg}">
+          <div class="pth-prof-h"><span class="pth-chip">${p}</span><strong>${escapeHtml(P.nom)}</strong><span class="ax-tabs-sp"></span><button type="button" class="pth-mini ${inList && inList.p === p ? "pth-mini-on" : ""}" onclick="pthAdd(${e.n}, '${p}')">${inList && inList.p === p ? "✓ Retenu" : "+ Retenir " + pthN(e.n) + " " + p}</button></div>
+          ${spec.length ? spec.map(t => `<p class="pth-spec">${escapeHtml(t)}</p>`).join("") : `<p class="pth-def">${escapeHtml(P.court)}</p>`}
+        </div>`;
+      }).join("")}</div>
+      ${e.obs.length ? `<p class="mz-note">Plus utilisé${e.obs.length > 1 ? "s" : ""} en pratique : ${e.obs.join(", ")}.</p>` : ""}
+    </div></div>`;
+}
+function pthListHTML(){
+  const s = pthS(), q = pthNorm(s.q).trim(), pq = pthParse(s.q);
+  const all = PTH_ETATS.map(x => pthE(x[0]));
+  const match = e => !q || pq ? (!pq || e.n === pq.n) : (pthNorm(e.lib + " " + e.kw + " " + e.reg).includes(q) || q.split(/\s+/).every(w => pthNorm(e.lib + " " + e.kw + " " + e.reg).includes(w)));
+  const shown = all.filter(match);
+  if(!shown.length) return `<div class="mz-empty">Aucun état pathologique ne correspond. Essaie un autre mot (ex. « chute », « escarre », « démence ») ou le numéro.</div>`;
+  return PTH_DOM.map(([d, l]) => {
+    const L = shown.filter(e => e.dom === d);
+    if(!L.length) return "";
+    return `<p class="pth-dom">${escapeHtml(l)}</p>${L.map(e => pthEtatCard(e, s.open === e.n || (shown.length === 1))).join("")}`;
+  }).join("");
+}
+function pthRefreshList(){ const el = document.getElementById("pthList"); if(el) el.innerHTML = pthListHTML(); }
+function pthRefreshCount(){ const el = document.getElementById("pthCount"); if(el) el.textContent = pthS().list.length ? `(${pthS().list.length})` : ""; }
+
+function pthTabEtats(){
+  const s = pthS();
+  return `
+    <div class="pth-quick">
+      <label class="calc-field pth-quick-f"><span>Vérifier un couple (ex. « 32 R2 »)</span><input id="pthQuickIn" type="text" placeholder="n° + profil" oninput="pthQuick()" autocomplete="off" /></label>
+      <div class="pth-quick-out" id="pthQuickOut"></div>
+    </div>
+    <label class="calc-field"><span>Chercher un état pathologique (mot ou numéro)</span><input type="search" value="${escapeHtml(s.q)}" oninput="pthQ(this.value)" placeholder="ex. chute, escarre, démence, fausses routes, 35…" /></label>
+    <div class="pth-legend">${PTH_ORDER.map(p => pthChip(p, true)).join("")}<span class="mz-note" style="margin:0 0 0 6px">en couleur : profil retenu pour l'état · grisé : impossible · barré : plus utilisé en pratique</span></div>
+    <div id="pthList">${pthListHTML()}</div>`;
+}
+function pthTabProfils(){
+  return `<p class="mz-note" style="margin-top:0">Un seul profil par état pathologique. Le profil décrit le soin <strong>requis</strong> (utile, faisable, accepté), même si l'établissement n'en a pas les moyens, et il doit être <strong>tracé</strong> dans le dossier : sans traçabilité, le codage n'est pas retenu.</p>
+    <div class="pth-pgrid">${PTH_PROFILS.map(P => { const c = colorVars(PTH_PCOL[P.g]); return `<div class="pth-pcard" style="--pill:${c.pill};--pillbg:${c.pillbg}">
+      <div class="pth-prof-h"><span class="pth-chip pth-chip-big">${P.id}</span><strong>${escapeHtml(P.nom)}</strong></div>
+      <p class="pth-def">${escapeHtml(P.def)}</p>
+      <ul class="mz-list">${P.crit.map(t => `<li>${escapeHtml(t)}</li>`).join("")}</ul>
+      <p class="pth-trace">🗂️ <strong>À retrouver dans le dossier :</strong> ${escapeHtml(P.trace)}</p>
+    </div>`; }).join("")}</div>
+    <div class="mz-sit-box mz-sit-C" style="margin-top:14px"><p class="mz-sit-lead">Les questions du guide avant de retenir un soin requis</p><ul class="mz-list">
+      <li>Le soin est-il médicalement justifié, cohérent avec le projet de soins, la perte d'autonomie, les comorbidités ?</li>
+      <li>La balance bénéfice-risque est-elle favorable ? Le soin est-il éthiquement acceptable ?</li>
+      <li>Le résident peut-il le supporter ? Va-t-il participer ou le refuser ?</li>
+      <li>Qui devrait faire le soin ? Aide-soignant → AGGIR ; infirmier → PATHOS.</li></ul>
+      <p class="mz-note">Pas de rubrique « altération de l'état général », « troubles ioniques », « pathologie iatrogène » ni « douleur » : on code l'état pathologique responsable. Douleur stabilisée, même sous morphinique : S1 ; douleur mal contrôlée avec échelles répétées et ajustements non protocolisés : T2. Complication : on ajoute l'état compliquant avec son profil ; aggravation : on change le profil.</p></div>`;
+}
+function pthTabResident(){
+  const s = pthS(), A = s.ag, r = s.res, v = x => escapeHtml(x || "");
+  const sel = (k, lab, opts) => `<label class="calc-field"><span>${lab}</span><select onchange="pthAg('${k}', this.value)"><option value="">—</option>${opts.map(o => `<option ${A[k] === o ? "selected" : ""}>${o}</option>`).join("")}</select></label>`;
+  return `
+    <p class="pth-step">1 · Résident <em>— figure sur le PDF, rien n'est enregistré</em></p>
+    <div class="mco-imp"><label class="pth-mini mco-file">📂 Importer un PDF enregistré<input type="file" accept="application/pdf,.pdf" onchange="pthImport(this)" /></label><span id="pthImpMsg" class="mco-imp-msg">Fiche AGGIR → récupère GIR, variables AGGIR et identité ; codage PATHOS → reprend le codage là où il en était.</span></div>
+    <div class="courrier-fields mdph-grid">
+      <label class="calc-field courrier-field"><span>NOM d'usage</span><input type="text" value="${v(r.nom)}" oninput="pthRes('nom', this.value)" placeholder="DUPONT" /></label>
+      <label class="calc-field courrier-field"><span>Prénom</span><input type="text" value="${v(r.prenom)}" oninput="pthRes('prenom', this.value)" placeholder="Marie" /></label>
+      <label class="calc-field courrier-field"><span>Date de naissance</span><input type="date" value="${v(r.naissance)}" oninput="pthRes('naissance', this.value)" /></label>
+    </div>
+    <div class="pth-two">
+      <label class="calc-field courrier-field"><span>Établissement</span><textarea id="pthEtab" rows="2" oninput="pthRes('etab', this.value)">${v(r.etab)}</textarea>${etabPickHTML('#pthEtab', 'nomAdr')}</label>
+      <label class="calc-field courrier-field"><span>Date de l'évaluation (coupe)</span><input type="date" value="${v(r.date)}" oninput="pthRes('date', this.value)" /></label>
+    </div>
+
+    <p class="pth-step">2 · Couples « état pathologique – profil »</p>
+    <div class="pth-fast">
+      <label class="calc-field pth-quick-f"><span>Ajout rapide (n° + profil, puis Entrée)</span><input id="pthFastIn" type="text" placeholder="ex. 35 S1" oninput="pthFast(event)" onkeydown="pthFast(event)" autocomplete="off" /></label>
+      <div class="pth-quick-out" id="pthFastOut"></div>
+      <button type="button" class="pth-mini" onclick="pthTab('etats')">🔎 Chercher dans les 50 états</button>
+    </div>
+    ${s.list.length ? `<div class="pth-res">${s.list.map(x => { const e = pthE(x.n), P = pthP(x.p), c = colorVars(PTH_PCOL[P.g]), note = pthCoupleNote(x.n, x.p); return `<div class="pth-res-row" style="--pill:${c.pill};--pillbg:${c.pillbg}">
+        <span class="pth-num">${pthN(x.n)}</span>
+        <span class="pth-res-lib">${escapeHtml(e.lib)} <em class="pth-res-pn">${x.p} · ${escapeHtml(P.nom)}</em>
+          ${x.n === 49 ? `<input type="text" class="pth-clair" value="${escapeHtml(x.clair)}" oninput="pthClair(${x.id}, this.value)" placeholder="diagnostic en clair (obligatoire)" />` : ""}
+          <span class="pth-res-note">${note ? "📘 " + escapeHtml(note) : "🗂️ À tracer : " + escapeHtml(pthTrace(x.n, x.p))}</span></span>
+        <select onchange="pthSetP(${x.id}, this.value)" title="Changer le profil">${e.pr.map(p => `<option ${p === x.p ? "selected" : ""}>${p}</option>`).join("")}</select>
+        <button type="button" class="pth-x" onclick="pthDel(${x.id})" title="Retirer">✕</button></div>`; }).join("")}</div>`
+      : `<div class="mz-empty">Aucun couple pour l'instant : ajout rapide ci-dessus, ou bouton « + Retenir » dans l'onglet ①.</div>`}
+
+    <p class="pth-step">3 · Variables AGGIR <em>— facultatif, pour les alertes croisées du guide</em> <button type="button" class="pth-mini" onclick="openExplorer('aggir-gir')">🧭 Remplir la grille AGGIR</button></p>
+    <div class="pth-ag">${sel("gir", "GIR", ["1", "2", "3", "4", "5", "6"])}${sel("coh", "Cohérence", ["A", "B", "C"])}${sel("comm", "dont communication", ["A", "B", "C"])}${sel("ori", "Orientation", ["A", "B", "C"])}${sel("depl", "Déplacement intérieur", ["A", "B", "C"])}${sel("alim", "Alimentation", ["A", "B", "C"])}</div>
+
+    <p class="pth-step">4 · Contrôles</p>
+    <div id="pthAlerts">${pthAlertsHTML()}</div>
+
+    <p class="pth-step">5 · Récapitulatif</p>
+    ${signBarHTML("pathos", "signature du médecin coordonnateur")}
+    <div class="mz-actions">
+      <button type="button" id="pthPdfBtn" class="bio-copy-btn" ${s.list.length ? "" : "disabled"} onclick="pthPdf()">💾 Enregistrer le codage (PDF)</button>
+      <button type="button" class="bio-copy-btn pth-btn-2" ${s.list.length ? "" : "disabled"} onclick="copyText(pthRecap(), this, '📋 Copier le récapitulatif')">📋 Copier le récapitulatif</button>
+      <button type="button" class="bio-reset-btn" onclick="pthReset()">Réinitialiser</button>
+    </div>
+    <p class="mz-note">Fichier : « ${escapeHtml(pthFileName())} ».</p>`;
+}
+function pthAgTxt(){
+  const A = pthS().ag;
+  return [["GIR", A.gir], ["Cohérence", A.coh], ["Communication", A.comm], ["Orientation", A.ori], ["Déplacement intérieur", A.depl], ["Alimentation", A.alim]].filter(([, v]) => v).map(([k, v]) => k + " " + v).join(" · ");
+}
+function pthFr(iso){ const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? m[3] + "/" + m[2] + "/" + m[1] : ""; }
+function pthFileName(){
+  const r = pthS().res, clean = x => String(x || "").replace(/[\\/:*?"<>|]+/g, " ").replace(/\s+/g, " ").trim();
+  const d = new Date();
+  return [clean(r.nom).toUpperCase() || "Patient", clean(r.prenom), "PATHOS", AX_MOIS[d.getMonth()], String(d.getFullYear()).slice(-2)].filter(Boolean).join(" ") + ".pdf";
+}
+function pthRecap(){
+  const s = pthS(), r = s.res, ag = pthAgTxt(), al = pthAlertsList();
+  const id = [[(r.nom || "").toUpperCase(), r.prenom].filter(Boolean).join(" "), r.naissance ? "né(e) le " + pthFr(r.naissance) : ""].filter(Boolean).join(", ");
+  return ["CODAGE PATHOS — proposition (guide CNSA 2022)" + (r.date ? " — évaluation du " + pthFr(r.date) : ""), id ? "Résident : " + id : "", r.etab ? "Établissement : " + r.etab.replace(/\n/g, ", ") : "", "",
+    ...s.list.map(x => { const e = pthE(x.n), P = pthP(x.p), note = pthCoupleNote(x.n, x.p); return `${pthN(x.n)} ${x.p}  ${e.lib}${x.n === 49 && x.clair ? " (" + x.clair + ")" : ""} — ${P.nom}${note ? "\n     Guide : " + note : ""}\n     À tracer : ${pthTrace(x.n, x.p)}`; }),
+    ag ? "\nAGGIR : " + ag : "", al.length ? "\nPoints à vérifier :\n" + al.map(([, t]) => "- " + t).join("\n") : "", "", "Proposition d'aide au codage : la validation repose sur les éléments tracés dans le dossier."].filter((l, i, a) => l !== "" || a[i - 1] !== "").join("\n");
+}
+
+/* ------------------------------------------------------------ PDF récapitulatif (charte DOTR, logo en bas à droite) */
+async function pthPdf(){
+  const btn = document.getElementById("pthPdfBtn"), original = btn.textContent;
+  btn.textContent = "Génération…";
+  try{
+    const s = pthS(), r = s.res, p = prescGet();
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const pdfDoc = await PDFDocument.create();
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const ital = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
+    const logo = await pdfDoc.embedJpg(base64ToBytes(VMS_DOTR_LOGO_B64));
+    const SA = await signAssets(pdfDoc, "pathos");
+    const W = 595.28, H = 841.89, M = 34, FW = W - 2 * M;
+    const hex = h => rgb(parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255);
+    const C = { IND: hex("#3F4B9E"), INDF: hex("#ECEEF9"), INK: hex("#1F2A37"), MUTED: hex("#5C6670"), SRC: hex("#A6B1BF"), WHITE: rgb(1, 1, 1), LINE: hex("#DCE1E7"), PANEL: hex("#F5F5F7"), RED: hex("#C2362B"), REDF: hex("#FDECEA"), AMB: hex("#B26A00"), AMBF: hex("#FFF4E0"), BLU: hex("#1D5FD6"), BLUF: hex("#EAF2FF") };
+    const PC = { T: "#C2362B", P: "#6B4C9A", R: "#1D5FD6", C: "#B26A00", D: "#5B6B82", M: "#8A2846", S: "#0F7A57" };
+    const Y = t => H - t, safe = t => pdfSafe(t);
+    const txt = (pg, t, x, top, size, f, col) => pg.drawText(safe(t), { x, y: Y(top), size, font: f, color: col });
+    const ctr = (pg, t, top, size, f, col) => { const w = f.widthOfTextAtSize(safe(t), size); pg.drawText(safe(t), { x: (W - w) / 2, y: Y(top), size, font: f, color: col }); };
+    const rr = (pg, x, top, w, h, rad, fill, border, bw) => {
+      const d = `M ${rad} 0 H ${w - rad} Q ${w} 0 ${w} ${rad} V ${h - rad} Q ${w} ${h} ${w - rad} ${h} H ${rad} Q 0 ${h} 0 ${h - rad} V ${rad} Q 0 0 ${rad} 0 Z`;
+      const o = { x, y: Y(top) }; if(fill) o.color = fill; if(border){ o.borderColor = border; o.borderWidth = bw || 0.9; }
+      pg.drawSvgPath(d, o);
+    };
+    const ident = [(r.nom || "").toUpperCase(), r.prenom].filter(Boolean).join(" ");
+    const pages = [];
+    const BOTTOM = 770;
+    const newPage = first => {
+      const pg = pdfDoc.addPage([W, H]); pages.push(pg);
+      if(!first){
+        txt(pg, "CODAGE PATHOS — " + (ident || "résident") + (r.naissance ? " — né(e) le " + pthFr(r.naissance) : "") + " (suite)", M, 34, 8.4, bold, C.IND);
+        pg.drawLine({ start: { x: M, y: Y(40) }, end: { x: W - M, y: Y(40) }, thickness: 0.7, color: C.LINE });
+        return [pg, 54];
+      }
+      const hw = (FW - 14) / 2;
+      rr(pg, M, 30, hw, 62, 6, C.WHITE, C.IND, 0.9);
+      rr(pg, M + hw + 14, 30, hw, 62, 6, C.WHITE, C.IND, 0.9);
+      txt(pg, "ÉTABLISSEMENT", M + 12, 45, 7, bold, C.IND);
+      String(r.etab || "………………………………").split("\n").map(l => l.trim()).filter(Boolean).slice(0, 3).forEach((l, i) => wrapPdfText(safe(l), i ? font : bold, 9.2, hw - 24).slice(0, 1).forEach(x => txt(pg, x, M + 12, 59 + i * 11.5, 9.2, i ? font : bold, C.INK)));
+      const mx = M + hw + 26;
+      txt(pg, "MÉDECIN COORDONNATEUR", mx, 45, 7, bold, C.IND);
+      txt(pg, p.nom || "Dr ……………………", mx, 59, 9.5, bold, C.INK);
+      const ml = [p.rpps ? "RPPS " + p.rpps : "", p.tel ? "Tél. " + p.tel : ""].filter(Boolean).join("  ·  ");
+      if(ml) txt(pg, ml, mx, 71, 8, font, C.MUTED);
+      rr(pg, M, 104, FW, 52, 6, C.INDF, C.IND, 0.9);
+      ctr(pg, "MODÈLE PATHOS · GUIDE D'UTILISATION CNSA 2022", 119, 6.8, bold, C.INK);
+      ctr(pg, "PROPOSITION DE CODAGE PATHOS", 140, 15, bold, C.IND);
+      rr(pg, M, 166, FW, 40, 6, C.PANEL, C.LINE, 0.7);
+      const cells = [["RÉSIDENT", ident || "……………………", 0], ["NÉ(E) LE", pthFr(r.naissance) || "…… / …… / ……", 0.48], ["ÉVALUATION DU", pthFr(r.date) || "…… / …… / ……", 0.74]];
+      cells.forEach(([k, v, f]) => { txt(pg, k, M + 12 + FW * f, 180, 6.6, bold, C.MUTED); txt(pg, v, M + 12 + FW * f, 195, 10, bold, C.INK); });
+      return [pg, 222];
+    };
+    let [pg, top] = newPage(true);
+    const need = h => { if(top + h > BOTTOM){ [pg, top] = newPage(false); } };
+    // tableau des couples
+    const colX = [M, M + 46, M + 230, M + 300];
+    const head = () => {
+      rr(pg, M, top, FW, 20, 5, C.IND);
+      [["N°", 0], ["État pathologique", 1], ["Profil", 2], ["Consigne du guide / à retrouver dans le dossier", 3]].forEach(([h, i]) => txt(pg, h, colX[i] + 8, top + 13.5, 8, bold, C.WHITE));
+      top += 24;
+    };
+    need(60); head();
+    s.list.forEach((x, i) => {
+      const e = pthE(x.n), P = pthP(x.p), note = pthCoupleNote(x.n, x.p);
+      const libL = wrapPdfText(safe(e.lib + (x.n === 49 && x.clair ? " (" + x.clair + ")" : "")), bold, 8.8, 172);
+      const pnL = wrapPdfText(safe(P.nom), font, 7.4, 62);
+      const nL = [];
+      if(note) wrapPdfText(safe("Guide : " + note), font, 7.6, FW - 312).forEach(l => nL.push([l, font, C.INK]));
+      wrapPdfText(safe("À tracer : " + pthTrace(x.n, x.p)), ital, 7.6, FW - 312).forEach(l => nL.push([l, ital, C.MUTED]));
+      const h = Math.max(libL.length * 11, 14 + pnL.length * 9, nL.length * 9.6) + 12;
+      if(top + h > BOTTOM){ [pg, top] = newPage(false); head(); }
+      if(i % 2 === 0) pg.drawRectangle({ x: M, y: Y(top + h), width: FW, height: h, color: C.PANEL });
+      txt(pg, pthN(x.n), colX[0] + 10, top + 15, 11, bold, C.IND);
+      libL.forEach((l, j) => txt(pg, l, colX[1] + 8, top + 15 + j * 11, 8.8, bold, C.INK));
+      const pc = hex(PC[P.g]);
+      rr(pg, colX[2] + 8, top + 6, 30, 14, 3, pc);
+      txt(pg, x.p, colX[2] + 8 + (30 - bold.widthOfTextAtSize(x.p, 8.6)) / 2, top + 16.2, 8.6, bold, C.WHITE);
+      pnL.forEach((l, j) => txt(pg, l, colX[2] + 8, top + 30 + j * 9, 7.4, font, C.MUTED));
+      nL.forEach(([l, f, col], j) => txt(pg, l, colX[3] + 8, top + 14 + j * 9.6, 7.6, f, col));
+      top += h + 2;
+    });
+    top += 8;
+    // AGGIR
+    const ag = pthAgTxt();
+    if(ag){ need(26); rr(pg, M, top, FW, 22, 5, C.WHITE, C.LINE, 0.7); txt(pg, "AGGIR (renseigné) : " + ag, M + 10, top + 14.5, 8.4, bold, C.INK); top += 30; }
+    // contrôles
+    const al = pthAlertsList();
+    if(al.length){
+      need(40);
+      txt(pg, "POINTS À VÉRIFIER (règles et alertes croisées du guide)", M, top + 10, 8.4, bold, C.IND); top += 18;
+      al.forEach(([l, t]) => {
+        const L = wrapPdfText(safe(t), font, 8, FW - 24), h = L.length * 10 + 8;
+        need(h + 4);
+        const [bg, bd] = l === "hot" ? [C.REDF, C.RED] : l === "warn" ? [C.AMBF, C.AMB] : [C.BLUF, C.BLU];
+        pg.drawRectangle({ x: M, y: Y(top + h), width: FW, height: h, color: bg });
+        pg.drawRectangle({ x: M, y: Y(top + h), width: 3, height: h, color: bd });
+        L.forEach((x, j) => txt(pg, x, M + 12, top + 12 + j * 10, 8, font, C.INK));
+        top += h + 4;
+      });
+      top += 6;
+    }
+    // signature + sources
+    need(100);
+    const sbTop = top + 4;
+    rr(pg, M + FW - 250, sbTop, 250, 88, 6, C.WHITE, C.LINE, 0.8);
+    txt(pg, "Le " + (pthFr(r.date) || new Date().toLocaleDateString("fr-FR")), M + FW - 240, sbTop + 14, 8.4, font, C.INK);
+    txt(pg, "Signature et tampon du médecin coordonnateur", M + FW - 240, sbTop + 26, 7, bold, C.MUTED);
+    if(SA){
+      let st = null;
+      if(SA.stamp) st = signFit(pg, SA.stamp, { x: M + FW - 128, y: Y(sbTop + 84), w: 118, h: 54 }, "center");
+      if(SA.sig) signFit(pg, SA.sig, { x: M + FW - 240, y: Y(sbTop + 82), w: st ? st.x - (M + FW - 240) + 26 : 220, h: 52 }, st ? "right" : "left");
+    }
+    const src = "Proposition d'aide au codage établie avec l'outil « Codage PATHOS » de l'Espace VMS/DOTR : elle ne remplace ni GALAAD ni la validation par le médecin de l'ARS, qui repose sur les éléments tracés dans le dossier (sans traçabilité, le codage n'est pas retenu). Références : CNSA, Le modèle PATHOS — Guide d'utilisation 2022 (septembre 2022) ; CNSA, Recommandations de codage PATHOS — Formation 2022 (14/11/2022).";
+    wrapPdfText(safe(src), font, 6.6, FW - 270).forEach((l, i) => txt(pg, l, M, sbTop + 10 + i * 8.4, 6.6, font, C.SRC));
+    // pied de page : logo en bas à droite, pagination
+    const lw = 100, lh = lw * 702 / 1444;
+    pages.forEach((P, i) => {
+      P.drawImage(logo, { x: W - M - lw, y: 18, width: lw, height: lh });
+      txt(P, "Docs On The Road · VMS — Codage PATHOS" + (pages.length > 1 ? " — page " + (i + 1) + "/" + pages.length : ""), M, H - 26, 6.4, font, C.SRC);
+    });
+    pdfDoc.setSubject(mcoPack({ type: "pathos", saved: new Date().toLocaleDateString("fr-FR"), res: r, list: s.list, ag: s.ag }));
+    const bytes = await pdfDoc.save();
+    triggerDownload(new Blob([bytes], { type: "application/pdf" }), pthFileName());
+    btn.textContent = "Téléchargé ✓";
+    setTimeout(() => { btn.textContent = original; }, 2000);
+  }catch(e){ console.error(e); btn.textContent = "Erreur — réessayer"; setTimeout(() => { btn.textContent = original; }, 2200); }
+}
+window.pthPdf = pthPdf;
+window.pthRecap = pthRecap;
+
+/* ------------------------------------------------------------ rendu principal */
+function renderPathosPanel(){
+  const cat = CATEGORIES.find(c => c.id === "medco") || CATEGORIES[0];
+  const c = colorVars(cat.color), s = pthS();
+  const tabs = [["etats", "① Les 50 états pathologiques"], ["profils", "② Les 12 profils"], ["res", "③ Codage d'un résident"]];
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page doc-page-wide">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <div class="tool-hero" style="--pill:var(--indigo)"><span class="tool-hero-icon">🧩</span><div class="tool-hero-body"><p class="tool-hero-title">Codage PATHOS</p><p class="tool-hero-sub">Aide au codage : trouver l'état pathologique, choisir le bon profil de soins, vérifier qu'un couple existe (« 32 R2 ? »), puis coder un résident avec les alertes croisées AGGIR-PATHOS et télécharger le récapitulatif PDF. Tout vient du guide CNSA 2022 et des recommandations de codage de la formation nationale 2022.</p><div class="tool-hero-stats"><span class="tool-hero-stat">50 états</span><span class="tool-hero-stat">12 profils</span><span class="tool-hero-stat">Alertes croisées AGGIR</span><span class="tool-hero-stat">PDF récapitulatif</span><span class="tool-hero-stat">Rien n'est enregistré</span></div></div></div>
+      <div class="ax-tabs" role="tablist">${tabs.map(([k, l]) => `<button type="button" role="tab" aria-selected="${s.tab === k}" class="ax-tab ${s.tab === k ? "ax-tab-on" : ""}" onclick="pthTab('${k}')">${l}${k === "res" ? ` <span id="pthCount">${s.list.length ? "(" + s.list.length + ")" : ""}</span>` : ""}</button>`).join("")}
+        <span class="ax-tabs-sp"></span>
+        <button type="button" class="bio-reset-btn" onclick="pthReset()">Réinitialiser</button>
+      </div>
+      <div class="pth-panel">${s.tab === "profils" ? pthTabProfils() : s.tab === "res" ? pthTabResident() : pthTabEtats()}</div>
+      <div class="pth-toast" id="pthToast" role="status"></div>
+      <p class="mz-src">Sources : CNSA, « Le modèle PATHOS — Guide d'utilisation 2022 » (septembre 2022, remplace les guides antérieurs : 50 états pathologiques, 12 profils, 238 couples annoncés — les profils retenus listés dans le thésaurus en totalisent 237, écart que le guide n'explique pas ; liste des alertes croisées AGGIR-PATHOS) — <a href="https://www.cnsa.fr/sites/default/files/2024-05/modele_pathos_2022.pdf" target="_blank" rel="noopener">cnsa.fr</a> ; CNSA, « Recommandations de codage PATHOS — Formation 2022 » (14/11/2022) — <a href="https://www.cnsa.fr/sites/default/files/2024-05/pathos_3_recommandations_de_codage_2022.pdf" target="_blank" rel="noopener">cnsa.fr</a> ; HAS-FFN, diagnostic de la dénutrition chez la personne de 70 ans et plus (2021). Le guide rappelle que seule la formation organisée par l'ARS et la CNSA est validante pour le médecin coordonnateur. Cet outil aide à coder ; il ne remplace ni le logiciel GALAAD ni la validation par le médecin de l'ARS.</p>
+    </div>`;
+}
+window.renderPathosPanel = renderPathosPanel;
+/* fin PATHOS outil */
+
+/* =====================================================================
+   MEDCO — GRILLE AGGIR (CALCUL DU GIR) ET PRÉPARATION DE LA COUPE (07/10/2026)
+   Sources : CNSA, « Le modèle AGGIR — Guide d'utilisation » (CNAMTS janvier
+   2008, publié au JO du 21 août 2008 — annexe 2-1 du CASF) ; algorithme
+   réglementaire de la grille AGGIR, présenté par l'IGAS (rapport n° 2023-014R,
+   annexes) ; CNSA, « Méthode de validation des coupes AGGIR et PATHOS —
+   Formation nationale 2022 » ; CNSA, guide PATHOS 2022 ; CNSA, guide
+   utilisateur GALAAD médecin coordonnateur (février 2026).
+   Aucune donnée patient conservée.
+   ===================================================================== */
+const AGR_ADV = [["S", "Spontanément"], ["T", "Totalement"], ["C", "Correctement"], ["H", "Habituellement"]];
+/* k, n° du guide, libellé, discriminante, définition, règle de combinaison, sous-variables [k, libellé, « ne fait pas », {S,T,C,H}] */
+const AGR_VARS = [
+  { k: "tra", n: 1, lib: "Transferts", disc: true, def: "Se lever, se coucher, s'asseoir : passer de l'une de ces positions à une autre, dans les deux sens (pas les déplacements).", rule: "seul",
+    subs: [["tra", "Transferts", "Ne les effectue jamais seule et selon sa volonté, même partiellement et difficilement : un tiers intervient ou est présent pour tous les transferts.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "l'ensemble des transferts dans les deux sens", C: "sans se mettre en danger, avec les aides techniques adaptées", H: "chaque fois que nécessaire et souhaité" }]] },
+  { k: "dpi", n: 2, lib: "Déplacements à l'intérieur", disc: true, def: "Se déplacer dans le lieu de vie ; en institution, locaux collectifs compris jusqu'à la porte sur la rue. Cannes, déambulateur, fauteuil roulant font partie de la personne.", rule: "seul",
+    subs: [["dpi", "Déplacements à l'intérieur", "Ne le fait jamais seule, même partiellement et difficilement : un tiers intervient en totalité à chaque déplacement.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer, l'orienter", T: "dans tous les lieux de vie, jusqu'à la porte sur la rue", C: "à bon escient, adapté à ses possibilités, sans se mettre en danger", H: "chaque fois qu'elle en a le désir ou le besoin" }]] },
+  { k: "toi", n: 3, lib: "Toilette", disc: true, def: "Hygiène corporelle, préparation des affaires comprise. Haut : visage (rasage, coup de peigne), tronc, membres supérieurs, mains — le dos est ignoré. Bas : régions intimes, membres inférieurs, pieds — ongles des orteils exclus.", rule: "toi",
+    subs: [["toh", "Toilette du haut", "Ne la fait jamais seule, même partiellement : il faut faire à la place, faire faire ou refaire, en totalité et à chaque fois.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "pour l'ensemble des activités du champ", C: "propreté corporelle satisfaisante et suffisante", H: "autant que de besoin" }],
+      ["tob", "Toilette du bas", "Ne la fait jamais seule, même partiellement : il faut faire à la place, faire faire ou refaire, en totalité et à chaque fois.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "pour l'ensemble des activités du champ", C: "propreté corporelle satisfaisante et suffisante", H: "autant que de besoin" }]] },
+  { k: "eli", n: 4, lib: "Élimination urinaire et fécale", disc: true, def: "Assurer l'hygiène de l'élimination (pas la continence, qui est un diagnostic médical) : éliminer dans un lieu ou un ustensile approprié et rester propre. Personne alitée qui renverse toujours l'urinal ou le bassin : C par convention.", rule: "eli",
+    subs: [["elu", "Élimination urinaire", "N'assure jamais seule l'hygiène de l'élimination, même partiellement : un tiers intervient en totalité et à chaque fois.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "la totalité des actes nécessaires", C: "où il faut et comme il faut, sans se salir", H: "aussi souvent que de besoin, de jour comme de nuit" }],
+      ["elf", "Élimination fécale", "N'assure jamais seule l'hygiène de l'élimination, même partiellement : un tiers intervient en totalité et à chaque fois.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "la totalité des actes nécessaires", C: "où il faut et comme il faut, sans se salir", H: "aussi souvent que de besoin, de jour comme de nuit" }]] },
+  { k: "hab", n: 5, lib: "Habillage", disc: true, def: "Habillage, déshabillage, présentation ; choix et préparation des vêtements. Haut : par la tête ou les bras. Moyen : boutons, fermetures, ceinture, soutien-gorge. Bas : par le bas du corps, chaussettes et chaussures. Bas de contention prescrits exclus.", rule: "hab",
+    subs: ["hah:Habillage du haut", "ham:Habillage moyen", "hba:Habillage du bas"].map(x => { const [k, l] = x.split(":"); return [k, l, "Ne le fait jamais seule, même partiellement : il faut faire à la place, faire faire ou refaire, en totalité et à chaque fois.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "choisir, préparer, mettre et enlever les vêtements", C: "conformément aux usages, dans le bon sens et le bon ordre, adapté à la météo et au moment", H: "régulièrement, chaque fois que nécessaire" }]; }) },
+  { k: "cui", n: 6, lib: "Cuisine", disc: false, def: "Préparer les repas et les conditionner pour qu'ils puissent être servis (hachés ou mixés compris).", rule: "seul",
+    subs: [["cui", "Cuisine", "Ne le fait jamais seule : les repas sont préparés et conditionnés par un tiers en totalité et à chaque fois.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "l'ensemble de la préparation de chacun des repas", C: "selon les usages culinaires, ses compétences et ses goûts", H: "tous les jours" }]] },
+  { k: "ali", n: 7, lib: "Alimentation", disc: true, def: "Se servir (couper la viande, ouvrir un yaourt, peler un fruit, remplir son verre) et manger (porter à la bouche et avaler ; gestion d'une sonde gastrique comprise).", rule: "ali",
+    subs: [["als", "Se servir", "Ne le fait jamais seule, même partiellement : un tiers assume en totalité et à chaque repas.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "pour l'ensemble des actes requis", C: "dans l'ordre, selon les usages, sans en « mettre partout »", H: "à tous les repas" }],
+      ["alm", "Manger", "Ne le fait jamais seule, même partiellement : un tiers « donne à manger » tout le repas, boissons comprises.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "tous les éléments du repas, boissons comprises", C: "proprement, dans le respect des autres, sans fausses routes", H: "à tous les repas" }]] },
+  { k: "tt", n: 8, lib: "Suivi du traitement", disc: false, def: "Respecter l'ordonnance et gérer soi-même son traitement.", rule: "seul",
+    subs: [["tt", "Suivi du traitement", "Ne le fait jamais seule : un tiers gère en totalité les ordonnances et le suivi du traitement.",
+      { S: "sans que quelqu'un prépare les médicaments ni rappelle de les prendre", T: "l'intégralité des traitements, régimes compris", C: "à la lettre, doses et rythme des prises respectés", H: "à chaque prise, aussi longtemps que prescrit" }]] },
+  { k: "men", n: 9, lib: "Ménage", disc: false, def: "Nettoyage, rangement, entretien du linge, dresser la table, vaisselle.", rule: "seul",
+    subs: [["men", "Ménage", "Ne le fait jamais seule : activité toujours et totalement assurée par l'entourage ou des professionnels.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "l'ensemble des tâches", C: "propreté normale de l'intérieur, des habits, de la vaisselle", H: "chaque fois que nécessaire" }]] },
+  { k: "ale", n: 10, lib: "Alerter", disc: true, def: "Utiliser un moyen de communication à distance (téléphone, sonnette, téléalarme) pour alerter en cas de besoin.", rule: "seul",
+    subs: [["ale", "Alerter", "Ne le fait jamais seule, même si un moyen d'alerte fiable existe, ou ce moyen est absent.",
+      { S: "sans avoir à lui dire, montrer, rappeler comment faire", T: "avec un moyen approprié pour avoir une réponse", C: "à bon escient", H: "à tout moment opportun" }]] },
+  { k: "dpe", n: 11, lib: "Déplacements à l'extérieur", disc: true, def: "Sortir du lieu de vie (porte sur la rue) ; le jardin ou le parc de l'institution n'est pas l'extérieur.", rule: "seul",
+    subs: [["dpe", "Déplacements à l'extérieur", "Ne sort jamais seule par ses propres moyens et de sa propre volonté, même partiellement.",
+      { S: "sans avoir à lui dire, montrer, rappeler, expliquer", T: "l'ensemble du déplacement jusqu'au retour", C: "à bon escient, en gérant le parcours, avec un but", H: "chaque fois qu'elle en a le désir ou le besoin" }]] },
+  { k: "trp", n: 12, lib: "Transports", disc: false, def: "Utiliser volontairement un moyen de transport collectif ou individuel.", rule: "seul",
+    subs: [["trp", "Transports", "N'utilise jamais seule un moyen de transport, par ses propres moyens et sa propre volonté.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "sans auto-limitation ni limitation liée à l'environnement", C: "moyen approprié, utilisé de façon adéquate", H: "chaque fois qu'elle en a le désir ou le besoin" }]] },
+  { k: "tl", n: 13, lib: "Activités du temps libre", disc: false, def: "Pratiquer volontairement, seul ou en groupe, des activités qui rompent la monotonie du quotidien.", rule: "seul",
+    subs: [["tl", "Activités du temps libre", "N'occupe jamais son temps seule, sans sollicitation et accompagnement permanent d'un tiers.",
+      { S: "en choisissant et décidant elle-même", T: "sans limitation dans ses choix", C: "adapté à ses désirs et à son état", H: "de façon régulière, non occasionnelle" }]] },
+  { k: "ach", n: 14, lib: "Achats", disc: false, def: "Acquisition volontaire de biens, directement ou par correspondance.", rule: "seul",
+    subs: [["ach", "Achats", "N'effectue jamais seule les achats nécessaires, même partiellement.",
+      { S: "elle-même ou par un tiers à son initiative, sans rappel", T: "l'intégralité des achats nécessaires", C: "selon ses besoins et ses moyens financiers", H: "chaque fois qu'elle en a le désir ou le besoin" }]] },
+  { k: "ges", n: 15, lib: "Gestion", disc: false, def: "Gérer ses affaires, budget et biens ; reconnaître la valeur de l'argent ; démarches administratives.", rule: "seul",
+    subs: [["ges", "Gestion", "Ne fait jamais seule la gestion : toujours réalisée en totalité par des tiers.",
+      { S: "sans avoir à lui dire, rappeler, expliquer, montrer", T: "les trois types d'activités de gestion", C: "sans erreurs", H: "chaque fois que nécessaire" }]] },
+  { k: "ori", n: 16, lib: "Orientation", disc: true, def: "Se repérer dans le temps (saisons, moment de la journée, année, mois — pas forcément la date exacte) et dans l'espace (lieux habituels et nouveaux). À évaluer en fin d'observation.", rule: "ori",
+    subs: [["ort", "Orientation dans le temps", "N'a aucun repère, même partiel (saisons, moment de la journée) et ne se situe jamais sans aide dans le temps.",
+      { S: "sans stimulation, médiation ni indications", T: "pour tous les repères temporels", C: "sans erreurs flagrantes", H: "sans variations dans la journée ni d'un jour sur l'autre" }],
+      ["ore", "Orientation dans l'espace", "Ne sait jamais où elle se trouve, quel que soit le lieu.",
+      { S: "sans stimulation, médiation ni indications", T: "lieux de vie habituels et lieux nouveaux", C: "sans erreurs flagrantes", H: "sans variations dans le temps ni d'un jour sur l'autre" }]] },
+  { k: "coh", n: 17, lib: "Cohérence", disc: true, def: "Communiquer, agir et se comporter de façon logique et sensée par rapport aux normes admises. Ni un diagnostic psychiatrique ni un trouble du caractère : un constat d'observation pluridisciplinaire, dans le temps, sous responsabilité médicale. À évaluer en dernier.", rule: "ori",
+    subs: [["com", "Communication", "Ne communique jamais seule, même partiellement : communication très altérée en permanence.",
+      { S: "sans stimulation, médiation ni rappel à l'ordre", T: "dans toutes les activités, avec tous les interlocuteurs", C: "de façon compréhensible, logique et sensée, selon les usages", H: "de façon permanente dans le temps" }],
+      ["cpt", "Comportement", "Comportement jamais auto-régulé, toujours et totalement non conforme aux normes habituelles.",
+      { S: "sans stimulation, médiation ni intervention d'un tiers", T: "dans toutes les activités, avec tous les interlocuteurs", C: "selon les convenances et usages admis", H: "de façon permanente dans le temps" }]] }
+];
+/* Algorithme réglementaire : valeurs C puis B pour coh, ori, toi, hab, ali, eli, tra, dpi, dpe, ale (A = 0) — présentation IGAS 2023-014R */
+const AGR_ORDER = ["coh", "ori", "toi", "hab", "ali", "eli", "tra", "dpi", "dpe", "ale"];
+const AGR_ALGO = [
+  { g: "A", C: [2000, 1200, 40, 40, 60, 100, 800, 200, 0, 0], B: [0, 0, 16, 16, 20, 16, 120, 32, 0, 0], r: [[4380, 1], [4140, 2], [3390, 3]] },
+  { g: "B", C: [1500, 1200, 40, 40, 60, 100, 800, -80, 0, 0], B: [320, 120, 16, 16, 0, 16, 120, -40, 0, 0], r: [[2016, 4]] },
+  { g: "C", C: [0, 0, 40, 40, 60, 160, 1000, 400, 0, 0], B: [0, 0, 16, 16, 20, 20, 200, 40, 0, 0], r: [[1700, 5], [1432, 6]] },
+  { g: "D", C: [0, 0, 0, 0, 2000, 400, 2000, 200, 0, 0], B: [0, 0, 0, 0, 200, 200, 200, 0, 0, 0], r: [[2400, 7]] },
+  { g: "E", C: [400, 400, 400, 400, 400, 800, 800, 200, 0, 0], B: [0, 0, 100, 100, 100, 100, 100, 0, 0, 0], r: [[1200, 8]] },
+  { g: "F", C: [200, 200, 500, 500, 500, 500, 500, 500, 0, 0], B: [100, 100, 100, 100, 100, 100, 100, 0, 0, 0], r: [[800, 9]] },
+  { g: "G", C: [150, 150, 300, 300, 500, 500, 400, 200, 0, 0], B: [0, 0, 200, 200, 200, 200, 200, 100, 0, 0], r: [[650, 10]] },
+  { g: "H", C: [0, 0, 3000, 3000, 3000, 3000, 1000, 1000, 0, 0], B: [0, 0, 2000, 2000, 2000, 2000, 2000, 1000, 0, 0], r: [[4000, 11], [2000, 12], [-Infinity, 13]] }
+];
+const AGR_RANG_GIR = { 1: 1, 2: 2, 3: 2, 4: 2, 5: 2, 6: 2, 7: 2, 8: 3, 9: 3, 10: 4, 11: 4, 12: 5, 13: 6 };
+const AGR_GIR_TXT = {
+  1: "Personnes confinées au lit ou au fauteuil, ayant perdu leur activité mentale, corporelle, locomotrice et sociale, nécessitant une présence indispensable et continue d'intervenants.",
+  2: "Deux sous-groupes : personnes confinées au lit ou au fauteuil aux fonctions mentales non totalement altérées, nécessitant une prise en charge pour la plupart des activités et une surveillance permanente ; ou personnes aux fonctions mentales altérées ayant conservé leurs capacités locomotrices, nécessitant une surveillance permanente.",
+  3: "Fonctions mentales satisfaisantes et fonctions locomotrices partielles, avec des aides quotidiennes et pluriquotidiennes pour les activités corporelles ; n'assurent majoritairement pas l'hygiène de l'élimination.",
+  4: "N'assument pas seules leurs transferts mais se déplacent une fois levées, aidées ou stimulées pour la toilette et l'habillage ; ou sans problème locomoteur mais aidées pour les activités corporelles, repas compris.",
+  5: "Assurent seules transferts, déplacements intérieurs, alimentation et habillage ; aide ponctuelle possible pour la toilette et les activités domestiques.",
+  6: "Indépendantes pour tous les actes discriminants de la vie courante."
+};
+
+function agS(){
+  if(!state.aggir) state.aggir = { open: null, sub: {}, adv: {}, nf: {}, res: { nom: "", prenom: "", naissance: "", etab: "", date: axToday() } };
+  return state.aggir;
+}
+/* code d'une sous-variable : saisi directement, ou déduit de « ne fait pas » / adverbes (guide 2008) */
+function agSubCode(k){
+  const s = agS();
+  if(s.sub[k]) return s.sub[k];
+  return null;
+}
+function agFromAdv(k){
+  const s = agS();
+  if(s.nf[k] === true) return "C";
+  const a = s.adv[k] || {};
+  if(s.nf[k] !== false) return null;
+  const vals = AGR_ADV.map(([x]) => a[x]);
+  if(vals.some(v => v !== true && v !== false)) return null;
+  const non = vals.filter(v => v === false).length;
+  return non === 0 ? "A" : non === 4 ? "C" : "B";
+}
+function agVarCode(v){
+  const c = v.subs.map(([k]) => agSubCode(k));
+  if(c.some(x => !x)) return null;
+  const all = x => c.every(y => y === x), any = x => c.some(y => y === x);
+  switch(v.rule){
+    case "seul": return c[0];
+    case "toi": case "hab": return all("A") ? "A" : all("C") ? "C" : "B";
+    case "eli": return all("A") ? "A" : any("C") ? "C" : "B";
+    case "ali": { const j = c.join(""); return j === "AA" ? "A" : ["CC", "BC", "CB"].includes(j) ? "C" : "B"; }
+    case "ori": return any("C") ? "C" : all("A") ? "A" : "B";
+  }
+  return null;
+}
+function agCodes(){ const o = {}; AGR_VARS.forEach(v => { o[v.k] = agVarCode(v); }); return o; }
+function agGir(){
+  const c = agCodes();
+  const need = ["coh", "ori", "toi", "hab", "ali", "eli", "tra", "dpi"];
+  const missing = AGR_VARS.filter(v => need.includes(v.k) && !c[v.k]).map(v => v.lib);
+  if(missing.length) return { missing };
+  for(const G of AGR_ALGO){
+    const sum = AGR_ORDER.reduce((t, k, i) => t + (c[k] === "C" ? G.C[i] : c[k] === "B" ? G.B[i] : 0), 0);
+    for(const [lim, rang] of G.r) if(sum >= lim) return { rang, gir: AGR_RANG_GIR[rang], groupe: G.g, sum };
+  }
+  return { missing: ["calcul"] };
+}
+function agChecks(){
+  const c = agCodes(), out = [];
+  const mental = ["coh", "ori"].some(k => c[k] && c[k] !== "A"), moteur = ["tra", "dpi"].some(k => c[k] && c[k] !== "A");
+  const corps = ["toi", "hab", "ali", "eli"];
+  if(corps.every(k => c[k])){
+    if((mental || moteur) && corps.every(k => c[k] === "A")) out.push(["warn", "Troubles mentaux (cohérence, orientation) ou moteurs (transferts, déplacements) sans aucune atteinte des activités corporelles : le guide rappelle que c'est exceptionnel — vérifier le codage."]);
+    if(!mental && !moteur && ["coh", "ori", "tra", "dpi"].every(k => c[k]) && corps.some(k => c[k] !== "A")) out.push(["info", "Activités corporelles altérées sans difficulté mentale ni motrice : selon le guide, c'est le plus souvent un environnement inadapté ou un non-désir — à vérifier."]);
+  }
+  AGR_VARS.forEach(v => v.subs.forEach(([k, l]) => {
+    const s = agS();
+    if(s.nf[k] === false && s.adv[k] && AGR_ADV.filter(([x]) => s.adv[k][x] === true).length === 1 && agSubCode(k) === "B") out.push(["info", `${l} : un seul adverbe positif peut correspondre à une vraie situation C (« tout refaire à chaque fois ») — le guide demande de le vérifier.`]);
+  }));
+  return out;
+}
+
+/* ------------------------------------------------------------ actions */
+function agSet(k, code){ const s = agS(); s.sub[k] = s.sub[k] === code ? null : code; agRefresh(k); }
+function agNf(k, v){ const s = agS(); s.nf[k] = v; s.sub[k] = agFromAdv(k); agRefresh(k); }
+function agAdv(k, a, v){ const s = agS(); s.adv[k] = s.adv[k] || {}; s.adv[k][a] = v; if(s.nf[k] === undefined) s.nf[k] = false; s.sub[k] = agFromAdv(k); agRefresh(k); }
+function agOpen(k){ const s = agS(); s.open = s.open === k ? null : k; renderAggirPanel(); }
+function agRes(k, v){ agS().res[k] = v; }
+function agReset(){ state.aggir = null; renderAggirPanel(); }
+function agRefresh(){ renderAggirPanel(true); }
+function agToPathos(){
+  const c = agCodes(), r = agGir(), s = agS(), P = pthS();
+  const comm = agSubCode("com");
+  Object.assign(P.ag, { gir: r.gir ? String(r.gir) : P.ag.gir, coh: c.coh || "", comm: comm || "", ori: c.ori || "", depl: c.dpi || "", alim: c.ali || "" });
+  ["nom", "prenom", "naissance", "etab", "date"].forEach(k => { if(!P.res[k] && s.res[k]) P.res[k] = s.res[k]; });
+  P.tab = "res";
+  openExplorer("pathos-codage");
+}
+Object.assign(window, { agSet, agNf, agAdv, agOpen, agRes, agReset, agToPathos });
+
+/* ------------------------------------------------------------ rendu AGGIR */
+function agResHTML(s, setter, idEtab){
+  const r = s.res, v = x => escapeHtml(x || "");
+  return `<div class="courrier-fields mdph-grid">
+      <label class="calc-field courrier-field"><span>NOM d'usage</span><input type="text" value="${v(r.nom)}" oninput="${setter}('nom', this.value)" placeholder="DUPONT" /></label>
+      <label class="calc-field courrier-field"><span>Prénom</span><input type="text" value="${v(r.prenom)}" oninput="${setter}('prenom', this.value)" placeholder="Marie" /></label>
+      <label class="calc-field courrier-field"><span>Date de naissance</span><input type="date" value="${v(r.naissance)}" oninput="${setter}('naissance', this.value)" /></label>
+    </div>
+    <div class="pth-two">
+      <label class="calc-field courrier-field"><span>Établissement</span><textarea id="${idEtab}" rows="2" oninput="${setter}('etab', this.value)">${v(r.etab)}</textarea>${etabPickHTML('#' + idEtab, 'nomAdr')}</label>
+      <label class="calc-field courrier-field"><span>Date de l'évaluation</span><input type="date" value="${v(r.date)}" oninput="${setter}('date', this.value)" /></label>
+    </div>`;
+}
+function agCodeBtns(k){
+  const cur = agSubCode(k);
+  return `<span class="ag-abc">${["A", "B", "C"].map(x => `<button type="button" class="ag-b ag-b-${x} ${cur === x ? "ag-b-on" : ""}" onclick="agSet('${k}', '${x}')" title="${x === "A" ? "Fait seul, spontanément, totalement, habituellement et correctement" : x === "B" ? "Fait seul, mais non spontanément et/ou partiellement et/ou non habituellement et/ou non correctement" : "Ne fait pas seul : faire à la place, faire faire ou tout refaire, à chaque fois"}">${x}</button>`).join("")}</span>`;
+}
+function agSubHTML(v, sub){
+  const [k, l, nf, adv] = sub, s = agS(), open = s.open === k, a = s.adv[k] || {};
+  return `<div class="ag-sub ${open ? "ag-sub-open" : ""}">
+    <div class="ag-sub-h"><span class="ag-sub-l">${escapeHtml(l)}</span><button type="button" class="ag-q" onclick="agOpen('${k}')">${open ? "Fermer les questions" : "❓ Questions du guide"}</button>${agCodeBtns(k)}</div>
+    ${open ? `<div class="ag-qs">
+      <p class="ag-step">1. <strong>Ne fait pas ?</strong> ${escapeHtml(nf)}</p>
+      <div class="ag-yn"><button type="button" class="${s.nf[k] === true ? "ag-yn-on" : ""}" onclick="agNf('${k}', true)">Oui → C</button><button type="button" class="${s.nf[k] === false ? "ag-yn-on" : ""}" onclick="agNf('${k}', false)">Non → adverbes</button></div>
+      ${s.nf[k] === false ? `<p class="ag-step">2. <strong>Fait seul…</strong> (oui à tout = A ; non à 1 à 3 adverbes = B ; non aux 4 = C)</p>
+      ${AGR_ADV.map(([x, lab]) => `<div class="ag-adv"><span><strong>${lab}</strong> — ${escapeHtml(adv[x])} ?</span><span class="ag-yn"><button type="button" class="${a[x] === true ? "ag-yn-on" : ""}" onclick="agAdv('${k}', '${x}', true)">Oui</button><button type="button" class="${a[x] === false ? "ag-yn-on ag-yn-no" : ""}" onclick="agAdv('${k}', '${x}', false)">Non</button></span></div>`).join("")}
+      <p class="mz-note">Un « non » ne s'utilise jamais quand on ne sait pas : dans le doute, on ré-observe. Les aides techniques font partie de la personne ; ce n'est pas la difficulté qui est évaluée.</p>` : ""}
+    </div>` : ""}
+  </div>`;
+}
+function agVarHTML(v){
+  const code = agVarCode(v);
+  return `<div class="ag-var ${v.disc ? "" : "ag-var-ill"}">
+    <div class="ag-var-h"><span class="ag-n">${v.n}</span><strong>${escapeHtml(v.lib)}</strong>${v.disc ? `<span class="ag-tag">discriminante</span>` : `<span class="ag-tag ag-tag-ill">illustrative</span>`}<span class="ax-tabs-sp"></span>${v.subs.length > 1 ? `<span class="ag-final ${code ? "ag-final-" + code : ""}" title="Codage final de la variable">${code || "…"}</span>` : ""}</div>
+    <p class="ag-def">${escapeHtml(v.def)}</p>
+    ${v.subs.map(sub => agSubHTML(v, sub)).join("")}
+    ${v.subs.length > 1 ? `<p class="ag-rule">${{ toi: "Codage final : AA = A ; CC = C ; autres = B.", hab: "Codage final : AAA = A ; CCC = C ; autres = B.", eli: "Codage final : AA = A ; un C (urinaire ou fécale) = C ; autres = B.", ali: "Codage final : AA = A ; CC, BC, CB = C ; autres = B.", ori: "Codage final : AA = A ; un C = C ; autres = B." }[v.rule]}</p>` : ""}
+  </div>`;
+}
+function agResultHTML(){
+  const r = agGir(), c = agCodes();
+  const done = AGR_VARS.filter(v => c[v.k]).length;
+  if(r.missing) return `<div class="ag-res ag-res-wait"><p class="ag-res-t">GIR : à compléter</p><p>Encore à coder pour le calcul : ${escapeHtml(r.missing.join(", "))}.</p><p class="mz-note">${done}/17 variables codées. Le GIR se calcule sur les 8 variables cohérence, orientation, toilette, habillage, alimentation, élimination, transferts, déplacements à l'intérieur.</p></div>`;
+  const ill = AGR_VARS.filter(v => !c[v.k]).map(v => v.lib);
+  return `<div class="ag-res"><div class="ag-gir"><span>GIR</span><strong>${r.gir}</strong></div>
+    <div class="ag-res-b"><p class="ag-res-t">Rang ${r.rang} (groupe ${r.groupe}, somme ${r.sum}) → GIR ${r.gir}</p><p>${escapeHtml(AGR_GIR_TXT[r.gir])}</p>
+    ${ill.length ? `<p class="mz-note">Le guide impose d'évaluer les 17 variables : reste ${escapeHtml(ill.join(", "))}.</p>` : `<p class="pth-ok-all">✓ Les 17 variables sont codées.</p>`}
+    <p class="mz-note">Codes : ${AGR_ORDER.slice(0, 8).map((k, i) => ["Cohérence", "Orientation", "Toilette", "Habillage", "Alimentation", "Élimination", "Transferts", "Déplacements intérieurs"][i] + " " + c[k]).join(" · ")}</p></div></div>`;
+}
+function renderAggirPanel(keepScroll){
+  const cat = CATEGORIES.find(x => x.id === "medco") || CATEGORIES[0], c = colorVars(cat.color), s = agS();
+  const y = window.scrollY;
+  const chk = agChecks();
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page doc-page-wide">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <div class="tool-hero" style="--pill:var(--indigo)"><span class="tool-hero-icon">🧭</span><div class="tool-hero-body"><p class="tool-hero-title">Grille AGGIR — calcul du GIR</p><p class="tool-hero-sub">Les 17 variables du guide officiel, avec les questions « ne fait pas » et les 4 adverbes, le codage final des sous-variables, et le GIR calculé par l'algorithme réglementaire. Report direct dans le Codage PATHOS et fiche PDF.</p><div class="tool-hero-stats"><span class="tool-hero-stat">17 variables</span><span class="tool-hero-stat">Méthode des 4 adverbes</span><span class="tool-hero-stat">Algorithme officiel</span><span class="tool-hero-stat">Rien n'est enregistré</span></div></div></div>
+      <div class="pth-panel">
+        <p class="pth-step">1 · Résident <em>— figure sur le PDF, rien n'est enregistré</em></p>
+        <div class="mco-imp"><label class="pth-mini mco-file">📂 Reprendre une grille enregistrée<input type="file" accept="application/pdf,.pdf" onchange="agImport(this)" /></label><span id="agImpMsg" class="mco-imp-msg">Le PDF « fiche AGGIR » contient la grille : il suffit de le réimporter pour la compléter ou la modifier.</span></div>
+        ${agResHTML(s, "agRes", "agEtab")}
+        <p class="pth-step">2 · Les 17 variables <em>— dans l'ordre du guide : orientation et cohérence en dernier, « éclairées » par tout le reste</em></p>
+        <div class="ag-legend"><span><b class="ag-b ag-b-A ag-b-on">A</b> fait seul, spontanément, totalement, habituellement et correctement</span><span><b class="ag-b ag-b-B ag-b-on">B</b> fait seul mais non S, et/ou partiellement, et/ou non H, et/ou non C</span><span><b class="ag-b ag-b-C ag-b-on">C</b> ne fait pas seul : faire à la place, faire faire ou tout refaire, à chaque fois</span></div>
+        <div class="ag-grid">${AGR_VARS.map(agVarHTML).join("")}</div>
+        <p class="pth-step">3 · Résultat</p>
+        ${agResultHTML()}
+        ${chk.length ? `<div class="cont-alerts" style="margin-top:10px">${chk.map(([l, t]) => `<div class="cont-alert cont-alert-${l === "warn" ? "warn" : "info"}">${escapeHtml(t)}</div>`).join("")}</div>` : ""}
+        <p class="pth-step">4 · Récapitulatif</p>
+        ${signBarHTML("aggir", "signature du médecin")}
+        <div class="mz-actions">
+          <button type="button" id="agPdfBtn" class="bio-copy-btn" onclick="agPdf()">💾 Enregistrer la fiche AGGIR (PDF)</button>
+          <button type="button" class="bio-copy-btn pth-btn-2" onclick="copyText(agRecap(), this, '📋 Copier')">📋 Copier</button>
+          <button type="button" class="bio-copy-btn pth-btn-2" ${agGir().gir ? "" : "disabled"} onclick="agToPathos()">➜ Reporter dans le Codage PATHOS</button>
+          <button type="button" class="bio-reset-btn" onclick="agReset()">Réinitialiser</button>
+        </div>
+      </div>
+      <p class="mz-src">Sources : CNSA, « Le modèle AGGIR — Guide d'utilisation » (CNAMTS, janvier 2008 ; publié au JO du 21 août 2008, annexe 2-1 du code de l'action sociale et des familles — le guide précise que l'algorithme de classification en 6 GIR est inchangé) — <a href="https://www.cnsa.fr/sites/default/files/2024-05/guide_aggir_2008.pdf" target="_blank" rel="noopener">cnsa.fr</a> ; algorithme réglementaire de la grille AGGIR (groupes A à H, rangs 1 à 13), tel que présenté par l'IGAS, rapport n° 2023-014R, annexes (2023). En établissement, le GIR validé est celui de la coupe validée par le médecin du conseil départemental (GALAAD).</p>
+    </div>`;
+  if(keepScroll) window.scrollTo(0, y);
+}
+window.renderAggirPanel = renderAggirPanel;
+function agRecap(){
+  const s = agS(), r = s.res, c = agCodes(), g = agGir();
+  const lines = AGR_VARS.map(v => `${v.n}. ${v.lib}${v.disc ? "" : " (illustrative)"} : ${c[v.k] || "…"}${v.subs.length > 1 ? " [" + v.subs.map(([k, l]) => l + " " + (agSubCode(k) || "…")).join(", ") + "]" : ""}`);
+  return ["GRILLE AGGIR" + (r.date ? " — évaluation du " + pthFr(r.date) : ""), [[(r.nom || "").toUpperCase(), r.prenom].filter(Boolean).join(" "), r.naissance ? "né(e) le " + pthFr(r.naissance) : ""].filter(Boolean).join(", "), "", ...lines, "", g.gir ? `GIR ${g.gir} (rang ${g.rang}, groupe ${g.groupe})` : "GIR : grille incomplète", "Guide AGGIR 2008 (CNSA) ; algorithme réglementaire."].filter((l, i) => l !== "" || i > 1).join("\n");
+}
+window.agRecap = agRecap;
+
+/* ------------------------------------------------------------ PDF commun MedCo (charte DOTR, logo en bas à droite) */
+async function mcoPdf(o){
+  const { PDFDocument, StandardFonts, rgb } = PDFLib;
+  const pdfDoc = await PDFDocument.create();
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const logo = await pdfDoc.embedJpg(base64ToBytes(VMS_DOTR_LOGO_B64));
+  const SA = o.signKey ? await signAssets(pdfDoc, o.signKey) : null;
+  const p = prescGet(), r = o.res || {};
+  const W = 595.28, H = 841.89, M = 34, FW = W - 2 * M, BOTTOM = 772;
+  const hex = h => rgb(parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255);
+  const C = { IND: hex("#3F4B9E"), INDF: hex("#ECEEF9"), INK: hex("#1F2A37"), MUTED: hex("#5C6670"), SRC: hex("#A6B1BF"), WHITE: rgb(1, 1, 1), LINE: hex("#DCE1E7"), PANEL: hex("#F5F5F7") };
+  const Y = t => H - t, safe = t => pdfSafe(t);
+  const txt = (pg, t, x, top, size, f, col) => pg.drawText(safe(t), { x, y: Y(top), size, font: f, color: col });
+  const ctr = (pg, t, top, size, f, col) => { const w = f.widthOfTextAtSize(safe(t), size); pg.drawText(safe(t), { x: (W - w) / 2, y: Y(top), size, font: f, color: col }); };
+  const rr = (pg, x, top, w, h, rad, fill, border, bw) => {
+    const d = `M ${rad} 0 H ${w - rad} Q ${w} 0 ${w} ${rad} V ${h - rad} Q ${w} ${h} ${w - rad} ${h} H ${rad} Q 0 ${h} 0 ${h - rad} V ${rad} Q 0 0 ${rad} 0 Z`;
+    const op = { x, y: Y(top) }; if(fill) op.color = fill; if(border){ op.borderColor = border; op.borderWidth = bw || 0.9; }
+    pg.drawSvgPath(d, op);
+  };
+  const ident = [(r.nom || "").toUpperCase(), r.prenom].filter(Boolean).join(" ");
+  const pages = [];
+  const newPage = first => {
+    const pg = pdfDoc.addPage([W, H]); pages.push(pg);
+    if(!first){
+      txt(pg, o.title + (ident ? " — " + ident : "") + " (suite)", M, 34, 8.4, bold, C.IND);
+      pg.drawLine({ start: { x: M, y: Y(40) }, end: { x: W - M, y: Y(40) }, thickness: 0.7, color: C.LINE });
+      return [pg, 54];
+    }
+    const hw = (FW - 14) / 2;
+    rr(pg, M, 30, hw, 62, 6, C.WHITE, C.IND, 0.9);
+    rr(pg, M + hw + 14, 30, hw, 62, 6, C.WHITE, C.IND, 0.9);
+    txt(pg, "ÉTABLISSEMENT", M + 12, 45, 7, bold, C.IND);
+    String(r.etab || o.etab || "………………………………").split("\n").map(l => l.trim()).filter(Boolean).slice(0, 3).forEach((l, i) => wrapPdfText(safe(l), i ? font : bold, 9.2, hw - 24).slice(0, 1).forEach(x => txt(pg, x, M + 12, 59 + i * 11.5, 9.2, i ? font : bold, C.INK)));
+    const mx = M + hw + 26;
+    txt(pg, o.medLabel || "MÉDECIN COORDONNATEUR", mx, 45, 7, bold, C.IND);
+    txt(pg, p.nom || "Dr ……………………", mx, 59, 9.5, bold, C.INK);
+    const ml = [p.rpps ? "RPPS " + p.rpps : "", p.tel ? "Tél. " + p.tel : ""].filter(Boolean).join("  ·  ");
+    if(ml) txt(pg, ml, mx, 71, 8, font, C.MUTED);
+    rr(pg, M, 104, FW, 52, 6, C.INDF, C.IND, 0.9);
+    ctr(pg, o.eyebrow, 119, 6.8, bold, C.INK);
+    ctr(pg, o.title, 140, 15, bold, C.IND);
+    let top = 166;
+    if(o.cells){
+      rr(pg, M, top, FW, 40, 6, C.PANEL, C.LINE, 0.7);
+      o.cells.forEach(([k, v, f]) => { txt(pg, k, M + 12 + FW * f, top + 14, 6.6, bold, C.MUTED); txt(pg, v, M + 12 + FW * f, top + 29, 10, bold, C.INK); });
+      top += 56;
+    }
+    return [pg, top];
+  };
+  let [pg, top] = newPage(true);
+  const P = {
+    C, hex, txt, rr, font, bold, M, FW, Y, W,
+    get pg(){ return pg; }, get top(){ return top; }, set top(v){ top = v; },
+    need(h){ if(top + h > BOTTOM){ [pg, top] = newPage(false); return true; } return false; }
+  };
+  await o.body(P);
+  // signature + sources
+  P.need(100);
+  const sbTop = top + 4;
+  if(o.signKey){
+    rr(pg, M + FW - 250, sbTop, 250, 88, 6, C.WHITE, C.LINE, 0.8);
+    txt(pg, "Le " + (pthFr(r.date) || new Date().toLocaleDateString("fr-FR")), M + FW - 240, sbTop + 14, 8.4, font, C.INK);
+    txt(pg, o.signLabel || "Signature et tampon du médecin", M + FW - 240, sbTop + 26, 7, bold, C.MUTED);
+    if(SA){
+      let st = null;
+      if(SA.stamp) st = signFit(pg, SA.stamp, { x: M + FW - 128, y: Y(sbTop + 84), w: 118, h: 54 }, "center");
+      if(SA.sig) signFit(pg, SA.sig, { x: M + FW - 240, y: Y(sbTop + 82), w: st ? st.x - (M + FW - 240) + 26 : 220, h: 52 }, st ? "right" : "left");
+    }
+  }
+  wrapPdfText(safe(o.src), font, 6.6, o.signKey ? FW - 270 : FW).forEach((l, i) => txt(pg, l, M, sbTop + 10 + i * 8.4, 6.6, font, C.SRC));
+  const lw = 100, lh = lw * 702 / 1444;
+  pages.forEach((Pg, i) => {
+    Pg.drawImage(logo, { x: W - M - lw, y: 18, width: lw, height: lh });
+    txt(Pg, "Docs On The Road · VMS — " + o.footer + (pages.length > 1 ? " — page " + (i + 1) + "/" + pages.length : ""), M, H - 26, 6.4, font, C.SRC);
+  });
+  if(o.meta) pdfDoc.setSubject(o.meta);
+  return pdfDoc.save();
+}
+/* Données de la fiche enfouies dans le PDF (champ « Sujet ») : le PDF sert de sauvegarde, rien n'est stocké ailleurs */
+const MCO_META = "DOTR-MEDCO-v1:";
+function mcoPack(obj){ return MCO_META + btoa(unescape(encodeURIComponent(JSON.stringify(obj)))); }
+async function mcoReadPdf(file){
+  const doc = await PDFLib.PDFDocument.load(await file.arrayBuffer(), { updateMetadata: false, ignoreEncryption: true });
+  const sub = doc.getSubject() || "";
+  if(!sub.startsWith(MCO_META)) throw new Error("Ce PDF n'a pas été enregistré par la Grille AGGIR ou le Codage PATHOS de l'Espace VMS/DOTR.");
+  return JSON.parse(decodeURIComponent(escape(atob(sub.slice(MCO_META.length)))));
+}
+function mcoSamePerson(a, b){
+  const n = x => String(x || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z]/g, "");
+  if(!n(a.nom) || !n(b.nom)) return true;
+  return n(a.nom) === n(b.nom) && (!n(a.prenom) || !n(b.prenom) || n(a.prenom) === n(b.prenom)) && (!a.naissance || !b.naissance || a.naissance === b.naissance);
+}
+function mcoWho(r){ return [[(r.nom || "").toUpperCase(), r.prenom].filter(Boolean).join(" ") || "résident sans nom", r.naissance ? "né(e) le " + pthFr(r.naissance) : ""].filter(Boolean).join(", "); }
+/* Codes AGGIR utiles au PATHOS, calculés à partir des sous-variables d'une grille enregistrée */
+function agCodesFrom(sub){
+  const keep = state.aggir; state.aggir = { open: null, sub: Object.assign({}, sub), adv: {}, nf: {}, res: {} };
+  try{ return { c: agCodes(), g: agGir(), comm: agSubCode("com") }; } finally { state.aggir = keep; }
+}
+async function agImport(input){
+  const f = input.files && input.files[0]; input.value = "";
+  const out = document.getElementById("agImpMsg");
+  if(!f) return;
+  try{
+    const d = await mcoReadPdf(f);
+    if(d.type !== "aggir") throw new Error("Ce PDF est un codage PATHOS : importe-le dans le Codage PATHOS.");
+    state.aggir = { open: null, sub: d.sub || {}, adv: {}, nf: {}, res: Object.assign({ nom: "", prenom: "", naissance: "", etab: "", date: "" }, d.res || {}) };
+    renderAggirPanel();
+    const o2 = document.getElementById("agImpMsg"); if(o2) o2.innerHTML = `<span class="pth-q-ok">✓ Grille reprise : ${escapeHtml(mcoWho(state.aggir.res))}, enregistrée le ${escapeHtml(d.saved || "")}. Modifie puis enregistre à nouveau.</span>`;
+  }catch(e){ if(out) out.innerHTML = `<span class="pth-q-ko">${escapeHtml(e.message || "Fichier illisible.")}</span>`; }
+}
+window.agImport = agImport;
+
+function mcoFileName(res, kind){
+  const clean = x => String(x || "").replace(/[\\/:*?"<>|]+/g, " ").replace(/\s+/g, " ").trim();
+  const d = new Date();
+  return [clean(res && res.nom).toUpperCase() || (res ? "Patient" : ""), clean(res && res.prenom), kind, AX_MOIS[d.getMonth()], String(d.getFullYear()).slice(-2)].filter(Boolean).join(" ") + ".pdf";
+}
+async function mcoRun(btnId, fn){
+  const btn = document.getElementById(btnId), original = btn.textContent;
+  btn.textContent = "Génération…";
+  try{ await fn(); btn.textContent = "Téléchargé ✓"; setTimeout(() => { btn.textContent = original; }, 2000); }
+  catch(e){ console.error(e); btn.textContent = "Erreur — réessayer"; setTimeout(() => { btn.textContent = original; }, 2200); }
+}
+
+async function agPdf(){
+  await mcoRun("agPdfBtn", async () => {
+    const s = agS(), r = s.res, c = agCodes(), g = agGir();
+    const bytes = await mcoPdf({
+      res: r, signKey: "aggir", meta: mcoPack({ type: "aggir", saved: new Date().toLocaleDateString("fr-FR"), res: r, sub: s.sub }), eyebrow: "MODÈLE AGGIR · GUIDE D'UTILISATION (JO DU 21 AOÛT 2008)", title: "GRILLE AGGIR — ÉVALUATION DU GIR", footer: "Grille AGGIR",
+      medLabel: "MÉDECIN ÉVALUATEUR", signLabel: "Signature et tampon du médecin",
+      cells: [["RÉSIDENT", [(r.nom || "").toUpperCase(), r.prenom].filter(Boolean).join(" ") || "……………………", 0], ["NÉ(E) LE", pthFr(r.naissance) || "…… / …… / ……", 0.48], ["ÉVALUATION DU", pthFr(r.date) || "…… / …… / ……", 0.74]],
+      src: "Codage selon le guide AGGIR (CNSA ; CNAMTS janvier 2008, JO du 21 août 2008, annexe 2-1 du CASF). GIR calculé par l'algorithme réglementaire (groupes A à H, rangs 1 à 13), présentation IGAS 2023-014R. En EHPAD, le GIR opposable est celui de la coupe validée par le médecin du conseil départemental.",
+      body: async P => {
+        // bandeau GIR
+        P.need(50);
+        P.rr(P.pg, P.M, P.top, P.FW, 42, 6, g.gir ? P.C.IND : P.C.PANEL, P.C.IND, 0.9);
+        P.txt(P.pg, g.gir ? "GIR " + g.gir : "GIR : grille incomplète", P.M + 14, P.top + 27, 17, P.bold, g.gir ? P.C.WHITE : P.C.INK);
+        if(g.gir) wrapPdfText(pdfSafe("Rang " + g.rang + " (groupe " + g.groupe + ") — " + AGR_GIR_TXT[g.gir]), P.font, 7.6, P.FW - 120).slice(0, 3).forEach((l, i) => P.txt(P.pg, l, P.M + 100, P.top + 15 + i * 9.4, 7.6, P.font, P.C.WHITE));
+        P.top += 52;
+        const cols = [P.M, P.M + 28, P.M + 210, P.M + 470];
+        const head = () => { P.rr(P.pg, P.M, P.top, P.FW, 20, 5, P.C.IND); [["N°", 0], ["Variable", 1], ["Sous-variables", 2], ["Code", 3]].forEach(([h, i]) => P.txt(P.pg, h, cols[i] + 8, P.top + 13.5, 8, P.bold, P.C.WHITE)); P.top += 22; };
+        head();
+        const col = { A: P.hex("#0F7A57"), B: P.hex("#B26A00"), C: P.hex("#C2362B") };
+        AGR_VARS.forEach((v, i) => {
+          const subTxt = v.subs.length > 1 ? v.subs.map(([k, l]) => l + " : " + (agSubCode(k) || "…")).join("   ") : "";
+          const L = subTxt ? wrapPdfText(pdfSafe(subTxt), P.font, 7.6, 250) : [];
+          const h = Math.max(18, 8 + L.length * 9.4);
+          if(P.need(h + 2)) head();
+          if(i % 2 === 0) P.pg.drawRectangle({ x: P.M, y: P.Y(P.top + h), width: P.FW, height: h, color: P.C.PANEL });
+          P.txt(P.pg, String(v.n), cols[0] + 8, P.top + 12.5, 8.6, P.bold, P.C.IND);
+          P.txt(P.pg, v.lib + (v.disc ? "" : " (illustrative)"), cols[1] + 8, P.top + 12.5, 8.6, v.disc ? P.bold : P.font, P.C.INK);
+          L.forEach((l, j) => P.txt(P.pg, l, cols[2] + 8, P.top + 12 + j * 9.4, 7.6, P.font, P.C.MUTED));
+          const cd = c[v.k];
+          if(cd){ P.rr(P.pg, cols[3] + 8, P.top + 3, 22, 13, 3, col[cd]); P.txt(P.pg, cd, cols[3] + 15.5, P.top + 12.6, 8.6, P.bold, P.C.WHITE); }
+          else P.txt(P.pg, "…", cols[3] + 14, P.top + 12.5, 8.6, P.bold, P.C.MUTED);
+          P.top += h + 1;
+        });
+        P.top += 8;
+        agChecks().forEach(([, t]) => { const L = wrapPdfText(pdfSafe(t), P.font, 7.8, P.FW - 20); P.need(L.length * 10 + 10); L.forEach((l, j) => P.txt(P.pg, l, P.M + 8, P.top + 10 + j * 10, 7.8, P.font, P.C.INK)); P.top += L.length * 10 + 6; });
+      }
+    });
+    triggerDownload(new Blob([bytes], { type: "application/pdf" }), mcoFileName(s.res, "AGGIR"));
+  });
+}
+window.agPdf = agPdf;
+
+/* =====================================================================
+   PRÉPARER LA COUPE AGGIR-PATHOS — CHECK-LIST
+   ===================================================================== */
+const CP_SECTIONS = [
+  { k: "cadre", t: "Avant de démarrer", col: "#3F4B9E", items: [
+    ["form", "Formation PATHOS validante suivie (organisée en région par l'ARS et un gériatre formateur) : prérequis obligatoire pour prétendre à une validation.", "Guide PATHOS 2022 ; Méthode de validation 2022"],
+    ["courrier", "Courrier de l'ARS reçu (établissement dans le périmètre des validations) ; date de validation fixée avec le médecin ARS (PATHOS) et le médecin du conseil départemental (AGGIR).", "Méthode de validation 2022"],
+    ["galaad", "Compte GALAAD personnel ouvert (adresse mail nominative ; demande au gestionnaire ARS). Attention aux tentatives d'hameçonnage.", "Méthode de validation 2022 ; Guide GALAAD MedCo février 2026"],
+    ["guide", "Guide de codage actualisé récupéré sur le site de la CNSA (PATHOS 2022, recommandations de codage 2022, guide AGGIR).", "Méthode de validation 2022"],
+    ["stable", "Établissement en situation stable : pas d'épidémie ni de canicule, pas de réorganisation ni d'ouverture ou extension récente (attendre au moins 6 mois), équipe soignante stable.", "Méthode de validation 2022 ; Guide PATHOS 2022"],
+    ["planning", "Rétroplanning établi : préparation sur 1 à 3 mois selon le nombre de résidents, qualité des dossiers vérifiée.", "Méthode de validation 2022"],
+    ["nosyst", "Pas de bilans systématiques organisés avant la coupe, pas de codages systématiques : chaque résident est évalué et documenté individuellement.", "Guide PATHOS 2022"]
+  ] },
+  { k: "perim", t: "Qui entre dans la coupe", col: "#0F7A57", items: [
+    ["perm", "Tous les résidents en hébergement permanent non hospitalisés le jour de la coupe, sans limite d'âge.", "Méthode de validation 2022"],
+    ["had", "Résidents en HAD inclus, codés selon le principe des soins requis ; protocole de soins HAD (motif, intervention) au dossier.", "Méthode de validation 2022"],
+    ["excl", "Accueil de jour et hébergement temporaire exclus.", "Méthode de validation 2022"],
+    ["m60", "Moins de 60 ans : saisis dans GALAAD, mais non pris en compte dans le GMP et le PMP.", "Méthode de validation 2022"],
+    ["date", "Date de coupe : en général la date d'évaluation saisie dans GALAAD ; période élargie possible (grande capacité, multisite) avec l'accord préalable du médecin valideur.", "Méthode de validation 2022"]
+  ] },
+  { k: "aggir", t: "AGGIR : l'évaluation", col: "#1D5FD6", items: [
+    ["a17", "Les 17 variables évaluées pour chaque résident, par observation, en équipe pluridisciplinaire, en tenant compte des fluctuations dans le temps.", "Guide AGGIR 2008"],
+    ["aadv", "Méthode : d'abord « ne fait pas ? » (C), sinon les 4 adverbes (spontanément, totalement, correctement, habituellement). Jamais « non » par défaut quand on ne sait pas : on ré-observe.", "Guide AGGIR 2008"],
+    ["aorder", "Orientation et cohérence codées en dernier, éclairées par toutes les autres variables.", "Guide AGGIR 2008"],
+    ["acoh", "Cohérence d'ensemble vérifiée : pas de trouble mental ou moteur sans atteinte des activités corporelles (sauf exception), et inversement.", "Guide AGGIR 2008"],
+    ["aerr", "Savoir qu'au-delà de 5 % d'erreurs AGGIR à la validation, le codage est à recommencer sur toutes les fiches non validées.", "Méthode de validation 2022"]
+  ] },
+  { k: "pathos", t: "PATHOS : la traçabilité dans les dossiers", col: "#C2362B", items: [
+    ["pdos", "Pour chaque résident : antécédents, descriptif clinique des pathologies en cours, traitements, transmissions IDE décrivant les épisodes, leur sévérité, leur fréquence et le suivi. Sans traçabilité, le codage n'est pas retenu.", "Guide PATHOS 2022"],
+    ["pt2", "Profils T2 : surveillances prescrites et leurs résultats au dossier (poids, PA, saturation, glycémies, biologie), ajustements thérapeutiques datés.", "Guide PATHOS 2022"],
+    ["pbeh", "Troubles du comportement (14) : troubles décrits et tracés depuis au moins 1 mois ; NPI-ES (P2 : item > 3 et retentissement 2 à 4 ; P1 : > 7 et 4 à 5).", "Guide PATHOS 2022"],
+    ["pdem", "Démence P2 : prescription et évaluation de la stimulation cognitive, MMSE (stade léger à modéré), participation aux séances tracée.", "Recommandations de codage 2022"],
+    ["pden", "Dénutrition : pesées (mensuelles ; hebdomadaires en T2), fiches alimentaires sur 3 jours, albuminémie, critères HAS 2021.", "Guide PATHOS 2022"],
+    ["pesc", "Escarres et plaies : description, protocole et durée des pansements (CH : ≥ 20 min tous les 1 à 2 jours) ; Braden ≤ 17 pour « Escarres S1 ».", "Guide PATHOS 2022"],
+    ["preeduc", "Profils R : prescription, bilan initial du rééducateur, plan de soins, réévaluations — même si le rééducateur n'intervient pas encore.", "Guide PATHOS 2022"],
+    ["pdg", "Profils DG : symptôme récent signalé et démarche engagée, datés.", "Guide PATHOS 2022"],
+    ["pm", "État terminal (48) : passage aux soins palliatifs formalisé, famille informée, anticipation (EMSP, HAD, fiche SAMU-Pallia) ; pathologies causales et escarres codées.", "Guide PATHOS 2022"],
+    ["prefus", "Refus argumenté du médecin traitant de suivre une proposition du médecin coordonnateur : tracé (le soin peut alors ne pas être reconnu comme requis).", "Guide PATHOS 2022"],
+    ["p49", "Autres pathologies (49) : diagnostic écrit en clair.", "Recommandations de codage 2022"]
+  ] },
+  { k: "saisie", t: "GALAAD : saisie et finalisation", col: "#6B4C9A", items: [
+    ["sfiche", "Une fiche individuelle par résident, AGGIR et PATHOS, réactualisée jusqu'à la date d'évaluation.", "Méthode de validation 2022"],
+    ["simport", "Saisie dans GALAAD ou import depuis le logiciel de soins (problème d'import : l'éditeur du logiciel).", "Guide GALAAD MedCo février 2026"],
+    ["salert", "Alertes de GALAAD contrôlées et corrigées : un grand nombre d'alertes conduit à reporter la validation.", "Guide PATHOS 2022"],
+    ["sfin", "Étude finalisée (ou exportée) dans GALAAD.", "Méthode de validation 2022"],
+    ["sconc", "Fiche de concordance imprimée (nom du résident / n° de saisie) depuis le logiciel de l'établissement.", "Méthode de validation 2022"]
+  ] },
+  { k: "valid", t: "Le jour de la validation", col: "#B26A00", items: [
+    ["vdos", "Dossiers médicaux et de soins disponibles et accessibles, avec toutes les pièces justifiant les codages.", "Méthode de validation 2022"],
+    ["vpres", "Présence du médecin coordonnateur ; éventuellement quelques soignants (IDE, kiné) si le valideur le juge utile ; pas de médecin extérieur à l'équipe de l'établissement.", "Méthode de validation 2022"],
+    ["vsecret", "Secret médical partagé : la présence du directeur n'est pas autorisée pendant la validation PATHOS.", "Méthode de validation 2022"],
+    ["vdesac", "En cas de désaccord : fiches argumentaires des deux médecins avec pièces justificatives anonymisées, soumises à la commission régionale de coordination médicale.", "Méthode de validation 2022"],
+    ["vpv", "Procès-verbal (GMP et PMP validés) et bilan AGGIR-PATHOS signés par le médecin coordonnateur et les valideurs ; PV signé scanné et déposé dans GALAAD.", "Méthode de validation 2022 ; Guide GALAAD MedCo février 2026"]
+  ] }
+];
+function cpS(){ if(!state.coupe) state.coupe = { done: {}, etab: "", date: "" }; return state.coupe; }
+function cpTog(k, v){ cpS().done[k] = v; renderCoupePanel(true); }
+function cpSet(k, v){ cpS()[k] = v; }
+function cpReset(){ state.coupe = null; renderCoupePanel(); }
+Object.assign(window, { cpTog, cpSet, cpReset });
+function cpCount(){ const all = CP_SECTIONS.flatMap(s => s.items.map(([k]) => k)); return [all.filter(k => cpS().done[k]).length, all.length]; }
+function renderCoupePanel(keepScroll){
+  const cat = CATEGORIES.find(x => x.id === "medco") || CATEGORIES[0], c = colorVars(cat.color), s = cpS(), y = window.scrollY;
+  const [n, tot] = cpCount(), pct = Math.round(100 * n / tot);
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page doc-page-wide">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <div class="tool-hero" style="--pill:var(--indigo)"><span class="tool-hero-icon">✅</span><div class="tool-hero-body"><p class="tool-hero-title">Préparer la coupe AGGIR-PATHOS</p><p class="tool-hero-sub">La check-list du médecin coordonnateur, de la formation à la signature du procès-verbal : chaque point vient des documents officiels de la CNSA, source indiquée. Coche au fur et à mesure, puis télécharge l'état d'avancement.</p><div class="tool-hero-stats"><span class="tool-hero-stat">${tot} points</span><span class="tool-hero-stat">6 étapes</span><span class="tool-hero-stat">Sources CNSA</span><span class="tool-hero-stat">Rien n'est enregistré</span></div></div></div>
+      <div class="pth-panel">
+        <div class="pth-two">
+          <label class="calc-field courrier-field"><span>Établissement</span><textarea id="cpEtab" rows="2" oninput="cpSet('etab', this.value)">${escapeHtml(s.etab)}</textarea>${etabPickHTML('#cpEtab', 'nomAdr')}</label>
+          <label class="calc-field courrier-field"><span>Date de coupe prévue</span><input type="date" value="${escapeHtml(s.date)}" oninput="cpSet('date', this.value)" /></label>
+        </div>
+        <div class="cp-prog"><div class="cp-bar"><span style="width:${pct}%"></span></div><strong>${n}/${tot}</strong></div>
+        ${CP_SECTIONS.map((S, i) => { const d = S.items.filter(([k]) => s.done[k]).length; return `<div class="cp-sec" style="--cpc:${S.col}">
+          <p class="cp-sec-t"><span>${i + 1}</span>${escapeHtml(S.t)}<em>${d}/${S.items.length}</em></p>
+          ${S.items.map(([k, t, src]) => `<label class="cp-item ${s.done[k] ? "cp-item-on" : ""}"><input type="checkbox" ${s.done[k] ? "checked" : ""} onchange="cpTog('${k}', this.checked)" /><span>${escapeHtml(t)}<em>${escapeHtml(src)}</em></span></label>`).join("")}
+        </div>`; }).join("")}
+        <div class="cont-alerts" style="margin-top:12px"><div class="cont-alert cont-alert-info">Contacts : difficultés de codage — hotline CNSA hotlineaggirpathos@cnsa.fr (méthode de validation 2022) ; compte GALAAD, organisation, litige — gestionnaire ARS ; bug ou aide à l'utilisation — support CNSA, 01 41 46 47 00, support@cnsa.fr (guide GALAAD février 2026) ; import — éditeur du logiciel de soins.</div></div>
+        <div class="mz-actions">
+          <button type="button" id="cpPdfBtn" class="bio-copy-btn" onclick="cpPdf()">⬇ Check-list PDF</button>
+          <button type="button" class="bio-copy-btn pth-btn-2" onclick="openExplorer('aggir-gir')">🧭 Grille AGGIR</button>
+          <button type="button" class="bio-copy-btn pth-btn-2" onclick="openExplorer('pathos-codage')">🧩 Codage PATHOS</button>
+          <button type="button" class="bio-reset-btn" onclick="cpReset()">Réinitialiser</button>
+        </div>
+      </div>
+      <p class="mz-src">Sources : CNSA, « Méthode de validation des coupes AGGIR et PATHOS — Formation nationale 2022 » — <a href="https://portail.cnsa.fr/documentation/Formation_pathos_2_methode_de_validation_2022.pdf" target="_blank" rel="noopener">cnsa.fr</a> ; CNSA, « Le modèle PATHOS — Guide d'utilisation 2022 » et « Recommandations de codage PATHOS 2022 » ; CNSA, « Le modèle AGGIR — Guide d'utilisation » (2008) ; CNSA, « Guide utilisateur GALAAD — Médecin coordonnateur » (février 2026) — <a href="https://cnsa-documentation-s3-bucket-app-prod.s3.sbg.io.cloud.ovh.net/Guide_utilisateur_Galaad_mc_2026-02.pdf" target="_blank" rel="noopener">cnsa.fr</a>.</p>
+    </div>`;
+  if(keepScroll) window.scrollTo(0, y);
+}
+window.renderCoupePanel = renderCoupePanel;
+async function cpPdf(){
+  await mcoRun("cpPdfBtn", async () => {
+    const s = cpS(), [n, tot] = cpCount();
+    const bytes = await mcoPdf({
+      res: { etab: s.etab, date: s.date }, eyebrow: "COUPE AGGIR-PATHOS · DOCUMENTS CNSA", title: "PRÉPARATION DE LA COUPE", footer: "Préparer la coupe AGGIR-PATHOS",
+      cells: [["DATE DE COUPE PRÉVUE", pthFr(s.date) || "…… / …… / ……", 0], ["AVANCEMENT", n + " / " + tot + " points", 0.48], ["ÉDITÉ LE", new Date().toLocaleDateString("fr-FR"), 0.74]],
+      src: "Sources : CNSA, Méthode de validation des coupes AGGIR et PATHOS (formation nationale 2022) ; Le modèle PATHOS, guide d'utilisation 2022 ; Recommandations de codage PATHOS 2022 ; Le modèle AGGIR, guide d'utilisation (2008) ; Guide utilisateur GALAAD médecin coordonnateur (février 2026).",
+      body: async P => {
+        CP_SECTIONS.forEach((S, i) => {
+          const col = P.hex(S.col);
+          P.need(40);
+          P.rr(P.pg, P.M, P.top, P.FW, 20, 5, col);
+          P.txt(P.pg, (i + 1) + " · " + S.t.toUpperCase(), P.M + 10, P.top + 13.5, 8.6, P.bold, P.C.WHITE);
+          P.top += 25;
+          S.items.forEach(([k, t, src]) => {
+            const L = wrapPdfText(pdfSafe(t), P.font, 8.2, P.FW - 40);
+            const h = L.length * 10 + 13;
+            if(P.need(h)){ }
+            P.rr(P.pg, P.M + 6, P.top + 1, 9, 9, 2, s.done[k] ? col : P.C.WHITE, col, 0.9);
+            if(s.done[k]) P.txt(P.pg, "x", P.M + 8.2, P.top + 8.6, 7.6, P.bold, P.C.WHITE);
+            L.forEach((l, j) => P.txt(P.pg, l, P.M + 22, P.top + 8.5 + j * 10, 8.2, P.font, P.C.INK));
+            P.txt(P.pg, src, P.M + 22, P.top + 8.5 + L.length * 10, 6.4, P.font, P.C.SRC);
+            P.top += h + 2;
+          });
+          P.top += 6;
+        });
+      }
+    });
+    triggerDownload(new Blob([bytes], { type: "application/pdf" }), mcoFileName(null, "Preparation coupe AGGIR PATHOS"));
+  });
+}
+window.cpPdf = cpPdf;
+/* fin MedCo outils */
+
 /* Rubriques marquées « wip » : grand bandeau d'alerte en tête de page, dans la
    rubrique comme dans ses outils et documents. Appelé après chaque rendu, y
    compris les rendus internes des outils (voir les enveloppes plus bas). */
@@ -19008,6 +20374,12 @@ function render(){
     renderMdphPanel();
   }else if(state.activeDoc === "signature-ordonnances" && state.explorerMode){
     renderSignPanel();
+  }else if(state.activeDoc === "aggir-gir" && state.explorerMode){
+    renderAggirPanel();
+  }else if(state.activeDoc === "coupe-preparation" && state.explorerMode){
+    renderCoupePanel();
+  }else if(state.activeDoc === "pathos-codage" && state.explorerMode){
+    renderPathosPanel();
   }else if(state.activeDoc === "anxiolyse-esms" && state.explorerMode){
     renderAnxioPanel();
   }else if(state.activeDoc === "midazolam-palliatif" && state.explorerMode){
