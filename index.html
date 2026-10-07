@@ -2819,6 +2819,70 @@
   .mx-fact i{width:8px; height:8px; border-radius:50%;} .mx-fact b{color:var(--text-muted); font-size:12px;}
   .mx-fact button{border:none; background:#fff; color:var(--text-muted); width:22px; height:22px; border-radius:50%; cursor:pointer; font-size:12px;}
   /* fin Corrections 02/10/2026 */
+  /* ---------- Anxiolyse outil ---------- */
+  .ax-tabs{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 14px;}
+  .ax-tab{font:inherit; font-weight:700; font-size:14px; color:var(--navy); background:var(--card-bg); border:1.5px solid var(--border); border-radius:999px; padding:8px 16px; cursor:pointer;}
+  .ax-tab:hover{background:var(--teal-bg);}
+  .ax-tab-on{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .ax-tabs-sp{flex:1;}
+  .ax-seg{flex-wrap:wrap;}
+  .ax-checks{display:flex; flex-direction:column; gap:5px; margin:4px 0 6px;}
+  .ax-alerts{display:flex; flex-direction:column; gap:6px;}
+  .ax-alert{font-size:13px; line-height:1.45;}
+  .ax-src{display:block; font-size:11px; color:var(--text-muted); margin-top:2px;}
+  .ax-brand{display:inline-block; margin-left:6px; font-size:11.5px; font-weight:800; color:var(--blue); background:var(--sky-bg); border-radius:999px; padding:0 7px;}
+  .ax-mol-row .mz-dose-k{display:flex; flex-direction:column; gap:3px; align-items:flex-start;}
+  .ax-units{display:block; font-style:normal; font-weight:700; color:var(--blue); font-size:12.5px; margin-top:3px; min-height:1em;}
+  .ax-taper{border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-top:6px;}
+  .ax-taper-h, .ax-taper-r{display:grid; grid-template-columns:1.1fr 1fr 1.6fr .8fr; gap:8px; padding:7px 12px; font-size:13px; align-items:center;}
+  .ax-taper-h{background:var(--navy); color:#fff; font-weight:700; font-size:12px;}
+  .ax-taper-r:nth-child(odd){background:var(--slate-bg);}
+  .ax-taper-r strong{color:var(--navy);}
+  .ax-taper-stop{background:var(--emerald-bg) !important;} .ax-taper-stop strong{color:var(--emerald);}
+  .ax-cur{display:block; font-style:normal; font-weight:600; font-size:11px; color:var(--text-muted);}
+  .ax-taper-tot{margin:8px 0 4px; font-size:13px;}
+  @media (max-width:560px){ .ax-taper-h, .ax-taper-r{grid-template-columns:1fr 1fr; } }
+  /* fin Anxiolyse outil CSS */
+  /* ---------- Signature ---------- */
+  #statusMsg{display:none !important;}
+  .sign-hdr-btn{font-family:inherit; font-size:14.5px; font-weight:800; letter-spacing:.01em; color:#0B2545; background:linear-gradient(135deg,#C6FF3D 0%,#7CFFB2 55%,#3DF5FF 100%); border:2px solid #fff; border-radius:999px; padding:9px 18px; cursor:pointer; white-space:nowrap; box-shadow:0 0 0 3px rgba(124,255,178,.35), 0 4px 16px rgba(61,245,255,.45); animation:signGlow 2.6s ease-in-out infinite;}
+  .sign-hdr-btn:hover{transform:translateY(-1px); box-shadow:0 0 0 4px rgba(124,255,178,.55), 0 6px 20px rgba(61,245,255,.6);}
+  @keyframes signGlow{0%,100%{box-shadow:0 0 0 3px rgba(124,255,178,.35), 0 4px 16px rgba(61,245,255,.45);} 50%{box-shadow:0 0 0 6px rgba(198,255,61,.25), 0 4px 22px rgba(61,245,255,.7);}}
+  @media (prefers-reduced-motion: reduce){ .sign-hdr-btn{animation:none;} }
+  .sig-hero{--pill:#13A86B;}
+  .sig-drop{position:relative; display:flex; flex-direction:column; align-items:center; gap:4px; padding:26px 16px; border:2.5px dashed #13A86B; border-radius:16px; background:var(--card-bg); cursor:pointer; text-align:center; margin:6px 0 4px;}
+  .sig-drop input{position:absolute; inset:0; opacity:0; cursor:pointer;}
+  .sig-drop-on{background:#E9FFF3; border-color:#0B8A55;}
+  .sig-drop-ico{font-size:30px;} .sig-drop strong{font-size:16px; color:var(--navy);} .sig-drop em{font-style:normal; font-size:13px; color:var(--text-muted);}
+  .sig-msg{min-height:1.2em; margin:4px 0 10px; font-size:13px; font-weight:700; color:#0B8A55;}
+  .sig-profiles{display:flex; flex-wrap:wrap; gap:10px; margin:4px 0 10px;}
+  .sig-prof{display:flex; align-items:center; gap:10px; text-align:left; font:inherit; background:var(--card-bg); border:2px solid var(--border); border-radius:14px; padding:10px 14px; cursor:pointer; min-width:210px;}
+  .sig-prof strong{display:block; font-size:14.5px; color:var(--navy);} .sig-prof em{display:block; font-style:normal; font-size:12px; color:var(--text-muted);}
+  .sig-prof-ico{font-size:22px;}
+  .sig-prof-on{border-color:#13A86B; background:#E9FFF3; box-shadow:0 0 0 3px rgba(19,168,107,.15);}
+  .sig-prof-ck{margin-left:auto; font-weight:800; color:#13A86B;}
+  .sig-prof-soon{cursor:default; opacity:.7; border-style:dashed;}
+  .sig-opts{background:var(--card-bg); border:1px solid var(--border); border-radius:14px; padding:10px 14px; margin:0 0 12px; display:flex; flex-direction:column; gap:6px;}
+  .sig-opts-t{margin:0 0 2px; font-weight:800; font-size:13.5px; color:var(--navy);}
+  .sig-list-head{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:16px 0 8px;}
+  .sig-list{display:flex; flex-direction:column; gap:12px;}
+  .sig-card{display:flex; gap:14px; background:var(--card-bg); border:1px solid var(--border); border-left:5px solid var(--slate); border-radius:14px; padding:12px;}
+  .sig-card-ok{border-left-color:#13A86B;} .sig-card-ko{border-left-color:var(--red);}
+  .sig-card-prev{flex:none; width:150px;} .sig-card-prev img{width:150px; border:1px solid var(--border); border-radius:6px; display:block; background:#fff;}
+  .sig-noprev{width:150px; height:212px; display:flex; align-items:center; justify-content:center; background:var(--slate-bg); border-radius:6px; font-size:26px;}
+  .sig-card-body{flex:1; min-width:0; display:flex; flex-direction:column; gap:6px;}
+  .sig-card-src{margin:0; font-size:12px; color:var(--text-muted); overflow-wrap:anywhere;}
+  .sig-card-row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;}
+  .sig-card-row .calc-field{margin:0;}
+  .sig-card-st{margin:0; font-size:13px;}
+  .sig-ok{color:#0B8A55; font-weight:800;} .sig-ko{color:var(--red); font-weight:700;} .sig-warn{color:var(--amber); font-weight:700;}
+  .sig-zooms{display:flex; flex-wrap:wrap; gap:8px; align-items:flex-start;}
+  .sig-zoom{flex:0 1 auto; background:#fff; border:1px solid var(--border); border-radius:8px; padding:4px; max-width:100%; overflow:auto;}
+  .sig-zoom img{display:block; max-width:100%; max-height:150px; height:auto;}
+  .sig-card-act{display:flex; flex-wrap:wrap; align-items:center; gap:8px;}
+  .sig-fn{flex:1; min-width:160px; font-weight:800; font-size:13.5px; color:var(--navy); overflow-wrap:anywhere;}
+  @media (max-width:640px){ .sig-card{flex-direction:column;} .sig-card-row{grid-template-columns:1fr;} .sig-card-prev, .sig-card-prev img{width:100%;} }
+  /* fin Signature CSS */
   /* ---------- Calculateurs : bulles de contexte ---------- */
   .calc-ctx-lead{font-size:14.5px; font-weight:700; color:var(--text); margin:20px 0 10px;}
   .calc-ctx-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:16px;}
@@ -2954,12 +3018,15 @@
 </style>
 <!-- pdf-lib : génère un PDF rempli (Établissement / Médecin) entièrement dans le navigateur,
      sans rien envoyer à un serveur ni rien conserver après la session. -->
-<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="js/pdf-lib.min.js"></script>
+<script>if(!window.PDFLib) document.write('<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"><\/script>');</script>
 <!-- JSZip : assemble un .zip de PDF sélectionnés entièrement dans le navigateur. -->
-<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="js/jszip.min.js"></script>
+<script>if(!window.JSZip) document.write('<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"><\/script>');</script>
 <!-- fontkit : nécessaire à pdf-lib pour intégrer une police externe (le certificat
      Handisport charge une police manuscrite pour le texte saisi). -->
-<script src="https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
+<script src="js/fontkit.umd.min.js"></script>
+<script>if(!window.fontkit) document.write('<script src="https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"><\/script>');</script>
 </head>
 <body>
 
@@ -2981,7 +3048,8 @@
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <input id="search" type="text" placeholder="Rechercher un protocole (ex : hypoglycémie, chute, hémorragie…)" aria-label="Rechercher un protocole" />
   </div>
-  <div class="status-msg" id="statusMsg"></div>
+  <div class="status-msg" id="statusMsg" hidden></div>
+  <button type="button" class="sign-hdr-btn" onclick="openSignature()" title="Signer des ordonnances PDF selon le logiciel (Ogirys, Netsoins / Netvie…)">✍️ Signature</button>
   <div class="music-wrap"><button type="button" class="settings-btn music-btn" id="musicBtn" onclick="musicToggleMenu(event)" title="Musique d'ambiance (coupée)" aria-label="Musique d'ambiance">🎵</button><div class="music-pop" id="musicPop" hidden></div></div>
   <button type="button" class="settings-btn team-btn" onclick="openDoc('trombinoscope-vms')" title="Trombinoscope de l'équipe VMS/DOTR">👥 Équipe</button>
   <button type="button" class="settings-btn" onclick="openExplorer('parametres-medecin')" title="Mes paramètres : médecin (identité, signature) et établissements, enregistrés sur cet appareil">⚙️ Mes paramètres</button>
@@ -3924,10 +3992,18 @@ const DOCUMENTS = {
   "anxiolyse-esms": {
     title: "Anxiolyse en ESMS — crise, anxiété durable, « si besoin », arrêt",
     category: "medicaments-securite",
-    subcategory: "fiches-conseils",
-    meta: "Démarche en 4 temps, quelle molécule chez le sujet âgé (REMEDI[e]S, HAS 2024), hydroxyzine et phénothiazines à éviter, rédiger un « si besoin », arrêter une benzodiazépine (HAS 2015), réglementation — fiche 2 pages",
+    meta: "Outil : évaluer et proposer (alertes sourcées), « si besoin » signable (protocole IDE), plan d'arrêt de benzodiazépine arrondi aux comprimés — et la fiche PDF 2 pages (HAS 2024, REMEDI[e]S, HAS 2015)",
+    openLabel: "Fiche PDF",
+    interactive: true,
     filename: "Anxiolyse_ESMS_DOTR.pdf",
     path: "medicaments-securite/Anxiolyse_ESMS_DOTR.pdf"
+  },
+  "signature-ordonnances": {
+    hidden: true,
+    title: "Signature des ordonnances",
+    category: "administratif",
+    meta: "Signer des ordonnances PDF selon le logiciel",
+    interactive: true
   },
   "midazolam-palliatif": {
     title: "Midazolam en soins palliatifs — anxiolyse, prescription anticipée, sédation, SPCMD",
@@ -4955,9 +5031,9 @@ function renderCardsGroup(list, cat, subId){
   const plain = list.filter(it => !it.interactive);
   if(cat.id === "medicaments-securite" && !subId){
     const rank = it => { const i = MS_FEATURED_ORDER.indexOf(it.id); return i < 0 ? 99 : i; };
-    const main = featured.filter(it => !/^deprescription-/.test(it.id)).sort((a, b) => rank(a) - rank(b));
+    const main = featured.filter(it => !/^deprescription-|^anxiolyse-esms$/.test(it.id)).sort((a, b) => rank(a) - rank(b));
     const duo = featured.some(it => /^deprescription-/.test(it.id)) ? msDuoCardHTML(cat) : "";
-    return `<div class="grid grid-featured">${main.map(it => cardHTML(it, cat)).join("")}${duo}</div>`
+    return `<div class="grid grid-featured">${main.map(it => cardHTML(it, cat)).join("")}${duo}${featured.filter(it => it.id === "anxiolyse-esms").map(it => cardHTML(it, cat)).join("")}</div>`
       + (plain.length ? `<div class="grid">${plain.map(it => cardHTML(it, cat)).join("")}</div>` : "");
   }
 
@@ -17802,6 +17878,911 @@ window.mzPdf = mzPdf;
 window.renderMidazPanel = renderMidazPanel;
 /* fin Midazolam outil */
 
+/* =====================================================================
+   ANXIOLYSE EN ESMS — OUTIL INTERACTIF (03/10/2026).
+   ① Évaluer et proposer : terrain, situation, traitements en cours,
+      causes à chercher → proposition et alertes sourcées.
+   ② Prescrire « si besoin » : « Protocole de soins infirmiers sur
+      prescription anticipée » nominatif, en PDF signable.
+   ③ Arrêter une benzodiazépine : calendrier de décroissance (HAS 2015),
+      arrondi aux comprimés disponibles (base publique des médicaments).
+   Sources : HAS, BUM benzodiazépines dans l'anxiété (2024) ; HAS, arrêt
+   des benzodiazépines (2015) ; HAS, Alzheimer — troubles du comportement
+   (2009) ; REMEDI[e]S (2021) ; RCP (BDPM) ; EMA-PRAC hydroxyzine (2015) ;
+   OMéDIT Centre-Val de Loire (prescription conditionnelle).
+   Aucun chiffre hors de ces sources ; les choix d'organisation sont
+   marqués « Proposition DOTR ». Rien n'est enregistré.
+   ===================================================================== */
+/* Présentations orales commercialisées (BDPM, fichiers du 28/09/2026).
+   div : 1 = non sécable, 2 = sécable, 4 = quadrisécable ;
+   mix : sécable chez certains laboratoires seulement. */
+const AX_MOLS = [
+  { k: "oxazepam", l: "Oxazépam", b: "Seresta", court: true, max75: 30, p: [{ mg: 5, div: 1 }, { mg: 10, div: 2, mix: true }, { mg: 25, div: 2 }, { mg: 50, div: 2 }] },
+  { k: "lorazepam", l: "Lorazépam", b: "Témesta", court: true, max75: 3, p: [{ mg: 1, div: 2 }, { mg: 2.5, div: 2 }] },
+  { k: "alprazolam", l: "Alprazolam", b: "Xanax", court: true, max75: 2, p: [{ mg: 0.25, div: 2, mix: true }, { mg: 0.5, div: 2, mix: true }] },
+  { k: "bromazepam", l: "Bromazépam", b: "Lexomil", long: true, p: [{ mg: 1.5, div: 1 }, { mg: 6, div: 4 }] },
+  { k: "clorazepate", l: "Clorazépate", b: "Tranxène", long: true, gel: true, p: [{ mg: 5, div: 1 }, { mg: 10, div: 1 }, { mg: 20, div: 1 }] },
+  { k: "diazepam", l: "Diazépam", b: "Valium", long: true, p: [{ mg: 2, div: 1 }, { mg: 5, div: 1 }, { mg: 10, div: 2, mix: true }] },
+  { k: "prazepam", l: "Prazépam", b: "Lysanxia", long: true, p: [{ mg: 10, div: 2, mix: true }, { mg: 40, div: 2 }] },
+  { k: "clobazam", l: "Clobazam", b: "Urbanyl", long: true, p: [{ mg: 10, div: 2 }] },
+  { k: "loflazepate", l: "Loflazépate", b: "Victan", long: true, p: [{ mg: 2, div: 2 }] },
+  { k: "zopiclone", l: "Zopiclone", b: "Imovane", hypno: true, p: [{ mg: 3.75, div: 1 }, { mg: 7.5, div: 2 }] },
+  { k: "zolpidem", l: "Zolpidem", b: "Stilnox", hypno: true, p: [{ mg: 10, div: 2 }] },
+  { k: "lormetazepam", l: "Lormétazépam", b: "", hypno: true, p: [{ mg: 1, div: 2 }, { mg: 2, div: 2 }] }
+];
+const AX_CAUSES = [
+  ["douleur", "Douleur (Algoplus, ECPA)"], ["fecalome", "Fécalome, constipation"], ["globe", "Globe vésical"],
+  ["infection", "Infection"], ["hypoxie", "Hypoxie"], ["iatro", "Nouveau médicament, iatrogénie"],
+  ["sevrage", "Sevrage (benzodiazépine, alcool, tabac)"], ["psy", "Dépression, trouble psychiatrique"],
+  ["declencheur", "Déclencheur : changement de lieu, de soignant, soin vécu comme intrusif"]
+];
+const AX_COM = [
+  ["ir", "Insuffisance rénale"], ["ih", "Insuffisance hépatique"], ["cog", "Troubles cognitifs (Alzheimer ou apparentée)"],
+  ["sas", "Apnées du sommeil"], ["myas", "Myasthénie"], ["resp", "Insuffisance respiratoire sévère"],
+  ["qt", "QT long, cardiopathie, bradycardie, hypokaliémie"], ["chute", "Chutes"], ["addic", "Alcool ou autre dépendance"]
+];
+const AX_TT = [
+  ["bzdlong", "Benzodiazépine depuis plus de 12 semaines"],
+  ["bzd2", "Deux benzodiazépines (anxiolytique et hypnotique compris)"],
+  ["bzddvl", "Benzodiazépine à demi-vie longue (Lexomil, Tranxène, Valium, Lysanxia, Victan, Urbanyl)"],
+  ["hydrox", "Hydroxyzine (Atarax)"], ["cyam", "Cyamémazine (Tercian)"], ["autrepsy", "Autre psychotrope sédatif"]
+];
+const AX_SIG = [
+  ["agit", "Anxiété avec agitation : déambulation anxieuse, cris, appels répétés"],
+  ["angoisse", "Angoisse exprimée par le résident, persistant malgré la réassurance"],
+  ["soin", "Anxiété avant un soin ou un examen identifié"]
+];
+const AX_SCHEMES = [
+  { k: "h8", l: "1/8 de la dose toutes les 2 semaines", f: 1 / 8, w: 2 },
+  { k: "p10w2", l: "10 % toutes les 2 semaines", f: 0.10, w: 2 },
+  { k: "p10w1", l: "10 % chaque semaine", f: 0.10, w: 1 },
+  { k: "p5w2", l: "5 % toutes les 2 semaines", f: 0.05, w: 2 },
+  { k: "p5w1", l: "5 % chaque semaine", f: 0.05, w: 1 }
+];
+const AX_MOIS = ["JANV", "FEVR", "MARS", "AVR", "MAI", "JUIN", "JUIL", "AOUT", "SEPT", "OCT", "NOV", "DEC"];
+
+function axToday(){ const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); }
+function axDefault(){
+  const p = prescGet();
+  return {
+    tab: "eval", age: null, sit: null, com: {}, tt: {}, causes: {},
+    res: { nom: "", prenom: "", naissance: "", etab: "" },
+    sb: { mol: "oxazepam", pi: 1, autre: "", dose: "", interv: "", max: "", jusqua: "", sig: { agit: true }, sigAutre: "",
+      prealable: "Après réassurance et changement d'approche, et après avoir vérifié l'absence de douleur, de globe vésical et de fécalome.",
+      appel: "Appeler le médecin" + (p.tel ? " (" + p.tel + ")" : "") + " si 2 prises en 24 h, si inefficace, si somnolence excessive, confusion ou chute.",
+      date: axToday(), faitA: "" },
+    ta: { mol: "lorazepam", pi: 0, secMix: false, dose: "", scheme: "h8", debut: axToday() }
+  };
+}
+function axS(){ if(!state.anxio) state.anxio = axDefault(); return state.anxio; }
+function axReset(){ const t = axS().tab; state.anxio = axDefault(); state.anxio.tab = t; renderAnxioPanel(); }
+function axTab(t){ axS().tab = t; renderAnxioPanel(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+function axSet(path, v, full){
+  const s = axS(), ks = path.split(".");
+  let o = s; ks.slice(0, -1).forEach(k => { o = o[k]; });
+  o[ks[ks.length - 1]] = v;
+  if(full) renderAnxioPanel(); else axRefresh();
+}
+window.axReset = axReset; window.axTab = axTab; window.axSet = axSet;
+function axChips(name, cur, opts, path){
+  return `<span class="pmt-seg ax-seg" role="radiogroup">${opts.map(([k, l]) => `<label class="cont-chip ${cur === k ? "cont-chip-on" : ""}"><input type="radio" name="${name}" ${cur === k ? "checked" : ""} onchange="axSet('${path}', '${k}', true)" />${l}</label>`).join("")}</span>`;
+}
+function axChecks(list, obj, path){
+  return `<div class="ax-checks">${list.map(([k, l]) => `<label class="mz-check ${obj[k] ? "mz-check-on" : ""}"><input type="checkbox" ${obj[k] ? "checked" : ""} onchange="axSet('${path}.${k}', this.checked); this.parentNode.classList.toggle('mz-check-on', this.checked)" /><span>${escapeHtml(l)}</span></label>`).join("")}</div>`;
+}
+function axNum(v){ const n = parseFloat(String(v || "").replace(",", ".")); return isFinite(n) && n > 0 ? n : null; }
+function axF(x){ return (Math.round(x * 1000) / 1000).toLocaleString("fr-FR", { maximumFractionDigits: 3 }); }
+function axMol(k){ return AX_MOLS.find(m => m.k === k) || AX_MOLS[0]; }
+function axPresLabel(m, p){ return `${m.l} ${axF(p.mg)} mg — ${m.gel ? "gélule" : p.div === 4 ? "comprimé quadrisécable" : p.div === 2 ? (p.mix ? "comprimé (sécable selon le laboratoire)" : "comprimé sécable") : "comprimé non sécable"}`; }
+/* dose en mg → « 1 cp ½ » selon la présentation */
+function axUnits(dose, mg, unit){
+  const n = Math.round(dose / mg * 4) / 4;
+  const w = Math.floor(n + 1e-9), fr = Math.round((n - w) * 4);
+  const fs = ["", "¼", "½", "¾"][fr];
+  if(!w && !fr) return "0";
+  return (w ? w + " " : "") + (fs ? fs + " " : "") + (unit || (w > 1 || (w === 1 && fr) ? "cp" : "cp"));
+}
+function axRes(){ return axS().res; }
+function axFileName(kind){
+  const r = axRes();
+  const clean = x => String(x || "").replace(/[\\/:*?"<>|]+/g, " ").replace(/\s+/g, " ").trim();
+  const d = new Date();
+  return [clean(r.nom) || "Patient", clean(r.prenom), kind, AX_MOIS[d.getMonth()], String(d.getFullYear()).slice(-2)].filter(Boolean).join(" ") + ".pdf";
+}
+
+/* ------------------------------------------------------------ ① évaluer et proposer */
+function axAdvice(){
+  const s = axS(), c = s.com, t = s.tt;
+  const age = s.age === "age" || s.age === "age75";
+  const out = []; // [tone, titre, texte, source, action]
+  const nCauses = AX_CAUSES.filter(([k]) => s.causes[k]).length;
+  if(nCauses < AX_CAUSES.length) out.push(["warn", `Causes vérifiées : ${nCauses} / ${AX_CAUSES.length}`, "Une benzodiazépine soulage un symptôme, elle ne traite pas sa cause : chercher et traiter d'abord.", "HAS 2024 ; HAS 2009"]);
+  if(c.sas || c.myas || c.resp) out.push(["hot", "Contre-indication des benzodiazépines", [c.sas && "apnées du sommeil", c.myas && "myasthénie", c.resp && "insuffisance respiratoire sévère"].filter(Boolean).join(", ") + " : contre-indication principale à respecter.", "HAS 2024"]);
+  if(t.bzd2) out.push(["hot", "Deux benzodiazépines", "Ne pas associer plusieurs benzodiazépines, anxiolytiques ou hypnotiques : n'en garder qu'une, puis décroître.", "HAS 2024 ; REMEDI[e]S D-7", ["arret", "Plan d'arrêt"]]);
+  if(t.bzddvl && s.age === "age75") out.push(["hot", "Benzodiazépine à demi-vie longue (> 20 h)", "Potentiellement inappropriée chez la personne âgée : réévaluer l'indication, privilégier les mesures non médicamenteuses, envisager un arrêt progressif.", "REMEDI[e]S B/R-35 ; HAS 2024", ["arret", "Plan d'arrêt"]]);
+  else if(t.bzddvl && s.age === "age") out.push(["warn", "Benzodiazépine à demi-vie longue (> 20 h)", "Considérée comme inappropriée chez le sujet âgé (surrisque iatrogénique) : se réinterroger sur le diagnostic et les alternatives.", "HAS 2024"]);
+  if(t.bzdlong) out.push(["warn", "Plus de 12 semaines", "Au-delà, l'intérêt disparaît et les effets indésirables persistent : l'arrêt doit toujours être envisagé, progressif.", "HAS 2024 ; HAS 2015", ["arret", "Plan d'arrêt"]]);
+  if(t.hydrox){
+    if(c.qt) out.push(["hot", "Hydroxyzine contre-indiquée", "QT long ou facteur de risque d'allongement du QT (cardiopathie, troubles électrolytiques, bradycardie, médicament allongeant le QT).", "RCP Atarax ; EMA-PRAC 2015"]);
+    if(age) out.push(["hot", "Hydroxyzine chez le sujet âgé", "Non recommandée (effets anticholinergiques) ; si elle est maintenue : moitié de la dose au départ, 50 mg/j au maximum.", "RCP Atarax ; REMEDI[e]S B/R-10 ; HAS 2009"]);
+    else out.push(["warn", "Hydroxyzine", "Dose efficace la plus faible, durée la plus courte ; 100 mg/j au maximum chez l'adulte.", "RCP Atarax"]);
+  }
+  if(t.cyam) out.push(["warn", "Cyamémazine (Tercian)", "Dans l'anxiété : traitement de courte durée après échec des thérapeutiques habituelles, 25 à 100 mg/j, 4 semaines au maximum. Phénothiazine anticholinergique." + (c.cog ? " Antipsychotiques déconseillés dans la maladie d'Alzheimer." : ""), "RCP Tercian ; REMEDI[e]S B/R-8" + (c.cog ? " ; HAS 2009" : "")]);
+  if(t.autrepsy) out.push(["warn", "Plusieurs psychotropes", "Éviter de cumuler plusieurs médicaments psychotropes.", "HAS 2024"]);
+  if(c.cog) out.push(["warn", "Troubles cognitifs", "Benzodiazépines non recommandées en général. En crise, après correction des causes : molécule à demi-vie courte sans métabolite actif, durée la plus brève. Hydroxyzine à éviter.", "HAS 2024 ; HAS 2009"]);
+  if(c.ir || c.ih) out.push(["warn", "Insuffisance " + [c.ir && "rénale", c.ih && "hépatique"].filter(Boolean).join(" et "), "Réduire la posologie, de moitié par exemple.", "HAS 2024"]);
+  if(c.chute) out.push(["warn", "Chutes", "Risque de chute accru sous benzodiazépine : dose minimale, réévaluation rapprochée.", "HAS 2024"]);
+  if(c.addic) out.push(["warn", "Dépendance", "La plus grande prudence en cas d'antécédent d'alcoolisme ou d'autres dépendances ; repérer le risque de mésusage.", "HAS 2024"]);
+  return out;
+}
+function axPropHTML(){
+  const s = axS();
+  if(!s.sit) return `<div class="mz-empty">Choisis la situation : la proposition et les alertes s'affichent ici.</div>`;
+  if(s.sit === "findevie") return `<div class="mz-sit-box mz-sit-C"><p class="mz-sit-lead">Fin de vie, voie orale impossible</p>
+    <ul class="mz-list"><li>Chercher la cause, accompagner, informer les proches.</li><li>Les sources consultées ne donnent pas de schéma de midazolam « anxiolytique » : <strong>avis de l'EMSP</strong>, et outil Midazolam pour les situations B, C, D.</li></ul>
+    <div class="mz-actions"><button type="button" class="bio-copy-btn" onclick="openExplorer('midazolam-palliatif')">🕊️ Ouvrir l'outil Midazolam</button></div></div>`;
+  if(s.sit === "durable"){
+    const age = s.age === "age" || s.age === "age75";
+    return `<div class="mz-sit-box mz-sit-A"><p class="mz-sit-lead">Anxiété durable : traitement de fond, pas une benzodiazépine</p>
+      <ul class="mz-list">
+        <li>Trouble anxieux avéré ou anxiété depuis au moins 6 mois : <strong>antidépresseur IRS ou IRSNA</strong> ayant l'AMM dans le trouble concerné, et psychothérapie ou soutien psychologique.</li>
+        <li>Exemple, <strong>escitalopram</strong> (trouble anxiété généralisée) : ${age ? "<strong>après 65 ans, 5 mg/j, puis 10 mg/j au maximum</strong> selon la réponse" : "10 mg/j, jusqu'à 20 mg/j au maximum selon la réponse"}.</li>
+        <li>Une benzodiazépine éventuelle reste ponctuelle, sur une durée brève.</li>
+      </ul><p class="mz-note">HAS 2024 ; REMEDI[e]S B/R-10 et B/R-35 ; RCP escitalopram (BDPM).</p></div>`;
+  }
+  const a75 = s.age === "age75";
+  const rows = AX_MOLS.filter(m => m.court).map(m => `<div class="mz-dose-row ax-mol-row"><div class="mz-dose-k">${m.l}<span class="ax-brand">${m.b}</span></div>
+      <div class="mz-dose-v"><strong>${a75 ? "≤ " + m.max75 + " mg/j" : s.age === "age" ? "moitié de la dose adulte" : "dose efficace la plus faible"}</strong><em>${m.p.map(p => axF(p.mg) + " mg" + (p.div === 2 ? (p.mix ? " (sécable selon labo)" : " sécable") : "")).join(" · ")}</em></div>
+      <div class="mz-dose-src">${a75 ? "REMEDI[e]S DO-4" : s.age === "age" ? "RCP" : "RCP ; HAS 2024"}</div></div>`).join("");
+  return `<div class="mz-sit-box mz-sit-C"><p class="mz-sit-lead">Crise d'anxiété : benzodiazépine à demi-vie courte, faible dose, durée brève</p>
+    <div class="mz-dose-table">${rows}</div>
+    <ul class="mz-list" style="margin-top:8px;">
+      <li>${s.age ? "" : "<strong>Préciser l'âge</strong> pour afficher le repère de dose. "}Durée la plus courte possible, <strong>12 semaines au maximum</strong> décroissance comprise ; date de fin prévue dès la 1re ordonnance.</li>
+      <li>Réévaluer <strong>dans les jours qui suivent</strong> ; traitement de 2 à 5 jours : pas de décroissance nécessaire.</li>
+      <li>Une seule benzodiazépine ; informer le résident (sédation, chute, mémoire, dépendance).</li>
+    </ul>
+    <p class="mz-note">Clotiazépam, cité par REMEDI[e]S : non commercialisé (base publique des médicaments). Sources : HAS 2024 ; REMEDI[e]S DO-4 (≥ 75 ans ou ≥ 65 ans polypathologique) ; RCP oxazépam, lorazépam.</p>
+    <div class="mz-actions"><button type="button" class="bio-copy-btn" onclick="axTab('sb')">📝 Rédiger le « si besoin »</button></div></div>`;
+}
+function axAlertsHTML(){
+  const al = axAdvice();
+  if(!al.length) return "";
+  return `<div class="ax-alerts">${al.map(([tone, t, txt, src, act]) => `<div class="cont-alert ${tone === "hot" ? "cont-alert-hot" : "cont-alert-warn"} ax-alert"><strong>${escapeHtml(t)}</strong> — ${escapeHtml(txt)}<span class="ax-src">${escapeHtml(src)}</span>${act ? ` <button type="button" class="acb-link" onclick="axTab('${act[0]}')">${act[1]} →</button>` : ""}</div>`).join("")}</div>`;
+}
+function axEvalCopy(){
+  const s = axS();
+  const lab = (L, o) => L.filter(([k]) => o[k]).map(([, l]) => l);
+  const lines = ["Anxiété — évaluation (" + new Date().toLocaleDateString("fr-FR") + ")",
+    "Terrain : " + ({ adulte: "adulte < 65 ans", age: "sujet âgé", age75: "≥ 75 ans ou ≥ 65 ans polypathologique" }[s.age] || "non précisé"),
+    "Situation : " + ({ crise: "crise d'anxiété", durable: "anxiété durable / trouble anxieux", findevie: "fin de vie, voie orale impossible" }[s.sit] || "non précisée"),
+    "Causes vérifiées : " + (lab(AX_CAUSES, s.causes).join(", ") || "aucune cochée"),
+    "Comorbidités : " + (lab(AX_COM, s.com).join(", ") || "aucune cochée"),
+    "Traitements : " + (lab(AX_TT, s.tt).join(", ") || "aucun coché")];
+  axAdvice().forEach(([, t, txt]) => lines.push("- " + t + " : " + txt));
+  return lines.join("\n");
+}
+function axCopy(btnId, text){
+  const btn = document.getElementById(btnId);
+  const done = () => { if(btn){ const o = btn.textContent; btn.textContent = "Copié ✓"; setTimeout(() => { btn.textContent = o; }, 1800); } };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done); else done();
+}
+window.axCopyEval = () => axCopy("axEvalCopy", axEvalCopy());
+window.axCopyTaper = () => axCopy("axTaperCopy", axTaperText());
+
+function axTabEval(){
+  const s = axS();
+  return `<div class="mz-grid">
+    <div class="mz-left bio-options-wrap">
+      <p class="neurolep-label">Terrain</p>
+      ${axChips("axAge", s.age, [["adulte", "Adulte < 65 ans"], ["age", "Sujet âgé"], ["age75", "≥ 75 ans ou ≥ 65 polypath."]], "age")}
+      <p class="neurolep-label" style="margin-top:12px;">Situation</p>
+      ${axChips("axSit", s.sit, [["crise", "Crise d'anxiété"], ["durable", "Anxiété durable"], ["findevie", "Fin de vie, voie orale impossible"]], "sit")}
+      <p class="neurolep-label" style="margin-top:12px;">Causes cherchées et traitées</p>
+      ${axChecks(AX_CAUSES, s.causes, "causes")}
+      <p class="neurolep-label" style="margin-top:12px;">Comorbidités</p>
+      ${axChecks(AX_COM, s.com, "com")}
+      <p class="neurolep-label" style="margin-top:12px;">Traitements en cours</p>
+      ${axChecks(AX_TT, s.tt, "tt")}
+    </div>
+    <div class="mz-right bio-options-wrap">
+      <p class="neurolep-label">Proposition</p>
+      <div id="axProp">${axPropHTML()}</div>
+      <p class="neurolep-label" style="margin-top:12px;">Alertes</p>
+      <div id="axAlerts">${axAlertsHTML() || `<p class="mz-note">Aucune alerte pour les éléments cochés.</p>`}</div>
+      <div class="mz-actions"><button type="button" class="bio-copy-btn" id="axEvalCopy" onclick="axCopyEval()">📋 Copier la synthèse pour le dossier</button></div>
+    </div>
+  </div>`;
+}
+
+/* ------------------------------------------------------------ résident (onglets ② et ③) */
+function axResHTML(){
+  const r = axRes(), v = x => escapeHtml(x || "");
+  return `<div class="courrier-fields mdph-grid">
+      <label class="calc-field courrier-field"><span>NOM d'usage</span><input type="text" value="${v(r.nom)}" oninput="axSet('res.nom', this.value)" placeholder="DUPONT" /></label>
+      <label class="calc-field courrier-field"><span>Prénom</span><input type="text" value="${v(r.prenom)}" oninput="axSet('res.prenom', this.value)" placeholder="Marie" /></label>
+      <label class="calc-field courrier-field"><span>Date de naissance</span><input type="date" value="${v(r.naissance)}" oninput="axSet('res.naissance', this.value)" /></label>
+    </div>
+    <label class="calc-field courrier-field"><span>Établissement (nom et adresse)</span><textarea id="axEtab" rows="2" oninput="axSet('res.etab', this.value)">${v(r.etab)}</textarea>${etabPickHTML('#axEtab', 'nomAdr')}</label>`;
+}
+
+/* ------------------------------------------------------------ ② « si besoin » */
+function axSbMol(){ const sb = axS().sb; return sb.mol === "autre" ? null : axMol(sb.mol); }
+function axSbChecks(){
+  const s = axS(), sb = s.sb, r = s.res, p = prescGet(), out = [];
+  if(!r.nom.trim() || !r.prenom.trim()) out.push(["ko", "NOM et prénom du résident : la prescription conditionnelle est nominative."]);
+  if(!AX_SIG.some(([k]) => sb.sig[k]) && !sb.sigAutre.trim()) out.push(["ko", "Situation déclenchante à préciser, en signes observables."]);
+  const m = axSbMol(), d = axNum(sb.dose), mx = axNum(sb.max);
+  if(sb.mol === "autre" && !sb.autre.trim()) out.push(["ko", "Molécule et présentation à préciser."]);
+  if(sb.mol === "autre") out.push(["warn", "Hors des molécules à demi-vie courte privilégiées chez le sujet âgé (oxazépam, lorazépam, alprazolam)."]);
+  if(!d) out.push(["ko", "Dose par prise à renseigner."]);
+  if(m && d){
+    const pr = m.p[sb.pi] || m.p[0], g = pr.mg / (pr.mix ? 1 : pr.div);
+    if(Math.abs(d / g - Math.round(d / g)) > 1e-6) out.push(["warn", `${axF(d)} mg n'est pas réalisable avec ${axPresLabel(m, pr).replace(m.l + " ", "")}.`]);
+  }
+  if(!axNum(sb.interv)) out.push(["ko", "Délai minimal entre 2 prises à fixer."]);
+  if(!mx) out.push(["ko", "Nombre maximal de prises par 24 h à fixer."]);
+  if(m && d && mx && s.age === "age75" && d * mx > m.max75) out.push(["warn", `${axF(d * mx)} mg/24 h au maximum : au-dessus du repère REMEDI[e]S (${m.max75} mg/j) chez la personne âgée.`]);
+  if(!sb.jusqua) out.push(["ko", "Date de fin (ou de réévaluation) à fixer."]);
+  else {
+    const days = (new Date(sb.jusqua) - new Date(sb.date || axToday())) / 864e5;
+    if(days > 84) out.push(["ko", "Plus de 12 semaines : durée maximale de prescription d'un anxiolytique (arrêté du 07/10/1991)."]);
+    else if(days < 0) out.push(["ko", "La date de fin précède la date de prescription."]);
+  }
+  if(s.com.sas || s.com.myas || s.com.resp) out.push(["ko", "Contre-indication cochée dans « Évaluer » (apnées du sommeil, myasthénie ou insuffisance respiratoire sévère)."]);
+  if(s.tt.bzd2 || s.tt.bzdlong) out.push(["warn", "Benzodiazépine déjà en cours : ne pas en associer une seconde."]);
+  if(!p.nom) out.push(["ko", "Ton nom n'est pas renseigné dans Mes paramètres."]);
+  return out;
+}
+function axTabSb(){
+  const s = axS(), sb = s.sb, v = x => escapeHtml(x || "");
+  const m = axSbMol();
+  const pr = m ? (m.p[sb.pi] || m.p[0]) : null;
+  const d = axNum(sb.dose);
+  return `<div class="mz-grid">
+    <div class="mz-left bio-options-wrap">
+      <p class="neurolep-label">Le résident</p>
+      ${axResHTML()}
+      <p class="neurolep-label" style="margin-top:12px;">Quand l'IDE administre</p>
+      ${axChecks(AX_SIG, sb.sig, "sb.sig")}
+      <label class="calc-field courrier-field"><span>Autre situation précise (facultatif)</span><input type="text" value="${v(sb.sigAutre)}" oninput="axSet('sb.sigAutre', this.value)" placeholder="ex. avant la toilette, si refus anxieux" /></label>
+      <label class="calc-field courrier-field"><span>Préalable (proposition DOTR, modifiable)</span><textarea rows="2" oninput="axSet('sb.prealable', this.value)">${v(sb.prealable)}</textarea></label>
+    </div>
+    <div class="mz-right bio-options-wrap">
+      <p class="neurolep-label">Le médicament</p>
+      ${axChips("axSbMol", sb.mol, AX_MOLS.filter(x => x.court).map(x => [x.k, x.l]).concat([["autre", "Autre"]]), "sb.mol")}
+      ${m ? `<label class="calc-field courrier-field"><span>Présentation</span><select onchange="axSet('sb.pi', +this.value, true)">${m.p.map((p, i) => `<option value="${i}" ${i === sb.pi ? "selected" : ""}>${escapeHtml(axPresLabel(m, p))}</option>`).join("")}</select></label>`
+        : `<label class="calc-field courrier-field"><span>Molécule et présentation</span><input type="text" value="${v(sb.autre)}" oninput="axSet('sb.autre', this.value)" /></label>`}
+      <div class="courrier-fields mdph-grid">
+        <label class="calc-field courrier-field"><span>Dose par prise (mg)</span><input type="text" inputmode="decimal" value="${v(sb.dose)}" oninput="axSet('sb.dose', this.value)" placeholder="${m ? "ex. " + axF(m.p[0].mg) : ""}" /><em class="ax-units" id="axSbUnits">${m && d ? "= " + axUnits(d, pr.mg) + " de " + axF(pr.mg) + " mg" : ""}</em></label>
+        <label class="calc-field courrier-field"><span>Délai minimal entre 2 prises (h)</span><input type="text" inputmode="decimal" value="${v(sb.interv)}" oninput="axSet('sb.interv', this.value)" placeholder="fixé par le médecin" /></label>
+        <label class="calc-field courrier-field"><span>Prises au maximum par 24 h</span><input type="text" inputmode="numeric" value="${v(sb.max)}" oninput="axSet('sb.max', this.value)" placeholder="fixé par le médecin" /></label>
+        <label class="calc-field courrier-field"><span>Jusqu'au (réévaluation)</span><input type="date" value="${v(sb.jusqua)}" oninput="axSet('sb.jusqua', this.value)" /></label>
+      </div>
+      <label class="calc-field courrier-field"><span>Appeler le médecin (proposition DOTR, modifiable)</span><textarea rows="2" oninput="axSet('sb.appel', this.value)">${v(sb.appel)}</textarea></label>
+      <div class="courrier-fields mdph-grid">
+        <label class="calc-field courrier-field"><span>Date de la prescription</span><input type="date" value="${v(sb.date)}" oninput="axSet('sb.date', this.value)" /></label>
+        <label class="calc-field courrier-field"><span>Fait à</span><input type="text" value="${v(sb.faitA)}" oninput="axSet('sb.faitA', this.value)" /></label>
+      </div>
+      <p class="mz-note">Le délai entre 2 prises et la durée ne sont fixés par aucun texte : ils relèvent du médecin. Contenu attendu d'une prescription conditionnelle : OMéDIT Centre-Val de Loire ; IDE : CSP R4311-7.</p>
+      ${signBarHTML("anxio", "signature et tampon en bas du protocole")}
+      <div id="axSbChecks"></div>
+      <div class="mz-actions"><button type="button" class="bio-copy-btn chariot-pdf-btn" id="axSbPdfBtn" onclick="axSbPdf()">📄 Télécharger le protocole (PDF)</button></div>
+    </div>
+  </div>`;
+}
+
+/* ------------------------------------------------------------ ③ plan d'arrêt */
+function axTaMol(){ return axMol(axS().ta.mol); }
+function axTaPres(){ const m = axTaMol(), ta = axS().ta; return m.p[ta.pi] || m.p[0]; }
+function axTaGrain(){ const p = axTaPres(), ta = axS().ta; const div = p.mix ? (ta.secMix ? 2 : 1) : p.div; return p.mg / div; }
+function axTaper(){
+  const ta = axS().ta, D0 = axNum(ta.dose);
+  if(!D0) return null;
+  const sc = AX_SCHEMES.find(x => x.k === ta.scheme) || AX_SCHEMES[0];
+  const g = axTaGrain(), step = D0 * sc.f;
+  const rows = [];
+  let prev = D0, k = 1, guard = 0;
+  while(prev > 1e-9 && guard++ < 60){
+    const target = D0 - k * step;
+    let dose = target <= 1e-9 ? 0 : Math.round(target / g) * g;
+    dose = Math.round(dose * 1000) / 1000;
+    if(dose > prev) dose = prev;
+    const last = rows[rows.length - 1];
+    if(last && last.dose === dose) last.weeks += sc.w; else rows.push({ dose, weeks: sc.w });
+    prev = dose; k++;
+  }
+  if(rows.length) rows[rows.length - 1].weeks = 0;   // dernière ligne = arrêt
+  let w = 0;
+  const start = new Date(ta.debut || axToday());
+  rows.forEach(r => { r.w0 = w; r.date = new Date(start.getTime() + w * 7 * 864e5); w += r.weeks; });
+  const fitsStart = Math.abs(D0 / g - Math.round(D0 / g)) < 1e-6;
+  return { rows, total: w, sc, g, D0, fitsStart };
+}
+function axDateFr(d){ return d.toLocaleDateString("fr-FR"); }
+function axTaperText(){
+  const t = axTaper(), m = axTaMol(), p = axTaPres(), r = axRes();
+  if(!t) return "";
+  return [`Plan d'arrêt progressif — ${m.l}${m.b ? " (" + m.b + ")" : ""} ${axF(p.mg)} mg`,
+    (r.nom || r.prenom) ? "Résident : " + [r.nom, r.prenom].filter(Boolean).join(" ") : "",
+    `Dose de départ : ${axF(t.D0)} mg/j — schéma : ${t.sc.l} (HAS 2015)`]
+    .filter(Boolean).concat(t.rows.map((x, i) => `- À partir du ${axDateFr(x.date)} : ${x.dose ? axF(x.dose) + " mg/j (" + axUnits(x.dose, p.mg, m.gel ? "gél." : "cp") + " par jour)" + (x.dose === t.D0 ? " — dose actuelle" : "") : "ARRÊT"}${x.weeks ? " pendant " + x.weeks + " semaine" + (x.weeks > 1 ? "s" : "") : ""}`))
+    .concat([`Durée totale : ${t.total} semaines. À une étape difficile, garder le palier quelques semaines plutôt que remonter.`]).join("\n");
+}
+function axTaperHTML(){
+  const t = axTaper(), m = axTaMol(), p = axTaPres();
+  if(!t) return `<div class="mz-empty">Saisis la dose quotidienne actuelle : le calendrier s'affiche ici.</div>`;
+  const unit = m.gel ? "gél." : "cp";
+  return `${t.fitsStart ? "" : `<div class="cont-alerts"><div class="cont-alert cont-alert-warn">${axF(t.D0)} mg/j n'est pas réalisable exactement avec ${escapeHtml(axPresLabel(m, p))} : vérifier la dose ou la présentation.</div></div>`}
+    <div class="ax-taper">
+      <div class="ax-taper-h"><span>À partir du</span><span>Dose par jour</span><span>Soit</span><span>Durée</span></div>
+      ${t.rows.map((x, i) => `<div class="ax-taper-r ${x.dose ? "" : "ax-taper-stop"}"><span>${axDateFr(x.date)}</span><strong>${x.dose ? axF(x.dose) + " mg" : "Arrêt"}${x.dose === t.D0 ? `<em class="ax-cur">dose actuelle</em>` : ""}</strong><span>${x.dose ? axUnits(x.dose, p.mg, unit) + " de " + axF(p.mg) + " mg" : "—"}</span><span>${x.weeks ? x.weeks + " sem." : ""}</span></div>`).join("")}
+    </div>
+    ${t.total > Math.ceil(1 / t.sc.f) * t.sc.w * 1.4 ? `<div class="cont-alerts"><div class="cont-alert cont-alert-warn">Paliers plus espacés que le rythme choisi (${Math.ceil(1 / t.sc.f) * t.sc.w} semaines en théorie) : la fraction de comprimé disponible est trop grosse. Une présentation plus faible ou sécable permet des paliers plus fins.</div></div>` : ""}
+    <p class="ax-taper-tot">Durée totale : <strong>${t.total} semaines</strong> — palier théorique ${axF(t.D0 * t.sc.f)} mg, arrondi au ${axF(t.g)} mg (plus petite fraction du comprimé choisi).</p>
+    <ul class="mz-list">
+      <li>Répartition des prises : à adapter avec le résident ; la dose du jour est le repère.</li>
+      <li>À une étape difficile : <strong>garder le palier</strong> quelques semaines plutôt que remonter ; une baisse de dose est déjà un résultat favorable.</li>
+      <li>Surveiller : rebond d'anxiété, insomnie, signes de sevrage ; consultations rapprochées jusqu'à une semaine après l'arrêt.</li>
+      <li>Aux faibles doses, la HAS conseille des réductions plus faibles : ralentir les derniers paliers si besoin.</li>
+    </ul>
+    <p class="mz-note">Schémas : HAS 2015 (5 à 10 % toutes les 1 à 2 semaines, ou 1/8 de la dose toutes les 2 semaines ; 4 à 10 semaines le plus souvent, jusqu'à 6 mois ou plus). <strong>Proposition DOTR</strong> : pourcentages appliqués à la dose de départ et arrondis à la fraction de comprimé réalisable (présentations commercialisées, base publique des médicaments).</p>
+    <div class="mz-actions"><button type="button" class="bio-copy-btn" id="axTaperCopy" onclick="axCopyTaper()">📋 Copier le plan pour le dossier</button><button type="button" class="bio-copy-btn chariot-pdf-btn" id="axTaPdfBtn" onclick="axTaPdf()">📄 Plan d'arrêt (PDF)</button></div>`;
+}
+function axTabArret(){
+  const s = axS(), ta = s.ta, v = x => escapeHtml(x || "");
+  const m = axTaMol(), p = axTaPres();
+  const groups = [["Anxiolytiques", AX_MOLS.filter(x => !x.hypno)], ["Hypnotiques", AX_MOLS.filter(x => x.hypno)]];
+  return `<div class="mz-grid">
+    <div class="mz-left bio-options-wrap">
+      <p class="neurolep-label">Le résident</p>
+      ${axResHTML()}
+      <p class="neurolep-label" style="margin-top:12px;">Le traitement actuel</p>
+      <label class="calc-field courrier-field"><span>Molécule</span><select onchange="axSet('ta.pi', 0); axSet('ta.secMix', false); axSet('ta.mol', this.value, true)">${groups.map(([g, L]) => `<optgroup label="${g}">${L.map(x => `<option value="${x.k}" ${x.k === ta.mol ? "selected" : ""}>${escapeHtml(x.l + (x.b ? " (" + x.b + ")" : ""))}${x.long ? " — demi-vie longue" : ""}</option>`).join("")}</optgroup>`).join("")}</select></label>
+      <label class="calc-field courrier-field"><span>Présentation utilisée pour la décroissance</span><select onchange="axSet('ta.pi', +this.value, true)">${m.p.map((x, i) => `<option value="${i}" ${i === ta.pi ? "selected" : ""}>${escapeHtml(axPresLabel(m, x))}</option>`).join("")}</select></label>
+      ${p.mix ? `<label class="mz-check ${ta.secMix ? "mz-check-on" : ""}"><input type="checkbox" ${ta.secMix ? "checked" : ""} onchange="axSet('ta.secMix', this.checked, true)" /><span>La boîte du résident porte une barre de sécabilité</span></label>` : ""}
+      <div class="courrier-fields mdph-grid">
+        <label class="calc-field courrier-field"><span>Dose actuelle (mg par jour)</span><input type="text" inputmode="decimal" value="${v(ta.dose)}" oninput="axSet('ta.dose', this.value)" placeholder="ex. ${axF(p.mg * 2)}" /></label>
+        <label class="calc-field courrier-field"><span>Début de la décroissance</span><input type="date" value="${v(ta.debut)}" oninput="axSet('ta.debut', this.value)" /></label>
+      </div>
+      <p class="neurolep-label" style="margin-top:12px;">Rythme (HAS 2015)</p>
+      ${axChips("axScheme", ta.scheme, AX_SCHEMES.map(x => [x.k, x.l]), "ta.scheme")}
+      ${m.k === "clorazepate" ? `<p class="mz-note">Tranxène 20 mg : assimilé stupéfiant (ordonnance sécurisée, 4 semaines) ; gélules non divisibles.</p>` : ""}
+      ${m.k === "zolpidem" ? `<p class="mz-note">Zolpidem : règles des stupéfiants partielles (ordonnance sécurisée), 4 semaines.</p>` : ""}
+      ${m.hypno ? `<p class="mz-note">Hypnotique : durée maximale de prescription de 4 semaines.</p>` : ""}
+    </div>
+    <div class="mz-right bio-options-wrap">
+      <p class="neurolep-label">Calendrier de décroissance</p>
+      <div id="axTaperOut">${axTaperHTML()}</div>
+      ${signBarHTML("anxioArret", "signature et tampon en bas du plan")}
+    </div>
+  </div>`;
+}
+
+/* ------------------------------------------------------------ rendu */
+function renderAnxioPanel(){
+  const cat = CATEGORIES.find(c => c.id === "medicaments-securite");
+  const c = colorVars(cat.color);
+  const s = axS();
+  const tabs = [["eval", "① Évaluer et proposer"], ["sb", "② Prescrire « si besoin »"], ["arret", "③ Arrêter une benzodiazépine"]];
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour — ${cat.label}
+    </button>
+    <div class="doc-page doc-page-wide">
+      <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
+      <div class="tool-hero" style="--pill:var(--teal)"><span class="tool-hero-icon">🌿</span><div class="tool-hero-body"><p class="tool-hero-title">Anxiolyse en ESMS</p><p class="tool-hero-sub">Évaluer et proposer, rédiger un « si besoin » signable, construire un plan d'arrêt de benzodiazépine arrondi aux comprimés disponibles. Repères HAS, REMEDI[e]S et RCP ; aucun chiffre inventé.</p><div class="tool-hero-stats"><span class="tool-hero-stat">3 étapes</span><span class="tool-hero-stat">Protocole IDE signable</span><span class="tool-hero-stat">Plan d'arrêt en PDF</span><span class="tool-hero-stat">Rien n'est enregistré</span></div></div></div>
+      <div class="ax-tabs" role="tablist">${tabs.map(([k, l]) => `<button type="button" role="tab" aria-selected="${s.tab === k}" class="ax-tab ${s.tab === k ? "ax-tab-on" : ""}" onclick="axTab('${k}')">${l}</button>`).join("")}
+        <span class="ax-tabs-sp"></span>
+        <button type="button" class="bio-reset-btn" onclick="axReset()">Réinitialiser</button>
+        ${DOCUMENTS["anxiolyse-esms"] ? `<button type="button" class="bio-reset-btn" onclick="openDoc('anxiolyse-esms')">📄 Fiche PDF</button>` : ""}
+      </div>
+      ${s.tab === "sb" ? axTabSb() : s.tab === "arret" ? axTabArret() : axTabEval()}
+      <p class="mz-src">Sources : HAS, « Quelle place pour les benzodiazépines dans l'anxiété ? » (juillet 2024) ; HAS, « Arrêt des benzodiazépines et médicaments apparentés » (2015) ; HAS, maladie d'Alzheimer — troubles du comportement perturbateurs (2009) ; REMEDI[e]S, Roux et al. 2021 (personnes de 75 ans et plus, ou 65 ans et plus polypathologiques) ; RCP (base publique des médicaments, présentations du 28/09/2026) ; EMA-PRAC, hydroxyzine (2015) ; arrêté du 07/10/1991 ; CSP R4311-7 ; OMéDIT Centre-Val de Loire, prescription conditionnelle.</p>
+    </div>`;
+  axRefresh();
+}
+function axRefresh(){
+  const s = axS();
+  const pe = document.getElementById("axProp"); if(pe) pe.innerHTML = axPropHTML();
+  const ae = document.getElementById("axAlerts"); if(ae) ae.innerHTML = axAlertsHTML() || `<p class="mz-note">Aucune alerte pour les éléments cochés.</p>`;
+  const te = document.getElementById("axTaperOut"); if(te) te.innerHTML = axTaperHTML();
+  const ue = document.getElementById("axSbUnits");
+  if(ue){ const m = axSbMol(), d = axNum(s.sb.dose); const pr = m ? (m.p[s.sb.pi] || m.p[0]) : null; ue.textContent = m && d ? "= " + axUnits(d, pr.mg) + " de " + axF(pr.mg) + " mg" : ""; }
+  const ce = document.getElementById("axSbChecks");
+  if(ce){ const ch = axSbChecks(); ce.innerHTML = ch.length ? `<div class="cont-alerts">${ch.map(([l, t]) => `<div class="cont-alert cont-alert-${l === "ko" ? "hot" : "warn"}">${escapeHtml(t)}</div>`).join("")}</div>` : `<p class="cv2-sig-hint">✓ Tout est prêt.</p>`; }
+}
+
+/* ------------------------------------------------------------ PDF (gabarit commun) */
+async function axPdfDoc(eyebrow, t1, t2, signKey){
+  const { PDFDocument, StandardFonts, rgb } = PDFLib;
+  const pdfDoc = await PDFDocument.create();
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const ital = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
+  const logo = await pdfDoc.embedJpg(base64ToBytes(VMS_DOTR_LOGO_B64));
+  const SA = await signAssets(pdfDoc, signKey);
+  const r = axRes(), p = prescGet();
+  const W = 595.28, H = 841.89, M = 34, FW = W - 2 * M;
+  const hex = h => rgb(parseInt(h.slice(1, 3), 16) / 255, parseInt(h.slice(3, 5), 16) / 255, parseInt(h.slice(5, 7), 16) / 255);
+  const C = { BLUE: hex("#1E8EF1"), BLUEF: hex("#EAF4FF"), DEEP: hex("#1565C0"), INK: hex("#1F2A37"), MUTED: hex("#5C6670"), SRC: hex("#A6B1BF"), WHITE: rgb(1, 1, 1), LINE: hex("#DCE1E7"), PANEL: hex("#F5F5F7") };
+  const Y = t => H - t;
+  const safe = t => pdfSafe(t);
+  const txt = (pg, t, x, top, size, f, col) => pg.drawText(safe(t), { x, y: Y(top), size, font: f, color: col });
+  const ctr = (pg, t, top, size, f, col) => { const w = f.widthOfTextAtSize(safe(t), size); pg.drawText(safe(t), { x: (W - w) / 2, y: Y(top), size, font: f, color: col }); };
+  const rr = (pg, x, top, w, h, rad, fill, border, bw) => {
+    const d = `M ${rad} 0 H ${w - rad} Q ${w} 0 ${w} ${rad} V ${h - rad} Q ${w} ${h} ${w - rad} ${h} H ${rad} Q 0 ${h} 0 ${h - rad} V ${rad} Q 0 0 ${rad} 0 Z`;
+    const o = { x, y: Y(top) }; if(fill) o.color = fill; if(border){ o.borderColor = border; o.borderWidth = bw || 0.9; }
+    pg.drawSvgPath(d, o);
+  };
+  const fr = iso => { const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? m[3] + "/" + m[2] + "/" + m[1] : ""; };
+  const page = pdfDoc.addPage([W, H]);
+  const hw = (FW - 14) / 2;
+  rr(page, M, 30, hw, 62, 6, C.WHITE, C.DEEP, 0.9);
+  rr(page, M + hw + 14, 30, hw, 62, 6, C.WHITE, C.DEEP, 0.9);
+  txt(page, "ÉTABLISSEMENT", M + 12, 45, 7, bold, C.DEEP);
+  String(r.etab || "………………………………").split("\n").map(l => l.trim()).filter(Boolean).slice(0, 3).forEach((l, i) => wrapPdfText(safe(l), i ? font : bold, 9.2, hw - 24).slice(0, 1).forEach(x => txt(page, x, M + 12, 59 + i * 11.5, 9.2, i ? font : bold, C.INK)));
+  const mx = M + hw + 26;
+  txt(page, "MÉDECIN PRESCRIPTEUR", mx, 45, 7, bold, C.DEEP);
+  txt(page, p.nom || "Dr ……………………", mx, 59, 9.5, bold, C.INK);
+  const ml = [p.rpps ? "RPPS " + p.rpps : "", p.tel ? "Tél. " + p.tel : ""].filter(Boolean).join("  ·  ");
+  if(ml) txt(page, ml, mx, 71, 8, font, C.MUTED);
+  const adr = prescAdresseComplete(p);
+  if(adr) txt(page, wrapPdfText(safe(adr), font, 8, hw - 24)[0], mx, 82, 8, font, C.MUTED);
+  rr(page, M, 104, FW, 60, 6, C.BLUEF, C.BLUE, 0.9);
+  ctr(page, eyebrow, 119, 6.8, bold, C.INK);
+  ctr(page, t1, 136, 14.5, bold, C.DEEP);
+  if(t2) ctr(page, t2, 153, 14.5, bold, C.DEEP);
+  let top = 176;
+  rr(page, M, top, FW, 40, 6, C.PANEL, C.LINE, 0.7);
+  const cells = [["RÉSIDENT", [(r.nom || "").toUpperCase(), r.prenom].filter(Boolean).join(" ") || "……………………"], ["NÉ(E) LE", fr(r.naissance) || "…… / …… / ……"]];
+  let cx = M + 12;
+  cells.forEach(([k, v], i) => { txt(page, k, cx, top + 14, 6.6, bold, C.MUTED); txt(page, v, cx, top + 29, 10, bold, C.INK); cx += FW * 0.6; });
+  top += 52;
+  const card = (title, color, lines) => {
+    const col = hex(color), L = [];
+    lines.forEach(([t, f]) => { wrapPdfText(safe(t), f || font, 9.2, FW - 44).forEach((x, i) => L.push([x, f || font, i === 0])); });
+    const h = 26 + L.length * 12.6 + 8;
+    rr(page, M, top, FW, h, 7, C.WHITE, col, 0.9);
+    rr(page, M, top, FW, 20, 7, col);
+    page.drawRectangle({ x: M, y: Y(top + 20), width: FW, height: 8, color: col });
+    txt(page, title, M + 12, top + 14, 8.6, bold, C.WHITE);
+    let y = top + 37;
+    L.forEach(([x, f, first]) => { if(first) page.drawCircle({ x: M + 16, y: Y(y) + 3, size: 1.6, color: col }); txt(page, x, M + 24, y, 9.2, f, C.INK); y += 12.6; });
+    top += h + 10;
+  };
+  const finish = (faitA, date, src) => {
+    const sbTop = Math.max(top + 6, 648);
+    rr(page, M + FW - 250, sbTop, 250, 92, 6, C.WHITE, C.LINE, 0.8);
+    txt(page, "Fait" + (faitA ? " à " + faitA : " à ………………") + ", le " + (fr(date) || new Date().toLocaleDateString("fr-FR")), M + FW - 240, sbTop + 14, 8.4, font, C.INK);
+    txt(page, "Signature et tampon du médecin", M + FW - 240, sbTop + 26, 7, bold, C.MUTED);
+    if(SA){
+      let st = null;
+      if(SA.stamp) st = signFit(page, SA.stamp, { x: M + FW - 128, y: Y(sbTop + 88), w: 118, h: 56 }, "center");
+      if(SA.sig) signFit(page, SA.sig, { x: M + FW - 240, y: Y(sbTop + 86), w: st ? st.x - (M + FW - 240) + 26 : 220, h: 54 }, st ? "right" : "left");
+    }
+    wrapPdfText(safe(src), font, 6.4, FW - 270).forEach((l, i) => txt(page, l, M, sbTop + 10 + i * 8.2, 6.4, font, C.SRC));
+    const lw = 100, lh = lw * 702 / 1444;
+    page.drawImage(logo, { x: W - M - lw, y: 18, width: lw, height: lh });
+    txt(page, "Docs On The Road · VMS — établi avec l'outil « Anxiolyse en ESMS »", M, H - 26, 6.4, font, C.SRC);
+  };
+  return { pdfDoc, page, C, txt, rr, card, finish, fr, Y, M, FW, bold, font, ital, getTop: () => top, setTop: v => { top = v; } };
+}
+async function axSave(pdfDoc, name, btn, original){
+  const bytes = await pdfDoc.save();
+  triggerDownload(new Blob([bytes], { type: "application/pdf" }), name);
+  btn.textContent = "Téléchargé ✓";
+  setTimeout(() => { btn.textContent = original; }, 2000);
+}
+async function axSbPdf(){
+  const btn = document.getElementById("axSbPdfBtn"), original = btn.textContent;
+  btn.textContent = "Génération…";
+  try{
+    const s = axS(), sb = s.sb, m = axSbMol();
+    const pr = m ? (m.p[sb.pi] || m.p[0]) : null, d = axNum(sb.dose);
+    const P = await axPdfDoc("ANXIOLYTIQUE · PRESCRIPTION CONDITIONNELLE « SI BESOIN »", "PROTOCOLE DE SOINS INFIRMIERS", "SUR PRESCRIPTION ANTICIPÉE", "anxio");
+    const sig = AX_SIG.filter(([k]) => sb.sig[k]).map(([, l]) => [l]);
+    if(sb.sigAutre.trim()) sig.push([sb.sigAutre.trim()]);
+    if(!sig.length) sig.push(["………………………………………………"]);
+    if(sb.prealable.trim()) sig.push([sb.prealable.trim(), P.ital]);
+    P.card("1 · QUAND ADMINISTRER", "#0F8C7C", sig);
+    const molTxt = m ? `${m.l.toUpperCase()}${m.b ? " (" + m.b + ")" : ""} ${d ? axF(d) + " mg" : "……… mg"} par voie orale${d ? "   (soit " + axUnits(d, pr.mg) + " de " + axF(pr.mg) + " mg)" : ""}` : (sb.autre.trim() || "……………………") + (d ? " — " + axF(d) + " mg par prise" : "");
+    const adm = [[molTxt, P.bold],
+      ["Délai minimal entre 2 prises : " + (axNum(sb.interv) ? axF(axNum(sb.interv)) + " h" : "……… h") + "   ·   Au maximum : " + (axNum(sb.max) ? axF(axNum(sb.max)) + " prise(s) par 24 h" : "……… prises par 24 h")],
+      ["Jusqu'au " + (P.fr(sb.jusqua) || "…… / …… / ……") + " (réévaluation médicale à cette date)."]];
+    P.card("2 · ADMINISTRER", "#D87706", adm);
+    P.card("3 · SURVEILLER", "#1D5FD6", [["Effet sur l'anxiété, vigilance (somnolence), confusion, équilibre et risque de chute, dans l'heure qui suit puis selon l'état du résident."]]);
+    P.card("4 · APPELER", "#6B4C9A", [[sb.appel || "……"]]);
+    P.card("5 · TRACER DANS LE DOSSIER", "#5B6B82", [["Heure, dose, motif observé, mesures tentées avant, effet obtenu, effets indésirables, appel au médecin."]]);
+    P.finish(sb.faitA, sb.date, "Références : prescription conditionnelle — résident nommé, situation et seuil d'administration, dose, intervalle, nombre maximal par 24 h, durée (OMéDIT Centre-Val de Loire) ; CSP R4311-7 ; anxiolytiques : 12 semaines au maximum (arrêté du 07/10/1991), dose minimale, une seule benzodiazépine (HAS 2024). Surveillance et préalable : proposition DOTR.");
+    await axSave(P.pdfDoc, axFileName("Si besoin anxiolytique"), btn, original);
+  }catch(e){ console.error(e); btn.textContent = "Erreur — réessayer"; setTimeout(() => { btn.textContent = original; }, 2200); }
+}
+async function axTaPdf(){
+  const btn = document.getElementById("axTaPdfBtn"), original = btn.textContent;
+  btn.textContent = "Génération…";
+  try{
+    const t = axTaper(), m = axTaMol(), p = axTaPres();
+    if(!t) throw new Error("dose manquante");
+    const P = await axPdfDoc("BENZODIAZÉPINE ET APPARENTÉS · HAS 2015", "PLAN D'ARRÊT PROGRESSIF", `${m.l}${m.b ? " (" + m.b + ")" : ""} — ${axF(p.mg)} mg`, "anxioArret");
+    let top = P.getTop();
+    const pg = P.page, unit = m.gel ? "gél." : "cp";
+    P.txt(pg, `Dose de départ : ${axF(t.D0)} mg par jour — rythme : ${t.sc.l} — durée totale : ${t.total} semaines`, P.M, top + 6, 9, P.bold, P.C.INK);
+    top += 16;
+    const cols = [P.M, P.M + 120, P.M + 240, P.M + 400];
+    P.rr(pg, P.M, top, P.FW, 20, 5, P.C.DEEP);
+    ["À partir du", "Dose par jour", "Soit", "Durée"].forEach((h, i) => P.txt(pg, h, cols[i] + 10, top + 13.5, 8.4, P.bold, P.C.WHITE));
+    top += 22;
+    t.rows.forEach((x, i) => {
+      if(top > 620) return;
+      if(i % 2 === 0) pg.drawRectangle({ x: P.M, y: P.Y(top + 18), width: P.FW, height: 18, color: P.C.PANEL });
+      const vals = [axDateFr(x.date), x.dose ? axF(x.dose) + " mg" + (x.dose === t.D0 ? " (dose actuelle)" : "") : "ARRÊT", x.dose ? axUnits(x.dose, p.mg, unit) + " de " + axF(p.mg) + " mg" : "—", x.weeks ? x.weeks + " semaine" + (x.weeks > 1 ? "s" : "") : ""];
+      vals.forEach((v, j) => P.txt(pg, v, cols[j] + 10, top + 12.5, 9, j === 1 ? P.bold : P.font, P.C.INK));
+      top += 18;
+    });
+    P.setTop(top + 12);
+    P.card("CONSEILS", "#0F8C7C", [
+      ["À une étape difficile : garder le palier quelques semaines plutôt que remonter. Une baisse de dose est déjà un résultat favorable."],
+      ["Surveiller rebond d'anxiété, insomnie, signes de sevrage ; consultations rapprochées jusqu'à une semaine après l'arrêt."],
+      ["Répartition des prises dans la journée : à adapter avec le résident ; la dose du jour est le repère."]]);
+    P.finish("", axToday(), "Références : HAS, arrêt des benzodiazépines et médicaments apparentés (2015) : arrêt progressif, par exemple 5 à 10 % toutes les 1 à 2 semaines ou 1/8 de la dose toutes les 2 semaines ; HAS 2024. Proposition DOTR : pourcentages appliqués à la dose de départ, arrondis à la fraction de comprimé réalisable (présentations commercialisées, base publique des médicaments).");
+    await axSave(P.pdfDoc, axFileName("Arret BZD"), btn, original);
+  }catch(e){ console.error(e); btn.textContent = "Erreur — réessayer"; setTimeout(() => { btn.textContent = original; }, 2200); }
+}
+window.axSbPdf = axSbPdf; window.axTaPdf = axTaPdf; window.renderAnxioPanel = renderAnxioPanel;
+/* fin Anxiolyse outil */
+
+/* =====================================================================
+   SIGNATURE — signer des ordonnances PDF selon le logiciel (07/10/2026).
+   Glisser-déposer une ou plusieurs ordonnances ; le logiciel est reconnu
+   d'après le texte du PDF (bulle présélectionnée, modifiable) ; signature
+   et tampon de « Mes paramètres » (fond rendu transparent) posés aux
+   emplacements propres à chaque logiciel, repérés sur le texte de
+   l'ordonnance ; nom et prénom du patient lus sur l'ordonnance pour
+   nommer le fichier « NOM Prénom JJ MOIS AAAA.pdf ».
+   Tout se passe dans le navigateur : aucun fichier n'est envoyé ni gardé.
+   Bibliothèques locales (js/), donc utilisable hors ligne.
+   ===================================================================== */
+const SIG_MOIS = ["JANV", "FEVR", "MARS", "AVR", "MAI", "JUIN", "JUIL", "AOUT", "SEPT", "OCT", "NOV", "DEC"];
+/* Profils par logiciel. Emplacements relevés sur des ordonnances signées
+   fournies par le Dr Villeminot (Ogirys : TRILHA, Netsoins : PORRAZ, 10/2026),
+   en points PDF (origine en bas à gauche), relatifs à un repère de texte. */
+const SIG_PROFILES = [
+  { id: "ogirys", label: "Ogirys", sub: "Ordonnance bizone", ico: "🟦",
+    detect: t => /Ordonnance bizone/i.test(t) && /Valid[ée]e num[ée]riquement/i.test(t),
+    opts: [["stampTop", "Tampon en haut à gauche (cadre « Identification du prescripteur »)"], ["stampBottom", "Tampon en bas, avec la signature"], ["sig", "Signature manuscrite"]],
+    place(pages, o){
+      const out = [], notes = [];
+      pages.forEach((pg, i) => {
+        const v = pg.lines.find(l => /Valid[ée]e num[ée]riquement/i.test(l.text));
+        const ip = pg.lines.find(l => /Identification du prescripteur/i.test(l.text));
+        if(o.stampTop && ip) out.push({ page: i, kind: "stamp", box: { x: 34, y: ip.y - 75, w: 148, h: 46 }, align: "left" });
+        if(v){
+          const b = v.y;
+          if(o.stampBottom) out.push({ page: i, kind: "stamp", box: { x: 372, y: b + 31, w: 120, h: 36 }, align: "left" });
+          if(o.sig) out.push({ page: i, kind: "sig", box: { x: o.stampBottom ? 440 : 400, y: b + 29, w: o.stampBottom ? 115 : 155, h: 42 }, align: "right" });
+        }
+      });
+      if(!pages.some(pg => pg.lines.some(l => /Valid[ée]e num[ée]riquement/i.test(l.text)))) notes.push("repère « Validée numériquement » non trouvé");
+      return { out, notes };
+    } },
+  { id: "netsoins", label: "Netsoins / Netvie", sub: "EHPAD · ESMS", ico: "🟩",
+    detect: t => /Sign[ée]e dans\s*NET\s*(Soins|Vie)/i.test(t),
+    opts: [["stamp", "Tampon numérique"], ["sig", "Signature manuscrite"]],
+    place(pages, o){
+      const out = [], notes = [];
+      pages.forEach((pg, i) => {
+        const a = pg.lines.find(l => /Sign[ée]e dans\s*NET/i.test(l.text));
+        if(!a) return;
+        const s = a.y, R = a.xMax;
+        if(o.stamp) out.push({ page: i, kind: "stamp", box: { x: R - 211, y: s - 68, w: 118, h: 39 }, align: "left" });
+        if(o.sig) out.push({ page: i, kind: "sig", box: { x: o.stamp ? R - 120 : R - 160, y: s - 70, w: o.stamp ? 110 : 150, h: 43 }, align: "right" });
+      });
+      if(!out.length && (o.stamp || o.sig)) notes.push("repère « Signée dans NETSoins / NETVie » non trouvé");
+      return { out, notes };
+    } }
+];
+
+function sigS(){
+  if(!state.sign) state.sign = { files: [], profile: null, opts: {}, seq: 0 };
+  SIG_PROFILES.forEach(p => { if(!state.sign.opts[p.id]) state.sign.opts[p.id] = Object.fromEntries(p.opts.map(([k]) => [k, true])); });
+  return state.sign;
+}
+function sigProfile(id){ return SIG_PROFILES.find(p => p.id === id) || null; }
+function sigToday(){ const d = new Date(); return String(d.getDate()).padStart(2, "0") + " " + SIG_MOIS[d.getMonth()] + " " + d.getFullYear(); }
+
+/* ------------------------------------------------------------ bibliothèques locales (hors ligne) */
+function sigLoadScript(src){
+  return new Promise((ok, ko) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
+}
+let SIG_PDFJS = null;
+async function sigPdfjs(){
+  if(SIG_PDFJS) return SIG_PDFJS;
+  const tryLoad = async (local, cdn) => { try{ await sigLoadScript(local); }catch(e){ await sigLoadScript(cdn); } };
+  if(!window.pdfjsLib) await tryLoad("js/pdf.min.js", "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.min.js");
+  // moteur chargé dans la page (pas de « worker ») : fonctionne aussi depuis le disque, hors ligne
+  if(!window.pdfjsWorker) await tryLoad("js/pdf.worker.min.js", "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.worker.min.js");
+  window.pdfjsLib.GlobalWorkerOptions.workerSrc = "js/pdf.worker.min.js";
+  SIG_PDFJS = window.pdfjsLib;
+  return SIG_PDFJS;
+}
+
+/* ------------------------------------------------------------ lecture du texte (avec décodage) */
+/* Certains logiciels (Netsoins) produisent un texte « décalé » : chaque caractère
+   est remplacé par un autre à distance fixe. On cherche le décalage qui fait
+   apparaître des mots attendus d'une ordonnance. */
+const SIG_KEYWORDS = /Ordonnance|Docteur|Prescription|Nom|Sign[ée]e|Patient|Date/g;
+const SIG_HIGH = { 675: "é", 674: "è", 673: "ç", 666: "à", 632: " ", 648: "É", 676: "ê", 683: "ô", 679: "î", 670: "â", 686: "ù" };
+function sigDecode(str, k){
+  if(!k) return str;
+  let o = "";
+  for(const ch of str){
+    const c = ch.charCodeAt(0);
+    if(c < 128){ const d = c + k; o += d >= 32 && d < 127 ? String.fromCharCode(d) : " "; }
+    else o += SIG_HIGH[c] || (c >= 600 && c < 720 ? String.fromCharCode(c - 442) : ch);
+  }
+  return o;
+}
+function sigBestShift(sample){
+  let best = 0, bestN = (sample.match(SIG_KEYWORDS) || []).length;
+  for(let k = -60; k <= 60; k++){
+    if(!k) continue;
+    const n = (sigDecode(sample, k).match(SIG_KEYWORDS) || []).length;
+    if(n > bestN + 1){ best = k; bestN = n; }
+  }
+  return best;
+}
+async function sigAnalyze(bytes){
+  const pdfjs = await sigPdfjs();
+  const doc = await pdfjs.getDocument({ data: new Uint8Array(bytes.slice(0)), isEvalSupported: false }).promise;
+  const raw = [];
+  for(let i = 1; i <= doc.numPages; i++){
+    const page = await doc.getPage(i);
+    const tc = await page.getTextContent();
+    raw.push(tc.items.filter(it => it.str !== undefined).map(it => ({ s: it.str, x: it.transform[4], y: it.transform[5], w: it.width || 0 })));
+  }
+  const sample = raw.flat().map(it => it.s).join(" ").slice(0, 6000);
+  const k = sigBestShift(sample);
+  const pages = raw.map(items => {
+    const lines = [];
+    items.filter(it => it.s.length).sort((a, b) => b.y - a.y || a.x - b.x).forEach(it => {
+      let l = lines.find(L => Math.abs(L.y - it.y) < 2.2);
+      if(!l){ l = { y: it.y, parts: [] }; lines.push(l); }
+      l.parts.push(it);
+    });
+    return { lines: lines.map(l => {
+      l.parts.sort((a, b) => a.x - b.x);
+      let t = "", end = null;
+      l.parts.forEach(p => { const s = sigDecode(p.s, k); if(end !== null && p.x - end > 2.5 && !/\s$/.test(t) && !/^\s/.test(s)) t += " "; t += s; end = p.x + p.w; });
+      return { y: l.y, xMin: l.parts[0].x, xMax: Math.max(...l.parts.map(p => p.x + p.w)), text: t.replace(/\s+/g, " ").trim() };
+    }).filter(l => l.text) };
+  });
+  await doc.destroy();
+  const all = pages.map(p => p.lines.map(l => l.text).join("\n")).join("\n");
+  return { pages, all, shift: k };
+}
+function sigCapName(s){ return String(s || "").toLowerCase().replace(/(^|[\s'-])(\p{L})/gu, (m, a, b) => a + b.toUpperCase()); }
+function sigName(an, profileId){
+  const lines = an.pages.flatMap(p => p.lines);
+  const all = an.all;
+  let nom = "", prenom = "";
+  const m1 = all.match(/Nom utilis[ée]e?\s*:\s*([^\n]+)/i), m2 = all.match(/Pr[ée]nom utilis[ée]e?\s*:\s*([^\n]+)/i);
+  if(m1){ nom = m1[1].trim(); if(m2) prenom = m2[1].trim(); }
+  if(!nom){
+    const ip = an.pages[0] && an.pages[0].lines.findIndex(l => /Identification du patient/i.test(l.text));
+    if(ip >= 0){
+      const L = an.pages[0].lines[ip + 1];
+      if(L){
+        const toks = L.text.split(/\s+/);
+        const up = toks.filter(t => /^[A-ZÀ-ÖØ-Þ'-]{2,}$/.test(t));
+        nom = up.join(" ");
+        prenom = toks.filter(t => !up.includes(t)).join(" ");
+      }
+    }
+  }
+  if(!nom){
+    const m = all.match(/Nom de naissance\s*:\s*([^\n]+)/i);
+    if(m) nom = m[1].trim();
+  }
+  nom = nom.replace(/[^\p{L}' -]/gu, "").trim().toUpperCase();
+  prenom = sigCapName(prenom.split(/[,\s]+/)[0] || "").replace(/[^\p{L}'-]/gu, "");
+  return { nom, prenom };
+}
+
+/* ------------------------------------------------------------ fichiers */
+async function sigAddFiles(list){
+  const S = sigS();
+  const files = [...list].filter(f => /\.pdf$/i.test(f.name) || f.type === "application/pdf");
+  if(!files.length) return;
+  const msg = document.getElementById("sigMsg");
+  if(msg) msg.textContent = "Lecture de " + files.length + " ordonnance" + (files.length > 1 ? "s" : "") + "…";
+  for(const f of files){
+    const F = { id: ++S.seq, file: f.name, bytes: await f.arrayBuffer(), profile: null, auto: null, nom: "", prenom: "", an: null, signed: null, preview: "", zoom: "", notes: [], err: "" };
+    try{
+      F.an = await sigAnalyze(F.bytes);
+      const pr = SIG_PROFILES.find(p => p.detect(F.an.all));
+      F.auto = pr ? pr.id : null;
+      F.profile = F.auto || S.profile;
+      Object.assign(F, sigName(F.an, F.profile));
+    }catch(e){ console.error(e); F.err = "PDF illisible (protégé ou endommagé)."; }
+    S.files.push(F);
+  }
+  if(!S.profile){ const ids = [...new Set(S.files.map(f => f.auto).filter(Boolean))]; if(ids.length === 1) S.profile = ids[0]; }
+  if(msg) msg.textContent = "";
+  await sigSignAll();
+}
+function sigDrop(ev){ ev.preventDefault(); ev.currentTarget.classList.remove("sig-drop-on"); sigAddFiles(ev.dataTransfer.files); }
+function sigPick(input){ sigAddFiles(input.files); input.value = ""; }
+function sigRemove(id){ const S = sigS(); S.files = S.files.filter(f => f.id !== id); renderSignPanel(); }
+function sigClear(){ sigS().files = []; renderSignPanel(); }
+async function sigSetProfile(id){
+  const S = sigS();
+  S.profile = id;
+  S.files.forEach(f => { f.profile = id; });
+  await sigSignAll();
+}
+async function sigSetFileProfile(fid, id){ const f = sigS().files.find(x => x.id === fid); if(!f) return; f.profile = id || null; await sigSignOne(f); renderSignPanel(); }
+async function sigSetOpt(pid, k, v){ sigS().opts[pid][k] = v; await sigSignAll(); }
+function sigSetName(fid, k, v){ const f = sigS().files.find(x => x.id === fid); if(!f) return; f[k] = v; const el = document.getElementById("sigFn" + fid); if(el) el.textContent = sigFileName(f); }
+window.sigDrop = sigDrop; window.sigPick = sigPick; window.sigRemove = sigRemove; window.sigClear = sigClear;
+window.sigSetProfile = sigSetProfile; window.sigSetFileProfile = sigSetFileProfile; window.sigSetOpt = sigSetOpt; window.sigSetName = sigSetName;
+
+function sigFileName(f){
+  const clean = x => String(x || "").replace(/[\\/:*?"<>|]+/g, " ").replace(/\s+/g, " ").trim();
+  const base = [clean(f.nom).toUpperCase() || "Patient", clean(f.prenom)].filter(Boolean).join(" ") + " " + sigToday();
+  const same = sigS().files.filter(x => x.signed && [clean(x.nom).toUpperCase() || "Patient", clean(x.prenom)].filter(Boolean).join(" ") + " " + sigToday() === base);
+  const n = same.findIndex(x => x.id === f.id);
+  return base + (n > 0 ? " (" + (n + 1) + ")" : "") + ".pdf";
+}
+
+/* ------------------------------------------------------------ signature */
+async function sigSignOne(f){
+  f.signed = null; f.preview = ""; f.zooms = []; f.notes = []; f.placed = 0;
+  if(f.err || !f.an) return;
+  const pr = sigProfile(f.profile);
+  if(!pr){ f.notes.push("logiciel non reconnu : choisis la bulle du logiciel"); return; }
+  const p = prescGet();
+  const opts = sigS().opts[pr.id];
+  const { out, notes } = pr.place(f.an.pages, opts);
+  f.notes = notes.slice();
+  const { PDFDocument } = PDFLib;
+  const pdfDoc = await PDFDocument.load(f.bytes.slice(0));
+  const img = {};
+  try{ if(p.signature) img.sig = await signEmbedData(pdfDoc, p.signature); }catch(e){ console.warn(e); }
+  try{ if(p.tampon) img.stamp = await signEmbedData(pdfDoc, p.tampon); }catch(e){ console.warn(e); }
+  const pages = pdfDoc.getPages();
+  // le tampon d'abord, la signature par-dessus (elle déborde un peu sur le tampon)
+  out.sort((a, b) => (a.kind === "stamp" ? 0 : 1) - (b.kind === "stamp" ? 0 : 1)).forEach(pl => {
+    const im = img[pl.kind], pg = pages[pl.page];
+    if(!im || !pg) return;
+    signFit(pg, im, pl.box, pl.align);
+    f.placed++;
+  });
+  if((opts.sig || opts.stamp || opts.stampTop || opts.stampBottom) && !p.signature && !p.tampon) f.notes.push("aucune signature ni tampon dans Mes paramètres");
+  f.signed = await pdfDoc.save();
+  f.pagesSigned = [...new Set(out.map(o => o.page + 1))];
+  await sigPreview(f, out);
+}
+async function sigPreview(f, out){
+  try{
+    const pdfjs = await sigPdfjs();
+    const doc = await pdfjs.getDocument({ data: f.signed.slice(0), isEvalSupported: false }).promise;
+    const pi = out.length ? Math.max(...out.map(o => o.page)) + 1 : 1;
+    const page = await doc.getPage(Math.min(pi, doc.numPages));
+    const vp = page.getViewport({ scale: 1.6 });
+    const cv = document.createElement("canvas");
+    cv.width = vp.width; cv.height = vp.height;
+    await page.render({ canvasContext: cv.getContext("2d"), viewport: vp }).promise;
+    const th = document.createElement("canvas");
+    th.width = 300; th.height = Math.round(300 * vp.height / vp.width);
+    th.getContext("2d").drawImage(cv, 0, 0, th.width, th.height);
+    f.preview = th.toDataURL("image/jpeg", 0.82);
+    const mine = out.filter(o => o.page === pi - 1).sort((a, b) => b.box.y - a.box.y);
+    // zones éloignées (tampon en haut, signature en bas) : un zoom par zone
+    const zones = [];
+    mine.forEach(o => { const z = zones.find(Z => Math.abs(Z[0].box.y - o.box.y) < 120); if(z) z.push(o); else zones.push([o]); });
+    const H = page.view[3], s = 1.6, pad = 14;
+    f.zooms = zones.map(Z => {
+      const x0 = Math.max(0, Math.min(...Z.map(o => o.box.x)) - pad), x1 = Math.min(page.view[2], Math.max(...Z.map(o => o.box.x + o.box.w)) + pad);
+      const yT = Math.min(H, Math.max(...Z.map(o => o.box.y + o.box.h)) + pad), yB = Math.max(0, Math.min(...Z.map(o => o.box.y)) - pad);
+      const zc = document.createElement("canvas");
+      zc.width = Math.round((x1 - x0) * s); zc.height = Math.round((yT - yB) * s);
+      zc.getContext("2d").drawImage(cv, x0 * s, (H - yT) * s, zc.width, zc.height, 0, 0, zc.width, zc.height);
+      return zc.toDataURL("image/png");
+    });
+    await doc.destroy();
+  }catch(e){ console.warn(e); }
+}
+async function sigSignAll(){
+  const S = sigS();
+  const msg = document.getElementById("sigMsg");
+  if(msg && S.files.length) msg.textContent = "Signature en cours…";
+  for(const f of S.files) await sigSignOne(f);
+  renderSignPanel();
+}
+function sigDownload(fid){
+  const f = sigS().files.find(x => x.id === fid);
+  if(!f || !f.signed) return;
+  triggerDownload(new Blob([f.signed], { type: "application/pdf" }), sigFileName(f));
+}
+async function sigDownloadAll(){
+  const L = sigS().files.filter(f => f.signed);
+  if(!L.length) return;
+  if(L.length === 1) return sigDownload(L[0].id);
+  const zip = new JSZip();
+  L.forEach(f => zip.file(sigFileName(f), f.signed));
+  const blob = await zip.generateAsync({ type: "blob" });
+  triggerDownload(blob, "Ordonnances signées " + sigToday() + ".zip");
+}
+window.sigDownload = sigDownload; window.sigDownloadAll = sigDownloadAll;
+
+/* ------------------------------------------------------------ rendu */
+function openSignature(){ openExplorer("signature-ordonnances"); }
+window.openSignature = openSignature;
+function renderSignPanel(){
+  const S = sigS(), p = prescGet();
+  const v = x => escapeHtml(x || "");
+  const missing = !p.signature && !p.tampon;
+  const cur = sigProfile(S.profile);
+  const fileCard = f => {
+    const pr = sigProfile(f.profile);
+    const ok = f.signed && f.placed;
+    return `<div class="sig-card ${ok ? "sig-card-ok" : "sig-card-ko"}">
+      <div class="sig-card-prev">${f.preview ? `<img src="${f.preview}" alt="Aperçu de l'ordonnance signée" />` : `<div class="sig-noprev">${f.err ? "⚠️" : "…"}</div>`}</div>
+      <div class="sig-card-body">
+        <p class="sig-card-src">📄 ${v(f.file)}</p>
+        <div class="sig-card-row">
+          <label class="calc-field"><span>NOM</span><input type="text" value="${v(f.nom)}" oninput="sigSetName(${f.id}, 'nom', this.value)" placeholder="NOM du patient" /></label>
+          <label class="calc-field"><span>Prénom</span><input type="text" value="${v(f.prenom)}" oninput="sigSetName(${f.id}, 'prenom', this.value)" placeholder="Prénom" /></label>
+          <label class="calc-field"><span>Logiciel</span><select onchange="sigSetFileProfile(${f.id}, this.value)"><option value="">— choisir —</option>${SIG_PROFILES.map(x => `<option value="${x.id}" ${x.id === f.profile ? "selected" : ""}>${x.label}${x.id === f.auto ? " (détecté)" : ""}</option>`).join("")}</select></label>
+        </div>
+        <p class="sig-card-st">${f.err ? `<span class="sig-ko">${v(f.err)}</span>` : ok ? `<span class="sig-ok">✓ Signé</span> — ${pr ? pr.label : ""}, page${f.pagesSigned.length > 1 ? "s" : ""} ${f.pagesSigned.join(", ")}` : `<span class="sig-ko">Non signé</span>`}${f.notes.length ? ` · <span class="sig-ko">${v(f.notes.join(" ; "))}</span>` : ""}${!f.nom && !f.err ? ` · <span class="sig-warn">nom non trouvé : à saisir</span>` : ""}</p>
+        ${(f.zooms || []).length ? `<div class="sig-zooms">${f.zooms.map(z => `<div class="sig-zoom"><img src="${z}" alt="Zone signée" /></div>`).join("")}</div>` : ""}
+        <div class="sig-card-act">
+          <span class="sig-fn" id="sigFn${f.id}">${v(sigFileName(f))}</span>
+          <button type="button" class="bio-copy-btn" ${f.signed ? "" : "disabled"} onclick="sigDownload(${f.id})">⬇ Télécharger</button>
+          <button type="button" class="bio-reset-btn" onclick="sigRemove(${f.id})">Retirer</button>
+        </div>
+      </div>
+    </div>`;
+  };
+  contentEl.innerHTML = `
+    <button class="back-link" onclick="closeDoc()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+      Retour
+    </button>
+    <div class="doc-page doc-page-wide">
+      <div class="tool-hero sig-hero"><span class="tool-hero-icon">✍️</span><div class="tool-hero-body"><p class="tool-hero-title">Signature des ordonnances</p><p class="tool-hero-sub">Dépose une ou plusieurs ordonnances PDF : le logiciel est reconnu, ta signature et ton tampon se placent au bon endroit, le fichier est renommé « NOM Prénom ${sigToday()} ». Rien ne quitte ton ordinateur.</p><div class="tool-hero-stats"><span class="tool-hero-stat">${SIG_PROFILES.length} logiciels</span><span class="tool-hero-stat">Plusieurs fichiers d'un coup</span><span class="tool-hero-stat">Fonctionne hors ligne</span><span class="tool-hero-stat">Rien n'est enregistré</span></div></div></div>
+      ${missing ? `<div class="cont-alerts"><div class="cont-alert cont-alert-hot">Ajoute d'abord ta signature et ton tampon dans <button type="button" class="acb-link" onclick="openExplorer('parametres-medecin')">⚙️ Mes paramètres</button> (images PNG ou JPG ; le fond blanc est rendu transparent automatiquement).</div></div>` : ""}
+
+      <label class="sig-drop" ondragover="event.preventDefault(); this.classList.add('sig-drop-on')" ondragleave="this.classList.remove('sig-drop-on')" ondrop="sigDrop(event)">
+        <input type="file" accept="application/pdf,.pdf" multiple onchange="sigPick(this)" />
+        <span class="sig-drop-ico">📥</span>
+        <strong>Glisse tes ordonnances PDF ici</strong>
+        <em>ou clique pour les choisir — une ou plusieurs à la fois</em>
+      </label>
+      <p class="sig-msg" id="sigMsg"></p>
+
+      <p class="neurolep-label">Logiciel</p>
+      <div class="sig-profiles">${SIG_PROFILES.map(x => `<button type="button" class="sig-prof ${S.profile === x.id ? "sig-prof-on" : ""}" onclick="sigSetProfile('${x.id}')"><span class="sig-prof-ico">${x.ico}</span><span><strong>${x.label}</strong><em>${x.sub}</em></span>${S.profile === x.id ? `<span class="sig-prof-ck">✓</span>` : ""}</button>`).join("")}
+        <div class="sig-prof sig-prof-soon"><span class="sig-prof-ico">➕</span><span><strong>Autre logiciel</strong><em>envoie un exemple d'ordonnance signée</em></span></div>
+      </div>
+      ${(cur ? [cur] : [...new Set(S.files.map(f => f.profile))].map(sigProfile).filter(Boolean)).map(pr => `
+        <div class="sig-opts"><p class="sig-opts-t">✍️ Signer — ${pr.label}</p>${pr.opts.map(([k, l]) => `<label class="mz-check ${S.opts[pr.id][k] ? "mz-check-on" : ""}"><input type="checkbox" ${S.opts[pr.id][k] ? "checked" : ""} onchange="sigSetOpt('${pr.id}', '${k}', this.checked)" /><span>${l}</span></label>`).join("")}</div>`).join("")}
+
+      ${S.files.length ? `
+        <div class="sig-list-head"><p class="neurolep-label" style="margin:0">Ordonnances (${S.files.length})</p>
+          <span class="ax-tabs-sp"></span>
+          <button type="button" class="bio-copy-btn" onclick="sigDownloadAll()">⬇ ${S.files.filter(f => f.signed).length > 1 ? "Tout télécharger (ZIP)" : "Télécharger"}</button>
+          <button type="button" class="bio-reset-btn" onclick="sigClear()">Tout retirer</button></div>
+        <div class="sig-list">${S.files.map(fileCard).join("")}</div>` : ""}
+
+      <p class="mz-src">Le nom et le prénom sont lus sur l'ordonnance (Ogirys : « Identification du patient » ; Netsoins / Netvie : « Nom utilisé », « Prénom utilisé ») : à vérifier avant téléchargement. Une ordonnance scannée (image) ne contient pas de texte : le nom est à saisir. On appose ici une image de la signature et du tampon, comme à la main : ce n'est pas une signature électronique au sens réglementaire, et cela ne remplace pas l'ordonnance sécurisée papier lorsqu'elle est exigée.</p>
+    </div>`;
+}
+window.renderSignPanel = renderSignPanel;
+/* fin Signature */
+
 /* Rubriques marquées « wip » : grand bandeau d'alerte en tête de page, dans la
    rubrique comme dans ses outils et documents. Appelé après chaque rendu, y
    compris les rendus internes des outils (voir les enveloppes plus bas). */
@@ -17828,7 +18809,7 @@ function applyWipBanner(){
   if(back) back.insertAdjacentHTML("afterend", html);
   else contentEl.insertAdjacentHTML("afterbegin", html);
 }
-["renderContentionPanel", "renderTeleconsultPanel", "renderCourrierPanel", "renderCertifPanel", "renderPmtPanel", "renderVaxPanel", "renderParamPanel", "renderPseudoPanel", "renderMdphPanel", "renderMidazPanel"].forEach(name => {
+["renderContentionPanel", "renderTeleconsultPanel", "renderCourrierPanel", "renderCertifPanel", "renderPmtPanel", "renderVaxPanel", "renderParamPanel", "renderPseudoPanel", "renderMdphPanel", "renderMidazPanel", "renderAnxioPanel", "renderSignPanel"].forEach(name => {
   const fn = window[name];
   if(typeof fn !== "function") return;
   const wrapped = function(){ const r = fn.apply(this, arguments); applyWipBanner(); return r; };
@@ -17983,6 +18964,10 @@ function render(){
     renderCertifPanel();
   }else if(state.activeDoc === "cerfa-15695-outil" && state.explorerMode){
     renderMdphPanel();
+  }else if(state.activeDoc === "signature-ordonnances" && state.explorerMode){
+    renderSignPanel();
+  }else if(state.activeDoc === "anxiolyse-esms" && state.explorerMode){
+    renderAnxioPanel();
   }else if(state.activeDoc === "midazolam-palliatif" && state.explorerMode){
     renderMidazPanel();
   }else if(state.activeDoc === "bon-transport-outil" && state.explorerMode){
