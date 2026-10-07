@@ -2758,6 +2758,12 @@
   /* fin Midazolam outil CSS */
   /* ---------- Corrections 02/10/2026 ---------- */
   .mx-hero-n{margin:10px 0 0; font-size:12.5px; opacity:.85;}
+  /* Sources : masquées par défaut, affichées par le bouton du grand cadre */
+  #medocResults:not(.mx-src-on) .mx-srcd{display:none !important;}
+  .mx-srcbtn{margin:10px 0 0; font:inherit; font-size:12.5px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:999px; border:1.5px solid var(--border); background:var(--card-bg); color:var(--navy);}
+  .mx-srcbtn:hover{border-color:var(--blue);}
+  .mx-srcbtn-s{font-weight:500; font-size:11.5px; color:var(--text-muted);}
+  .mx-srcbtn-on{background:var(--sky-bg); border-color:var(--blue); color:var(--blue);} .mx-srcbtn-on .mx-srcbtn-s{color:var(--blue);}
   .mx-fcard{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); background:var(--card-bg); border:1px solid var(--border); border-radius:14px; margin:12px 0 4px; overflow:hidden;}
   .mx-fcol{padding:10px 12px 12px; border-left:1px solid var(--border);} .mx-fcol:first-child{border-left:none;}
   .mx-fcol-t{margin:0 0 6px; font-weight:800; font-size:13px; color:var(--navy); text-transform:uppercase; letter-spacing:.05em;}
@@ -5610,7 +5616,7 @@ function bdpmCardHTML(entry){
       <div class="medoc-row"><span class="medoc-label">Écrasement</span><div>${r
         ? escapeHtml(r.txt)
         : `<strong>Non documenté.</strong> Ce médicament ne figure pas dans la liste OMéDIT, et le libellé officiel ne permet pas de conclure : un pelliculage peut masquer un goût, protéger le principe actif ou le soignant qui manipule. Demander au pharmacien avant d'écraser.`}</div></div>
-      <div class="medoc-foot">Base de données publique des médicaments (ANSM · HAS · UNCAM) — ${nb} spécialité${nb > 1 ? "s" : ""} commercialisée${nb > 1 ? "s" : ""}, mise à jour du ${BDPM_SPEC.maj}. Forme et sécabilité : libellé officiel. Écrasement : ${r ? "déduit de la forme galénique, hors avis OMéDIT" : "non renseigné par cette source"}.</div>
+      <div class="medoc-foot mx-srcd">Base de données publique des médicaments (ANSM · HAS · UNCAM) — ${nb} spécialité${nb > 1 ? "s" : ""} commercialisée${nb > 1 ? "s" : ""}, mise à jour du ${BDPM_SPEC.maj}. Forme et sécabilité : libellé officiel. Écrasement : ${r ? "déduit de la forme galénique, hors avis OMéDIT" : "non renseigné par cette source"}.</div>
     </div>`;
 }
 
@@ -5733,11 +5739,18 @@ const MEDOC_FILTERS = [
   { id: "res", g: "p", kind: "medsens", col: "var(--teal)", label: "Prescription restreinte", test: m => medsensFlags(m).res },
   { id: "r15", g: "r", kind: "remb", col: "var(--amber)", label: "Remboursés à 15 % (SMR faible)", test: () => true }
 ];
+function mxToggleSources(){
+  state.mxSrc = !state.mxSrc;
+  const r = document.getElementById("medocResults"); if(r) r.classList.toggle("mx-src-on", state.mxSrc);
+  const b = document.getElementById("mxSrcBtn");
+  if(b){ b.classList.toggle("mx-srcbtn-on", state.mxSrc); b.setAttribute("aria-pressed", String(state.mxSrc)); const t = b.querySelector(".mx-srcbtn-s"); if(t) t.textContent = state.mxSrc ? "affichées" : "masquées"; }
+}
+window.mxToggleSources = mxToggleSources;
 function mxToggleFilters(){ state.mxFOpen = !state.mxFOpen; renderMedocResults(); }
 window.mxToggleFilters = mxToggleFilters;
 const MX_GROUPS = [["e", "Écraser", "liste OMéDIT / SFPC"], ["p", "Prescrire", "base publique des médicaments"], ["r", "Rembourser", "depuis le 1er octobre 2026"]];
 function mxNewsHTML(){
-  return `<div class="mx-info"><strong>Depuis le 1er octobre 2026</strong>, les médicaments remboursés à 15 % (service médical rendu faible) ne sont plus pris en charge à 100 % au titre de l'ALD : 15 % pour tous, patients en ALD compris. Les autres soins liés à l'ALD restent à 100 %.<span class="mx-info-src">Décret n° 2026-285 du 16/04/2026 ; Assurance Maladie ; taux par présentation : base publique des médicaments du ${REMB15_MAJ}.</span></div>`;
+  return `<div class="mx-info"><strong>Depuis le 1er octobre 2026</strong>, les médicaments remboursés à 15 % (service médical rendu faible) ne sont plus pris en charge à 100 % au titre de l'ALD : 15 % pour tous, patients en ALD compris. Les autres soins liés à l'ALD restent à 100 %.<span class="mx-info-src mx-srcd">Décret n° 2026-285 du 16/04/2026 ; Assurance Maladie ; taux par présentation : base publique des médicaments du ${REMB15_MAJ}.</span></div>`;
 }
 function setMedocQuick(q){ state.medocQuery = q; const el = document.getElementById("medocSearch"); if(el){ el.value = q; el.focus(); } renderMedocResults(); }
 function setMedocFilter(id){ state.medocFilter = state.medocFilter === id ? null : id; renderMedocResults(); }
@@ -5792,7 +5805,7 @@ function mxDoseSecHTML(pa, forme){
       const t = k === "ok" ? "sécable" : k === "no" ? "non sécable" : "selon la spécialité";
       return `<span class="mx-dsec-c mx-dsec-${k}"><b>${escapeHtml(d)}</b>${k === "ok" ? "✂ " : ""}${t}</span>`;
     }).join("")}</div>
-    <p class="mx-dsec-n">${anyMix ? "« Selon la spécialité » : un même dosage existe en version sécable et non sécable selon le laboratoire — vérifier la boîte. " : ""}Base publique des médicaments, spécialités commercialisées (${BDPM_SEC.maj}).</p>
+    <p class="mx-dsec-n">${anyMix ? "« Selon la spécialité » : un même dosage existe en version sécable et non sécable selon le laboratoire — vérifier la boîte. " : ""}<span class="mx-srcd">Base publique des médicaments, spécialités commercialisées (${BDPM_SEC.maj}).</span></p>
   </div>`;
 }
 
@@ -5831,8 +5844,8 @@ function medocCardHTML(row){
         ${row.meth ? `<div class="medoc-how"><span class="medoc-how-l">🥄 Comment l'administrer</span><div class="medoc-chips">${methodeChipsHTML(row.meth)}</div></div>` : ""}
         ${hasAlt ? `<div class="medoc-alt"><span class="medoc-alt-l">💡 Alternative galénique</span><div>${escapeHtml(row.alt).replace(/\n/g, "<br>")}</div></div>` : ""}
         ${mxExtrasHTML(row)}
-        ${rows.length ? `<details class="medoc-more"><summary>Détails : sécabilité, RCP, laboratoire</summary>${rows.join("")}</details>` : ""}
-        <div class="medoc-foot">Liste nationale OMéDIT Normandie / SFPC · avis : ${escapeHtml(row.srcMod || "non précisé")}${row.maj ? " · MAJ " + escapeHtml(row.maj) : ""}</div>
+        ${rows.length ? `<details class="medoc-more mx-srcd"><summary>Détails : sécabilité, RCP, laboratoire</summary>${rows.join("")}</details>` : ""}
+        <div class="medoc-foot mx-srcd">Liste nationale OMéDIT Normandie / SFPC · avis : ${escapeHtml(row.srcMod || "non précisé")}${row.maj ? " · MAJ " + escapeHtml(row.maj) : ""}</div>
       </div>
     </div>
   `;
@@ -5924,6 +5937,7 @@ function renderMedocsPanel(cat){
       <div class="tool-hero-body">
         <p class="tool-hero-title">Écraser · Prescrire · Rembourser</p>
         <p class="tool-hero-sub">Tape un médicament : peut-on l'écraser ou ouvrir la gélule, comment le prescrire (liste, durée maximale, ordonnance sécurisée) et comment il est remboursé (SMR faible : fin du 100 % ALD au 1er octobre 2026).</p>
+        <button type="button" class="mx-srcbtn ${state.mxSrc ? "mx-srcbtn-on" : ""}" id="mxSrcBtn" onclick="mxToggleSources()" aria-pressed="${!!state.mxSrc}" title="Afficher ou masquer les sources et les détails (sécabilité, RCP, laboratoire)">📎 Sources <span class="mx-srcbtn-s">${state.mxSrc ? "affichées" : "masquées"}</span></button>
         <p class="mx-hero-n">${MEDICAMENTS_ECRASABLES.length} médicaments OMéDIT / SFPC · ${BDPM_SPEC.m.length.toLocaleString("fr-FR")} formes de la base publique · ${MEDSENS_BDPM.length} règles de prescription · ${REMB15.length} molécules à 15 %</p>
       </div>
     </div>
@@ -5933,7 +5947,7 @@ function renderMedocsPanel(cat){
       <button type="button" id="medocClear" class="medoc-clear" onclick="clearMedocSearch()" aria-label="Effacer">×</button>
     </div>
     <div class="medsens-filters" id="medocFilters"></div>
-    <div id="medocResults"></div>
+    <div id="medocResults" class="${state.mxSrc ? "mx-src-on" : ""}"></div>
     <p class="doc-note" style="margin-top:18px;">Sources : liste OMéDIT Normandie / SFPC (avis HUG relayés par cette liste) ; base de données publique des médicaments (conditions de prescription, taux de remboursement, avis SMR de la HAS) du ${REMB15_MAJ} ; décret n° 2026-285 du 16/04/2026. Ne remplace pas le RCP ni le jugement clinique ; en l'absence d'information, demander l'avis du pharmacien. Écraser un médicament « à ne pas écraser » peut entraîner un surdosage (formes LP), une perte d'efficacité (gastro-résistants) ou exposer le soignant (cytotoxiques).</p>
   </div>`;
 
@@ -17582,6 +17596,7 @@ function mxExtrasHTML(row){
   return mxPrescHTML(medsensForRow(row)) + mxRembHTML(rembForRow(row));
 }
 /* fin Médicament express */
+/* fin Sources Médicament express */
 
 /* =====================================================================
    MIDAZOLAM EN SOINS PALLIATIFS — OUTIL INTERACTIF.
