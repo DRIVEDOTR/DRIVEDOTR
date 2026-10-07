@@ -18764,8 +18764,15 @@ function sigName(an, profileId){
   const lines = an.pages.flatMap(p => p.lines);
   const all = an.all;
   let nom = "", prenom = "";
-  const m1 = all.match(/Nom utilis[ée]e?\s*:\s*([^\n]+)/i), m2 = all.match(/Pr[ée]nom utilis[ée]e?\s*:\s*([^\n]+)/i);
-  if(m1){ nom = m1[1].trim(); if(m2) prenom = m2[1].trim(); }
+  /* valeur d'un champ « Libellé : valeur » sur la même ligne, coupée avant tout autre libellé (RPPS, Tél., Date…) ; vide si rien */
+  const field = re => {
+    const m = all.match(re); if(!m) return "";
+    let v = m[1].split(/\s{2,}|\b(?:RPPS|T[ée]l|Date|Sexe|Lieu|N°|Nom|Pr[ée]nom|INS|Adeli|FINESS)\b/i)[0] || "";
+    v = v.replace(/[:|]/g, " ").trim();
+    return /\p{L}{2,}/u.test(v) ? v : "";
+  };
+  nom = field(/Nom utilis[ée]e?[ \t]*:[ \t]*([^\n]*)/i);
+  if(nom){ prenom = field(/Pr[ée]nom utilis[ée]e?[ \t]*:[ \t]*([^\n]*)/i) || field(/Pr[ée]nom\(?s?\)? de naissance[ \t]*:[ \t]*([^\n]*)/i); }
   if(!nom){
     const ip = an.pages[0] && an.pages[0].lines.findIndex(l => /Identification du patient/i.test(l.text));
     if(ip >= 0){
@@ -18779,8 +18786,8 @@ function sigName(an, profileId){
     }
   }
   if(!nom){
-    const m = all.match(/Nom de naissance\s*:\s*([^\n]+)/i);
-    if(m) nom = m[1].trim();
+    nom = field(/Nom de naissance[ \t]*:[ \t]*([^\n]*)/i);
+    if(nom && !prenom) prenom = field(/Pr[ée]nom\(?s?\)? de naissance[ \t]*:[ \t]*([^\n]*)/i);
   }
   nom = nom.replace(/[^\p{L}' -]/gu, "").trim().toUpperCase();
   prenom = sigCapName(prenom.split(/[,\s]+/)[0] || "").replace(/[^\p{L}'-]/gu, "");
