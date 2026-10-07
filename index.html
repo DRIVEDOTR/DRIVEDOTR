@@ -2947,6 +2947,40 @@
   .pth-res-pn{font-style:normal; font-weight:700; font-size:12px; color:var(--pill); background:var(--pillbg); border-radius:999px; padding:1px 8px; align-self:flex-start;}
   .pth-res-note{font-weight:400; font-size:12.5px; color:var(--text-muted); line-height:1.4;}
   .bio-copy-btn.pth-btn-2{background:var(--card-bg); color:var(--emerald); border:1.5px solid var(--emerald);}
+  .pth-layout{display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:14px; align-items:start;}
+  .pth-dossier{position:sticky; top:14px; background:var(--card-bg); border:2px solid var(--indigo); border-radius:16px; padding:12px 14px; box-shadow:0 10px 26px rgba(40,50,120,.16); max-height:calc(100vh - 28px); overflow:auto;}
+  @media (max-width:1100px){
+    .pth-layout{grid-template-columns:1fr;}
+    .pth-dossier{position:sticky; top:8px; order:-1; max-height:none; z-index:20; padding:10px 12px;}
+    .pth-dossier .pth-steps, .pth-dossier .pth-dos-list{display:none;}
+  }
+  .pth-dos-h{display:flex; justify-content:space-between; align-items:center; font-family:'Space Grotesk','IBM Plex Sans',sans-serif; font-weight:700; color:var(--indigo); font-size:15px;}
+  .pth-dos-bar, .pth-steps-top .pth-bar{height:7px; border-radius:999px; background:var(--slate-bg); overflow:hidden; margin:6px 0 8px;}
+  .pth-dos-bar span{display:block; height:100%; background:linear-gradient(90deg, var(--indigo), #0F7A57); transition:width .3s;}
+  .pth-dos-who{margin:0 0 8px; font-weight:700; font-size:14px;}
+  .pth-dos-who em{font-style:normal; font-weight:500; font-size:12px; color:var(--text-muted);}
+  .pth-dos-gir{display:inline-block; font-size:11.5px; font-weight:800; color:#fff; background:var(--indigo); border-radius:999px; padding:1px 8px; margin-left:4px;}
+  .pth-steps{list-style:none; margin:0 0 8px; padding:0; display:flex; flex-direction:column; gap:4px;}
+  .pth-steps li{display:flex; align-items:center; gap:8px; font-size:12.5px;}
+  .st-dot{display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; font-size:11px; font-weight:800; background:var(--slate-bg); color:var(--text-muted); flex:none;}
+  .st-l{display:flex; gap:6px; align-items:baseline; font-weight:600;} .st-l em{font-style:normal; font-weight:400; font-size:11.5px; color:var(--text-muted);}
+  .st-ok .st-dot{background:#0F7A57; color:#fff;} .st-part .st-dot{background:#B26A00; color:#fff;} .st-bad .st-dot{background:#C2362B; color:#fff;}
+  .pth-steps-top{margin:0 0 14px; padding:0 0 12px; border-bottom:1px solid var(--border);}
+  .pth-steps-top .pth-steps{flex-direction:row; flex-wrap:wrap; gap:6px 18px; margin:0;}
+  .pth-dos-list{display:flex; flex-wrap:wrap; gap:5px; margin:4px 0 8px;}
+  .pth-dos-c{display:inline-flex; align-items:center; border-radius:8px; background:var(--pillbg); border:1px solid var(--pill); overflow:hidden;}
+  .pth-dos-c button{font:inherit; font-size:12px; border:0; background:none; cursor:pointer; color:var(--pill); padding:3px 6px;}
+  .pth-dos-c b{color:var(--navy);}
+  .pth-dos-c .pth-dos-x{padding:3px 6px 3px 2px; color:var(--text-muted);}
+  .pth-dos-c .pth-dos-x:hover{color:var(--red);}
+  .pth-dos-al{display:block; width:100%; text-align:left; font:inherit; font-size:12.5px; font-weight:700; color:#B26A00; background:var(--amber-bg); border:1px solid #B26A00; border-radius:8px; padding:5px 8px; cursor:pointer; margin:0 0 8px;}
+  .pth-dos-act{display:flex; flex-wrap:wrap; gap:6px;}
+  .pth-dos-act .bio-copy-btn{font-size:12.5px; padding:6px 10px;}
+  .pth-tab-n:not(:empty){display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:20px; border-radius:999px; background:#C2362B; color:#fff; font-size:11.5px; font-weight:800; padding:0 5px; margin-left:4px;}
+  .ax-tab-on .pth-tab-n:not(:empty){background:#fff; color:var(--teal);}
+  .pth-et-head{flex-wrap:wrap; row-gap:6px;}
+  .pth-et-lib{flex:1 1 190px;}
+  .pth-grid .pth-chip{min-width:23px; height:19px; font-size:10px; padding:0 2px;}
   /* fin PATHOS outil CSS */
   /* ---------- MedCo AGGIR / coupe ---------- */
   .ag-legend{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--text-muted); margin:0 0 10px;}
@@ -4126,7 +4160,7 @@ const DOCUMENTS = {
   "pathos-codage": {
     title: "Codage PATHOS — aide au codage (guide CNSA 2022)",
     category: "medco",
-    meta: "Les 50 états pathologiques et leurs profils possibles, les 12 profils expliqués, « ce couple existe-t-il ? » (ex. 32 R2), codage d'un résident avec les alertes croisées AGGIR-PATHOS, récapitulatif PDF signable ou à copier",
+    meta: "Les 50 états pathologiques et leurs profils possibles, les 12 profils expliqués, « ce couple existe-t-il ? » (ex. 18 P2), codage d'un résident avec les alertes croisées AGGIR-PATHOS, récapitulatif PDF signable ou à copier",
     interactive: true
   },
   "coupe-preparation": {
@@ -19231,7 +19265,7 @@ async function pthImport(input){
       Object.assign(P.ag, d.ag || {}); if(r.date) P.res.date = r.date;
       msg = `✓ Codage PATHOS repris : ${P.list.length} couple${P.list.length > 1 ? "s" : ""}.`;
     }else throw new Error("Type de fichier inconnu.");
-    P.tab = "res"; renderPathosPanel(); say("pth-q-ok", msg);
+    P.saved = d.type === "pathos"; P.tab = "res"; renderPathosPanel(); say("pth-q-ok", msg);
   }catch(e){ say("pth-q-ko", e.message || "Fichier illisible."); }
 }
 window.pthImport = pthImport;
@@ -19244,7 +19278,7 @@ function pthTrace(n, p){
 }
 
 /* ------------------------------------------------------------ actions */
-function pthTab(t){ pthS().tab = t; renderPathosPanel(); }
+function pthTab(t){ pthS().tab = t; renderPathosPanel(); const el = document.querySelector(".ax-tabs"); if(el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ behavior: "smooth", block: "start" }); }
 function pthQ(v){ const s = pthS(); s.q = v; const p = pthParse(v); if(p && !p.p) s.open = p.n; pthRefreshList(); }
 function pthOpen(n){ const s = pthS(); s.open = s.open === n ? null : n; pthRefreshList(); }
 function pthAdd(n, p){
@@ -19252,16 +19286,16 @@ function pthAdd(n, p){
   const i = s.list.findIndex(x => x.n === n);
   if(i >= 0) s.list[i].p = p; else s.list.push({ id: ++s.seq, n, p, clair: "" });
   s.list.sort((a, b) => a.n - b.n);
-  pthRefreshList(); pthRefreshCount();
+  s.saved = false; pthRefreshList(); pthRefreshCount(); pthRefreshDossier();
   const t = document.getElementById("pthToast");
   if(t){ t.textContent = `✓ ${pthN(n)} ${p} ajouté au codage du résident`; t.classList.add("pth-toast-on"); clearTimeout(pthAdd._t); pthAdd._t = setTimeout(() => t.classList.remove("pth-toast-on"), 1800); }
 }
-function pthDel(id){ const s = pthS(); s.list = s.list.filter(x => x.id !== id); renderPathosPanel(); }
-function pthSetP(id, p){ const x = pthS().list.find(y => y.id === id); if(x){ x.p = p; renderPathosPanel(); } }
-function pthClair(id, v){ const x = pthS().list.find(y => y.id === id); if(x) x.clair = v; }
-function pthAg(k, v){ pthS().ag[k] = v; const el = document.getElementById("pthAlerts"); if(el) el.innerHTML = pthAlertsHTML(); }
+function pthDel(id){ const s = pthS(); s.saved = false; s.list = s.list.filter(x => x.id !== id); renderPathosPanel(); }
+function pthSetP(id, p){ const x = pthS().list.find(y => y.id === id); if(x){ x.p = p; pthS().saved = false; renderPathosPanel(); } }
+function pthClair(id, v){ const x = pthS().list.find(y => y.id === id); if(x){ x.clair = v; pthS().saved = false; pthRefreshDossier(); } }
+function pthAg(k, v){ pthS().ag[k] = v; pthS().saved = false; const el = document.getElementById("pthAlerts"); if(el) el.innerHTML = pthAlertsHTML(); pthRefreshDossier(); }
 function pthReset(){ const t = pthS().tab; state.pathos = null; pthS().tab = t; renderPathosPanel(); }
-function pthRes(k, v){ pthS().res[k] = v; }
+function pthRes(k, v){ pthS().res[k] = v; pthS().saved = false; pthRefreshDossier(); }
 function pthFast(ev){
   const inp = ev.target, out = document.getElementById("pthFastOut");
   if(ev.type === "keydown" && ev.key !== "Enter") return;
@@ -19380,13 +19414,13 @@ function pthListHTML(){
   }).join("");
 }
 function pthRefreshList(){ const el = document.getElementById("pthList"); if(el) el.innerHTML = pthListHTML(); }
-function pthRefreshCount(){ const el = document.getElementById("pthCount"); if(el) el.textContent = pthS().list.length ? `(${pthS().list.length})` : ""; }
+function pthRefreshCount(){ const el = document.getElementById("pthCount"); if(el) el.textContent = pthS().list.length || ""; }
 
 function pthTabEtats(){
   const s = pthS();
   return `
     <div class="pth-quick">
-      <label class="calc-field pth-quick-f"><span>Vérifier un couple (ex. « 32 R2 »)</span><input id="pthQuickIn" type="text" placeholder="n° + profil" oninput="pthQuick()" autocomplete="off" /></label>
+      <label class="calc-field pth-quick-f"><span>Vérifier un couple (ex. « 18 P2 »)</span><input id="pthQuickIn" type="text" placeholder="n° + profil" oninput="pthQuick()" autocomplete="off" /></label>
       <div class="pth-quick-out" id="pthQuickOut"></div>
     </div>
     <label class="calc-field"><span>Chercher un état pathologique (mot ou numéro)</span><input type="search" value="${escapeHtml(s.q)}" oninput="pthQ(this.value)" placeholder="ex. chute, escarre, démence, fausses routes, 35…" /></label>
@@ -19596,6 +19630,7 @@ async function pthPdf(){
     pdfDoc.setSubject(mcoPack({ type: "pathos", saved: new Date().toLocaleDateString("fr-FR"), res: r, list: s.list, ag: s.ag }));
     const bytes = await pdfDoc.save();
     triggerDownload(new Blob([bytes], { type: "application/pdf" }), pthFileName());
+    pthS().saved = true; pthRefreshDossier();
     btn.textContent = "Téléchargé ✓";
     setTimeout(() => { btn.textContent = original; }, 2000);
   }catch(e){ console.error(e); btn.textContent = "Erreur — réessayer"; setTimeout(() => { btn.textContent = original; }, 2200); }
@@ -19603,11 +19638,50 @@ async function pthPdf(){
 window.pthPdf = pthPdf;
 window.pthRecap = pthRecap;
 
+/* ------------------------------------------------------------ « Dossier en cours » : avancement toujours visible */
+function pthSteps(){
+  const s = pthS(), r = s.res, al = pthAlertsList();
+  const hot = al.filter(([l]) => l === "hot").length, warn = al.filter(([l]) => l === "warn").length;
+  const resOk = !!(r.nom.trim() && r.prenom.trim() && r.naissance);
+  return [
+    { k: "res", l: "Résident", ok: resOk, part: !resOk && !!(r.nom.trim() || r.prenom.trim()), d: resOk ? "" : "nom, prénom, naissance" },
+    { k: "cpl", l: "Couples", ok: s.list.length > 0, d: s.list.length ? s.list.length + " couple" + (s.list.length > 1 ? "s" : "") : "aucun" },
+    { k: "ag", l: "AGGIR", ok: !!s.ag.gir, part: !s.ag.gir && ["coh", "ori", "depl", "alim", "comm"].some(k => s.ag[k]), d: s.ag.gir ? "GIR " + s.ag.gir : "facultatif" },
+    { k: "ctl", l: "Contrôles", ok: s.list.length > 0 && !hot && !warn, part: s.list.length > 0 && !hot && warn > 0, bad: hot > 0, d: !s.list.length ? "—" : hot ? hot + " alerte" + (hot > 1 ? "s" : "") : warn ? warn + " à vérifier" : "OK" },
+    { k: "pdf", l: "Enregistré", ok: !!s.saved, d: s.saved ? "PDF à jour" : s.list.length ? "à enregistrer" : "—" }
+  ];
+}
+function pthStepsHTML(){
+  return `<ol class="pth-steps">${pthSteps().map((x, i) => `<li class="${x.ok ? "st-ok" : x.bad ? "st-bad" : x.part ? "st-part" : ""}"><span class="st-dot">${x.ok ? "✓" : x.bad ? "!" : i + 1}</span><span class="st-l">${x.l}<em>${escapeHtml(x.d)}</em></span></li>`).join("")}</ol>`;
+}
+function pthDossierHTML(){
+  const s = pthS(), r = s.res;
+  const who = [(r.nom || "").toUpperCase(), r.prenom].filter(Boolean).join(" ");
+  const al = pthAlertsList();
+  const done = pthSteps().filter(x => x.ok).length;
+  return `<div class="pth-dos-h"><span>🗂️ Dossier en cours</span><strong>${done}/5</strong></div>
+    <div class="pth-dos-bar"><span style="width:${done * 20}%"></span></div>
+    <p class="pth-dos-who">${who ? escapeHtml(who) + (r.naissance ? ` <em>né(e) le ${pthFr(r.naissance)}</em>` : "") : `<button type="button" class="acb-link" onclick="pthTab('res')">Renseigner le résident</button>`}${s.ag.gir ? ` <span class="pth-dos-gir">GIR ${escapeHtml(s.ag.gir)}</span>` : ""}</p>
+    ${pthStepsHTML()}
+    <div class="pth-dos-list">${s.list.length ? s.list.map(x => { const P = pthP(x.p), c = colorVars(PTH_PCOL[P.g]), e = pthE(x.n); return `<span class="pth-dos-c" style="--pill:${c.pill};--pillbg:${c.pillbg}" title="${escapeHtml(e.lib + " — " + P.nom)}"><button type="button" onclick="pthGoState(${x.n})"><b>${pthN(x.n)}</b> ${x.p}</button><button type="button" class="pth-dos-x" onclick="pthDel(${x.id})" title="Retirer">✕</button></span>`; }).join("") : `<span class="mz-note">Aucun couple : clique « + Retenir » sur un état.</span>`}</div>
+    ${al.length ? `<button type="button" class="pth-dos-al" onclick="pthTab('res')">⚠️ ${al.length} point${al.length > 1 ? "s" : ""} à vérifier</button>` : ""}
+    <div class="pth-dos-act">
+      ${s.tab === "res" ? "" : `<button type="button" class="bio-copy-btn" onclick="pthTab('res')">Ouvrir le dossier →</button>`}
+      <button type="button" class="bio-copy-btn pth-btn-2" ${s.list.length ? "" : "disabled"} onclick="pthTab('res'); setTimeout(() => { const b = document.getElementById('pthPdfBtn'); if(b) b.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 50)">💾 Enregistrer</button>
+    </div>`;
+}
+function pthRefreshDossier(){
+  const el = document.getElementById("pthDossier"); if(el) el.innerHTML = pthDossierHTML();
+  const st = document.getElementById("pthStepsTop"); if(st) st.innerHTML = pthStepsHTML();
+}
+function pthGoState(n){ const s = pthS(); s.tab = "etats"; s.q = ""; s.open = n; renderPathosPanel(); setTimeout(() => { const el = [...document.querySelectorAll(".pth-et-open")][0]; if(el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }, 30); }
+window.pthGoState = pthGoState;
+
 /* ------------------------------------------------------------ rendu principal */
 function renderPathosPanel(){
   const cat = CATEGORIES.find(c => c.id === "medco") || CATEGORIES[0];
   const c = colorVars(cat.color), s = pthS();
-  const tabs = [["etats", "① Les 50 états pathologiques"], ["profils", "② Les 12 profils"], ["res", "③ Codage d'un résident"]];
+  const tabs = [["etats", "① Les 50 états pathologiques"], ["profils", "② Les 12 profils"], ["res", "③ Dossier du résident"]];
   contentEl.innerHTML = `
     <button class="back-link" onclick="closeDoc()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
@@ -19615,12 +19689,13 @@ function renderPathosPanel(){
     </button>
     <div class="doc-page doc-page-wide">
       <span class="panel-eyebrow" style="--pill:${c.pill};--pillbg:${c.pillbg}">${categoryIconHTML(cat.icon, cat.color, "xs")}${cat.label}</span>
-      <div class="tool-hero" style="--pill:var(--indigo)"><span class="tool-hero-icon">🧩</span><div class="tool-hero-body"><p class="tool-hero-title">Codage PATHOS</p><p class="tool-hero-sub">Aide au codage : trouver l'état pathologique, choisir le bon profil de soins, vérifier qu'un couple existe (« 32 R2 ? »), puis coder un résident avec les alertes croisées AGGIR-PATHOS et télécharger le récapitulatif PDF. Tout vient du guide CNSA 2022 et des recommandations de codage de la formation nationale 2022.</p><div class="tool-hero-stats"><span class="tool-hero-stat">50 états</span><span class="tool-hero-stat">12 profils</span><span class="tool-hero-stat">Alertes croisées AGGIR</span><span class="tool-hero-stat">PDF récapitulatif</span><span class="tool-hero-stat">Rien n'est enregistré</span></div></div></div>
-      <div class="ax-tabs" role="tablist">${tabs.map(([k, l]) => `<button type="button" role="tab" aria-selected="${s.tab === k}" class="ax-tab ${s.tab === k ? "ax-tab-on" : ""}" onclick="pthTab('${k}')">${l}${k === "res" ? ` <span id="pthCount">${s.list.length ? "(" + s.list.length + ")" : ""}</span>` : ""}</button>`).join("")}
+      <div class="tool-hero" style="--pill:var(--indigo)"><span class="tool-hero-icon">🧩</span><div class="tool-hero-body"><p class="tool-hero-title">Codage PATHOS</p><p class="tool-hero-sub">Aide au codage : trouver l'état pathologique, choisir le bon profil de soins, vérifier qu'un couple existe (« 18 P2 ? »), puis coder un résident avec les alertes croisées AGGIR-PATHOS et télécharger le récapitulatif PDF. Tout vient du guide CNSA 2022 et des recommandations de codage de la formation nationale 2022.</p><div class="tool-hero-stats"><span class="tool-hero-stat">50 états</span><span class="tool-hero-stat">12 profils</span><span class="tool-hero-stat">Alertes croisées AGGIR</span><span class="tool-hero-stat">PDF récapitulatif</span><span class="tool-hero-stat">Rien n'est enregistré</span></div></div></div>
+      <div class="ax-tabs" role="tablist">${tabs.map(([k, l]) => `<button type="button" role="tab" aria-selected="${s.tab === k}" class="ax-tab ${s.tab === k ? "ax-tab-on" : ""}" onclick="pthTab('${k}')">${l}${k === "res" ? ` <span id="pthCount" class="pth-tab-n">${s.list.length || ""}</span>` : ""}</button>`).join("")}
         <span class="ax-tabs-sp"></span>
         <button type="button" class="bio-reset-btn" onclick="pthReset()">Réinitialiser</button>
       </div>
-      <div class="pth-panel">${s.tab === "profils" ? pthTabProfils() : s.tab === "res" ? pthTabResident() : pthTabEtats()}</div>
+      ${s.tab === "res" ? `<div class="pth-panel"><div class="pth-steps-top" id="pthStepsTop">${pthStepsHTML()}</div>${pthTabResident()}</div>`
+        : `<div class="pth-layout"><div class="pth-panel">${s.tab === "profils" ? pthTabProfils() : pthTabEtats()}</div><aside class="pth-dossier" id="pthDossier">${pthDossierHTML()}</aside></div>`}
       <div class="pth-toast" id="pthToast" role="status"></div>
       <p class="mz-src">Sources : CNSA, « Le modèle PATHOS — Guide d'utilisation 2022 » (septembre 2022, remplace les guides antérieurs : 50 états pathologiques, 12 profils, 238 couples annoncés — les profils retenus listés dans le thésaurus en totalisent 237, écart que le guide n'explique pas ; liste des alertes croisées AGGIR-PATHOS) — <a href="https://www.cnsa.fr/sites/default/files/2024-05/modele_pathos_2022.pdf" target="_blank" rel="noopener">cnsa.fr</a> ; CNSA, « Recommandations de codage PATHOS — Formation 2022 » (14/11/2022) — <a href="https://www.cnsa.fr/sites/default/files/2024-05/pathos_3_recommandations_de_codage_2022.pdf" target="_blank" rel="noopener">cnsa.fr</a> ; HAS-FFN, diagnostic de la dénutrition chez la personne de 70 ans et plus (2021). Le guide rappelle que seule la formation organisée par l'ARS et la CNSA est validante pour le médecin coordonnateur. Cet outil aide à coder ; il ne remplace ni le logiciel GALAAD ni la validation par le médecin de l'ARS.</p>
     </div>`;
