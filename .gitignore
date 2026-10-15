@@ -1,0 +1,6 @@
+# Fichiers locaux à ne jamais publier
+.DS_Store
+sources/
+bdpm/
+Claude outputs/
+index_essai_animation.html
